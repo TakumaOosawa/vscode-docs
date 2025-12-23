@@ -1,210 +1,210 @@
 ---
 ContentId: e02ded07-6e5a-4f94-b618-434a2c3e8f09
 DateApproved: 12/10/2025
-MetaDescription: Frequently asked questions for using GitHub Copilot in Visual Studio Code.
+MetaDescription: Visual Studio CodeでGitHub Copilotを使用する際のよくある質問です。
 MetaSocialImage: images/shared/github-copilot-social.png
 ---
-# GitHub Copilot frequently asked questions
+# GitHub Copilotのよくある質問
 
-This article answers frequently asked questions about using GitHub Copilot in Visual Studio Code.
+この記事では、Visual Studio CodeでGitHub Copilotを使用する際のよくある質問に回答します。
 
-## GitHub Copilot subscription
+## GitHub Copilotのサブスクリプション
 
-### How can I get a Copilot subscription?
+### Copilotのサブスクリプションを取得するにはどうすればよいですか？
 
-There are different ways to get access to GitHub Copilot:
+GitHub Copilotにアクセスする方法はいくつかあります:
 
-| Type of User                   | Description |
+| ユーザーの種類                 | 説明 |
 |--------------------------------|-------------|
-| Individual                     | <ul><li>Set up GitHub Copilot Free to explore basic functionality at no cost with a monthly limit of inline suggestions and chat interactions.</li><li>Sign up for a paid GitHub Copilot plan for more flexibility and access to premium features.</li><li>See [Setting up GitHub Copilot for yourself](https://docs.github.com/en/copilot/setting-up-github-copilot/setting-up-github-copilot-for-yourself) for all options. </li></ul> |
-| Organization/Enterprise member | <ul><li>If you are a member of an organization or enterprise that has a subscription to GitHub Copilot, you can request access to Copilot by going to <https://github.com/settings/copilot> and requesting access under "Get Copilot from an organization."</li><li>See [Setting up GitHub Copilot for your organization](https://docs.github.com/en/copilot/setting-up-github-copilot/setting-up-github-copilot-for-your-organization) to enable Copilot for your organization.</li></ul> |
+| 個人                           | <ul><li>インライン候補とチャットのやり取りに月ごとの上限がある、無償のGitHub Copilot Freeを設定して、基本的な機能を試すことができます。</li><li>より柔軟に利用でき、プレミアム機能にもアクセスできる有料のGitHub Copilotプランに申し込みます。</li><li>すべての選択肢については、[自分用にGitHub Copilotをセットアップする](https://docs.github.com/en/copilot/setting-up-github-copilot/setting-up-github-copilot-for-yourself)を参照してください。</li></ul> |
+| 組織/Enterpriseのメンバー      | <ul><li>GitHub Copilotのサブスクリプションを持つ組織またはEnterpriseのメンバーであれば、<https://github.com/settings/copilot>にアクセスし、「Get Copilot from an organization」の下でアクセスを要求することで、Copilotへのアクセスをリクエストできます。</li><li>組織でCopilotを有効にする方法については、[組織用にGitHub Copilotをセットアップする](https://docs.github.com/en/copilot/setting-up-github-copilot/setting-up-github-copilot-for-your-organization)を参照してください。</li></ul> |
 
-### What's the advantage of signing in with a GitHub account?
+### GitHubアカウントでサインインする利点は何ですか？
 
-Signing in with a GitHub account that has access to GitHub Copilot has the following benefits:
+GitHub CopilotにアクセスできるGitHubアカウントでサインインすると、次の利点があります:
 
-* [Increased monthly limit of chat interactions](https://docs.github.com/en/copilot/get-started/plans#comparing-copilot-plans)
-* [Access to premium language models in chat](https://docs.github.com/en/copilot/reference/ai-models/supported-models#supported-ai-models-per-copilot-plan) beyond auto model selection
-* [Bring your own model keys](/docs/copilot/customization/language-models.md#bring-your-own-language-model-key) (BYOK) to access more models
-* [Remote repository indexing and semantic code search](/docs/copilot/reference/workspace-context.md#remote-index)
-* [Copilot code review](https://docs.github.com/en/copilot/concepts/agents/code-review)
-* [Copilot content exclusions](https://docs.github.com/en/copilot/how-tos/configure-content-exclusion/exclude-content-from-copilot)
-* [Delegate tasks to Copilot coding agent](/docs/copilot/agents/cloud-agents.md#github-copilot-coding-agent) for background execution
+* [チャットのやり取りの月ごとの上限の増加](https://docs.github.com/en/copilot/get-started/plans#comparing-copilot-plans)
+* [チャットでプレミアム言語モデルにアクセス](https://docs.github.com/en/copilot/reference/ai-models/supported-models#supported-ai-models-per-copilot-plan)（自動モデル選択以外）
+* [独自のモデルキーを持ち込む](/docs/copilot/customization/language-models.md#bring-your-own-language-model-key)（BYOK）ことで、より多くのモデルにアクセス
+* [リモートリポジトリのインデックス作成とセマンティックコード検索](/docs/copilot/reference/workspace-context.md#remote-index)
+* [Copilotのコードレビュー](https://docs.github.com/en/copilot/concepts/agents/code-review)
+* [Copilotのコンテンツ除外](https://docs.github.com/en/copilot/how-tos/configure-content-exclusion/exclude-content-from-copilot)
+* [バックグラウンド実行のためにCopilotコーディングエージェントにタスクを委任](/docs/copilot/agents/cloud-agents.md#github-copilot-coding-agent)
 
-Depending on your Copilot plan, you might have different levels of access and limits. See [GitHub Copilot plans](https://docs.github.com/en/copilot/get-started/plans) for more information.
+Copilotプランによって、アクセスできる内容や制限は異なる場合があります。詳細については、[GitHub Copilotプラン](https://docs.github.com/en/copilot/get-started/plans)を参照してください。
 
-### How can I monitor my Copilot usage?
+### Copilotの使用状況を監視するにはどうすればよいですか？
 
-You can view the current Copilot usage in the Copilot status dashboard, available through the VS Code Status Bar. The dashboard shows the following information:
+現在のCopilot使用状況は、VS Codeのステータスバーから利用できるCopilotステータスダッシュボードで確認できます。ダッシュボードには次の情報が表示されます:
 
-- **Inline suggestions**: The percentage of inline suggestions quota you have used in the current month.
-- **Chat messages**: The percentage of chat requests quota you have used in the current month.
-- **Premium requests**: The percentage of premium requests quota you have used in the current month.
-- **Premium requests overage**: The number of overage premium requests you have used in the current month.
+- **インライン候補**: 今月使用したインライン候補のクォータの割合。
+- **チャットメッセージ**: 今月使用したチャット要求のクォータの割合。
+- **プレミアム要求**: 今月使用したプレミアム要求のクォータの割合。
+- **プレミアム要求の超過**: 今月使用した超過プレミアム要求の回数。
 
-Visit the GitHub Copilot documentation for more information about [monitoring usage and entitlements](https://docs.github.com/en/copilot/managing-copilot/monitoring-usage-and-entitlements/monitoring-your-copilot-usage-and-entitlements).
+[使用状況と権利の監視](https://docs.github.com/en/copilot/managing-copilot/monitoring-usage-and-entitlements/monitoring-your-copilot-usage-and-entitlements)の詳細については、GitHub Copilotドキュメントを参照してください。
 
-### I reached my inline suggestions or chat interactions limit
+### インライン候補またはチャットのやり取りの上限に達しました
 
-Your limit of inline suggestions and chat interactions is reset every month. If you've only reached the chat interactions limit, you can still use inline suggestions. Similarly, if you've reached the limit for inline suggestions, you can still use chat.
+インライン候補とチャットのやり取りの上限は毎月リセットされます。チャットのやり取りの上限にのみ達した場合でも、インライン候補は引き続き使用できます。同様に、インライン候補の上限に達した場合でも、チャットは引き続き使用できます。
 
-For users on Copilot Free, to access more inline suggestions and chat interactions, you can sign up for a [paid plan](https://docs.github.com/en/copilot/concepts/billing/individual-plans) directly from VS Code. Alternatively, you can wait until the next month to continue using Copilot for free.
+Copilot Freeのユーザーがより多くのインライン候補とチャットのやり取りにアクセスするには、VS Codeから直接[有料プラン](https://docs.github.com/en/copilot/concepts/billing/individual-plans)に申し込むことができます。あるいは、翌月まで待って、Copilotを引き続き無料で使用することもできます。
 
-![Visual indicators in Chat view, Status Bar, and title bar that you reached a limit for Copilot chat messages.](images/faq/copilot-chat-limit-reached.png)
+![チャットビュー、ステータスバー、タイトルバーに表示される、Copilotチャットメッセージの上限に達したことを示す視覚的なインジケーター。](images/faq/copilot-chat-limit-reached.png)
 
-If you're on a paid plan and use all of your premium requests, you can still use Copilot with one of the included models for the rest of the month. You can also request additional premium requests beyond your plan's limit. Learn more about [getting additional premium requests](https://docs.github.com/en/copilot/concepts/billing/copilot-requests#what-if-i-run-out-of-premium-requests) in the GitHub Copilot documentation.
+有料プランを利用していてプレミアム要求をすべて使い切った場合でも、その月の残りの期間は同梱のモデルのいずれかでCopilotを引き続き使用できます。また、プランの上限を超えて追加のプレミアム要求をリクエストすることもできます。[追加のプレミアム要求を取得する](https://docs.github.com/en/copilot/concepts/billing/copilot-requests#what-if-i-run-out-of-premium-requests)方法については、GitHub Copilotドキュメントを参照してください。
 
-### My Copilot subscription is not detected in VS Code
+### VS CodeでCopilotサブスクリプションが検出されません
 
-To use chat in Visual Studio Code, you must be signed into Visual Studio Code with a GitHub account that has access to GitHub Copilot.
+Visual Studio Codeでチャットを使用するには、GitHub CopilotにアクセスできるGitHubアカウントでVisual Studio Codeにサインインしている必要があります。
 
-- If your Copilot subscription is associated with another GitHub account, sign out of your GitHub account and sign in with another account. Use the **Accounts** menu in the Activity Bar for signing out of your current GitHub account. See [Use a different GitHub account with Copilot](/docs/copilot/setup.md#use-a-different-github-account-with-copilot) for more information.
+- Copilotサブスクリプションが別のGitHubアカウントに関連付けられている場合は、GitHubアカウントからサインアウトして、別のアカウントでサインインしてください。現在のGitHubアカウントからサインアウトするには、アクティビティバーの**Accounts**メニューを使用します。詳細については、[Copilotで別のGitHubアカウントを使用する](/docs/copilot/setup.md#use-a-different-github-account-with-copilot)を参照してください。
 
-- Verify that your Copilot subscription is still active in [GitHub Copilot settings](https://github.com/settings/copilot).
+- [GitHub Copilot settings](https://github.com/settings/copilot)でCopilotサブスクリプションが引き続き有効であることを確認してください。
 
-- If you're using a Copilot plan for a managed user account on GHE.com, you'll need to update some settings before you sign in. See [Using GitHub Copilot with an account on GHE.com](https://docs.github.com/en/copilot/managing-copilot/configure-personal-settings/using-github-copilot-with-an-account-on-ghecom).
+- GHE.comのマネージドユーザーアカウント向けのCopilotプランを使用している場合は、サインインする前にいくつかの設定を更新する必要があります。[GHE.comのアカウントでGitHub Copilotを使用する](https://docs.github.com/en/copilot/managing-copilot/configure-personal-settings/using-github-copilot-with-an-account-on-ghecom)を参照してください。
 
-### How can I switch accounts for Copilot
+### Copilotでアカウントを切り替えるにはどうすればよいですか？
 
-If your Copilot subscription is associated with another GitHub account, sign out of your GitHub account in VS Code, and sign in with another account.
+Copilotサブスクリプションが別のGitHubアカウントに関連付けられている場合は、VS CodeでGitHubアカウントからサインアウトし、別のアカウントでサインインしてください。
 
-See [Use a different GitHub account with Copilot](/docs/copilot/setup.md#use-a-different-github-account-with-copilot) for more information.
+詳細については、[Copilotで別のGitHubアカウントを使用する](/docs/copilot/setup.md#use-a-different-github-account-with-copilot)を参照してください。
 
-## General Copilot questions
+## Copilotに関する一般的な質問
 
-### How can I remove Copilot from VS Code?
+### VS CodeからCopilotを削除するにはどうすればよいですか？
 
-You can disable the built-in AI features in VS Code with the `setting(chat.disableAIFeatures)` setting, similar to how you configure other features in VS Code. This disables and hides features like chat or inline suggestions in VS Code and disables the Copilot extensions. You can configure the setting at the workspace or user level.
+VS Codeの他の機能と同様に、`setting(chat.disableAIFeatures)`設定でVS Codeに組み込まれたAI機能を無効にできます。これにより、VS Codeのチャットやインライン候補などの機能が無効化されて非表示になり、Copilot拡張機能も無効になります。この設定は、ワークスペースレベルまたはユーザーレベルで構成できます。
 
-Alternatively, use the **Learn How to Hide AI Features** action from the Chat menu in the title bar to access the setting.
+または、タイトルバーのチャットメニューから**Learn How to Hide AI Features**アクションを使用して設定にアクセスします。
 
 > [!NOTE]
-> If you have previously disabled the built-in AI features, your choice is respected upon updating to a new version of VS Code.
+> 以前に組み込みのAI機能を無効にしている場合、その選択はVS Codeの新しいバージョンに更新しても尊重されます。
 
-### Network and firewall configuration for Copilot
+### Copilotのネットワークとファイアウォールの構成
 
-- If you or your organization employs security measures like a firewall or proxy server, it may be beneficial to include certain domain URLs in an "allowlist" and open specific ports and protocols. Learn more about troubleshooting [firewall settings for GitHub Copilot](https://docs.github.com/en/copilot/troubleshooting-github-copilot/troubleshooting-firewall-settings-for-github-copilot).
+- あなたや組織がファイアウォールやプロキシサーバーなどのセキュリティ対策を採用している場合、特定のドメインURLを「allowlist」に追加し、特定のポートとプロトコルを開放すると有益な場合があります。トラブルシューティングの詳細については、[GitHub Copilotのファイアウォール設定](https://docs.github.com/en/copilot/troubleshooting-github-copilot/troubleshooting-firewall-settings-for-github-copilot)を参照してください。
 
-- If you're working on company equipment and connecting to a corporate network, you may be connecting to the Internet via a VPN or an HTTP proxy server. In some cases, these types of network setups may prevent GitHub Copilot from connecting to GitHub's server. Learn more about [troubleshooting network errors for GitHub Copilot](https://docs.github.com/en/copilot/troubleshooting-github-copilot/troubleshooting-network-errors-for-github-copilot).
+- 会社の機器で作業し、社内ネットワークに接続している場合、VPNまたはHTTPプロキシサーバー経由でインターネットに接続していることがあります。場合によっては、この種のネットワーク構成によりGitHub CopilotがGitHubのサーバーに接続できないことがあります。詳細については、[GitHub Copilotのネットワークエラーのトラブルシューティング](https://docs.github.com/en/copilot/troubleshooting-github-copilot/troubleshooting-network-errors-for-github-copilot)を参照してください。
 
-### My request is rate-limited
+### リクエストがレート制限されました
 
-This error suggests that you have exceeded the rate limit for Copilot requests. GitHub uses rate limits to ensure everyone has fair access to the Copilot service and to protect against abuse.
+このエラーは、Copilotリクエストのレート制限を超えたことを示しています。GitHubは、誰もが公平にCopilotサービスへアクセスできるようにし、悪用から保護するためにレート制限を使用しています。
 
-See [Rate limits for GitHub Copilot](https://docs.github.com/en/copilot/troubleshooting-github-copilot/rate-limits-for-github-copilot) for more information about rate limits and what to do if you are rate limited.
+レート制限の詳細と、レート制限された場合の対処方法については、[GitHub Copilotのレート制限](https://docs.github.com/en/copilot/troubleshooting-github-copilot/rate-limits-for-github-copilot)を参照してください。
 
-### Are there pre-release builds of the Copilot extensions?
+### Copilot拡張機能のプレリリースビルドはありますか？
 
-Yes, you can switch to the pre-release (nightly) version of a Copilot extension to try the latest features and fixes. From the Extensions view, right-click or select the gear icon to bring up the context menu, and then select **Switch to Pre-Release Version**:
+はい。Copilot拡張機能をプレリリース（nightly）バージョンに切り替えて、最新の機能や修正を試すことができます。拡張機能ビューから右クリックするか、歯車アイコンを選択してコンテキストメニューを表示し、**Switch to Pre-Release Version**を選択します:
 
 ![Extensions view context menu with Switch to Pre-Release Version option](images/faq/switch-to-pre-release.png)
 
-You can tell if you're running a pre-release version by the "Pre-release" badge in the extension details:
+拡張機能の詳細にある「Pre-release」バッジで、プレリリースバージョンを実行しているかどうかを確認できます:
 
 ![Pre-release version of the GitHub Copilot extension](images/faq/copilot-ext-pre-release.png)
 
-## Inline suggestions
+## インライン候補
 
-### How do I enable or disable inline suggestions?
+### インライン候補を有効または無効にするにはどうすればよいですか？
 
-You can enable or disable inline suggestions in VS Code by using the checkboxes in the Copilot status dashboard from the VS Code Status Bar. You can enable or disable inline suggestions globally or for the file type of the active editor.
+VS CodeのステータスバーからCopilotステータスダッシュボードを開き、チェックボックスを使用してVS Codeのインライン候補を有効または無効にできます。インライン候補は、グローバルに、またはアクティブなエディターのファイルの種類ごとに有効/無効を切り替えられます。
 
 ![Screenshot showing the VS Code status bar, highlighting the Copilot icon that indicates Copilot is active.](./images/faq/copilot-disable-completions.png)
 
-Alternatively, use the `setting(github.copilot.enable)` and `setting(github.copilot.nextEditSuggestions.enabled)` settings to enable or disable inline suggestions and next edit suggestions, respectively. You can configure these settings at the workspace or user level.
+または、`setting(github.copilot.enable)`と`setting(github.copilot.nextEditSuggestions.enabled)`設定を使用して、それぞれインライン候補と次の編集候補を有効または無効にできます。これらの設定は、ワークスペースレベルまたはユーザーレベルで構成できます。
 
-### Inline suggestions are not working in the editor
+### エディターでインライン候補が動作しません
 
 - Verify that [GitHub Copilot is not disabled](#how-do-i-enable-or-disable-inline-suggestions) globally or for this language
 - Verify that your [GitHub Copilot subscription is active and detected](#my-copilot-subscription-is-not-detected-in-vs-code)
 - Verify that your [network settings](#network-and-firewall-configuration-for-copilot) are configured to allow connectivity to GitHub Copilot.
 - Verify that you have not reached the limit of inline suggestions for the month with the [Copilot Free plan](https://docs.github.com/copilot/managing-copilot/managing-copilot-as-an-individual-subscriber/about-github-copilot-free).
 
-## Chat
+## チャット
 
-### Chat features aren't working for me
+### チャット機能が動作しません
 
-Verify the following requirements to ensure Chat features work in Visual Studio Code:
+Visual Studio Codeでチャット機能が動作することを確認するため、次の要件を確認してください:
 
-- Make sure you are on the latest version of Visual Studio Code (run **Code: Check for Updates**).
-- Make sure you have the latest version of both the [GitHub Copilot](https://marketplace.visualstudio.com/items?itemName=GitHub.copilot) and [GitHub Copilot Chat](https://marketplace.visualstudio.com/items?itemName=GitHub.copilot-chat) extensions.
-- Your GitHub account that is signed into VS Code must have an active Copilot subscription. Check your [Copilot subscription](https://github.com/settings/copilot).
-- Verify that you have not reached your limit of chat interactions for the month with the [Copilot Free plan](https://docs.github.com/copilot/managing-copilot/managing-copilot-as-an-individual-subscriber/about-github-copilot-free).
+- Visual Studio Codeが最新バージョンであることを確認してください（**Code: Check for Updates**を実行します）。
+- [GitHub Copilot](https://marketplace.visualstudio.com/items?itemName=GitHub.copilot)拡張機能と[GitHub Copilot Chat](https://marketplace.visualstudio.com/items?itemName=GitHub.copilot-chat)拡張機能の両方が最新バージョンであることを確認してください。
+- VS CodeにサインインしているGitHubアカウントに、有効なCopilotサブスクリプションが必要です。[Copilotサブスクリプション](https://github.com/settings/copilot)を確認してください。
+- [Copilot Freeプラン](https://docs.github.com/copilot/managing-copilot/managing-copilot-as-an-individual-subscriber/about-github-copilot-free)で今月のチャットのやり取りの上限に達していないことを確認してください。
 
-### Agents are not available in chat
+### チャットでエージェントを利用できません
 
-Verify that agents are enabled in your VS Code settings: `setting(chat.agent.enabled)`. It's possible that your organization has disabled this feature, verify with your administrator to have agents enabled.
+VS Code設定でエージェントが有効になっていることを確認してください:`setting(chat.agent.enabled)`。組織がこの機能を無効にしている可能性があります。エージェントを有効にするには、管理者に確認してください。
 
-### Not all models are available in the language model picker
+### 言語モデルピッカーで利用できないモデルがあります
 
-You can choose which models are available in the language model picker. Learn how to [customize the language model picker](/docs/copilot/customization/language-models.md#customize-the-model-picker).
+言語モデルピッカーで利用できるモデルは選択できます。[言語モデルピッカーをカスタマイズする](/docs/copilot/customization/language-models.md#customize-the-model-picker)方法を確認してください。
 
-Organizations can restrict access to certain models. If you believe a model should be available, contact your organization administrator.
+組織は特定のモデルへのアクセスを制限できます。利用できるべきモデルが利用できないと考えられる場合は、組織の管理者に連絡してください。
 
-### How do I prevent the Chat view from opening automatically?
+### チャットビューが自動的に開かないようにするにはどうすればよいですか？
 
-By default, the Chat view opens in the Secondary Side Bar. When you close the Chat view for a workspace, VS Code remembers this setting and does not open the Chat view automatically the next time you open that workspace.
+既定では、チャットビューはセカンダリサイドバーで開きます。ワークスペースでチャットビューを閉じると、VS Codeはこの設定を記憶し、次回そのワークスペースを開いたときにチャットビューを自動的に開きません。
 
-You can change the default visibility directly from the Chat view:
+既定の表示/非表示は、チャットビューから直接変更できます:
 
 1. Open the Chat view (`kb(workbench.action.chat.open)`).
 1. Select the `...` icon in the top-right corner of the Chat view.
 1. Select **Show View by Default** to enable or disable the automatic opening of the Chat view.
 
-You can also control the default visibility of the Secondary Side Bar with the `setting(workbench.secondarySideBar.defaultVisibility)` setting. Set it to `hidden` to prevent the Chat view from opening automatically.
+`setting(workbench.secondarySideBar.defaultVisibility)`設定を使用して、セカンダリサイドバーの既定の表示/非表示も制御できます。`hidden`に設定すると、チャットビューが自動的に開かないようにできます。
 
-## Troubleshooting and feedback
+## トラブルシューティングとフィードバック
 
-### How can I provide feedback on Copilot?
+### Copilotにフィードバックを送るにはどうすればよいですか？
 
-We track issues and feature requests for GitHub Copilot in VS Code in the [microsoft/vscode](https://github.com/microsoft/vscode) GitHub repository. You can create issues in this repository or use the following feedback mechanisms in VS Code:
+VS CodeのGitHub Copilotに関する問題と機能要望は、[microsoft/vscode](https://github.com/microsoft/vscode) GitHubリポジトリで追跡しています。このリポジトリでIssueを作成するか、VS Codeで次のフィードバック手段を使用できます:
 
-- **Ghost text suggestions**
+- **ゴーストテキストの候補**
 
-    Use the **Send Copilot Completion Feedback** action when hovering over a ghost text suggestion in the editor. In the Issue Reporter, provide a clear and detailed description of the issue, including steps to reproduce it.
+    エディターでゴーストテキストの候補にカーソルを合わせたときに、**Send Copilot Completion Feedback**アクションを使用します。Issue Reporterで、再現手順を含め、問題の明確で詳細な説明を記載してください。
 
     ![Screenshot that shows sending Copilot Ghost Text Feedback action in the editor.](images/faq/code-completions-feedback.png)
 
-- **Next edit suggestions**
+- **次の編集候補**
 
-    Select the **Feedback** action in the next edit suggestions menu in the editor gutter. In the Issue Reporter, provide a clear and detailed description of the issue, including steps to reproduce it.
+    エディターのガターにある次の編集候補メニューで**Feedback**アクションを選択します。Issue Reporterで、再現手順を含め、問題の明確で詳細な説明を記載してください。
 
     ![Screenshot that shows next edit suggestions menu in the editor gutter.](images/faq/nes-feedback.png)
 
-- **General issues**
+- **一般的な問題**
 
-    Open the VS Code Issue reporter (**Help menu** > **Report Issue**), select the **VS Code Extension** source, and then select the **GitHub Copilot Chat** extension. Provide a clear and detailed description of the issue, including steps to reproduce it.
+    VS Code Issue reporter（**Help menu** > **Report Issue**）を開き、**VS Code Extension**ソースを選択してから、**GitHub Copilot Chat**拡張機能を選択します。再現手順を含め、問題の明確で詳細な説明を記載してください。
 
     ![Screenshot that shows VS Code Issue Reporter with GitHub Copilot Chat selected.](images/faq/issue-reporter.png)
 
-When you report an issue, follow the guidelines in our [wiki](https://github.com/microsoft/vscode/wiki/Copilot-Issues) to make sure your issue is actionable.
+Issueを報告するときは、報告内容が対応可能なものになるように、[wiki](https://github.com/microsoft/vscode/wiki/Copilot-Issues)のガイドラインに従ってください。
 
-It can be helpful to include information from the [GitHub Copilot logs](#view-logs-for-github-copilot-in-vs-code) if you're reporting an issue.
+Issueを報告する場合、[GitHub Copilotログ](#view-logs-for-github-copilot-in-vs-code)の情報を含めると役立つことがあります。
 
-### View logs for GitHub Copilot in VS Code
+### VS CodeでGitHub Copilotのログを表示する
 
-The log files for the GitHub Copilot extension are stored in the standard log location for Visual Studio Code extensions.
+GitHub Copilot拡張機能のログファイルは、Visual Studio Code拡張機能の標準のログ保存場所に格納されます。
 
-To get detailed logs for Copilot in VS Code, follow these steps:
+VS CodeでCopilotの詳細ログを取得するには、次の手順に従います:
 
 1. In the Command Palette (`kb(workbench.action.showCommands)`), run the **Developer: Set Log Level** command and set the value to **Trace** (you can do this only for the GitHub Copilot and GitHub Copilot Chat extensions).
 1. In the Command Palette (`kb(workbench.action.showCommands)`), run the **Output: Show Output Channels** command and select either GitHub Copilot or GitHub Copilot Chat from the list.
 1. In the Output panel, you can see the logs for the selected extension.
 1. To switch to another output channel, on the right of the Output panel, select **GitHub Copilot** or **GitHub Copilot Chat** from the dropdown menu.
 
-If you encounter problems connecting to GitHub Copilot, you can view network connectivity diagnostics logs:
+GitHub Copilotへの接続で問題が発生した場合は、ネットワーク接続診断ログを表示できます:
 
 1. Open the Command Palette (`kb(workbench.action.showCommands)`).
 1. Run the **GitHub Copilot: Collect Diagnostics** command.
 1. An editor tab opens where you can inspect the diagnostics information.
 
-### Use the Chat Debug view
+### Chat Debug viewを使用する
 
-You can use the Chat Debug view to see the details of AI requests and responses, including the prompt being used and the context that is sent to the language model. This view can help you understand how the AI is interpreting your requests and what context it is using to generate responses.
+Chat Debug viewを使用すると、使用中のプロンプトや言語モデルに送信されるコンテキストなど、AIリクエストと応答の詳細を確認できます。このビューは、AIがリクエストをどのように解釈し、どのコンテキストを使って応答を生成しているかを理解するのに役立ちます。
 
-Learn more about the [Chat Debug view](/docs/copilot/chat/chat-debug-view.md).
+[Chat Debug view](/docs/copilot/chat/chat-debug-view.md)の詳細を確認してください。
 
-## Additional resources
+## 追加リソース
 
 - [GitHub Copilot Trust Center](https://resources.github.com/copilot-trust-center/)
-- [GitHub Copilot FAQ](https://github.com/features/copilot#faq) in the GitHub documentation
+- GitHubドキュメントの[GitHub Copilot FAQ](https://github.com/features/copilot#faq)

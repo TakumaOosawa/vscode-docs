@@ -1,141 +1,141 @@
 ---
 ContentId: 8f2c4a1d-9e3b-4c5f-a7d8-6b9c2e4f1a3d
 DateApproved: 12/10/2025
-MetaDescription: Learn how to use built-in tools, MCP tools, and extension tools to extend chat in VS Code with specialized functionality.
+MetaDescription: VS Codeでチャットを拡張するために、組み込みツール、MCPツール、拡張機能ツールを使って専用の機能を利用する方法について説明します。
 MetaSocialImage: ../images/shared/github-copilot-social.png
 ---
-# Use tools in chat
+# チャットでツールを使用する
 
-Tools extend chat in Visual Studio Code with specialized functionality for accomplishing specific tasks like searching code, running commands, fetching web content, or invoking APIs. VS Code supports three types of tools: built-in tools, Model Context Protocol (MCP) tools, and extension tools.
+ツールは、コードの検索、コマンドの実行、Webコンテンツの取得、APIの呼び出しなどの特定のタスクを達成するための専用機能で、Visual Studio Codeのチャットを拡張します。VS Codeは3種類のツール(組み込みツール、Model Context Protocol (MCP)ツール、拡張機能ツール)をサポートしています。
 
-This article describes the different types of tools available in VS Code, how to use them in your chat prompts, and how to manage tool invocations and approvals.
+この記事では、VS Codeで利用できるツールの種類、チャットプロンプトでの使い方、ツールの呼び出しと承認を管理する方法について説明します。
 
-<video src="../images/chat-tools/chat-tools-picker.mp4" title="Video showing how to select and configure tools in the chat tools picker." autoplay loop controls muted poster="../images/chat-tools/chat-tools-picker.png"></video>
+<video src="../images/chat-tools/chat-tools-picker.mp4" title="チャットのツールピッカーでツールを選択して構成する方法を示すビデオ。" autoplay loop controls muted poster="../images/chat-tools/chat-tools-picker.png"></video>
 
-## Types of tools
+## ツールの種類
 
-VS Code supports three types of tools that you can use in chat:
+VS Codeは、チャットで使用できる3種類のツールをサポートしています:
 
 <details>
-<summary>Built-in tools</summary>
+<summary>組み込みツール</summary>
 
-VS Code provides a comprehensive set of built-in tools that are automatically available in chat. These tools cover common development tasks and are optimized for working within your workspace.
+VS Codeには、チャットで自動的に利用できる包括的な組み込みツールセットが用意されています。これらのツールは一般的な開発タスクをカバーしており、ワークスペース内での作業に最適化されています。
 
-Built-in tools don't require any installation or configuration and are available as soon as you start using chat.
+組み込みツールはインストールや構成を必要とせず、チャットを使い始めるとすぐに利用できます。
 
-For a complete list of built-in tools and their descriptions, see the [Chat tools reference](/docs/copilot/reference/copilot-vscode-features.md#chat-tools).
+組み込みツールの完全な一覧と説明については、[チャットツールのリファレンス](/docs/copilot/reference/copilot-vscode-features.md#chat-tools)を参照してください。
 
 </details>
 
 <details>
 <summary>MCP tools</summary>
 
-Model Context Protocol (MCP) is an open standard that enables AI models to use external tools and services through a unified interface. MCP servers provide tools that you can add to VS Code to extend chat with extra capabilities.
+Model Context Protocol (MCP)は、統一されたインターフェイスを通じてAIモデルが外部ツールやサービスを使用できるようにするオープンスタンダードです。MCPサーバーは、チャットに追加の機能を提供するためにVS Codeへ追加できるツールを提供します。
 
-You need to install and configure MCP servers before you can use their tools in chat. MCP servers can run locally on your machine or be hosted remotely.
+チャットでMCPサーバーのツールを使用する前に、MCPサーバーをインストールして構成する必要があります。MCPサーバーはローカルマシン上で実行することも、リモートでホストすることもできます。
 
-Learn more about [configuring MCP servers in VS Code](/docs/copilot/customization/mcp-servers.md).
+[VS CodeでMCPサーバーを構成する](/docs/copilot/customization/mcp-servers.md)を参照してください。
 
 </details>
 
 <details>
-<summary>Extension tools</summary>
+<summary>拡張機能ツール</summary>
 
-VS Code extensions can contribute tools that integrate deeply with the editor. Extension tools use the Language Model Tools API to provide specialized functionality while accessing the full range of VS Code extension APIs.
+VS Code拡張機能は、エディターと深く統合するツールを提供できます。拡張機能ツールはLanguage Model Tools APIを使用し、VS Code拡張機能APIの全範囲にアクセスしながら専用機能を提供します。
 
-Extension tools are automatically available when you install an extension that contributes them. Users don't need separate installation or configuration beyond installing the extension itself.
+拡張機能ツールは、それらを提供する拡張機能をインストールすると自動的に利用できます。ユーザーは拡張機能自体のインストール以外に、別途インストールや構成を行う必要はありません。
 
-For developers looking to create extension tools, see the [Language Model Tools API guide](/api/extension-guides/ai/tools.md).
+拡張機能ツールを作成したい開発者は、[Language Model Tools APIガイド](/api/extension-guides/ai/tools.md)を参照してください。
 
 </details>
 
-## Enable tools for chat
+## チャットでツールを有効にする
 
-Before you can use tools in chat, you need to enable them in the Chat view. You can enable or disable tools on a per-request basis by using the tools picker. You can add more tools by [installing MCP servers](/docs/copilot/customization/mcp-servers.md) or [extensions](/docs/getstarted/extensions.md) that contribute tools.
+チャットでツールを使用する前に、チャットビューでツールを有効にする必要があります。ツールピッカーを使うことで、リクエストごとにツールを有効または無効にできます。さらにツールを追加するには、[MCPサーバーをインストール](/docs/copilot/customization/mcp-servers.md)するか、ツールを提供する[拡張機能](/docs/getstarted/extensions.md)をインストールします。
 
 > [!TIP]
-> Select only the tools that are relevant for your prompt to improve your results.
+> 結果を向上させるために、プロンプトに関連するツールのみを選択してください。
 
 To access the tools picker:
 
-1. Open the Chat view and select **Agent** from the agent picker.
+1. チャットビューを開き、エージェントピッカーから**Agent**を選択します。
 
-1. Select the **Configure Tools** button in the chat input field.
+1. チャット入力欄の**Configure Tools**ボタンを選択します。
 
-    ![Screenshot showing the Chat view, highlighting the Configure Tools button in the chat input.](../images/chat-tools/agent-mode-select-tools.png)
+    ![チャットビューのスクリーンショット。チャット入力欄のConfigure Toolsボタンが強調表示されている。](../images/chat-tools/agent-mode-select-tools.png)
 
-1. Select or deselect tools to control which ones are available for the current request.
+1. ツールを選択または選択解除して、現在のリクエストで利用できるツールを制御します。
 
-    Use the search box to filter the list of tools.
+    検索ボックスを使ってツールの一覧をフィルターできます。
 
-When you customize chat with [prompt files](/docs/copilot/customization/prompt-files.md) or [custom agents](/docs/copilot/customization/custom-agents.md), you can specify which tools are available for a given prompt or mode. Learn more about the [tool list priority order](/docs/copilot/customization/custom-agents.md#tool-list-priority).
+[プロンプトファイル](/docs/copilot/customization/prompt-files.md)や[カスタムエージェント](/docs/copilot/customization/custom-agents.md)でチャットをカスタマイズする場合、特定のプロンプトまたはモードで使用できるツールを指定できます。[ツールリストの優先順位](/docs/copilot/customization/custom-agents.md#tool-list-priority)の詳細を参照してください。
 
-## Use tools in your prompts
+## プロンプトでツールを使用する
 
-When using [agents](/docs/copilot/chat/copilot-chat.md#built-in-agents), the agent automatically determines which tools to use from the enabled tools based on your prompt and the context of your request. The agent autonomously chooses and invokes relevant tools as needed to accomplish the task.
+[エージェント](/docs/copilot/chat/copilot-chat.md#built-in-agents)を使用する場合、エージェントはプロンプトとリクエストのコンテキストに基づいて、有効になっているツールの中から使用するツールを自動的に判断します。エージェントはタスクを達成するために必要に応じて関連するツールを自律的に選択し、呼び出します。
 
-You can also explicitly reference tools in your prompts by typing `#` followed by the tool name. This is useful when you want to ensure a specific tool is used. Type `#` in the chat input field to see a list of available tools, including built-in tools, MCP tools from installed servers, extension tools, and tool sets.
+また、プロンプトで`#`に続けてツール名を入力することで、ツールを明示的に参照できます。これは、特定のツールが使用されることを確実にしたい場合に便利です。チャット入力欄に`#`を入力すると、組み込みツール、インストール済みサーバーのMCPツール、拡張機能ツール、ツールセットなど、利用可能なツールの一覧が表示されます。
 
-**Examples of explicit tool references:**
+**ツール参照を明示する例:**
 
 * `"Summarize the content from #fetch https://code.visualstudio.com/updates"`
 * `"How does routing work in Next.js? #githubRepo vercel/next.js"`
 * `"Fix the issues in #problems"`
 * `"Explain the authentication flow #codebase"`
 
-Some tools accept parameters directly in the prompt. For example, `#fetch` requires a URL and `#githubRepo` requires a repository name.
+一部のツールは、プロンプト内でパラメーターを直接受け取ります。たとえば、`#fetch`にはURLが必要で、`#githubRepo`にはリポジトリ名が必要です。
 
 > [!TIP]
-> By default, tool call details are collapsed in the chat conversation. You can uncollapse them by selecting the tool summary line in chat, or change the default behavior with the `setting(chat.agent.thinking.collapsedTools)` setting (experimental).
+> 既定では、ツール呼び出しの詳細はチャットの会話内で折りたたまれています。チャット内のツール要約行を選択すると展開でき、または`setting(chat.agent.thinking.collapsedTools)`設定(実験段階)で既定の動作を変更できます。
 
-## Tool approval
+## ツールの承認
 
-Some tools require your approval before they can run. This is a security measure because tools can perform actions that modify files, your environment, or attempt prompt injection attacks through malicious tool output.
+一部のツールは実行前にあなたの承認が必要です。これは、ツールがファイルや環境を変更する操作を行ったり、悪意のあるツール出力を通じてプロンプトインジェクション攻撃を試みたりできるためのセキュリティ対策です。
 
-When a tool requires approval, a confirmation dialog appears showing the tool details. Review the information carefully before approving the tool. You can approve the tool for a single use, for the current session, for the current workspace, or for all future invocations.
+ツールに承認が必要な場合、ツールの詳細を表示する確認ダイアログが表示されます。ツールを承認する前に情報を注意深く確認してください。ツールは1回のみ、現在のセッション、現在のワークスペース、または今後のすべての呼び出しに対して承認できます。
 
-![Screenshot of a tool confirmation dialog showing tool details and approval options.](../images/chat-tools/chat-approve-tool.png)
+![ツールの詳細と承認オプションを示すツール確認ダイアログのスクリーンショット。](../images/chat-tools/chat-approve-tool.png)
 
-Tools and agent actions might result in file modifications. Learn how you can prevent accidental [edits to sensitive files](/docs/copilot/chat/review-code-edits.md#edit-sensitive-files) in your workspace.
+ツールやエージェントのアクションにより、ファイルが変更される可能性があります。ワークスペースで意図しない[機密ファイルの編集](/docs/copilot/chat/review-code-edits.md#edit-sensitive-files)を防ぐ方法について確認してください。
 
 > [!IMPORTANT]
-> Always review tool parameters carefully before approving, especially for tools that modify files, run commands, or access external services. See the [Security considerations](/docs/copilot/security.md) for using AI in VS Code.
+> 特にファイルを変更するツール、コマンドを実行するツール、外部サービスにアクセスするツールを承認する前には、必ずツールパラメーターを注意深く確認してください。VS CodeでAIを使用する際の[セキュリティに関する考慮事項](/docs/copilot/security.md)を参照してください。
 
-### Enable or disable tool auto approval (Experimental)
+### ツールの自動承認を有効または無効にする(実験段階)
 
-By default, you can choose to automatically approve any tool. To prevent accidental approvals, you can disable automatic approvals for specific tools with the `setting(chat.tools.eligibleForAutoApproval)` setting. Set the value to `false` to always require manual approval for that tool.
+既定では、任意のツールを自動的に承認することを選択できます。意図しない承認を防ぐために、`setting(chat.tools.eligibleForAutoApproval)`設定で特定のツールの自動承認を無効にできます。値を`false`に設定すると、そのツールは常に手動承認が必要になります。
 
-Organizations can also use device management policies to enforce manual approvals for specific tools. Learn more in the [Enterprise documentation](/docs/setup/enterprise.md).
+組織はデバイス管理ポリシーを使用して、特定のツールに手動承認を強制することもできます。詳細は[エンタープライズドキュメント](/docs/setup/enterprise.md)を参照してください。
 
-### URL approval
+### URLの承認
 
-When a tool attempts to access a URL, such as with the `fetch` tool, a two-step approval process is used to protect you from malicious or unexpected content. VS Code shows a confirmation dialog with the URL details for your review in the Chat view.
+`fetch`ツールのようにツールがURLへアクセスしようとする場合、悪意のあるコンテンツや予期しないコンテンツから保護するために2段階の承認プロセスが使用されます。VS CodeはチャットビューでURLの詳細を含む確認ダイアログを表示し、レビューを求めます。
 
-* **Pre-approval: approving the request to the URL**
+* **事前承認: URLへのリクエストを承認する**
 
-    This step ensures that you trust the domain being contacted and can prevent sensitive data to be sent to untrusted sites.
+    このステップにより、接続先のドメインを信頼できることを確認し、機密データが信頼できないサイトへ送信されるのを防げます。
 
-    ![Screenshot of a URL approval dialog showing URL details and approval options.](../images/chat-tools/chat-approve-url.png)
+    ![URLの詳細と承認オプションを示すURL承認ダイアログのスクリーンショット。](../images/chat-tools/chat-approve-url.png)
 
-    You have options for one-time approval or for automatically approving future requests to the specific URL or domain. Selecting auto-approval does not influence the need for reviewing the results. When you select **Allow requests to**, you can choose to configure both pre and post approvals for the URL or domain.
+    1回のみ承認するか、特定のURLまたはドメインへの今後のリクエストを自動的に承認するかを選択できます。自動承認を選択しても、結果をレビューする必要性には影響しません。**Allow requests to**を選択すると、そのURLまたはドメインに対して事前承認と事後承認の両方を構成することを選択できます。
 
     > [!NOTE]
-    > The pre-approval respects the ["Trusted Domains" feature](/docs/editing/editingevolved.md#_outgoing-link-protection). If a domain is listed there, you are automatically approved to make requests to that domain and defer the response reviewing step.
+    > 事前承認は["Trusted Domains"機能](/docs/editing/editingevolved.md#_outgoing-link-protection)を尊重します。ドメインがそこに一覧表示されている場合、そのドメインへのリクエストは自動的に承認され、応答のレビューステップは延期されます。
 
-* **Post-approval: approving the response content fetched from the URL**
+* **事後承認: URLから取得した応答コンテンツを承認する**
 
-    This step ensures that you review the fetched content before it is added to the chat or passed to other tools, preventing potential prompt injection attacks.
+    このステップにより、取得したコンテンツがチャットに追加されたり他のツールに渡されたりする前にレビューすることが保証され、潜在的なプロンプトインジェクション攻撃を防ぎます。
 
-    For example, you might approve a request to fetch content from a well-known site, like GitHub.com. But because the content, such as issue description or comments, is user-generated, it could contain harmful content that might manipulate the model's behavior.
+    たとえば、GitHub.comのようなよく知られたサイトからコンテンツを取得するリクエストを承認するかもしれません。しかし、Issueの説明やコメントなどのコンテンツはユーザー生成であるため、モデルの挙動を操作する可能性のある有害な内容が含まれている可能性があります。
 
-    You have options for one-time approval or for automatically approving future responses from the specific URL or domain.
+    1回のみ承認するか、特定のURLまたはドメインからの今後の応答を自動的に承認するかを選択できます。
 
     > [!IMPORTANT]
-    > The post-approval step is not linked to the "Trusted Domains" feature and always requires your review. This is a security measure to prevent issues with untrusted content on a domain that you would otherwise trust.
+    > 事後承認のステップは"Trusted Domains"機能とは連動しておらず、常にレビューが必要です。これは、通常は信頼するドメイン上の信頼できないコンテンツによる問題を防ぐためのセキュリティ対策です。
 
-The `setting(chat.tools.urls.autoApprove)` setting is used to store your auto-approve URL patterns. The setting value is either a boolean to enable or disable auto-approvals for both requests and responses, or an object with `approveRequest` and `approveResponse` properties for granular control. You can use exact URLs, glob patterns, or wildcards.
+`setting(chat.tools.urls.autoApprove)`設定は、自動承認するURLパターンを保存するために使用されます。設定値は、リクエストと応答の両方に対する自動承認を有効/無効にするブール値、またはより細かく制御するための`approveRequest`と`approveResponse`プロパティを持つオブジェクトのいずれかです。完全一致URL、globパターン、またはワイルドカードを使用できます。
 
-URL auto-approval examples:
+URL自動承認の例:
 
 ```jsonc
 {
@@ -149,43 +149,43 @@ URL auto-approval examples:
 }
 ```
 
-### Reset tool confirmations
+### ツール確認をリセットする
 
-To clear all saved tool approvals, use the **Chat: Reset Tool Confirmations** command in the Command Palette (`kb(workbench.action.showCommands)`).
+保存されたツール承認をすべてクリアするには、コマンドパレット(`kb(workbench.action.showCommands)`)で**Chat: Reset Tool Confirmations**コマンドを使用します。
 
-## Edit tool parameters
+## ツールパラメーターを編集する
 
-You can review and edit the input parameters before a tool runs:
+ツールが実行される前に、入力パラメーターをレビューして編集できます:
 
-1. When the tool confirmation dialog appears, select the chevron next to the tool name to expand its details.
+1. ツール確認ダイアログが表示されたら、ツール名の横にあるシェブロンを選択して詳細を展開します。
 
-1. Edit any tool input parameters as needed.
+1. 必要に応じてツールの入力パラメーターを編集します。
 
-1. Select **Allow** to run the tool with the modified parameters.
+1. **Allow**を選択して、変更したパラメーターでツールを実行します。
 
-## Terminal commands
+## ターミナルコマンド
 
-The agent might use terminal commands as part of its workflow to accomplish tasks. When the agent decides to run terminal commands, it uses the built-in terminal tool to execute them in an integrated terminal within VS Code.
+エージェントはタスクを達成するためのワークフローの一部として、ターミナルコマンドを使用する場合があります。エージェントがターミナルコマンドを実行すると決定した場合、組み込みのターミナルツールを使用してVS Code内の統合ターミナルで実行します。
 
-In the chat conversation, the agent displays the commands it ran. You can view the output of the command inline in chat by selecting **Show Output** (`>`) next to the command. You can also view the full output in the integrated terminal by selecting **Show Terminal**.
+チャットの会話内で、エージェントは実行したコマンドを表示します。コマンドの横にある**Show Output**(`>`)を選択すると、コマンドの出力をチャット内にインラインで表示できます。**Show Terminal**を選択すると、統合ターミナルで完全な出力を表示することもできます。
 
-![Screenshot showing terminal command output in chat.](../images/chat-tools/terminal-command-output.png)
+![チャットに表示されたターミナルコマンド出力のスクリーンショット。](../images/chat-tools/terminal-command-output.png)
 
-Use the experimental `setting(chat.tools.terminal.outputLocation)` setting to configure where terminal command output appears: inline in chat, in the integrated terminal.
+実験段階の`setting(chat.tools.terminal.outputLocation)`設定を使用して、ターミナルコマンド出力を表示する場所(チャット内インライン、統合ターミナル)を構成できます。
 
-In the terminal pane, you can see the list of terminals that the agent has used for a chat session. You can also distinguish agent terminals by the chat icon in the terminals list.
+ターミナルペインでは、エージェントがチャットセッションで使用したターミナルの一覧を確認できます。ターミナル一覧のチャットアイコンで、エージェントのターミナルを区別することもできます。
 
-![Screenshot showing the integrated terminal with multiple agent terminals.](../images/chat-tools/agent-terminals-in-terminal-pane.png)
+![複数のエージェントターミナルが表示された統合ターミナルのスクリーンショット。](../images/chat-tools/agent-terminals-in-terminal-pane.png)
 
-### Automatically approve terminal commands
+### ターミナルコマンドを自動的に承認する
 
-You can configure which terminal commands are automatically approved by using the `setting(chat.tools.terminal.autoApprove)` setting. You can specify both allowed and denied commands:
+`setting(chat.tools.terminal.autoApprove)`設定を使用して、どのターミナルコマンドを自動的に承認するかを構成できます。許可するコマンドと拒否するコマンドの両方を指定できます:
 
-* Set commands to `true` to automatically approve them
-* Set commands to `false` to always require approval
-* Use regular expressions by wrapping patterns in `/` characters
+* コマンドを`true`に設定すると自動的に承認します
+* コマンドを`false`に設定すると常に承認が必要になります
+* パターンを`/`文字で囲むことで正規表現を使用できます
 
-For example:
+例:
 
 ```jsonc
 {
@@ -201,40 +201,40 @@ For example:
 }
 ```
 
-By default, patterns match against individual subcommands. For a command to be auto-approved, all subcommands must match a `true` entry and must not match a `false` entry.
+既定では、パターンは個々のサブコマンドに対してマッチします。コマンドを自動承認するには、すべてのサブコマンドが`true`のエントリにマッチし、かつ`false`のエントリにマッチしない必要があります。
 
-For advanced scenarios, use object syntax with the `matchCommandLine` property to match against the full command line instead of individual subcommands.
+高度なシナリオでは、`matchCommandLine`プロパティを持つオブジェクト構文を使用して、個々のサブコマンドではなく完全なコマンドラインに対してマッチさせます。
 
-Related settings:
+関連する設定:
 
 * `setting(chat.tools.terminal.enableAutoApprove)`: permanently disable auto-approve functionality
 * `setting(chat.tools.terminal.blockDetectedFileWrites)` (experimental): detection of file writes (experimental)
 * `setting(chat.tools.terminal.ignoreDefaultAutoApproveRules)` (experimental): disable all default rules (both allow and block), giving full control over all rules.
 
 > [!CAUTION]
-> Automatically approving terminal commands provides _best effort_ protections and assumes the agent is not acting maliciously. It's important to protect yourself from prompt injection when you enable terminal auto approve, as it might be possible for some commands to slip through. Here are some examples where the detection can fall over:
+> ターミナルコマンドの自動承認は、_ベストエフォート_の保護を提供し、エージェントが悪意を持って行動していないことを前提としています。ターミナルの自動承認を有効にすると、一部のコマンドがすり抜ける可能性があるため、プロンプトインジェクションから自分自身を守ることが重要です。検出が破綻する可能性がある例をいくつか示します:
 >
-> * VS Code uses PowerShell and bash tree sitter grammars to extract sub-commands, so patterns are not detected if these grammars don't detect them.
-> * VS Code uses bash grammar because there is no zsh or fish grammar, so some sub-commands are not detected.
-> * Detection of file writes is currently minimal, so it might be possible to write to files with the terminal that would not be possible by using the file editing agent tools.
+> * VS CodeはPowerShellとbashのtree sitter文法を使用してサブコマンドを抽出するため、これらの文法が検出できない場合はパターンも検出されません。
+> * zshやfishの文法がないため、VS Codeはbashの文法を使用しており、その結果、一部のサブコマンドは検出されません。
+> * ファイル書き込みの検出は現在最小限であるため、ファイル編集のエージェントツールでは不可能なファイル書き込みをターミナルで行える可能性があります。
 
-## Group tools with tool sets
+## ツールセットでツールをグループ化する
 
-A tool set is a collection of tools that you can reference as a single entity in your prompts. Tool sets help you organize related tools and make them easier to use in a chat prompt, [prompt files](/docs/copilot/customization/prompt-files.md), and [custom chat agents](/docs/copilot/customization/custom-agents.md). Some of the built-in tools are part of predefined tool sets, such as `#edit` and `#search`.
+ツールセットは、プロンプトで単一のエンティティとして参照できるツールのコレクションです。ツールセットは、関連するツールを整理し、チャットプロンプト、[プロンプトファイル](/docs/copilot/customization/prompt-files.md)、[カスタムチャットエージェント](/docs/copilot/customization/custom-agents.md)で使いやすくするのに役立ちます。一部の組み込みツールは、`#edit`や`#search`などの事前定義されたツールセットの一部です。
 
-### Create a tool set
+### ツールセットを作成する
 
-To create a tool set:
+ツールセットを作成するには:
 
-1. Run the **Chat: Configure Tool Sets** command from the Command Palette and select **Create new tool sets file**.
+1. コマンドパレットから**Chat: Configure Tool Sets**コマンドを実行し、**Create new tool sets file**を選択します。
 
-    Alternatively, select **Configure Chat** in the Chat view > **Tool Sets** > **Create new tool sets file**.
+    代わりに、チャットビューで**Configure Chat** > **Tool Sets** > **Create new tool sets file**を選択します。
 
-    ![Screenshot showing the Chat view and Configure Chat menu, highlighting the Configure Chat button.](../images/customization/configure-chat-instructions.png)
+    ![チャットビューとConfigure Chatメニューを示すスクリーンショット。Configure Chatボタンが強調表示されている。](../images/customization/configure-chat-instructions.png)
 
-1. Define your tool set in the `.jsonc` file that opens.
+1. 開いた`.jsonc`ファイルでツールセットを定義します。
 
-    A tool set has the following structure:
+    ツールセットは次の構造になります:
 
     ```json
     {
@@ -251,40 +251,40 @@ To create a tool set:
     }
     ```
 
-    Tool set properties:
+    ツールセットのプロパティ:
 
-    * `tools`: Array of tool names (built-in tools, MCP tools, or extension tools)
-    * `description`: Brief description displayed in the tools picker
-    * `icon`: Icon for the tool set (see [Product Icon Reference](/api/references/icons-in-labels.md))
+    * `tools`: ツール名の配列(組み込みツール、MCPツール、または拡張機能ツール)
+    * `description`: ツールピッカーに表示される簡単な説明
+    * `icon`: ツールセットのアイコン([Product Icon Reference](/api/references/icons-in-labels.md)を参照)
 
-### Use a tool set
+### ツールセットを使用する
 
-Reference a tool set in your prompts by typing `#` followed by the tool set name:
+プロンプトで`#`に続けてツールセット名を入力して、ツールセットを参照します:
 
 * `"Analyze the codebase for security issues #reader"`
 * `"Where is the DB connection string defined? #search"`
 
-In the tools picker, tool sets are available as collapsible groups of related tools. You can select or deselect entire tool sets to quickly enable or disable multiple related tools at once.
+ツールピッカーでは、ツールセットは関連ツールの折りたたみ可能なグループとして利用できます。ツールセット全体を選択または選択解除することで、複数の関連ツールを一度にすばやく有効化または無効化できます。
 
-## Frequently asked questions
+## よくある質問
 
-### How do I know which tools are available?
+### どのツールが利用可能かを知るにはどうすればよいですか?
 
-Type `#` in the chat input field to see a list of all available tools. You can also use the tools picker in chat to view and manage the list of active tools.
+チャット入力欄に`#`を入力すると、利用可能なツールの一覧が表示されます。チャットのツールピッカーを使用して、アクティブなツールの一覧を表示および管理することもできます。
 
-### I'm getting an error that says "Cannot have more than 128 tools per request."
+### "Cannot have more than 128 tools per request."というエラーが表示されます
 
-A chat request can have a maximum of 128 tools enabled at a time. If you see an error about exceeding 128 tools per request:
+チャットリクエストでは、一度に最大128個のツールを有効にできます。リクエストあたり128個を超えたというエラーが表示される場合:
 
-* Open the tools picker in the Chat view and deselect some tools or entire MCP servers to reduce the count.
+* チャットビューでツールピッカーを開き、いくつかのツール、またはMCPサーバー全体の選択を解除して数を減らします。
 
-* Alternatively, enable virtual tools with the `setting(github.copilot.chat.virtualTools.threshold)` setting to automatically manage large tool sets.
+* または、`setting(github.copilot.chat.virtualTools.threshold)`設定で仮想ツールを有効にして、大規模なツールセットを自動的に管理します。
 
-### Why isn't the agent using Command Prompt as the terminal shell?
+### エージェントがターミナルシェルとしてCommand Promptを使用しないのはなぜですか?
 
-The agent uses the shell you have configured as the default for the terminal, except when it's cmd. This is because [shell integration](https://code.visualstudio.com/docs/terminal/shell-integration) is not supported with Command Prompt, which means the agent has very limited visibility into what's going on inside the terminal. Instead of getting direct signals for when commands are being run or have finished running, the agent needs to rely on timeouts and watching for the terminal to idle to continue. This leads to a slow and flaky experience.
+エージェントは、cmdの場合を除き、ターミナルの既定として構成されているシェルを使用します。これは、Command Promptでは[shell integration](https://code.visualstudio.com/docs/terminal/shell-integration)がサポートされていないためで、エージェントがターミナル内部で起きていることを把握できる範囲が非常に限られることを意味します。コマンドの実行開始や終了に関する直接的なシグナルを得る代わりに、エージェントはタイムアウトやターミナルがアイドル状態になるのを監視することに依存して継続する必要があります。これにより、遅く不安定な体験につながります。
 
-You can still configure the agent to use Command Prompt with the `setting(chat.tools.terminal.terminalProfile.windows)` setting, however this will result in an inferior experience compared to using PowerShell.
+それでも`setting(chat.tools.terminal.terminalProfile.windows)`設定でエージェントがCommand Promptを使用するように構成できますが、PowerShellを使用する場合と比べて体験は劣ります。
 
 ```json
 "chat.tools.terminal.terminalProfile.windows": {
@@ -292,27 +292,27 @@ You can still configure the agent to use Command Prompt with the `setting(chat.t
 }
 ```
 
-### Can I automatically approve all tools and terminal commands?
+### すべてのツールとターミナルコマンドを自動的に承認できますか?
 
 > [!CAUTION]
-> This setting disables all manual approvals, including potentially destructive actions. It removes critical security protections and makes it easier for an attacker to compromise the machine. Only enable this setting if you understand the implications. See the [Security documentation](/docs/copilot/security.md) for more details.
+> この設定は、潜在的に破壊的な操作を含むすべての手動承認を無効にします。重要なセキュリティ保護が取り除かれ、攻撃者がマシンを侵害しやすくなります。影響を理解している場合にのみこの設定を有効にしてください。詳細は[セキュリティドキュメント](/docs/copilot/security.md)を参照してください。
 >
-> To allow all tools and terminal commands to run without prompting for user confirmation, enable the `chat.tools.global.autoApprove` setting. This setting applies globally across all your workspaces!
+> ユーザー確認のプロンプトなしにすべてのツールとターミナルコマンドを実行できるようにするには、`chat.tools.global.autoApprove`設定を有効にします。この設定はすべてのワークスペースに対してグローバルに適用されます!
 
-### What's the difference between tools and chat participants?
+### ツールとチャット参加者の違いは何ですか?
 
-Chat participants are specialized assistants that enable you to ask domain-specific questions in chat. Imagine a chat participant as a domain expert to whom you hand off your chat request and it takes care of the rest.
+チャット参加者は、チャットでドメイン固有の質問ができるようにする専門アシスタントです。チャット参加者は、チャットリクエストを渡すと残りを引き受けてくれるドメインエキスパートだと考えるとよいでしょう。
 
-Tools are invoked as part of an agent flow to contribute and perform specific tasks. You can include multiple tools in a single chat request, but only one chat participant can be active at a time.
+ツールは、エージェントフローの一部として呼び出され、特定のタスクに貢献して実行します。1つのチャットリクエストに複数のツールを含められますが、一度にアクティブにできるチャット参加者は1つだけです。
 
-### Can I create my own tools?
+### 自分のツールを作成できますか?
 
-Yes. You can create tools in two ways:
+はい。ツールは2つの方法で作成できます:
 
-* **Develop a VS Code extension** that contributes tools using the [Language Model Tools API](/api/extension-guides/ai/tools.md)
-* **Create an MCP server** that provides tools. See the [MCP developer guide](/docs/copilot/guides/mcp-developer-guide.md)
+* [Language Model Tools API](/api/extension-guides/ai/tools.md)を使用してツールを提供する**VS Code拡張機能を開発する**
+* ツールを提供する**MCPサーバーを作成する**。[MCP開発者ガイド](/docs/copilot/guides/mcp-developer-guide.md)を参照してください
 
-## Related resources
+## 関連リソース
 
-* [Chat tools reference](/docs/copilot/reference/copilot-vscode-features.md#chat-tools)
-* [Security considerations for using AI in VS Code](/docs/copilot/security.md)
+* [チャットツールのリファレンス](/docs/copilot/reference/copilot-vscode-features.md#chat-tools)
+* [VS CodeでAIを使用する際のセキュリティに関する考慮事項](/docs/copilot/security.md)

@@ -1,51 +1,51 @@
 ---
 ContentId: 7a2e5f8d-4c9b-41e6-b3a8-9d7f2e4c1b8a
 DateApproved: 12/10/2025
-MetaDescription: Learn how to create and manage chat sessions in Visual Studio Code, including opening chat in editor tabs, separate windows, and using chat session history.
+MetaDescription: Visual Studio Codeでチャットセッションを作成および管理する方法(エディタータブや別ウィンドウでのチャットの表示、チャットセッション履歴の使用を含む)を学びます。
 MetaSocialImage: ../images/shared/github-copilot-social.png
 ---
-# Manage chat sessions in VS Code
+# VS Codeでチャットセッションを管理する
 
-Use chat in Visual Studio Code to have conversation-based AI interactions. A chat session consists of the sequence of prompts and responses between you and the AI, along with any relevant context from your code or files. This article describes how to create and manage chat sessions, export chat sessions, and how to view the chat session history.
+Visual Studio Codeのチャットを使うと、会話形式でAIとやり取りできます。チャットセッションは、あなたとAIの間のプロンプトと応答の一連の流れに加え、コードやファイルから取得された関連コンテキストで構成されます。この記事では、チャットセッションの作成と管理、チャットセッションのエクスポート、チャットセッション履歴の表示方法について説明します。
 
-## What is a chat session?
+## チャットセッションとは
 
-A chat session is the history of your interactions with the AI within a single conversation and includes all prompts, responses, and context used during that conversation. Each chat session maintains its own history, allowing you to ask follow-up questions or refine your requests based on previous interactions.
+チャットセッションとは、単一の会話の中でAIとやり取りした履歴のことで、その会話で使用されたすべてのプロンプト、応答、コンテキストが含まれます。各チャットセッションは独自の履歴を保持するため、以前のやり取りをもとにフォローアップの質問をしたり、依頼内容を調整したりできます。
 
-As you interact with the AI, the chat session accumulates context from your prompts and responses (context window). When you create a new chat session, the previous conversation history is cleared, and a fresh context window is established for the new session.
+AIとやり取りするにつれて、チャットセッションにはプロンプトと応答からのコンテキスト(コンテキストウィンドウ)が蓄積されます。新しいチャットセッションを作成すると、以前の会話履歴はクリアされ、新しいセッション用に新しいコンテキストウィンドウが確立されます。
 
-Use checkpoints to roll back to a previous state within a chat session or edit a previous prompt to modify the course of the conversation. Learn more about [checkpoints and editing chat requests](/docs/copilot/chat/chat-checkpoints.md).
+チェックポイントを使用すると、チャットセッション内で以前の状態にロールバックしたり、以前のプロンプトを編集して会話の流れを変更したりできます。詳しくは、[チェックポイントとチャットリクエストの編集](/docs/copilot/chat/chat-checkpoints.md)をご覧ください。
 
-You can create multiple chat sessions to organize your conversations by topic or task. Each session is independent, so context from one session does not carry over to another. VS Code maintains the [history of your chat sessions](#chat-session-history), allowing you to return to previous conversations at any time.
+複数のチャットセッションを作成して、トピックやタスクごとに会話を整理できます。各セッションは独立しているため、あるセッションのコンテキストが別のセッションに引き継がれることはありません。VS Codeは[チャットセッションの履歴](#chat-session-history)を保持しており、いつでも以前の会話に戻れます。
 
-If you're using agents, the session can run locally on your machine, in the background using a CLI, or in the cloud. Learn more about [agents](/docs/copilot/agents/overview.md).
+エージェントを使用している場合、セッションはローカル(あなたのマシン上)、CLIを使用したバックグラウンド、またはクラウドで実行できます。[エージェント](/docs/copilot/agents/overview.md)の詳細をご覧ください。
 
 > [!TIP]
-> Start a new chat session when you want to change topics to help the AI provide more relevant responses.
+> トピックを切り替えたいときは、新しいチャットセッションを開始すると、AIがより関連性の高い応答を返しやすくなります。
 
-## Start a new chat session
+## 新しいチャットセッションを開始する
 
-VS Code supports different types of sessions (local, background, and cloud) and different views (side bar, editor tab, and separate window) for chat sessions. Learn more about [background and cloud agent sessions](/docs/copilot/agents/overview.md).
+VS Codeは、チャットセッションに対して異なる種類のセッション(ローカル、バックグラウンド、クラウド)と、異なるビュー(サイドバー、エディタータブ、別ウィンドウ)をサポートしています。[バックグラウンドおよびクラウドエージェントセッション](/docs/copilot/agents/overview.md)の詳細をご覧ください。
 
 | | |
 |-|-|
-| Open a local chat session in the side bar.<br/><br/><ul><li>In Chat view, **New Chat (+)** > **New Chat**</li><li>`kb(workbench.action.chat.newChat)`</li><li>**Chat: New Chat** command</li></ul> | ![Screenshot of opening a new chat session in the Chat view in VS Code.](../images/chat-sessions/new-chat-session-chat-view.png) |
-| Open local chat as an editor tab.<br/><br/><ul><li>In Chat view, **New Chat (+)** > **New Chat Editor**</li><li>**Chat: New Chat Editor** command</li></ul>| ![Screenshot of opening a new chat session in an editor tab in VS Code.](../images/chat-sessions/new-chat-session-editor-tab.png) |
-| Open local chat in a separate window.<br/><br/><ul><li>In Chat view, **New Chat (+)** > **New Chat Window**</li><li>`kb(workbench.action.chat.newChat)`</li><li>**Chat: New Chat Window** command</li></ul> | ![Screenshot  of opening a new chat session in a separate window in VS Code.](../images/chat-sessions/new-chat-session-separate-window.png) |
-| Open a background agent session.<br/><br/><ul><li>In Chat view, **New Chat (+)** > **New Background Agent**</li><li>**Chat: New Background Agent** command</li></ul> | ![Screenshot of opening a new background agent session in the Chat view in VS Code.](../images/chat-sessions/new-background-agent-session.png) |
-| Open a cloud agent session.<br/><br/><ul><li>In Chat view, **New Chat (+)** > **New Cloud Agent**</li><li>**Chat: New Cloud Agent** command</li></ul> | ![Screenshot of opening a new cloud agent session in the Chat view in VS Code.](../images/chat-sessions/new-cloud-agent-session.png) |
+| サイドバーでローカルチャットセッションを開く。<br/><br/><ul><li>Chat viewで、**New Chat (+)** > **New Chat**</li><li>`kb(workbench.action.chat.newChat)`</li><li>**Chat: New Chat**コマンド</li></ul> | ![VS CodeのChat viewで新しいチャットセッションを開いているスクリーンショット。](../images/chat-sessions/new-chat-session-chat-view.png) |
+| ローカルチャットをエディタータブとして開く。<br/><br/><ul><li>Chat viewで、**New Chat (+)** > **New Chat Editor**</li><li>**Chat: New Chat Editor**コマンド</li></ul>| ![VS Codeのエディタータブで新しいチャットセッションを開いているスクリーンショット。](../images/chat-sessions/new-chat-session-editor-tab.png) |
+| ローカルチャットを別ウィンドウで開く。<br/><br/><ul><li>Chat viewで、**New Chat (+)** > **New Chat Window**</li><li>`kb(workbench.action.chat.newChat)`</li><li>**Chat: New Chat Window**コマンド</li></ul> | ![VS Codeで別ウィンドウとして新しいチャットセッションを開いているスクリーンショット。](../images/chat-sessions/new-chat-session-separate-window.png) |
+| バックグラウンドエージェントセッションを開く。<br/><br/><ul><li>Chat viewで、**New Chat (+)** > **New Background Agent**</li><li>**Chat: New Background Agent**コマンド</li></ul> | ![VS CodeのChat viewで新しいバックグラウンドエージェントセッションを開いているスクリーンショット。](../images/chat-sessions/new-background-agent-session.png) |
+| クラウドエージェントセッションを開く。<br/><br/><ul><li>Chat viewで、**New Chat (+)** > **New Cloud Agent**</li><li>**Chat: New Cloud Agent**コマンド</li></ul> | ![VS CodeのChat viewで新しいクラウドエージェントセッションを開いているスクリーンショット。](../images/chat-sessions/new-cloud-agent-session.png) |
 
-### Move a chat session to a different view
+### チャットセッションを別のビューに移動する
 
-You can move an existing chat session to a different view, such as from the Chat view to an editor tab or a separate window. This is useful when you want to change how you interact with the chat session or organize your workspace differently.
+既存のチャットセッションは、Chat viewからエディタータブや別ウィンドウなど、別のビューに移動できます。これは、チャットセッションとのやり取り方法を変えたい場合や、ワークスペースの整理方法を変えたい場合に便利です。
 
-* In the Chat view, select the `...` icon and then select **Move Chat into Editor Area** or **Move Chat into New Window**.
+* Chat viewで`...`アイコンを選択し、**Move Chat into Editor Area**または**Move Chat into New Window**を選択します。
 
-* In an chat editor, select the `...` icon in the top-right corner of the editor tab, and then select **Move Chat into Secondary Side Bar**.
+* チャットエディターで、エディタータブの右上にある`...`アイコンを選択し、**Move Chat into Secondary Side Bar**を選択します。
 
-* In a chat window, select the **Move Chat into Secondary Side Bar** button in the window title bar.
+* チャットウィンドウで、ウィンドウのタイトルバーにある**Move Chat into Secondary Side Bar**ボタンを選択します。
 
-* Use the following commands from the Command Palette:
+* コマンドパレットから次のコマンドを使用します。
 
     * **Chat: Move Chat into Editor Area**
 
@@ -53,122 +53,122 @@ You can move an existing chat session to a different view, such as from the Chat
 
     * **Chat: Move Chat into Side Bar**
 
-## Chat session history
+## チャットセッション履歴
 
-When you create a new chat session, the previous conversation history is cleared. However, all your chat sessions are saved in the session history, allowing you to return to previous conversations and continue where you left off. This is useful when you want to review past interactions, reference previous responses, or resume a conversation from an earlier session.
+新しいチャットセッションを作成すると、以前の会話履歴はクリアされます。ただし、すべてのチャットセッションはセッション履歴に保存されるため、以前の会話に戻って中断したところから続けられます。これは、過去のやり取りを確認したい場合、以前の応答を参照したい場合、または以前のセッションから会話を再開したい場合に便利です。
 
-![Screenshot of an agent session in VS Code showing code changes and chat interaction.](../images/agents-overview/chat-sessions-view.png)
+![VS Codeのエージェントセッションで、コード変更とチャットのやり取りが表示されているスクリーンショット。](../images/agents-overview/chat-sessions-view.png)
 
-By default, when you start a new chat session, the Chat view shows your most recent sessions, whether they run locally, in the background, or in the cloud. Select **Show All Sessions** to view the full history of sessions, allowing you to search and filter the list. The list is scoped to your current workspace. If you don't have a workspace open, the list shows all sessions across your workspaces.
+既定では、新しいチャットセッションを開始すると、Chat viewにはローカル、バックグラウンド、クラウドのいずれで実行されているかにかかわらず、最近のセッションが表示されます。**Show All Sessions**を選択すると、セッション履歴全体を表示でき、一覧を検索したりフィルターしたりできます。この一覧は現在のワークスペースにスコープされています。ワークスペースを開いていない場合は、ワークスペース全体にわたるすべてのセッションが表示されます。
 
-Learn more about agents and [viewing and managing agent sessions](/docs/copilot/agents/overview.md).
+エージェントと[エージェントセッションの表示と管理](/docs/copilot/agents/overview.md)の詳細をご覧ください。
 
 > [!TIP]
-> Make the Chat view wider to automatically switch to side-by-side mode or use the toggle button in the top-right corner of the Chat view.
+> Chat viewを広くすると自動的に横並びモードに切り替わります。または、Chat viewの右上にある切り替えボタンを使用します。
 
-## Save and export chat sessions
+## チャットセッションを保存およびエクスポートする
 
-You can save chat sessions to preserve important conversations or reuse them later for similar tasks.
+チャットセッションを保存して重要な会話を残したり、後で類似のタスクに再利用したりできます。
 
-### Export a chat session as a JSON file
+### チャットセッションをJSONファイルとしてエクスポートする
 
-You can export a chat session to save it for later reference or share it with others. Exporting a chat session creates a JSON file that contains all prompts and responses from the session.
+チャットセッションをエクスポートして、後で参照できるように保存したり、他の人と共有したりできます。チャットセッションをエクスポートすると、そのセッションのすべてのプロンプトと応答を含むJSONファイルが作成されます。
 
-To export a chat session:
+チャットセッションをエクスポートするには、次の手順に従います。
 
-1. Open the chat session you want to export in the Chat view.
+1. Chat viewで、エクスポートするチャットセッションを開きます。
 
-1. Run the **Chat: Export Chat...** command from the Command Palette (`kb(workbench.action.showCommands)`).
+1. コマンドパレット(`kb(workbench.action.showCommands)`)から**Chat: Export Chat...**コマンドを実行します。
 
-1. Choose a location to save the JSON file.
+1. JSONファイルを保存する場所を選択します。
 
-Alternatively, you can copy individual prompts or responses to the clipboard by right-clicking the message and selecting **Copy**. To copy the entire chat session in Markdown format, right-click the Chat view and select **Copy All**.
+または、メッセージを右クリックして**Copy**を選択すると、個々のプロンプトや応答をクリップボードにコピーできます。チャットセッション全体をMarkdown形式でコピーするには、Chat viewを右クリックして**Copy All**を選択します。
 
-### Save a chat session as a reusable prompt
+### チャットセッションを再利用可能なプロンプトとして保存する
 
-You can save a chat session as a [reusable prompt](/docs/copilot/customization/prompt-files.md) to reuse for similar tasks.
+チャットセッションを[再利用可能なプロンプト](/docs/copilot/customization/prompt-files.md)として保存し、類似のタスクに再利用できます。
 
-To save a chat session as a reusable prompt:
+チャットセッションを再利用可能なプロンプトとして保存するには、次の手順に従います。
 
-1. Open the chat session you want to save in the Chat view.
+1. Chat viewで、保存するチャットセッションを開きます。
 
-1. Type `/savePrompt` in the chat input box and press `Enter`.
+1. チャット入力ボックスに`/savePrompt`と入力し、`Enter`を押します。
 
-    The command creates a `.prompt.md` file that generalizes your current chat conversation into a reusable prompt. The prompt file has placeholders where appropriate.
+    このコマンドは、現在のチャット会話を一般化して再利用可能なプロンプトにした`.prompt.md`ファイルを作成します。必要に応じて、プロンプトファイルにはプレースホルダーが含まれます。
 
-1. Review and edit the generated prompt file as needed, then save it to your workspace.
+1. 生成されたプロンプトファイルを確認し、必要に応じて編集してから、ワークスペースに保存します。
 
-## Context-isolated subagents
+## コンテキスト分離されたサブエージェント
 
-A subagent enables you to delegate tasks to an isolated, autonomous agent within your chat session. Subagents operate independently from the main chat session and have their own context window. This is useful to optimize  context management for complex multi-step tasks like research or analysis.
+サブエージェントを使用すると、チャットセッション内で、分離された自律エージェントにタスクを委任できます。サブエージェントはメインのチャットセッションとは独立して動作し、独自のコンテキストウィンドウを持ちます。これは、調査や分析などの複雑な複数ステップのタスクで、コンテキスト管理を最適化するのに役立ちます。
 
-Subagents don't run asynchronously or in the background, however, they operate autonomously without pausing for user feedback. When a subagent completes its task, it returns only the final result to the main chat session, keeping the main context window focused on the primary conversation.
+サブエージェントは非同期またはバックグラウンドでは実行されませんが、ユーザーからのフィードバックのために停止せず、自律的に動作します。サブエージェントがタスクを完了すると、最終結果のみをメインのチャットセッションに返し、メインのコンテキストウィンドウを主要な会話に集中させたままにします。
 
-Subagents use the same agent and have access to the same tools available to the main chat session, except for creating other subagents. They also use the same AI model as the main chat session.
+サブエージェントは同じエージェントを使用し、他のサブエージェントを作成することを除き、メインのチャットセッションで利用できるのと同じツールにアクセスできます。また、メインのチャットセッションと同じAIモデルを使用します。
 
-### Invoke a subagent
+### サブエージェントを呼び出す
 
-To invoke a subagent in a prompt:
+プロンプトでサブエージェントを呼び出すには、次の手順に従います。
 
-1. Enable the `runSubagent` tool in the tool picker
+1. ツールピッカーで`runSubagent`ツールを有効にします。
 
-    If you use a [custom prompt file](/docs/copilot/customization/prompt-files.md) or [custom agent](/docs/copilot/customization/custom-agents.md), ensure you specify `runSubagent` in the `tools` frontmatter property.
+    [カスタムプロンプトファイル](/docs/copilot/customization/prompt-files.md)または[カスタムエージェント](/docs/copilot/customization/custom-agents.md)を使用している場合は、フロントマターの`tools`プロパティに`runSubagent`を指定してください。
 
-1. In the chat prompt, ask to use a subagent to perform a task.
+1. チャットプロンプトで、サブエージェントを使ってタスクを実行するよう依頼します。
 
-    The following examples illustrate how to invoke a subagent:
+    次の例は、サブエージェントを呼び出す方法を示しています。
 
-    * `Use a subagent to research the best authentication methods for web applications. Summarize the findings.`
-    * `Run #runSubagent to research the user's task comprehensively using read-only tools. Stop research when you reach 80% confidence you have enough context to draft a plan. Return this context.`
+    * `サブエージェントを使ってWebアプリケーションに最適な認証方法を調査してください。結果を要約してください。`
+    * `#runSubagentを実行し、読み取り専用ツールを使ってユーザーのタスクを包括的に調査してください。計画を作成するのに十分なコンテキストがあると80%の確信に達したら調査を停止してください。このコンテキストを返してください。`
 
-#### Use a custom agent with subagents (Experimental)
+#### サブエージェントでカスタムエージェントを使用する(実験的)
 
-By default, a subagent inherits the agent from the main chat session. You can configure a subagent to use a different built-in or custom agent. For example, if you want to run a research task as part of a development task, you can start the research task in a subagent that uses a research agent.
+既定では、サブエージェントはメインのチャットセッションからエージェントを継承します。サブエージェントが別の組み込みエージェントまたはカスタムエージェントを使用するように構成できます。たとえば、開発タスクの一部として調査タスクを実行したい場合は、調査エージェントを使用するサブエージェントで調査タスクを開始できます。
 
-To run a subagent with a specific agent:
+特定のエージェントでサブエージェントを実行するには、次の手順に従います。
 
-1. Enable support for custom agents in subagents with the `setting(chat.customAgentInSubagent.enabled)` setting
+1. `setting(chat.customAgentInSubagent.enabled)`設定で、サブエージェントでのカスタムエージェントのサポートを有効にします。
 
-1. Make sure the custom agent doesn't have its `infer` property set to `false`, as this prevents the agent from being used in subagents.
+1. カスタムエージェントの`infer`プロパティが`false`に設定されていないことを確認します。`false`にすると、そのエージェントはサブエージェントで使用できなくなります。
 
-1. Prompt the AI about which agents are available for use as subagents. Your custom agent should be listed.
+1. サブエージェントとして使用可能なエージェントをAIに尋ねます。カスタムエージェントが一覧に表示されるはずです。
 
     ```prompt
-    Which subagents can you use?
+    使用できるサブエージェントはどれですか?
     ```
 
-1. Prompt the AI to use a custom or built-in agent for the subagent. For example:
+1. サブエージェントにカスタムまたは組み込みエージェントを使用するようAIに指示します。例:
 
-    * `Run the research agent as a subagent to research the best auth methods for this project.`
-    * `Use the plan agent in a subagent to create an implementation plan for myfeature. Then save the plan in plans/myfeature.plan.md`
+    * `このプロジェクトに最適なauth方法を調査するために、researchエージェントをサブエージェントとして実行してください。`
+    * `サブエージェントでplanエージェントを使ってmyfeatureの実装計画を作成してください。その後、計画をplans/myfeature.plan.mdに保存してください。`
 
 > [!NOTE]
-> To prevent a custom agent from being used as a subagent, set the metadata property `infer` to `false` in the `*.agent.md` file.
+> カスタムエージェントがサブエージェントとして使用されないようにするには、`*.agent.md`ファイルでメタデータプロパティ`infer`を`false`に設定します。
 
-## Navigate between prompts in a chat session
+## チャットセッション内でプロンプト間を移動する
 
-Use the following keyboard shortcuts to navigate between prompts in a chat session:
+チャットセッション内でプロンプト間を移動するには、次のキーボードショートカットを使用します。
 
-* `kb(workbench.action.chat.previousUserPrompt)`: Go to the previous prompt in the chat session.
-* `kb(workbench.action.chat.nextUserPrompt)`: Go to the next prompt in the chat session.
-* `kb(workbench.action.chat.previousCodeBlock)`: Go to the previous code block in the chat session.
-* `kb(workbench.action.chat.nextCodeBlock)`: Go to the next code block in the chat session.
+* `kb(workbench.action.chat.previousUserPrompt)`: チャットセッション内の前のプロンプトに移動します。
+* `kb(workbench.action.chat.nextUserPrompt)`: チャットセッション内の次のプロンプトに移動します。
+* `kb(workbench.action.chat.previousCodeBlock)`: チャットセッション内の前のコードブロックに移動します。
+* `kb(workbench.action.chat.nextCodeBlock)`: チャットセッション内の次のコードブロックに移動します。
 
-## Tips for managing chat sessions
+## チャットセッション管理のヒント
 
-Consider the following tips to help you work effectively with chat sessions:
+チャットセッションを効果的に活用するために、次のヒントを参考にしてください。
 
-* **Start a new session for different topics**: start a new chat session to avoid carrying over context from unrelated conversations. This helps you get more relevant responses.
+* **トピックごとに新しいセッションを開始する**: 無関係な会話からコンテキストを引き継がないように、新しいチャットセッションを開始します。これにより、より関連性の高い応答を得やすくなります。
 
-* **Use editor tabs for side-by-side comparisons**: open multiple chat sessions as editor tabs to compare different approaches or solutions side-by-side.
+* **エディタータブで横並び比較を行う**: 複数のチャットセッションをエディタータブとして開き、異なるアプローチや解決策を横並びで比較します。
 
-* **Use separate windows for multi-monitor setups**: open chat in a separate window on a secondary monitor to keep it visible while you work on code in the main window.
+* **マルチモニターでは別ウィンドウを使用する**: セカンダリモニターでチャットを別ウィンドウとして開き、メインウィンドウでコード作業をしている間も表示したままにします。
 
-* **Background tasks with remote agents**: use remote coding agents to perform AI tasks in the background while you continue working in VS Code.
+* **リモートエージェントでバックグラウンドタスクを実行する**: リモートのコーディングエージェントを使ってバックグラウンドでAIタスクを実行し、VS Codeでの作業を続けます。
 
-* **Interactive agent sessions**: use local agent sessions for interactive tasks that require real-time input and feedback.
+* **対話的なエージェントセッション**: リアルタイムの入力とフィードバックが必要な対話的タスクでは、ローカルのエージェントセッションを使用します。
 
-## Related resources
+## 関連リソース
 
-* [Get started with chat in VS Code](/docs/copilot/chat/copilot-chat.md)
-* [Revert changes with checkpoints](/docs/copilot/chat/chat-checkpoints.md)
+* [VS Codeのチャットを使い始める](/docs/copilot/chat/copilot-chat.md)
+* [チェックポイントで変更を元に戻す](/docs/copilot/chat/chat-checkpoints.md)

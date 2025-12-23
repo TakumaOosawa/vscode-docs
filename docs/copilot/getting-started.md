@@ -1,47 +1,49 @@
 ---
 ContentId: 37fd3bd2-4209-49f6-bec5-c544d6b1b289
 DateApproved: 12/10/2025
-MetaDescription: Build your first web application with GitHub Copilot in VS Code. Learn inline suggestions, agents, inline chat, smart actions, and how to personalize your AI coding experience.
+MetaDescription: VS CodeでGitHub Copilotを使って最初のWebアプリケーションを構築します。インライン提案、エージェント、インライン チャット、スマート アクション、そしてAIコーディング体験をパーソナライズする方法を学びます。
 MetaSocialImage: images/shared/github-copilot-social.png
 ---
-# Get started with GitHub Copilot in VS Code
+# VS CodeでGitHub Copilotを使い始める
 
-GitHub Copilot transforms how you write code in Visual Studio Code. In this hands-on tutorial, you build a complete task management web application while discovering VS Code's AI capabilities: intelligent inline suggestions, autonomous feature development with agents, precise editing with inline chat, integrated smart actions, and powerful customization options.
+GitHub Copilotは、Visual Studio Codeでのコード作成方法を変革します。このハンズオン チュートリアルでは、完全なタスク管理Webアプリケーションを構築しながら、VS CodeのAI機能（インテリジェントなインライン提案、エージェントによる自律的な機能開発、インライン チャットによる正確な編集、統合されたスマート アクション、そして強力なカスタマイズ オプション）を学びます。
 
-By the end of this tutorial, you'll have both a working web application and a personalized AI coding setup that adapts to your development style.
+このチュートリアルを終える頃には、動作するWebアプリケーションと、あなたの開発スタイルに適応するパーソナライズされたAIコーディング環境の両方を手に入れられます。
 
-## Prerequisites
+## 前提条件
 
-* VS Code installed on your machine. Download it from the [Visual Studio Code website](https://code.visualstudio.com/).
+* お使いのマシンにVS Codeがインストールされていること。[Visual Studio CodeのWebサイト](https://code.visualstudio.com/)からダウンロードします。
 
-* Access to GitHub Copilot. Follow these steps to [Set up GitHub Copilot in VS Code](/docs/copilot/setup.md).
+* GitHub Copilotにアクセスできること。次の手順に従って[VS CodeでGitHub Copilotをセットアップする](/docs/copilot/setup.md)。
 
     > [!TIP]
-    > If you don't have a Copilot subscription, you can sign up to use Copilot for free directly from within VS Code and get a monthly limit of inline suggestions and chat interactions.
+    > Copilotのサブスクリプションをお持ちでない場合でも、VS Code内から直接Copilotの無料利用にサインアップでき、インライン提案とチャットのやり取りに月あたりの上限が付与されます。
 
-## Step 1: Experience inline suggestions
+## 手順1: インライン提案を体験する
 
-AI-powered inline suggestions appear as you type, helping you write code faster and with fewer errors. Let's start building the foundation of your task manager.
+AIによるインライン提案は入力と同時に表示され、より速く、より少ないミスでコードを書けるように支援します。まずはタスク マネージャーの基盤を作り始めましょう。
 
 1. Create a new folder for your project and open it in VS Code.
 
-1. Create a new file called `index.html`.
+1. プロジェクト用の新しいフォルダーを作成し、VS Codeで開きます。
 
-1. Start typing the following and, as you type, VS Code provides inline suggestions (_ghost text_):
+1. `index.html`という新しいファイルを作成します。
+
+1. 次の内容を入力し始めます。入力と同時に、VS Codeがインライン提案（_ゴースト テキスト_）を表示します。
 
     ```html
     <!DOCTYPE html>
     ```
 
-    ![Screenshot showing Copilot suggesting HTML structure inline suggestion.](./images/getting-started/html-completion.png)
+    ![CopilotがHTML構造のインライン提案を提示しているスクリーンショット。](./images/getting-started/html-completion.png)
 
-    You might see different suggestions because large language models are nondeterministic.
+    大規模言語モデルは非決定的であるため、異なる提案が表示される場合があります。
 
-1. Press `kbstyle(Tab)` to accept the suggestion.
+1. `kbstyle(Tab)`を押して提案を受け入れます。
 
-    Congratulations! You've just accepted your first AI-powered inline suggestion.
+    おめでとうございます。これで、最初のAIによるインライン提案を受け入れました。
 
-1. Continue building your HTML structure. Inside the `<body>` tag, start typing:
+1. HTML構造の構築を続けます。`<body>`タグの内側で、次の入力を始めます。
 
     ```html
     <div class="container">
@@ -49,94 +51,94 @@ AI-powered inline suggestions appear as you type, helping you write code faster 
         <form id="task-form">
     ```
 
-    Notice how VS Code continues suggesting relevant HTML elements as you build your application structure.
+    アプリケーション構造を組み立てる中で、VS Codeが関連するHTML要素を継続して提案する様子に注目してください。
 
-1. If you see multiple suggestions, hover over the ghost text to see navigation controls, or use `kb(editor.action.inlineSuggest.showNext)` and `kb(editor.action.inlineSuggest.showPrevious)` to cycle through options.
+1. 複数の提案が表示された場合は、ゴースト テキストにカーソルを合わせてナビゲーション コントロールを表示するか、`kb(editor.action.inlineSuggest.showNext)`と`kb(editor.action.inlineSuggest.showPrevious)`を使って候補を切り替えます。
 
-    ![Screenshot showing inline suggestion navigation controls.](./images/getting-started/inline-suggestion-navigation.png)
+    ![インライン提案のナビゲーション コントロールを示すスクリーンショット。](./images/getting-started/inline-suggestion-navigation.png)
 
-Inline suggestions work automatically as you type, learning from your patterns and the context of your project. They're particularly helpful for writing boilerplate code, HTML structures, and repetitive patterns.
+インライン提案は入力中に自動的に動作し、あなたの入力パターンやプロジェクトのコンテキストから学習します。定型コード、HTML構造、繰り返しパターンの作成に特に役立ちます。
 
-## Step 2: Build complete features with agents
+## 手順2: エージェントで機能全体を構築する
 
-Agents are VS Code's most powerful AI capability. Given a natural language prompt, they autonomously plan and implement complex features across multiple files. Let's use them to create the core functionality of your task manager.
+エージェントは、VS Codeで最も強力なAI機能です。自然言語のプロンプトを与えると、複数ファイルにまたがる複雑な機能を自律的に計画し、実装します。これを使って、タスク マネージャーの中核機能を作成しましょう。
 
-1. Open the Chat view by pressing `kb(workbench.action.chat.open)` or by selecting the chat icon in the VS Code title bar.
+1. `kb(workbench.action.chat.open)`を押すか、VS Codeのタイトル バーにあるチャット アイコンを選択して、チャット ビューを開きます。
 
-    The Chat view enables you to have an ongoing conversation with the AI, making it easier to refine your requests and get better results.
+    チャット ビューでは、AIとの継続的な会話が可能になり、リクエストの洗練や、より良い結果の取得が容易になります。
 
-1. In the agent picker at the top of the Chat view, select **Agent** to switch to an autonomous coding mode.
+1. チャット ビュー上部のエージェント ピッカーで**Agent**を選択し、自律コーディング モードに切り替えます。
 
-    ![Screenshot showing the agent picker in the Chat view.](./images/getting-started/agent-mode-selection.png)
+    ![チャット ビューのエージェント ピッカーを示すスクリーンショット。](./images/getting-started/agent-mode-selection.png)
 
-1. Enter the following prompt and press `kbstyle(Enter)`. The agent will analyze your request and begin implementing the solution:
-
-    ```prompt
-    Create a complete task manager web application with the ability to add, delete, and mark tasks as completed. Include modern CSS styling and make it responsive. Use semantic HTML and ensure it's accessible. Separate markup, styles, and scripts into their own files.
-    ```
-
-    Watch as the agent generates the necessary files and code to implement your request. You should see it update the `index.html` file, create a `styles.css` file for styling, and a `script.js` file for functionality.
-
-    > [!TIP]
-    > Different language models might have different strengths. Use the model dropdown in the Chat view to switch between language models.
-
-1. Review the generated files and select **Keep** to accept all the changes.
-
-1. Open your `index.html` file in a browser to see your task manager in action. You can add tasks, mark them as complete, and delete them.
-
-    > [!TIP]
-    > Use the [Live Preview extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode.live-server) to see your changes in VS Code, in real-time as you develop.
-
-1. Let's add an extra feature. Enter the following prompt in the chat input box:
+1. 次のプロンプトを入力して`kbstyle(Enter)`を押します。エージェントがリクエストを分析し、解決策の実装を開始します。
 
     ```prompt
-    Add a filter system with buttons to show all tasks, only completed tasks, or only pending tasks. Update the styling to match the existing design.
+    タスクを追加、削除、完了としてマークできる完全なタスク マネージャーWebアプリケーションを作成してください。モダンなCSSスタイルを含め、レスポンシブにしてください。セマンティックなHTMLを使用し、アクセシブルであることを確認してください。マークアップ、スタイル、スクリプトはそれぞれ別のファイルに分けてください。
     ```
 
-    Notice how the agent coordinates changes across multiple files to implement this feature completely.
+    エージェントがリクエストを実装するために必要なファイルとコードを生成する様子を確認します。`index.html`ファイルの更新、スタイル用の`styles.css`ファイルの作成、機能用の`script.js`ファイルの作成が行われるはずです。
 
-Agents excel at understanding high-level requirements and translating them into working code. They're perfect for implementing new features, refactoring large sections of code, or building entire applications from scratch.
+    > [!TIP]
+    > 言語モデルによって得意分野が異なる場合があります。チャット ビューのモデル ドロップダウンを使用して、言語モデルを切り替えます。
 
-## Step 3: Make precise adjustments with inline chat
+1. 生成されたファイルを確認し、**Keep**を選択してすべての変更を受け入れます。
 
-While agents handle large features, editor inline chat is perfect for targeted improvements to specific code sections within a file. Let's use it to enhance the task manager app.
+1. ブラウザーで`index.html`ファイルを開いて、タスク マネージャーが動作することを確認します。タスクの追加、完了のマーク、削除ができます。
 
-1. Open your JavaScript file and locate the code that adds new tasks.
+    > [!TIP]
+    > 開発中に変更をリアルタイムでVS Code上で確認するには、[Live Preview拡張機能](https://marketplace.visualstudio.com/items?itemName=ms-vscode.live-server)を使用します。
 
-1. Select the code block and then press `kb(inlinechat.start)` to open editor inline chat.
+1. 追加の機能を加えてみましょう。チャット入力欄に次のプロンプトを入力します。
 
-    ![Screenshot showing inline chat starting for selected code block.](./images/getting-started/inline-chat-start.png)
+    ```prompt
+    すべてのタスク、完了したタスクのみ、未完了のタスクのみを表示するボタンを備えたフィルター システムを追加してください。既存のデザインに合うようにスタイルも更新してください。
+    ```
+
+    この機能を完全に実装するために、エージェントが複数ファイルにまたがる変更を調整する様子に注目してください。
+
+エージェントは、高レベルの要件を理解して動作するコードに落とし込むことが得意です。新機能の実装、コードの大規模なリファクタリング、ゼロからのアプリケーション構築に最適です。
+
+## 手順3: インライン チャットで正確に調整する
+
+エージェントが大きな機能を扱う一方で、エディターのインライン チャットは、ファイル内の特定のコード セクションに対する的を絞った改善に最適です。これを使ってタスク マネージャー アプリを強化しましょう。
+
+1. JavaScriptファイルを開き、新しいタスクを追加するコードを見つけます。
+
+1. コード ブロックを選択し、`kb(inlinechat.start)`を押してエディターのインライン チャットを開きます。
+
+    ![選択したコード ブロックに対してインライン チャットを開始しているスクリーンショット。](./images/getting-started/inline-chat-start.png)
 
     > [!NOTE]
-    > The exact code might vary because large language models are nondeterministic.
+    > 大規模言語モデルは非決定的であるため、正確なコードは異なる場合があります。
 
-1. Enter the following prompt:
+1. 次のプロンプトを入力します。
 
     ```text
-    Add input validation to prevent adding empty tasks and trim whitespace from task text.
+    空のタスクが追加されないように入力の検証を追加し、タスク テキストの前後の空白をトリムしてください。
     ```
 
-    Notice how inline chat focuses specifically on the selected code and makes targeted improvements.
+    インライン チャットが選択したコードに特化して、的を絞った改善を行う様子に注目してください。
 
-    ![Screenshot showing inline chat adding validation to selected function.](./images/getting-started/inline-chat-validation.png)
+    ![インライン チャットが選択した関数に検証を追加しているスクリーンショット。](./images/getting-started/inline-chat-validation.png)
 
-1. Review the changes and select **Keep** to apply them.
+1. 変更内容を確認し、**Keep**を選択して適用します。
 
-Editor inline chat is ideal for making small, focused changes without affecting the broader codebase, like adding error handling, refactoring individual functions, or fixing bugs.
+エディターのインライン チャットは、広範なコードベースに影響を与えずに、エラー処理の追加、個別関数のリファクタリング、バグ修正などの小さく焦点を絞った変更を行うのに最適です。
 
-## Step 4: Personalize your AI experience
+## 手順4: AI体験をパーソナライズする
 
-Customizing chat makes it work better for your specific needs and coding style. You can set up custom instructions and build specialized custom agents. Let's create a complete personalization setup for your project.
+チャットをカスタマイズすると、特定のニーズやコーディング スタイルにより適合します。カスタム指示を設定したり、専用のカスタム エージェントを作成したりできます。プロジェクト向けに完全なパーソナライズ環境を作成しましょう。
 
-### Create custom instructions
+### カスタム指示を作成する
 
-Custom instructions tell the AI about your coding preferences and standards. These apply automatically to all chat interactions.
+カスタム指示は、コーディングの好みや標準をAIに伝えます。これらはすべてのチャットのやり取りに自動的に適用されます。
 
-1. Create a new folder called `.github` in your project root.
+1. プロジェクト ルートに`.github`という新しいフォルダーを作成します。
 
-1. Inside the `.github` folder, create a file called `copilot-instructions.md`.
+1. `.github`フォルダーの中に`copilot-instructions.md`というファイルを作成します。
 
-1. Add the following content:
+1. 次の内容を追加します。
 
     ```markdown
     # Project general coding guidelines
@@ -157,29 +159,29 @@ Custom instructions tell the AI about your coding preferences and standards. The
     - Add error handling for user inputs and API calls
     ```
 
-1. Save the file. These instructions now apply to all your chat interactions in this project.
+1. ファイルを保存します。これで、これらの指示がこのプロジェクト内のすべてのチャットのやり取りに適用されます。
 
-1. Test the custom instructions by asking the agent to add a new feature:
+1. エージェントに新機能の追加を依頼して、カスタム指示をテストします。
 
     ```prompt
-    Add a dark mode toggle button to the task manager.
+    タスク マネージャーにダーク モードのトグル ボタンを追加してください。
     ```
 
-    Notice how the generated code follows the guidelines you specified. VS Code supports more advanced custom instructions like applying instructions for specific file types.
+    生成されたコードが指定したガイドラインに従っていることを確認します。VS Codeは、特定のファイル タイプに指示を適用するなど、より高度なカスタム指示にも対応しています。
 
-### Create a custom agent for code reviews
+### コード レビュー用のカスタム エージェントを作成する
 
-Custom agents create specialized AI personas for specific tasks. Let's create a "Code Reviewer" agent that focuses on analysis and providing feedback on code. In the custom agent definition, you can define the AI's role, specific guidelines, and which tools it can use.
+カスタム エージェントは、特定のタスクに特化したAIのペルソナを作成します。分析とコードへのフィードバックに焦点を当てる「Code Reviewer」エージェントを作成しましょう。カスタム エージェント定義では、AIの役割、具体的なガイドライン、使用できるツールを定義できます。
 
-1. Open the Command Palette and run the **Chat: New Custom Agent** command.
+1. コマンド パレットを開き、**Chat: New Custom Agent**コマンドを実行します。
 
-1. Select `.github/agents` as the location.
+1. 場所として`.github/agents`を選択します。
 
-    This option adds the custom agent to your workspace, enabling other team members to use it when they open the project.
+    このオプションにより、カスタム エージェントがワークスペースに追加され、他のチーム メンバーがプロジェクトを開いたときに利用できるようになります。
 
-1. Name the custom agent "Code Reviewer". This creates a new file called `Code Reviewer.md` in the `.github/agents` folder.
+1. カスタム エージェントの名前を「Code Reviewer」にします。これにより、`.github/agents`フォルダーに`Code Reviewer.md`という新しいファイルが作成されます。
 
-1. Replace the file contents with the following content. Note that this custom agent doesn't allow code changes.
+1. ファイルの内容を次の内容に置き換えます。このカスタム エージェントはコード変更を許可しない点に注意してください。
 
     ```markdown
     ---
@@ -205,60 +207,62 @@ Custom agents create specialized AI personas for specific tasks. Let's create a 
 
 1. Save the file. In the Chat view, you can now select this custom agent from the agent picker.
 
-    ![Screenshot showing the Code Reviewer custom agent in the agent picker.](./images/getting-started/custom-mode-dropdown.png)
+1. ファイルを保存します。チャット ビューで、エージェント ピッカーからこのカスタム エージェントを選択できるようになります。
 
-1. Test your custom agent by selecting **Code Reviewer** from the agent picker and entering the following prompt:
+    ![エージェント ピッカーにCode Reviewerカスタム エージェントが表示されているスクリーンショット。](./images/getting-started/custom-mode-dropdown.png)
+
+1. エージェント ピッカーから**Code Reviewer**を選択し、次のプロンプトを入力してカスタム エージェントをテストします。
 
     ```prompt
-    Review my full project
+    プロジェクト全体をレビューしてください
     ```
 
-   Notice how the AI now behaves as a code reviewer, providing analysis and suggestions for improvements.
+    AIがコード レビュアーとして振る舞い、分析と改善提案を提供するようになったことを確認します。
 
-    ![Screenshot showing custom reviewer agent analyzing code.](./images/getting-started/custom-reviewer-mode.png)
+    ![カスタム レビュアー エージェントがコードを分析しているスクリーンショット。](./images/getting-started/custom-reviewer-mode.png)
 
-## Step 5: Use smart actions for pre-built AI assistance
+## 手順5: 事前構築されたAI支援のためにスマート アクションを使う
 
-Smart actions provide AI functionality directly integrated within VS Code's interface, seamlessly plugging into your development workflow. Unlike chat interactions, smart actions appear contextually where you need them most. Let's explore commit message generation as an example.
+スマート アクションは、VS Codeのインターフェイスに直接統合されたAI機能を提供し、開発ワークフローにシームレスに組み込まれます。チャットのやり取りとは異なり、スマート アクションは必要な場所に文脈に応じて表示されます。例としてコミット メッセージ生成を見てみましょう。
 
-1. Open the **Source Control** view by pressing `kb(workbench.view.scm)` or selecting the Source Control icon in the Activity Bar.
+1. `kb(workbench.view.scm)`を押すか、アクティビティ バーのソース管理アイコンを選択して、**Source Control**ビューを開きます。
 
-1. If you haven't yet initialized a Git repository for your project, do so by selecting **Initialize Repository** in the Source Control view.
+1. プロジェクト用のGitリポジトリをまだ初期化していない場合は、Source Controlビューで**Initialize Repository**を選択して初期化します。
 
-1. Stage your changes by selecting the **+** button next to the files you want to commit.
+1. コミットしたいファイルの横にある**+**ボタンを選択して変更をステージします。
 
-1. Select the **sparkle icon** to generate a commit message based on your staged changes.
+1. **きらめきアイコン**を選択して、ステージ済みの変更に基づくコミット メッセージを生成します。
 
-    The AI analyzes your staged changes and generates a descriptive commit message that follows conventional commit standards. The AI considers:
+    AIはステージ済みの変更を分析し、Conventional Commits標準に従った説明的なコミット メッセージを生成します。AIは次を考慮します。
 
-    * What files were changed
-    * The nature of the changes (added features, bug fixes, refactoring)
-    * The scope and impact of modifications
+    * どのファイルが変更されたか
+    * 変更の性質（機能追加、バグ修正、リファクタリング）
+    * 変更の範囲と影響
 
-    ![Screenshot showing generated commit message in Source Control view.](./images/getting-started/generated-commit-message.png)
+    ![Source Controlビューで生成されたコミット メッセージを示すスクリーンショット。](./images/getting-started/generated-commit-message.png)
 
-1. Review the generated message. If you're satisfied with it, proceed with your commit. If you want a different style or focus, select the sparkle icon again to generate an alternative message.
+1. 生成されたメッセージを確認します。満足できる場合はコミットを進めます。別のスタイルや焦点が必要な場合は、きらめきアイコンをもう一度選択して別のメッセージを生成します。
 
-Smart actions like commit message generation demonstrate how AI integrates naturally into your existing workflow without requiring you to context-switch to chat interfaces. VS Code has many other smart actions to help you with debugging, testing, and more.
+コミット メッセージ生成のようなスマート アクションは、チャット インターフェイスに切り替えることなく、AIが既存のワークフローに自然に統合されることを示します。VS Codeには、デバッグやテストなどを支援する他のスマート アクションも多数あります。
 
-## Next steps
+## 次のステップ
 
-Congratulations! You've built a complete task management application and learned how to work effectively with AI across VS Code's core capabilities.
+おめでとうございます。完全なタスク管理アプリケーションを構築し、VS Codeの中核機能全体でAIを効果的に活用する方法を学びました。
 
-You can further enhance your AI's capabilities by exploring other customization options:
+他のカスタマイズ オプションを探索することで、AIの機能をさらに強化できます。
 
-* Add more specialized agents for different tasks like planning, debugging, or documentation.
-* Create custom instructions for specific programming languages or frameworks.
-* Extend the AI's capabilities with extra tools from MCP (Model Context Protocol) servers or VS Code extensions.
+* 計画、デバッグ、ドキュメント作成などのタスク向けに、より特化したエージェントを追加する。
+* 特定のプログラミング言語やフレームワーク向けのカスタム指示を作成する。
+* MCP（Model Context Protocol）サーバーやVS Code拡張機能の追加ツールで、AIの機能を拡張する。
 
-## Related resources
+## 関連リソース
 
-* [Agents tutorial](/docs/copilot/agents/agents-tutorial.md): Hands-on tutorial for working with different agent types
+* [エージェントのチュートリアル](/docs/copilot/agents/agents-tutorial.md): さまざまなエージェント タイプを扱うためのハンズオン チュートリアル
 
-* [Cheat sheet for using AI features](/docs/copilot/reference/copilot-vscode-features.md) - Quick reference for all GitHub Copilot features in VS Code
+* [AI機能を使うためのチート シート](/docs/copilot/reference/copilot-vscode-features.md) - VS CodeにおけるGitHub Copilotの全機能のクイック リファレンス
 
-* [Chat documentation](/docs/copilot/chat/copilot-chat.md) - Deep dive into autonomous coding in VS Code
+* [チャットのドキュメント](/docs/copilot/chat/copilot-chat.md) - VS Codeでの自律コーディングを深掘り
 
-* [Customization guide](/docs/copilot/customization/overview.md) - Advanced personalization techniques
+* [カスタマイズ ガイド](/docs/copilot/customization/overview.md) - 高度なパーソナライズ手法
 
-* [MCP tools](/docs/copilot/customization/mcp-servers.md) - Extend agents with external APIs and services
+* [MCPツール](/docs/copilot/customization/mcp-servers.md) - 外部APIやサービスでエージェントを拡張

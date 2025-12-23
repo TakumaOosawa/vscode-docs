@@ -1,91 +1,91 @@
 ---
 ContentId: 101027aa-e73c-4d1b-a93f-b8ce10e1f946
 DateApproved: 12/10/2025
-MetaDescription: Learn how to use GitHub Copilot in Visual Studio Code to edit Jupyter notebooks with AI.
+MetaDescription: Visual Studio CodeでGitHub Copilotを使用して、AIでJupyterノートブックを編集する方法について説明します。
 MetaSocialImage: ../images/shared/github-copilot-social.png
 ---
-# Edit Jupyter notebooks with AI in VS Code
+# VS CodeでAIを使ってJupyterノートブックを編集する
 
-Visual Studio Code supports working with [Jupyter notebooks](/docs/datascience/jupyter-notebooks.md) natively, and through [Python code files](/docs/python/jupyter-support-py.md). The AI features in VS Code can help you in creating and editing notebooks, as well as analyzing and visualizing data. In this article, you learn how to use the AI features in VS Code to work with Jupyter notebooks.
+Visual Studio Codeは、[Jupyterノートブック](/docs/datascience/jupyter-notebooks.md)をネイティブにサポートしており、[Pythonコードファイル](/docs/python/jupyter-support-py.md)を通じても利用できます。VS CodeのAI機能は、ノートブックの作成と編集に加えて、データの分析と視覚化にも役立ちます。この記事では、VS CodeのAI機能を使用してJupyterノートブックを操作する方法について説明します。
 
-## Scaffold a new notebook
+## 新しいノートブックをスキャフォールドする
 
-To accelerate getting started with a new notebook, you can use the AI features in VS Code to scaffold a new notebook. Use natural language to provide details about what functionality you want to add and which libraries you want to use.
+新しいノートブックをすばやく始めるために、VS CodeのAI機能を使用して新しいノートブックをスキャフォールドできます。自然言語で、追加したい機能や使用したいライブラリの詳細を伝えます。
 
-To create a new notebook with AI, choose either of these options:
+AIで新しいノートブックを作成するには、次のいずれかのオプションを選択します。
 
-* Type the `/newNotebook` slash command in the chat input box, followed by the details of the notebook to create.
+* チャットの入力ボックスに`/newNotebook`スラッシュコマンドを入力し、作成するノートブックの詳細を続けて入力します。
 
-* Choose [Agent](vscode://GitHub.Copilot-Chat/chat?mode=agent) and type a natural language prompt asking to create a new notebook.
+* [Agent](vscode://GitHub.Copilot-Chat/chat?mode=agent)を選択し、新しいノートブックを作成するように自然言語のプロンプトを入力します。
 
-See the [Prompt examples](/docs/copilot/chat/prompt-examples.md#working-with-jupyter-notebooks) article for effective notebook prompts.
+効果的なノートブック用プロンプトについては、[プロンプトの例](/docs/copilot/chat/prompt-examples.md#working-with-jupyter-notebooks)の記事を参照してください。
 
-The following screenshot shows how the output from the agent to the prompt *Create a Jupyter notebook to read data from #housing.csv* (you can get this dataset from [Kaggle](https://www.kaggle.com/search?q=housing+dataset+in%3Adatasets)):
+次のスクリーンショットは、Agentに対して*#housing.csvからデータを読み取るJupyterノートブックを作成してください*というプロンプトを入力したときの出力を示しています(このデータセットは[Kaggle](https://www.kaggle.com/search?q=housing+dataset+in%3Adatasets)から入手できます)。
 
-![Screenshot that shows a new notebook created by the agent that reads the 'housing.csv' file in the workspace.](../images/notebooks-with-ai/agent-mode-create-new-notebook.png)
+![ワークスペース内の'housing.csv'ファイルを読み取る新しいノートブックがAgentによって作成されたことを示すスクリーンショット。](../images/notebooks-with-ai/agent-mode-create-new-notebook.png)
 
-Notice that a new `.ipynb` file is created, which contains Markdown and code cells for reading the CSV file and displaying the first few rows of the data.
+新しい`.ipynb`ファイルが作成され、CSVファイルを読み取り、データの最初の数行を表示するためのMarkdownセルとコードセルが含まれていることがわかります。
 
-You can now further edit the notebook manually, or use AI to make inline edits or send follow-up chat requests to modify the notebook.
+これで、ノートブックを手動でさらに編集することも、AIを使用してインライン編集を行ったり、フォローアップのチャットリクエストを送ってノートブックを変更したりすることもできます。
 
-## Make inline edits in notebook cells
+## ノートブックのセルでインライン編集を行う
 
-If you already have a notebook and want to make some inline changes in a cell, you can use inline chat, like you would in a code file.
+すでにノートブックがあり、セル内でインラインの変更を加えたい場合は、コードファイルの場合と同様にインラインチャットを使用できます。
 
-To make inline edits in a cell, press `kb(notebook.cell.chat.start)`. This opens the inline chat view, where you can enter your prompt.
+セルでインライン編集を行うには、`kb(notebook.cell.chat.start)`を押します。これによりインラインチャットビューが開き、プロンプトを入力できます。
 
 > [!TIP]
-> You can reference kernel variables in your chat prompt. Type `#` followed by the variable name to reference it. For example, if you have a variable named `df`, you can type `#df` in your chat prompt to reference it.
+> チャットプロンプト内でカーネル変数を参照できます。`#`に続けて変数名を入力して参照します。たとえば、`df`という名前の変数がある場合は、チャットプロンプトに`#df`と入力して参照できます。
 
-![Screenshot that shows the inline chat view in a notebook cell.](../images/notebooks-with-ai/notebook-inline-chat.png)
+![ノートブックのセル内にあるインラインチャットビューを示すスクリーンショット。](../images/notebooks-with-ai/notebook-inline-chat.png)
 
-When the response is generated, notice that the code is updated in the notebook cell. You can **Accept** the changes and decide to **Accept and Run** the cell changes.
+応答が生成されると、ノートブックのセル内のコードが更新されていることがわかります。変更を**承諾**し、セルの変更を**承諾して実行**するかどうかを選べます。
 
-To generate a new cell with AI, select the **Generate** button in the notebook view, or don't focus on a cell and press `kb(notebook.cell.chat.start)` to open the inline chat view for a new cell.
+AIで新しいセルを生成するには、ノートブックビューで**Generate**ボタンを選択するか、セルにフォーカスしない状態で`kb(notebook.cell.chat.start)`を押して、新しいセル用のインラインチャットビューを開きます。
 
-## Make edits across multiple cells
+## 複数のセルにまたがる編集を行う
 
-To make larger edits, across multiple cells, you can switch to use [agents](vscode://GitHub.Copilot-Chat/chat?mode=agent) in the Chat view. Provide a prompt to request changes to the notebook and the agent will iterate through the tasks to implement the changes.
+複数のセルにまたがる大きな編集を行うには、チャットビューで[agents](vscode://GitHub.Copilot-Chat/chat?mode=agent)を使用するように切り替えます。ノートブックへの変更を依頼するプロンプトを入力すると、Agentがタスクを反復して変更を実装します。
 
-![Screenshot that shows the response from chat to the prompt 'Plot a graph of the price distribution'.](../images/notebooks-with-ai/notebook-agent-mode-plot-prices.png)
+![チャットで'価格分布のグラフをプロットする'というプロンプトに対する応答を示すスクリーンショット。](../images/notebooks-with-ai/notebook-agent-mode-plot-prices.png)
 
-Notice that you can use the overlay controls to navigate between the different edit suggestions, and to keep or undo the changes.
+オーバーレイコントロールを使用して、さまざまな編集提案の間を移動したり、変更を保持または元に戻したりできることがわかります。
 
-## Ask questions about notebook content
+## ノートブックの内容について質問する
 
-You can use the chat interface to ask questions about the content of your notebook. This is useful for getting explanations of code, data, or visualizations. You can add extra context to your chat request, such as the cell output, graphs, or errors.
+チャットインターフェイスを使用して、ノートブックの内容について質問できます。これは、コード、データ、または視覚化についての説明を得るのに役立ちます。セルの出力、グラフ、またはエラーなどの追加のコンテキストをチャットリクエストに加えることができます。
 
-The following example shows how to ask questions about a visualization in a notebook.
+次の例では、ノートブック内の視覚化について質問する方法を示します。
 
-1. Select `...` next to the graph, and select **Add Cell Output to Chat** to add the chart as context to your chat request.
+1. グラフの横にある`...`を選択し、**Add Cell Output to Chat**を選択して、チャットリクエストのコンテキストとしてチャートを追加します。
 
-    ![Screenshot that shows the context menu for a graph in a notebook cell.](../images/notebooks-with-ai/notebook-ask-mode-add-cell-output.png)
+    ![ノートブックのセル内のグラフのコンテキストメニューを示すスクリーンショット。](../images/notebooks-with-ai/notebook-ask-mode-add-cell-output.png)
 
-1. Enter the prompt *Explain this chart* in the chat input field.
+1. チャット入力フィールドに*このチャートを説明してください*というプロンプトを入力します。
 
-    Notice that you get a detailed explanation of the chart.
+    チャートの詳細な説明が得られることがわかります。
 
-    ![Screenshot that shows the response from chat to the prompt 'Explain this chart'.](../images/notebooks-with-ai/notebook-ask-mode-explain-chart.png)
+    !['このチャートを説明してください'というプロンプトに対するチャットの応答を示すスクリーンショット。](../images/notebooks-with-ai/notebook-ask-mode-explain-chart.png)
 
-## Perform data analysis and visualization
+## データ分析と視覚化を実行する
 
-You can do a full data analysis and visualization notebook of a dataset by using agents in chat. The agent analyzes the dataset, and then scaffolds a new notebook, implements the code for performing the data analysis, and runs the cells to process and visualize the data. As needed, the agent invokes relevant tools and terminal commands to complete its tasks.
+チャットでagentsを使用すると、データセットの完全なデータ分析および視覚化ノートブックを作成できます。Agentはデータセットを分析し、その後、新しいノートブックをスキャフォールドし、データ分析を実行するためのコードを実装し、セルを実行してデータを処理および視覚化します。必要に応じて、Agentは関連するツールやターミナルコマンドを呼び出してタスクを完了します。
 
-For example, to perform a data analysis of the housing dataset:
+たとえば、housingデータセットのデータ分析を実行するには、次のようにします。
 
-1. Select [Agent](vscode://GitHub.Copilot-Chat/chat?mode=agent) from the agent picker in the Chat view.
+1. チャットビューのエージェントピッカーから[Agent](vscode://GitHub.Copilot-Chat/chat?mode=agent)を選択します。
 
-1. Enter the following prompt in the chat input field: *Perform data analysis of the data in #housing.csv*.
+1. チャット入力フィールドに次のプロンプトを入力します。*#housing.csv内のデータのデータ分析を実行してください*。
 
-    Notice that the agent iterates through the different tasks. When needed, approve the tool and command invocations.
+    Agentがさまざまなタスクを反復して進めることがわかります。必要に応じて、ツールとコマンドの呼び出しを承認します。
 1. The result is a new notebook with a complete data analysis of the dataset, including data cleaning, data visualization, and statistical analysis.
 
-    ![Screenshot that shows the response from chat to the prompt 'Perform data analysis of the data in housing.csv'.](../images/notebooks-with-ai/notebook-agent-mode-data-analysis.png)
+    ![チャットで'housing.csv内のデータのデータ分析を実行する'というプロンプトに対する応答を示すスクリーンショット。](../images/notebooks-with-ai/notebook-agent-mode-data-analysis.png)
 
-You can now further edit the notebook manually, or use AI to make inline edits or send follow-up chat requests to modify the notebook.
+これで、ノートブックを手動でさらに編集することも、AIを使用してインライン編集を行ったり、フォローアップのチャットリクエストを送ってノートブックを変更したりすることもできます。
 
-## Next steps
+## 次のステップ
 
-* [Learn more about Jupyter notebooks in VS Code](/docs/datascience/jupyter-notebooks.md)
-* [Learn more about the AI features in VS Code](/docs/copilot/overview.md)
-* [Learn more about chat in VS Code](/docs/copilot/chat/copilot-chat.md)
+* [VS CodeでのJupyterノートブックについて詳しく学ぶ](/docs/datascience/jupyter-notebooks.md)
+* [VS CodeのAI機能について詳しく学ぶ](/docs/copilot/overview.md)
+* [VS Codeのチャットについて詳しく学ぶ](/docs/copilot/chat/copilot-chat.md)

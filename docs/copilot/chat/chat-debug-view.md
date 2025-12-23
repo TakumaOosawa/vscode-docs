@@ -6,33 +6,35 @@ MetaSocialImage: ../images/shared/github-copilot-social.png
 ---
 # Chat Debug view
 
-The Chat Debug view is a dedicated view in Visual Studio Code where you can see the details of AI requests and responses. This view helps you understand what information is being sent to the language model and how it responds.
+MetaDescription: Visual Studio CodeでChat Debug viewを使用して、AIリクエスト、応答、システムプロンプト、ツールの呼び出しを確認する方法を説明します。
 
-This article explains how to open and use the Chat Debug view to inspect AI interactions.
+Chat Debug viewは、Visual Studio Codeの専用ビューで、AIリクエストと応答の詳細を確認できます。このビューは、言語モデルにどのような情報が送信され、どのように応答するのかを理解するのに役立ちます。
 
-The Chat Debug view shows the following information for each interaction:
+この記事では、Chat Debug viewを開いて使用し、AIのやり取りを確認する方法を説明します。
 
-* The system prompt that sets up the AI's behavior
-* The user prompt that you submitted
-* The context that is sent to the language model
-* The detailed response from the language model
-* Responses from tools that are invoked as part of the chat request
+Chat Debug viewでは、各やり取りについて次の情報が表示されます。
+
+* AIの動作を設定するシステムプロンプト
+* 送信したユーザープロンプト
+* 言語モデルに送信されるコンテキスト
+* 言語モデルからの詳細な応答
+* チャットリクエストの一部として呼び出されるツールからの応答
 
 ## Open the Chat Debug view
 
-To open the Chat Debug view:
+Chat Debug viewを開くには、次の手順に従います。
 
-* Select the overflow menu in the Chat and select **Show Chat Debug View**.
+* Chatのオーバーフローメニューを選択し、**Show Chat Debug View**を選択します。
 
-* Run the **Developer: Show Chat Debug View** command from the Command Palette.
+* コマンドパレットから、**Developer: Show Chat Debug View**コマンドを実行します。
 
-The Chat Debug view opens and shows details for each chat request you make.
+Chat Debug viewが開き、実行した各チャットリクエストの詳細が表示されます。
 
 ![Screenshot of the Chat Debug view, showing the details of a chat request and response.](../images/chat-debug-view/chat-debug-view.png)
 
-You can expand each section to see the full details. This is particularly useful when [using agents](/docs/copilot/chat/copilot-chat.md#switch-between-agents) where multiple tools might be invoked as part of a single request.
+各セクションを展開して、すべての詳細を確認できます。これは、単一のリクエストの一部として複数のツールが呼び出される可能性がある[エージェントを使用する場合](/docs/copilot/chat/copilot-chat.md#switch-between-agents)に特に便利です。
 
 ## Related resources
 
-* [Troubleshoot AI in VS Code](/docs/copilot/faq.md#troubleshooting-and-feedback)
-* [Security considerations for using AI in VS Code](/docs/copilot/security.md)
+* [VS CodeでAIをトラブルシューティングする](/docs/copilot/faq.md#troubleshooting-and-feedback)
+* [VS CodeでAIを使用する際のセキュリティに関する考慮事項](/docs/copilot/security.md)

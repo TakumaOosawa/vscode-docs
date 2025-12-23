@@ -1,32 +1,32 @@
 ---
 ContentId: 557a7e74-f77e-488d-90ea-fd2cfecfffda
 DateApproved: 12/10/2025
-MetaDescription: Get started with GitHub Copilot chat in VS Code. Learn how to access chat and start using natural language to code, understand your codebase, and solve problems.
+MetaDescription: VS CodeでGitHub Copilot chatを使い始めましょう。chatへのアクセス方法や、自然言語でコーディングを始めてコードベースを理解し、問題を解決する方法を学びます。
 MetaSocialImage: ../images/shared/github-copilot-social.png
 ---
-# Get started with chat in VS Code
+# VS Codeでchatを使い始める
 
-Chat in Visual Studio Code enables you to use natural language for AI-powered coding assistance. Ask questions about your code, get help understanding complex logic, generate new features, fix bugs, and more - all through a conversational interface.
+Visual Studio CodeのChatを使うと、自然言語でAIによるコーディング支援を受けられます。コードについて質問したり、複雑なロジックの理解を助けてもらったり、新機能を生成したり、バグを修正したりできます。これらはすべて会話形式のインターフェイスで行えます。
 
-In this article, you learn how to access the different chat experiences in VS Code, submit your first prompt, write effective prompts to get better results, and customize chat for your workflow.
+この記事では、VS Codeで利用できるさまざまなchat体験へのアクセス方法、最初のプロンプトの送信、より良い結果を得るための効果的なプロンプトの書き方、ワークフローに合わせたchatのカスタマイズ方法を学びます。
 
-## Access chat in VS Code
+## VS Codeでchatにアクセスする
 
-VS Code provides three ways to start an AI chat conversation, each optimized for different workflows and tasks. To access each chat experience, use the Chat menu in the VS Code title bar or the corresponding keyboard shortcuts.
+VS CodeにはAIチャット会話を開始する3つの方法があり、それぞれ異なるワークフローやタスクに最適化されています。各chat体験にアクセスするには、VS CodeのタイトルバーにあるChatメニュー、または対応するキーボードショートカットを使用します。
 
 ![Screenshot of the Copilot Chat menu in the VS Code Command Center](images/copilot-chat/copilot-chat-menu-command-center.png)
 
 <details>
-<summary>Chat view</summary>
+<summary>Chatビュー</summary>
 
-Press `kb(workbench.action.chat.open)` to open the Chat view in a dedicated side panel. If you prefer a larger workspace for chat, you can open it as an editor tab by selecting **New Chat Editor** from the chat menu or as a separate window by selecting **New Chat Window**.
+`kb(workbench.action.chat.open)`を押すと、専用のサイドパネルでChatビューを開きます。chat用により広い作業領域が必要な場合は、chatメニューから**New Chat Editor**を選択してエディタタブとして開くか、**New Chat Window**を選択して別ウィンドウとして開くこともできます。
 
-**Use the Chat view for:**
+**Chatビューの用途:**
 
-* Ongoing, multi-turn chat conversations
-* Switching between different [agents](#switch-between-agents) to ask questions, make code edits across files, or start autonomous coding workflows
-* Working on features that span multiple files
-* Planning and implementing complex changes
+* 継続的なマルチターンのチャット会話
+* 複数の[agents](#switch-between-agents)を切り替えて、質問したり、複数ファイルにまたがるコード編集を行ったり、自律的なコーディングワークフローを開始したりする
+* 複数ファイルにまたがる機能に取り組む
+* 複雑な変更の計画と実装
 
 ![Screenshot of the Chat view](images/copilot-chat/chat-view.png)
 
@@ -35,13 +35,13 @@ Press `kb(workbench.action.chat.open)` to open the Chat view in a dedicated side
 <details>
 <summary>Inline chat</summary>
 
-Press `kb(inlineChat.start)` to start a chat conversation directly in your editor or terminal.
+`kb(inlineChat.start)`を押すと、エディタまたはターミナル上で直接チャット会話を開始できます。
 
-**Use inline chat for:**
+**Inline chatの用途:**
 
-* Getting suggestions inline, right where you're working
-* Understanding code in your current context
-* Getting help with terminal commands and output
+* 作業中の場所でそのまま提案を受け取る
+* 現在のコンテキストでコードを理解する
+* ターミナルコマンドや出力について支援を受ける
 
 ![Screenshot of Inline chat](images/copilot-chat/inline-chat.png)
 
@@ -50,256 +50,287 @@ Press `kb(inlineChat.start)` to start a chat conversation directly in your edito
 <details>
 <summary>Quick chat</summary>
 
-Press `kb(workbench.action.quickchat.toggle)` to open a lightweight chat overlay.
+`kb(workbench.action.quickchat.toggle)`を押すと、軽量なチャットオーバーレイを開きます。
 
-**Use quick chat for:**
+**Quick chatの用途:**
 
-* Quick questions that don't require extended conversation
-* Getting answers without changing your current view
-* Looking up information while maintaining focus on your work
+* 長い会話が不要な簡単な質問
+* 現在の表示を変えずに回答を得る
+* 作業への集中を保ちながら情報を調べる
 
 ![Screenshot of Quick Chat](images/copilot-chat/quick-chat.png)
 
 </details>
 
 > [!TIP]
-> You can start chat directly from the command line by using the `code chat` command. For more information, see the [VS Code Command Line documentation](/docs/configure/command-line.md#start-chat-from-the-command-line).
+> `code chat`コマンドを使うと、コマンドラインから直接chatを開始できます。詳細は、[VS Codeコマンドラインのドキュメント](/docs/configure/command-line.md#start-chat-from-the-command-line)を参照してください。
 
-## Submit your first chat prompt
+## 最初のchatプロンプトを送信する
 
-Let's start by creating a basic calculator app to see how chat works in VS Code:
+まずは基本的な電卓アプリを作成して、VS Codeでchatがどのように動作するかを確認しましょう。
 
 1. Open the Chat view by pressing `kb(workbench.action.chat.open)` or selecting **Chat** from the VS Code title bar.
+1. `kb(workbench.action.chat.open)`を押すか、VS Codeのタイトルバーから**Chat**を選択してChatビューを開きます。
 
 1. Select **Agent** from the agent picker.
+1. agent pickerから**Agent**を選択します。
 
-    When using an agent, chat autonomously determines what needs to be done and makes the necessary changes to your workspace.
+    agentを使用すると、chatが必要な作業を自律的に判断し、ワークスペースに必要な変更を加えます。
 
 1. Type the following prompt in the chat input field and press `kb(workbench.action.chat.submit)` to submit it:
+1. chat入力欄に次のプロンプトを入力し、`kb(workbench.action.chat.submit)`を押して送信します。
 
     ```prompt
-    Create a basic calculator app with HTML, CSS, and JavaScript
+    HTML、CSS、JavaScriptで基本的な電卓アプリを作成してください
     ```
 
-    The agent applies changes directly to your workspace and might also run terminal commands, for example, to install dependencies or run build scripts.
+    agentは変更をワークスペースに直接適用します。また、依存関係のインストールやビルドスクリプトの実行などのために、ターミナルコマンドを実行することもあります。
 
 1. In the editor, [review the suggested changes](/docs/copilot/chat/review-code-edits.md) and choose to keep or discard them.
+1. エディタで、[提案された変更を確認](/docs/copilot/chat/review-code-edits.md)し、保持するか破棄するかを選択します。
 
 1. Ask follow-up questions to enhance the app. For example, you might ask:
+1. 追加の質問をしてアプリを改善します。たとえば、次のように依頼できます。
 
     ```prompt
-    Add a dark mode toggle
+    ダークモードの切り替えを追加してください
     ```
 
     or
+    または
 
     ```prompt
-    Style it with a modern design
+    モダンなデザインでスタイルを整えてください
     ```
 
-    As you continue the conversation, VS Code uses the history of chat prompts and responses as context. This context enables you to have multi-turn conversations with chat to refine and improve the results.
+    会話を続けると、VS Codeはchatのプロンプトと応答の履歴をコンテキストとして使用します。このコンテキストにより、chatとマルチターンの会話を行い、結果を洗練させて改善できます。
 
 > [!TIP]
-> Use voice input to interact with chat in VS Code. Learn more about [using voice input with chat](/docs/configure/accessibility/voice.md).
+> 音声入力を使用して、VS Codeでchatと対話できます。詳しくは、[chatで音声入力を使用する](/docs/configure/accessibility/voice.md)を参照してください。
 
-## Explore different language models
+## さまざまな言語モデルを試す
 
-VS Code offers different language models to choose from, each optimized for different tasks. Some models are designed for fast coding tasks, while others excel at complex reasoning and planning.
+VS Codeでは、さまざまな言語モデルを選択でき、それぞれ異なるタスクに最適化されています。素早いコーディング作業向けのモデルもあれば、複雑な推論や計画に優れたモデルもあります。
 
-To change the language model, use the model picker in the chat input field and select the model that best fits your needs.
+言語モデルを変更するには、chat入力欄のmodel pickerを使用し、目的に最も合うモデルを選択します。
 
 ![Screenshot of the language model picker in the Chat view, showing a dropdown list of available models.](images/copilot-chat/chat-model-picker.png)
 
-You can also add models from other model providers and use them in chat. Get more details about how to [use models from other providers](/docs/copilot/customization/language-models.md).
+他のモデルプロバイダーのモデルを追加して、chatで使用することもできます。詳しくは、[他のプロバイダーのモデルを使用する](/docs/copilot/customization/language-models.md)を参照してください。
 
 > [!NOTE]
-> The list of available models might vary based on your Copilot subscription and might change over time. See the GitHub Copilot documentation for more information about the [available language models](https://docs.github.com/en/copilot/using-github-copilot/ai-models/changing-the-ai-model-for-copilot-chat?tool=vscode).
+> 利用できるモデルの一覧は、Copilotのサブスクリプションによって異なる場合があり、時間とともに変化する可能性があります。詳細は、GitHub Copilotのドキュメントの[利用可能な言語モデル](https://docs.github.com/en/copilot/using-github-copilot/ai-models/changing-the-ai-model-for-copilot-chat?tool=vscode)を参照してください。
 
-## Switch between agents
+## agentsを切り替える
 
-Agents let chat assume a different role or persona optimized for specific tasks. You can switch between agents at any time during a chat session.
+Agentsを使うと、chatが特定のタスクに最適化された別の役割やペルソナを担えます。chatセッション中はいつでもagentsを切り替えられます。
 
 1. Open the Chat view (`kb(workbench.action.chat.open)`).
+1. Chatビューを開きます（`kb(workbench.action.chat.open)`）。
 
 1. Select the desired agent from the agent picker.
+1. agent pickerから目的のagentを選択します。
 
     ![Screenshot showing the Chat view with the agent picker expanded, displaying different agent options.](../images/customization/chat-mode-dropdown.png)
 
-### Built-in agents
+### 組み込みagents
 
-VS Code provides four built-in agents: **Agent**, **Plan**, **Ask**, and **Edit**. For more specialized workflows, you can also create your own [custom agents](/docs/copilot/customization/custom-agents.md).
+VS Codeには、4つの組み込みagents（**Agent**、**Plan**、**Ask**、**Edit**）が用意されています。より特化したワークフローのために、独自の[custom agents](/docs/copilot/customization/custom-agents.md)を作成することもできます。
 
 <details>
 <summary>Agent</summary>
 
-Agent is optimized for complex coding tasks based on high-level requirements that might require running terminal commands and tools. The AI operates autonomously, determining the relevant context and files to edit, planning the work needed, and iterating to resolve issues as they arise.
+Agentは、ターミナルコマンドやツールの実行が必要になる可能性のある、高レベル要件に基づく複雑なコーディングタスクに最適化されています。AIは自律的に動作し、関連するコンテキストと編集対象ファイルを判断し、必要な作業を計画し、問題が発生したら反復して解決します。
 
-VS Code directly applies code changes in the editor and the editor overlay controls enable you to navigate between the suggested edits and review them. The agent might invoke multiple [tools](/docs/copilot/chat/chat-tools.md) to accomplish different tasks.
+VS Codeはエディタ内でコード変更を直接適用し、エディタのオーバーレイコントロールで提案された編集間を移動して確認できます。agentは、さまざまなタスクを実行するために複数の[tools](/docs/copilot/chat/chat-tools.md)を呼び出すことがあります。
 
-You can [customize chat with extra tools](/docs/copilot/chat/chat-tools.md) by adding MCP servers or installing extensions that contribute tools.
+MCPサーバーを追加するか、toolsを提供する拡張機能をインストールすることで、[追加のtoolsでchatをカスタマイズ](/docs/copilot/chat/chat-tools.md)できます。
 
 Open chat with Agent: [Stable](vscode://GitHub.Copilot-Chat/chat?mode=agent) | [Insiders](vscode-insiders://GitHub.Copilot-Chat/chat?mode=agent)
 
-### Get started with agents
+### agentsを使い始める
 
 > [!TIP]
-> For a hands-on tutorial that demonstrates working with different agent types including background and cloud agents, see the [agents tutorial](/docs/copilot/agents/agents-tutorial.md).
+> background agentやcloud agentなど、さまざまなagentタイプの使い方を実演するハンズオンチュートリアルについては、[agentsチュートリアル](/docs/copilot/agents/agents-tutorial.md)を参照してください。
 
 To start a local agent session:
 
 1. Select **Agent** from the agent picker in the Chat view.
+1. Chatビューのagent pickerから**Agent**を選択します。
 
 1. Type a high-level prompt in the chat input field. For example, you might ask:
+1. chat入力欄に高レベルのプロンプトを入力します。たとえば、次のように依頼できます。
 
     ```prompt
     Implement a user authentication system with OAuth2 and JWT.
     ```
 
     or
+    または
 
     ```prompt
     Set up a CI/CD pipeline for this project.
     ```
 
 1. Use the tools picker to [enable tools](/docs/copilot/chat/chat-tools.md) and give the agent more capabilities.
+1. tools pickerを使用して[toolsを有効化](/docs/copilot/chat/chat-tools.md)し、agentにより多くの機能を付与します。
 
 1. Select **Send** or press `kb(workbench.action.chat.submit)` to submit your prompt.
+1. **Send**を選択するか`kb(workbench.action.chat.submit)`を押してプロンプトを送信します。
 
 1. Review and confirm code changes and tool invocations as the agent works through your request.
+1. agentがリクエストを進める間、コード変更とツール呼び出しを確認して承認します。
 
     > [!TIP]
-    > VS Code helps you protect against inadvertent edits to sensitive files, such as workspace configuration settings or environment settings. Learn more about [editing sensitive files](/docs/copilot/chat/review-code-edits.md#edit-sensitive-files).
+    > VS Codeは、ワークスペース構成設定や環境設定などの機密性の高いファイルへの意図しない編集から保護するのに役立ちます。詳しくは、[機密性の高いファイルを編集する](/docs/copilot/chat/review-code-edits.md#edit-sensitive-files)を参照してください。
 
 </details>
 
 <details>
 <summary>Plan</summary>
 
-The plan agent is optimized for creating a structured implementation plan for a coding task. Use the plan agent when you want to break down a complex feature or change into smaller, manageable steps before implementation.
+plan agentは、コーディングタスクに対する構造化された実装計画の作成に最適化されています。複雑な機能や変更を実装前に小さく管理しやすい手順へ分解したい場合は、plan agentを使用します。
 
-The plan agent generates a detailed plan outlining the steps needed and ask clarifying questions to ensure a comprehensive understanding of the task. You can then handoff the plan to an implementation agent or use it as a guide.
+plan agentは、必要な手順を示す詳細な計画を生成し、タスクを包括的に理解するために確認の質問をします。その後、計画をimplementation agentに引き継ぐか、ガイドとして使用できます。
 
 Open chat with Plan: [Stable](vscode://GitHub.Copilot-Chat/chat?mode=plan) | [Insiders](vscode-insiders://GitHub.Copilot-Chat/chat?mode=plan)
 
-### Get started with the plan agent
+### plan agentを使い始める
 
 1. Type a high-level prompt in the chat input field. For example, you might ask:
+1. chat入力欄に高レベルのプロンプトを入力します。たとえば、次のように依頼できます。
 
     ```prompt
     Update the application to support multi-language localization.
     ```
 
     or
+    または
 
     ```prompt
     Add a search feature to the application.
     ```
 
 1. Select **Plan** from the agent picker in the Chat view.
+1. Chatビューのagent pickerから**Plan**を選択します。
 
 1. Select **Send** or press `kb(workbench.action.chat.submit)` to submit your prompt.
+1. **Send**を選択するか`kb(workbench.action.chat.submit)`を押してプロンプトを送信します。
 
 1. Answer any clarifying questions or refine the plan as needed.
+1. 確認の質問に回答するか、必要に応じて計画を洗練します。
 
 1. Select **Start Implementation** to hand off the plan to an implementation agent.
+1. **Start Implementation**を選択して、計画をimplementation agentに引き継ぎます。
 
 </details>
 
 <details>
 <summary>Ask</summary>
 
-Ask is optimized for answering questions about your codebase, coding, and general technology concepts. Use Ask when you want to understand how something works, explore ideas, or get help with coding tasks. For larger changes across multiple files or more complex coding tasks, consider using agents.
+Askは、コードベース、コーディング、一般的な技術概念に関する質問への回答に最適化されています。仕組みを理解したい、アイデアを検討したい、コーディングタスクの助けが欲しい場合はAskを使用します。複数ファイルにまたがる大きな変更や、より複雑なコーディングタスクには、agentsの使用を検討してください。
 
-Responses can contain code blocks that you apply individually to your codebase. This works well for smaller edits within a single file. To apply a code block to your codebase, hover over the code block and select the **Apply in Editor** button.
+応答には、個別にコードベースへ適用できるコードブロックが含まれる場合があります。これは単一ファイル内の小さな編集に適しています。コードブロックをコードベースに適用するには、コードブロックにカーソルを合わせて**Apply in Editor**ボタンを選択します。
 
 Open chat with Ask: [Stable](vscode://GitHub.Copilot-Chat/chat?mode=ask) | [Insiders](vscode-insiders://GitHub.Copilot-Chat/chat?mode=ask)
 
-### Get started with Ask
+### Askを使い始める
 
 1. Type your prompt in the chat input field. For example, you might ask:
+1. chat入力欄にプロンプトを入力します。たとえば、次のように依頼できます。
 
     ```prompt
     Provide 3 ways to implement a search feature in React.
     ```
 
     or
+    または
 
     ```prompt
     Where is the db connection configured in this project? #codebase
     ```
 
 1. Select **Ask** from the agent picker in the Chat view.
+1. Chatビューのagent pickerから**Ask**を選択します。
 
 1. Optionally, [add context to your prompt](/docs/copilot/chat/copilot-chat-context.md) to get more accurate responses.
+1. 必要に応じて、[プロンプトにコンテキストを追加](/docs/copilot/chat/copilot-chat-context.md)して、より正確な応答を得ます。
 
 1. Select **Send** or press `kb(workbench.action.chat.submit)` to submit your prompt.
+1. **Send**を選択するか`kb(workbench.action.chat.submit)`を押してプロンプトを送信します。
 
 </details>
 
 <details>
 <summary>Edit</summary>
 
-Edit is optimized for making code edits across multiple files in your project. Edit is useful for coding tasks when you have a good understanding of the changes that you want to make and which files you want to edit.
+Editは、プロジェクト内の複数ファイルにまたがるコード編集に最適化されています。Editは、行いたい変更内容と編集したいファイルが明確な場合のコーディングタスクに便利です。
 
-VS Code directly applies the code changes in the editor, where you can review them. Use the editor overlay controls to navigate between edits with the `kbstyle(Up)` and `kbstyle(Down)` controls and either keep or undo changes.
+VS Codeはエディタ内でコード変更を直接適用し、そこで確認できます。エディタのオーバーレイコントロールで`kbstyle(Up)`と`kbstyle(Down)`を使用して編集間を移動し、変更を保持または取り消します。
 
 Open chat with Edit: [Stable](vscode://GitHub.Copilot-Chat/chat?mode=edit) | [Insiders](vscode-insiders://GitHub.Copilot-Chat/chat?mode=edit)
 
-### Get started with Edit
+### Editを使い始める
 
 1. Type your request in the chat input field. For example, you might ask:
+1. chat入力欄に依頼内容を入力します。たとえば、次のように依頼できます。
 
     ```prompt
     Refactor the authentication logic to use OAuth2.
     ```
 
     or
+    または
 
     ```prompt
     Add unit tests for the user service.
     ```
 
 1. Select **Edit** from the agent picker in the Chat view.
+1. Chatビューのagent pickerから**Edit**を選択します。
 
 1. [Add context to your prompt](/docs/copilot/chat/copilot-chat-context.md) to guide the AI to make edits in the right files.
+1. [プロンプトにコンテキストを追加](/docs/copilot/chat/copilot-chat-context.md)して、AIが適切なファイルに編集を行えるようにします。
 
 1. Select **Send** or press `kb(workbench.action.chat.submit)` to submit your prompt.
+1. **Send**を選択するか`kb(workbench.action.chat.submit)`を押してプロンプトを送信します。
 
 1. Review the code changes in the editor by using the overlay controls.
+1. オーバーレイコントロールを使用して、エディタでコード変更を確認します。
 
 </details>
 
-## Customize chat for your workflow
+## ワークフローに合わせてchatをカスタマイズする
 
-By adding context you can get more relevant responses from chat. To further tailor chat to your specific project guidelines and development practices, you can customize chat in VS Code in several ways.
+コンテキストを追加すると、chatからより関連性の高い応答を得られます。さらに、プロジェクト固有のガイドラインや開発プラクティスに合わせてchatを調整するために、VS Codeではいくつかの方法でchatをカスタマイズできます。
 
-* [**Custom instructions**](/docs/copilot/customization/custom-instructions.md): add persistent instructions that guide chat behavior across all conversations, such as coding standards, preferred frameworks, or architectural guidelines.
-* [**Prompt files**](/docs/copilot/customization/prompt-files.md): define reusable prompt templates that you can invoke with `/` commands to standardize common workflows across your team.
-* [**Custom agents**](/docs/copilot/customization/custom-agents.md): create specialized custom agents for different personas tailored to specific development roles and tasks like code reviews, planning, or documentation.
-* [**MCP servers**](/docs/copilot/customization/mcp-servers.md): extend chat with custom capabilities by integrating external tools and services through the Model Context Protocol.
+* [**Custom instructions**](/docs/copilot/customization/custom-instructions.md): コーディング規約、好みのフレームワーク、アーキテクチャガイドラインなど、すべての会話にわたってchatの振る舞いを導く永続的な指示を追加します。
+* [**Prompt files**](/docs/copilot/customization/prompt-files.md): `/`コマンドで呼び出せる再利用可能なプロンプトテンプレートを定義し、チーム全体で共通ワークフローを標準化します。
+* [**Custom agents**](/docs/copilot/customization/custom-agents.md): コードレビュー、計画、ドキュメント作成など、特定の開発ロールやタスクに合わせた別のペルソナ向けに特化したcustom agentsを作成します。
+* [**MCP servers**](/docs/copilot/customization/mcp-servers.md): Model Context Protocolを通じて外部ツールやサービスを統合し、カスタム機能でchatを拡張します。
 
-## Write effective prompts
+## 効果的なプロンプトを書く
 
-To get the best results from chat, keep these tips in mind when writing prompts:
+chatから最良の結果を得るために、プロンプトを書くときは次のヒントを意識してください。
 
-* **Add context with `#`-mentions**: reference specific files (`#file`), your codebase (`#codebase`), or terminal output (`#terminalSelection`). Type `#` in the chat input field to view all available context items. Learn more about [adding context to your prompts](/docs/copilot/chat/copilot-chat-context.md).
+* **`#`メンションでコンテキストを追加する**: 特定のファイル（`#file`）、コードベース（`#codebase`）、ターミナル出力（`#terminalSelection`）を参照します。chat入力欄で`#`を入力すると、利用可能なコンテキスト項目を確認できます。詳しくは、[プロンプトにコンテキストを追加する](/docs/copilot/chat/copilot-chat-context.md)を参照してください。
 
-* **Use `/` commands**: type `/` to access common commands like `/new`, or `/explain`, or create your own [custom prompts](/docs/copilot/customization/prompt-files.md).
+* **`/`コマンドを使用する**: `/`を入力して、`/new`や`/explain`などの一般的なコマンドにアクセスします。また、独自の[custom prompts](/docs/copilot/customization/prompt-files.md)を作成できます。
 
-* **Reference tools**: type `#` followed by a tool name to extend chat capabilities. For example, `#fetch` retrieves web content, and `#githubRepo` searches GitHub repositories. Learn more about [adding and using tools in chat](/docs/copilot/chat/chat-tools.md).
+* **toolsを参照する**: `#`に続けてtool名を入力すると、chatの機能を拡張できます。たとえば、`#fetch`はWebコンテンツを取得し、`#githubRepo`はGitHubリポジトリを検索します。詳しくは、[chatでtoolsを追加して使用する](/docs/copilot/chat/chat-tools.md)を参照してください。
 
-## Next steps
+## 次のステップ
 
-Now that you know the basics, explore more chat capabilities:
+基本を理解したら、さらにchatの機能を試してみましょう。
 
-* [Create multiple chat sessions](/docs/copilot/chat/chat-sessions.md)
-* [Get more relevant responses by adding context to your prompts](/docs/copilot/chat/copilot-chat-context.md)
-* [Expand the capabilities of chat with tools from MCP servers or extensions](/docs/copilot/chat/chat-tools.md)
+* [複数のchatセッションを作成する](/docs/copilot/chat/chat-sessions.md)
+* [プロンプトにコンテキストを追加して、より関連性の高い応答を得る](/docs/copilot/chat/copilot-chat-context.md)
+* [MCPサーバーや拡張機能が提供するtoolsでchatの機能を拡張する](/docs/copilot/chat/chat-tools.md)
 
-## Additional resources
+## 追加リソース
 
-* Get inspired by the [chat prompt examples](/docs/copilot/chat/prompt-examples.md) that cover common tasks like understanding your codebase, generating code, debugging, working with notebooks, and more.
+* コードベースの理解、コード生成、デバッグ、ノートブックでの作業など、一般的なタスクを扱う[chatプロンプトの例](/docs/copilot/chat/prompt-examples.md)を参考にしてください。
 
-* Read more about [GitHub Copilot](https://github.com/features/copilot) and how to use it in VS Code in the [GitHub Copilot documentation](https://docs.github.com/copilot/getting-started-with-github-copilot?tool=vscode).
+* [GitHub Copilot](https://github.com/features/copilot)の詳細と、VS Codeでの使い方については、[GitHub Copilotのドキュメント](https://docs.github.com/copilot/getting-started-with-github-copilot?tool=vscode)を参照してください。
 
-* Check out the [VS Code Copilot Series](https://www.youtube.com/playlist?list=PLj6YeMhvp2S5_hvBl2SE-7YCHYlLQ0bPt) on YouTube, where you can find more introductory content and programming-specific videos for using Copilot with [Python](https://www.youtube.com/watch?v=DSHfHT5qnGc), [C#](https://www.youtube.com/watch?v=VsUQlSyQn1E), [Java](https://www.youtube.com/watch?v=zhCB95cE0HY), [PowerShell](https://www.youtube.com/watch?v=EwtRzAFiXEM), [C++](https://www.youtube.com/watch?v=ZfT2CXY5-Dc), and more.
+* YouTubeの[VS Code Copilot Series](https://www.youtube.com/playlist?list=PLj6YeMhvp2S5_hvBl2SE-7YCHYlLQ0bPt)もご覧ください。Copilotを[Python](https://www.youtube.com/watch?v=DSHfHT5qnGc)、[C#](https://www.youtube.com/watch?v=VsUQlSyQn1E)、[Java](https://www.youtube.com/watch?v=zhCB95cE0HY)、[PowerShell](https://www.youtube.com/watch?v=EwtRzAFiXEM)、[C++](https://www.youtube.com/watch?v=ZfT2CXY5-Dc)などで使用するための、より入門的なコンテンツや言語別の動画を見つけられます。

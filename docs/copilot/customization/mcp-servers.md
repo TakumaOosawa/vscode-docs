@@ -1,6 +1,502 @@
 ---
 ContentId: 7c550054-4ade-4665-b368-215798c48673
 DateApproved: 12/10/2025
+MetaDescription: Visual Studio CodeでGitHub Copilotと一緒にModel Context Protocol(MCP)サーバーを構成して使用する方法を説明します。
+MetaSocialImage: ../images/shared/github-copilot-social.png
+---
+# VS CodeでMCPサーバーを使用する
+
+Model Context Protocol(MCP)は、AIモデルが統一されたインターフェイスを通じて外部ツールやサービスを使用できるようにするオープン標準です。VS Codeでは、MCPサーバーがファイル操作、データベース、外部APIとのやり取りなどのタスク向けの[ツール](/docs/copilot/chat/chat-tools.md)を提供します。
+
+MCPサーバーは、VS Codeでチャットをツールで拡張する3つの方法の1つです。ほかの方法として、組み込みツールと拡張機能が提供するツールがあります。[ツールの種類](/docs/copilot/chat/chat-tools.md#types-of-tools)を確認してください。
+
+この記事では、Visual Studio CodeでMCPサーバーを設定し、その機能を使用する方法を説明します。
+
+<details>
+<summary>MCPの仕組みは何ですか?</summary>
+
+MCPはクライアントサーバーアーキテクチャに従います。
+
+* **MCPクライアント**(VS Codeなど)がMCPサーバーに接続し、AIモデルの代わりにアクションを要求します。
+* **MCPサーバー**が、明確に定義されたインターフェイスを通じて特定の機能を公開する1つ以上のツールを提供します。
+* **Model Context Protocol**が、ツールの検出、呼び出し、応答処理を含む、クライアントとサーバー間の通信メッセージ形式を定義します。
+
+たとえば、ファイルシステムMCPサーバーは、ファイルやディレクトリの読み取り、書き込み、検索のツールを提供できます。GitHubのMCPサーバーは、リポジトリの一覧表示、プルリクエストの作成、Issueの管理のツールを提供します。MCPサーバーはローカルマシンで実行することも、リモートでホストすることもできます。VS Codeはどちらの構成もサポートします。
+
+このやり取りを標準化することで、MCPはAIモデルごととツールごとに個別の統合を作る必要をなくします。これにより、ワークスペースに新しいMCPサーバーを追加するだけで、AIアシスタントの機能を拡張できます。[Model Context Protocol仕様](https://modelcontextprotocol.io/)を確認してください。
+
+</details>
+
+<details>
+<summary>VS CodeでサポートされるMCP機能</summary>
+
+VS Codeは、次のMCP機能をサポートします。
+
+* [トランスポート](https://modelcontextprotocol.io/specification/2025-06-18/basic/transports):
+    * ローカルの標準入出力(`stdio`)
+    * ストリーミング可能なHTTP(`http`)
+    * Server-sent events(`sse`): 旧式サポートです。
+
+* [機能](https://modelcontextprotocol.io/specification/2025-06-18#features):
+    * ツール
+    * プロンプト
+    * リソース
+    * Elicitation
+    * サンプリング
+    * 認証
+    * サーバー指示
+    * [ルート](https://modelcontextprotocol.io/docs/concepts/roots)
+
+</details>
+
+> [!NOTE]
+> VS CodeのMCPサポートは、VS Code 1.102以降で一般提供(一般公開)されています。
+
+## 前提条件
+
+* 最新バージョンの[Visual Studio Code](/download)をインストールします。
+* [Copilot](/docs/copilot/setup.md)にアクセスできる必要があります。
+
+## MCPサーバーを追加する
+
+> [!CAUTION]
+> ローカルのMCPサーバーは、マシン上で任意のコードを実行できます。信頼できるソースのサーバーだけを追加し、開始する前に発行元とサーバー構成を確認してください。VS Codeは、MCPサーバーを初めて起動するときに、[MCPサーバーを信頼する](#mcp-server-trust)かどうかの確認を求めます。影響を理解するには、VS CodeでAIを使用するための[セキュリティドキュメント](/docs/copilot/security.md)を確認してください。
+
+### GitHub MCPサーバーレジストリからMCPサーバーを追加する
+
+VS Codeの拡張機能ビューから、[GitHub MCPサーバーレジストリ](https://github.com/mcp)からMCPサーバーを直接インストールできます。MCPサーバーは、[ユーザープロファイル](/docs/configure/profiles.md)または現在のワークスペースにインストールできます。
+
+拡張機能ビューからGitHub MCPサーバーレジストリにあるMCPサーバーをインストールするには、次の手順を行います。
+
+1. `setting(chat.mcp.gallery.enabled)`設定で、MCPサーバーギャラリーを有効にします。
+
+1. 拡張機能ビューを開きます(`kb(workbench.view.extensions)`)。
+
+1. 検索フィールドに`@mcp`と入力してMCPサーバーの一覧を表示するか、コマンドパレットから**MCP: Browse Servers**コマンドを実行します。
+
+    VS Codeは[GitHub MCPサーバーレジストリ](https://github.com/mcp)からMCPサーバーの一覧を取得します。
+
+1. MCPサーバーをインストールするには、次のいずれかを行います。
+
+    * ユーザープロファイルの場合: **Install**を選択します。
+
+    * ワークスペースの場合: MCPサーバーを右クリックして**Install in Workspace**を選択します。
+
+1. MCPサーバーの詳細を表示するには、一覧でMCPサーバーを選択します。
+
+### MCPサーバーを追加するほかの方法
+
+VS CodeでMCPサーバーを追加する方法はほかにもあります。
+
+<details>
+<summary>ワークスペースの`mcp.json`ファイルにMCPサーバーを追加する</summary>
+
+特定のプロジェクト向けにMCPサーバーを構成する場合は、`.vscode/mcp.json`ファイルでワークスペースにサーバー構成を追加できます。これにより、同じMCPサーバー構成をプロジェクトチームと共有できます。
+
+> [!IMPORTANT]
+> 入力変数または環境ファイルを使用して、APIキーなどの機密情報や資格情報をハードコーディングしないようにしてください。
+
+ワークスペースにMCPサーバーを追加するには、次の手順を行います。
+
+1. ワークスペースに`.vscode/mcp.json`ファイルを作成します。
+
+1. エディターの**Add Server**ボタンを選択して、新しいサーバーのテンプレートを追加します。VS CodeはMCPサーバー構成ファイル向けのIntelliSenseを提供します。
+
+    次の例では、GitHubのリモートMCPサーバーを構成する方法を示します。[VS CodeのMCP構成形式](#configuration-format)を確認してください。
+
+    ```json
+    {
+        "servers": {
+            "github-mcp": {
+                "type": "http",
+                "url": "https://api.githubcopilot.com/mcp"
+            }
+        }
+    }
+    ```
+
+1. 代わりに、コマンドパレットから**MCP: Add Server**コマンドを実行し、追加するMCPサーバーの種類を選択してサーバー情報を指定します。次に、**Workspace**を選択して、サーバーをワークスペースの`.vscode/mcp.json`ファイルに追加します。
+
+</details>
+
+<details>
+<summary>ユーザー構成にMCPサーバーを追加する</summary>
+
+すべてのワークスペース向けにMCPサーバーを構成するには、ユーザー[プロファイル](/docs/configure/profiles.md)にサーバー構成を追加できます。これにより、同じサーバー構成を複数プロジェクトで再利用できます。
+
+ユーザー構成にMCPサーバーを追加するには、次のいずれかを行います。
+
+* コマンドパレットから**MCP: Add Server**コマンドを実行し、サーバー情報を指定してから、**Global**を選択してサーバー構成をプロファイルに追加します。
+
+* 代わりに、**MCP: Open User Configuration**コマンドを実行します。これにより、ユーザープロファイル内の`mcp.json`ファイルが開きます。その後、手動でサーバー構成をファイルに追加できます。
+
+複数のVS Code[プロファイル](/docs/configure/profiles.md)を使用している場合は、アクティブなプロファイルに基づいてMCPサーバー構成を切り替えられます。たとえば、[Playwright MCPサーバー](https://github.com/microsoft/playwright-mcp)はWeb開発用プロファイルに構成し、Python開発用プロファイルには構成しないようにできます。
+
+MCPサーバーは、構成した場所で実行されます。[リモート](/docs/remote/remote-overview.md)に接続していて、リモートマシン上でサーバーを実行したい場合は、リモート設定(**MCP: Open Remote User Configuration**)またはワークスペース設定で定義する必要があります。ユーザー設定で定義したMCPサーバーは、常にローカルで実行されます。
+
+</details>
+
+<details>
+<summary>dev containerにMCPサーバーを追加する</summary>
+
+MCPサーバーは、`devcontainer.json`ファイルを通じてDev Containersで構成できます。これにより、コンテナー化された開発環境の一部としてMCPサーバー構成を含められます。
+
+Dev ContainerでMCPサーバーを構成するには、サーバー構成を`customizations.vscode.mcp`セクションに追加します。
+
+```json
+{
+    "image": "mcr.microsoft.com/devcontainers/typescript-node:latest",
+    "customizations": {
+        "vscode": {
+            "mcp": {
+                "servers": {
+                    "playwright": {
+                        "command": "npx",
+                        "args": ["-y", "@microsoft/mcp-server-playwright"]
+                    }
+                }
+            }
+        }
+    }
+}
+```
+
+Dev Containerが作成されると、VS CodeはMCPサーバー構成をリモートの`mcp.json`ファイルに自動で書き込み、コンテナー化された開発環境で使用できるようにします。
+
+</details>
+
+<details>
+<summary>MCPサーバーを自動的に検出する</summary>
+
+VS Codeは、Claude DesktopなどのほかのアプリケーションからMCPサーバー構成を自動的に検出して再利用できます。
+
+自動検出は`setting(chat.mcp.discovery.enabled)`設定で構成します。MCPサーバー構成を検出する対象として、1つ以上のツールを選択します。
+
+</details>
+
+<details>
+<summary>コマンドラインからMCPサーバーをインストールする</summary>
+
+VS Codeのコマンドラインインターフェイスを使って、ユーザープロファイルまたはワークスペースにMCPサーバーを追加することもできます。
+
+ユーザープロファイルにMCPサーバーを追加するには、VS Codeのコマンドラインオプション`--add-mcp`を使用し、`{\"name\":\"server-name\",\"command\":...}`の形式でJSONサーバー構成を指定します。
+
+```bash
+code --add-mcp "{\"name\":\"my-server\",\"command\": \"uvx\",\"args\": [\"mcp-server-fetch\"]}"
+```
+
+</details>
+
+## チャットでMCPツールを使用する
+
+MCPサーバーを追加すると、そのサーバーが提供するツールをチャットで使用できます。MCPツールはVS Codeのほかのツールと同様に動作します。エージェントの使用時に自動的に呼び出されるほか、プロンプトで明示的に参照することもできます。
+
+チャットでMCPツールを使用するには、次の手順を行います。
+
+1. **Chat**ビューを開きます(`kb(workbench.action.chat.open)`)。
+
+1. ツールピッカーを開き、エージェントに使用を許可するツールを選択します。MCPツールはMCPサーバーごとにグループ化されています。
+
+    > [!TIP]
+    > [カスタムプロンプト](/docs/copilot/customization/prompt-files.md)または[カスタムエージェント](/docs/copilot/customization/custom-agents.md)を作成する場合も、使用できるMCPツールを指定できます。
+
+1. エージェントを使用している場合、ツールはプロンプトに基づいて必要に応じて自動的に呼び出されます。
+
+    たとえば、GitHub MCPサーバーをインストールしてから、「List my GitHub issues」と依頼します。
+
+    ![エージェント使用時のMCPツール呼び出しを示すChatビューのスクリーンショット。](../images/mcp-servers/chat-agent-mode-tool-invocation.png)
+
+1. `#`の後にツール名を入力して、MCPツールを明示的に参照することもできます。
+
+1. 求められたら、ツール呼び出しを確認して承認します。
+
+    ![チャットで表示されるMCPツール確認ダイアログのスクリーンショット。](../images/mcp-servers/mcp-tool-confirmation.png)
+
+ツール承認の管理方法、ツールピッカーの使用方法、ツールセットの作成方法などは、[チャットでツールを使用する](/docs/copilot/chat/chat-tools.md)を確認してください。
+
+### キャッシュされたMCPツールをクリアする
+
+VS CodeがMCPサーバーを初めて起動するとき、サーバーの機能とツールを検出します。その後、[これらのツールをチャットで使用](#use-mcp-tools-in-chat)できます。VS Codeは、MCPサーバーのツール一覧をキャッシュします。キャッシュされたツールをクリアするには、コマンドパレットで**MCP: Reset Cached Tools**コマンドを使用します。
+
+## MCPリソースを使用する
+
+MCPサーバーは、チャットプロンプトのコンテキストとして使用できるリソースへの直接アクセスを提供できます。たとえば、ファイルシステムMCPサーバーはファイルやディレクトリへのアクセスを提供できます。また、データベースMCPサーバーはデータベーステーブルへのアクセスを提供できます。
+
+MCPサーバーからリソースをチャットプロンプトに追加するには、次の手順を行います。
+
+1. Chatビューで、**Add Context** > **MCP Resources**を選択します。
+
+1. 一覧からリソースの種類を選択し、必要に応じてリソース入力パラメーターを指定します。
+
+    ![GitHub MCPサーバーが提供するリソース種類を示すMCPリソースQuick Pickのスクリーンショット。](../images/mcp-servers/mcp-resources-quick-pick.png)
+
+MCPサーバーで使用できるリソースの一覧を表示するには、**MCP: Browse Resources**コマンドを使用します。または、**MCP: List Servers** > **Browse Resources**コマンドを使用して、特定のサーバーのリソースを表示します。
+
+MCPツールは、応答の一部としてリソースを返す場合があります。**Save**を選択するか、リソースをエクスプローラービューにドラッグアンドドロップして、これらのリソースを表示またはワークスペースに保存できます。
+
+## MCPプロンプトを使用する
+
+MCPサーバーは、よくあるタスク向けの事前構成済みプロンプトを提供できます。これらはスラッシュコマンドでチャットから呼び出せます。チャットでMCPプロンプトを呼び出すには、チャット入力欄に`/`を入力し、その後に`mcp.servername.promptname`形式でプロンプト名を入力します。
+
+MCPプロンプトは、追加の入力パラメーターを求める場合があります。
+
+![追加の入力パラメーターを求めるダイアログとMCPプロンプト呼び出しを示すChatビューのスクリーンショット。](../images/mcp-servers/mcp-prompt-invocation.png)
+
+## 関連ツールをツールセットにまとめる
+
+MCPサーバーを追加するほど、ツール一覧が長くなる可能性があります。関連するツールをツールセットにまとめることで、管理と参照を簡単にできます。
+
+[ツールセットの作成と使用](/docs/copilot/chat/chat-tools.md#group-tools-with-tool-sets)を確認してください。
+
+## インストール済みのMCPサーバーを管理する
+
+インストール済みのMCPサーバーに対して、サーバーの開始と停止、サーバーログの表示、サーバーのアンインストールなど、さまざまな操作を実行できます。
+
+MCPサーバーに対してこれらの操作を実行するには、次のいずれかの方法を使用します。
+
+* **MCP SERVERS - INSTALLED**セクションでサーバーを右クリックするか、歯車アイコンを選択します。
+
+    ![拡張機能ビューに表示されるMCPサーバーのスクリーンショット。](../images/mcp-servers/extensions-view-mcp-servers.png)
+
+* `mcp.json`構成ファイルを開き、エディター内(コードレンズ)でアクションにアクセスします。
+
+    ![サーバー管理用のレンズを含むMCPサーバー構成。](../images/mcp-servers/mcp-server-config-lenses.png)
+
+    MCPサーバー構成にアクセスするには、**MCP: Open User Configuration**または**MCP: Open Workspace Folder Configuration**コマンドを使用します。
+
+* コマンドパレットから**MCP: List Servers**コマンドを実行し、サーバーを選択します。
+
+    ![コマンドパレットでMCPサーバーのアクションを示すスクリーンショット。](../images/mcp-servers/mcp-list-servers-actions.png)
+
+### MCPサーバーを自動的に開始する
+
+MCPサーバーを追加したり構成を変更したりした場合、VS Codeはサーバーが提供するツールを検出するためにサーバーを(再)起動する必要があります。
+
+`setting(chat.mcp.autostart)`設定(実験的)を使用すると、構成の変更が検出されたときにVS CodeがMCPサーバーを自動的に再起動するように構成できます。
+
+代わりに、Chatビューから手動でMCPサーバーを再起動するか、[MCPサーバー一覧](#manage-installed-mcp-servers)から再起動アクションを選択します。
+
+![ChatビューのRefreshボタンを示すスクリーンショット。](../images/mcp-servers/chat-view-mcp-refresh.png)
+
+## MCPサーバーを見つける
+
+MCPはまだ比較的新しい標準であり、エコシステムは急速に進化しています。より多くの開発者がMCPを採用するにつれて、プロジェクトに統合できるサーバーやツールはさらに増えると予想されます。
+
+[GitHub MCPサーバーレジストリ](https://github.com/mcp)は、開始地点として最適です。VS Codeの拡張機能ビューからレジストリに直接アクセスできます。
+
+MCPの[公式サーバーリポジトリ](https://github.com/modelcontextprotocol/servers)には、MCPの汎用性を示す公式サーバーとコミュニティ提供のサーバーがあります。ファイルシステム操作、データベース操作、Webサービスなど、さまざまな機能のサーバーを探索できます。
+
+VS Code拡張機能は、MCPサーバーを提供し、拡張機能のインストールプロセスの一部として構成することもできます。MCPサーバーサポートを提供する拡張機能は、[Visual Studio Marketplace](https://marketplace.visualstudio.com/VSCode)で確認してください。
+
+## MCPサーバーの信頼
+
+MCPサーバーは、マシン上で任意のコードを実行できます。信頼できるソースのサーバーだけを追加し、開始する前に発行元とサーバー構成を確認してください。影響を理解するには、VS CodeでAIを使用するための[セキュリティドキュメント](/docs/copilot/security.md)を確認してください。
+
+ワークスペースにMCPサーバーを追加したり構成を変更したりした場合は、起動する前にサーバーとその機能を信頼することを確認する必要があります。VS Codeは、サーバーを初めて起動するときに、サーバーを信頼するかどうかを確認するダイアログを表示します。ダイアログ内のMCPサーバーへのリンクを選択すると、別ウィンドウでMCPサーバー構成を確認できます。
+
+![MCPサーバー信頼プロンプトのスクリーンショット。](../images/mcp-servers/mcp-server-trust-dialog.png)
+
+サーバーを信頼しない場合、サーバーは起動されず、チャット要求はサーバーが提供するツールを使用せずに続行されます。
+
+MCPサーバーの信頼をリセットするには、コマンドパレットから**MCP: Reset Trust**コマンドを実行します。
+
+> [!NOTE]
+> `mcp.json`ファイルからMCPサーバーを直接起動する場合は、サーバー構成を信頼するかどうかの確認は表示されません。
+
+## デバイス間でMCPサーバーを同期する
+
+[Settings Sync](/docs/configure/settings-sync.md)を有効にすると、MCPサーバー構成を含む設定と構成をデバイス間で同期できます。これにより、一貫した開発環境を維持し、すべてのデバイスで同じMCPサーバーにアクセスできます。
+
+Settings SyncでMCPサーバー同期を有効にするには、コマンドパレットから**Settings Sync: Configure**コマンドを実行し、同期する構成の一覧に**MCP Servers**が含まれていることを確認します。
+
+## 構成形式
+
+MCPサーバーはJSONファイル(`mcp.json`)で構成します。このファイルでは、サーバー定義と、機密データ向けの省略可能な入力変数という2つの主要セクションを定義します。
+
+MCPサーバーは、異なるトランスポート方法で接続できます。サーバーの通信方法に基づいて、適切な構成を選択してください。
+
+### 構成の構造
+
+構成ファイルには2つの主要セクションがあります。
+
+* **`"servers": {}`**: MCPサーバーとその構成の一覧を含みます。
+* **`"inputs": []`**: APIキーなどの機密情報向けの省略可能なプレースホルダーです。
+
+サーバー構成では[定義済み変数](/docs/reference/variables-reference.md)を使用できます。たとえば、ワークスペースフォルダーを参照するには(`${workspaceFolder}`)を使用します。
+
+### Standard I/O(stdio)サーバー
+
+この構成は、標準入出力ストリームを通じて通信するサーバーに使用します。これは、ローカルで実行するMCPサーバーで最も一般的な種類です。
+
+| Field | Required | Description | Examples |
+|-------|----------|-------------|----------|
+| `type` | Yes | サーバー接続の種類 | `"stdio"` |
+| `command` | Yes | サーバー実行ファイルを起動するコマンドです。システムのパス上にあるか、完全なパスを含む必要があります。 | `"npx"`, `"node"`, `"python"`, `"docker"` |
+| `args` | No | コマンドに渡す引数の配列 | `["server.py", "--port", "3000"]` |
+| `env` | No | サーバーの環境変数 | `{"API_KEY": "${input:api-key}"}` |
+| `envFile` | No | 追加の変数を読み込む環境ファイルへのパス | `"${workspaceFolder}/.env"` |
+
+> [!NOTE]
+> stdioサーバーでDockerを使用する場合は、デタッチオプション(`-d`)を使用しないでください。サーバーはVS Codeと通信するためにフォアグラウンドで実行する必要があります。
+
+<details>
+<summary>ローカルサーバー構成の例</summary>
+
+この例では、`npx`を使用する基本的なローカルMCPサーバーの最小構成を示します。
+
+```json
+{
+    "servers": {
+        "memory": {
+            "command": "npx",
+            "args": [
+            "-y",
+            "@modelcontextprotocol/server-memory"
+            ]
+        }
+    }
+}
+```
+
+</details>
+
+### HTTPとServer-Sent Events(SSE)サーバー
+
+この構成は、HTTPで通信するサーバーに使用します。VS Codeは最初にHTTP Streamトランスポートを試し、HTTPがサポートされていない場合はSSEにフォールバックします。
+
+| Field | Required | Description | Examples |
+|-------|----------|-------------|----------|
+| `type` | Yes | サーバー接続の種類 | `"http"`, `"sse"` |
+| `url` | Yes | サーバーのURL | `"http://localhost:3000"`, `"https://api.example.com/mcp"` |
+| `headers` | No | 認証または構成向けのHTTPヘッダー | `{"Authorization": "Bearer ${input:api-token}"}` |
+
+ネットワーク経由で利用できるサーバーに加えて、VS Codeは、UnixソケットまたはWindowsの名前付きパイプでHTTPトラフィックを待ち受けるMCPサーバーにも接続できます。接続するには、`unix:///path/to/server.sock`の形式、またはWindowsでは`pipe:///pipe/named-pipe`の形式でソケットまたはパイプのパスを指定します。`unix:///tmp/server.sock#/mcp/subpath`のようにURLフラグメントを使用してサブパスを指定できます。
+
+<details>
+<summary>リモートサーバー構成の例</summary>
+
+この例では、認証なしのリモートMCPサーバーの最小構成を示します。
+
+```json
+{
+    "servers": {
+        "context7": {
+            "type": "http",
+            "url": "https://mcp.context7.com/mcp"
+        }
+    }
+}
+```
+
+</details>
+
+### 機密データ向けの入力変数
+
+入力変数を使用すると、構成値のプレースホルダーを定義できます。これにより、APIキーやパスワードなどの機密情報をサーバー構成に直接ハードコーディングする必要がなくなります。
+
+`${input:variable-id}`を使用して入力変数を参照すると、サーバーの初回起動時にVS Codeが値の入力を求めます。その値はその後の使用のために安全に保存されます。VS Codeの[入力変数](/docs/reference/variables-reference.md#input-variables)を確認してください。
+
+**入力変数のプロパティ:**
+
+| Field | Required | Description | Example |
+|-------|----------|-------------|---------|
+| `type` | Yes | 入力プロンプトの種類 | `"promptString"` |
+| `id` | Yes | サーバー構成で参照する一意の識別子 | `"api-key"`, `"database-url"` |
+| `description` | Yes | ユーザー向けのプロンプトテキスト | `"GitHub Personal Access Token"` |
+| `password` | No | 入力した値を非表示にします(既定: false) | APIキーとパスワードでは`true` |
+
+<details>
+<summary>入力変数を使用するサーバー構成の例</summary>
+
+この例では、APIキーが必要なローカルサーバーを構成します。
+
+```json
+{
+    "inputs": [
+        {
+            "type": "promptString",
+            "id": "perplexity-key",
+            "description": "Perplexity API Key",
+            "password": true
+        }
+    ],
+    "servers": {
+        "perplexity": {
+            "type": "stdio",
+            "command": "npx",
+            "args": [
+                "-y",
+                "server-perplexity-ask"
+            ],
+            "env": {
+                "PERPLEXITY_API_KEY": "${input:perplexity-key}"
+            }
+        }
+    }
+}
+```
+
+</details>
+
+### サーバー名の命名規則
+
+MCPサーバーを定義する場合は、サーバー名について次の命名規則に従ってください。
+
+* サーバー名は、"uiTesting"や"githubIntegration"のようにcamelCaseを使用します。
+* 空白や特殊文字を使用しないでください。
+* 競合を避けるため、サーバーごとに一意の名前を使用してください。
+* "github"や"database"のように、サーバーの機能またはブランドを反映する説明的な名前を使用してください。
+
+## MCPサーバーのトラブルシューティングとデバッグ
+
+### MCP出力ログ
+
+VS CodeがMCPサーバーで問題を検出すると、Chatビューにエラーインジケーターが表示されます。
+
+![MCP Server Error](../images/mcp-servers/mcp-error-loading-tool.png)
+
+Chatビューでエラー通知を選択し、**Show Output**オプションを選択してサーバーログを表示します。代わりに、コマンドパレットから**MCP: List Servers**を実行し、サーバーを選択してから**Show Output**を選択します。
+
+![MCP Server Error Output](../images/mcp-servers/mcp-server-error-output.png)
+
+### MCPサーバーをデバッグする
+
+MCPサーバー構成に`dev`キーを追加することで、MCPサーバーの_開発モード_を有効にできます。これは次の2つのプロパティを持つオブジェクトです。
+
+* `watch`: ファイル変更を監視し、MCPサーバーを再起動するためのファイルglobパターンです。
+* `debug`: MCPサーバーでデバッガーを設定できます。現在、VS CodeはNode.jsとPythonのMCPサーバーのデバッグをサポートします。
+
+MCP開発ガイドで[VS CodeのMCP開発モード](/api/extension-guides/ai/mcp.md#mcp-development-mode-in-vs-code)を確認してください。
+
+## MCPアクセスを一元管理する
+
+組織は、GitHubポリシーを通じてMCPサーバーへのアクセスを一元管理できます。[MCPサーバーのエンタープライズ管理](/docs/setup/enterprise.md#configure-mcp-server-access)を確認してください。
+
+## よくある質問
+
+### 使用するMCPツールを制御できますか?
+
+* エージェントを使用しているときにChatビューで**Tools**ボタンを選択し、必要に応じて特定のツールのオンとオフを切り替えます。
+* **Add Context**ボタンを使用するか、`#`を入力して、プロンプトに特定のツールを追加します。
+* さらに高度に制御するには、`.github/copilot-instructions.md`を使用してツール使用を細かく調整できます。
+
+### Dockerを使用しているときにMCPサーバーが起動しません
+
+コマンド引数が正しいことと、コンテナーがデタッチモード(`-d`オプション)で実行されていないことを確認します。MCPサーバー出力にエラーメッセージがないかを確認することもできます([トラブルシューティング](#troubleshoot-and-debug-mcp-servers)を参照してください)。
+
+### "Cannot have more than 128 tools per request."というエラーが出ます
+
+モデルの制約により、チャット要求で同時に有効にできるツールは最大128です。128を超えるツールを選択している場合は、Chatビューのツールピッカーで一部のツールまたはサーバー全体の選択を解除してツール数を減らすか、仮想ツールが有効になっていることを確認してください(`setting(github.copilot.chat.virtualTools.threshold)`)。
+
+![Chatビューでチャット入力のToolsアイコンを強調表示し、有効なツールを選択できるツールQuick Pickを示すスクリーンショット。](../images/mcp-servers/agent-mode-select-tools.png)
+
+## 関連リソース
+
+* [Model Context Protocolドキュメント](https://modelcontextprotocol.io/)
+* [Model Context Protocolサーバーリポジトリ](https://github.com/modelcontextprotocol/servers)
+* [VS Codeチャットでエージェントを使用する](/docs/copilot/chat/copilot-chat.md#built-in-agents)---
+ContentId: 7c550054-4ade-4665-b368-215798c48673
+DateApproved: 12/10/2025
 MetaDescription: Learn how to configure and use Model Context Protocol (MCP) servers with GitHub Copilot in Visual Studio Code.
 MetaSocialImage: ../images/shared/github-copilot-social.png
 ---

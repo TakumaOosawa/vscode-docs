@@ -1,174 +1,174 @@
 ---
 ContentId: 9d8f3a2b-5c6e-4f7a-8b9c-1d2e3f4a5b6c
 DateApproved: 12/10/2025
-MetaDescription: Discover effective prompt examples for chat in VS Code across different scenarios including code generation, debugging, testing, and working with notebooks.
+MetaDescription: コード生成、デバッグ、テスト、ノートブックでの作業など、さまざまなシナリオにわたるVS Codeのチャット向けの効果的なプロンプト例を紹介します。
 MetaSocialImage: ../images/shared/github-copilot-social.png
 ---
-# Prompt examples for chat in VS Code
+# VS Codeのチャット向けプロンプト例
 
-This article provides example prompts for chat in Visual Studio Code across different scenarios and agents. Use these examples as inspiration to craft effective prompts for your own development tasks.
+この記事では、さまざまなシナリオとエージェントにわたるVisual Studio Codeのチャット向けプロンプト例を紹介します。これらの例を参考にして、自分の開発タスクに対して効果的なプロンプトを作成してください。
 
-If you are new to using chat in VS Code, learn more about [getting started with chat](/docs/copilot/chat/copilot-chat.md) or review [best practices for prompt crafting](/docs/copilot/guides/prompt-engineering-guide.md).
+VS Codeでチャットを使うのが初めての場合は、[チャットの概要](/docs/copilot/chat/copilot-chat.md)を参照するか、[プロンプト作成のベストプラクティス](/docs/copilot/guides/prompt-engineering-guide.md)を確認してください。
 
-## General coding and technology questions
+## 一般的なコーディングと技術に関する質問
 
-Use chat in VS Code to get quick answers about coding concepts, technology topics, and general programming questions.
+VS Codeのチャットを使用して、コーディングの概念、技術トピック、一般的なプログラミングの質問について素早く回答を得ましょう。
 
 ```prompt
-What is a linked list?
+連結リストとは何ですか？
 ```
 
 ```prompt
-Provide 3 ways to implement a search feature in React.
+Reactで検索機能を実装する方法を3つ挙げてください。
 ```
 
 ```prompt
-Explain the difference between async/await and promises.
+async/awaitとPromiseの違いを説明してください。
 ```
 
-## Understanding and exploring your codebase
+## コードベースの理解と探索
 
-Use chat in VS Code to understand how your project works, locate specific functionality, or explore code relationships.
-
-```prompt
-Explain how authentication works in #codebase
-```
+VS Codeのチャットを使用して、プロジェクトの仕組みを理解したり、特定の機能の場所を探したり、コード間の関係を調べたりできます。
 
 ```prompt
-Where is the database connection string configured? #codebase
+#codebaseで認証がどのように動作するか説明してください
 ```
 
 ```prompt
-How do I build this #codebase?
+データベースの接続文字列はどこで設定されていますか？ #codebase
 ```
 
 ```prompt
-Which testing framework is used for #calculator.test.js?
-```
-
-## Code generation and editing
-
-Use chat in VS Code to generate new code, add features, or modify existing functionality.
-
-```prompt
-Add a login button and style it based on #styles.css
+この#codebaseはどのようにビルドしますか？
 ```
 
 ```prompt
-Create a meal-planning web app using React and Node.js
+#calculator.test.jsで使用されているテストフレームワークは何ですか？
+```
+
+## コード生成と編集
+
+VS Codeのチャットを使用して、新しいコードの生成、機能の追加、既存機能の変更を行えます。
+
+```prompt
+#styles.cssに基づいてログインボタンを追加してスタイルを適用してください
 ```
 
 ```prompt
-Refactor this code to use async/await
-```
-
-## Testing and quality assurance
-
-Use chat in VS Code to generate tests or fix failing tests.
-
-```prompt
-Add unit tests for the user service.
+ReactとNode.jsを使用して献立作成用のWebアプリを作成してください
 ```
 
 ```prompt
-Fix the failing tests #testFailure
+このコードをasync/awaitを使うようにリファクタリングしてください
 ```
 
-## Debugging and fixing issues
+## テストと品質保証
 
-Use chat in VS Code to identify and fix problems in your code.
-
-```prompt
-Fix the issues in #problems
-```
+VS Codeのチャットを使用して、テストの生成や失敗しているテストの修正を行えます。
 
 ```prompt
-Fix the failing tests #testFailure
+ユーザーサービスの単体テストを追加してください。
 ```
 
 ```prompt
-Why is this function returning undefined?
+#testFailureの失敗しているテストを修正してください
 ```
 
-## Working with source control
+## デバッグと問題の修正
 
-Use chat in VS Code to work with your pending changes and generate release documentation.
-
-```prompt
-Summarize the #changes
-```
+VS Codeのチャットを使用して、コード内の問題を特定して修正できます。
 
 ```prompt
-Generate release notes based on the #changes
+#problemsにある問題を修正してください
 ```
 
 ```prompt
-Summarize the changes in #changes
-```
-
-## Working with external resources
-
-Use chat in VS Code to reference content from the web or GitHub repositories.
-
-```prompt
-How do I use the 'useState' hook in react 18? #fetch https://18.react.dev/reference/react/useState#usage
+#testFailureの失敗しているテストを修正してください
 ```
 
 ```prompt
-Build an API endpoint to fetch address info, use the template from #githubRepo contoso/api-templates
+この関数がundefinedを返しているのはなぜですか？
+```
+
+## ソース管理での作業
+
+VS Codeのチャットを使用して、保留中の変更を扱ったり、リリースドキュメントを生成したりできます。
+
+```prompt
+#changesを要約してください
 ```
 
 ```prompt
-What are the top #extensions for this workspace?
-```
-
-## Terminal and command-line tasks
-
-Use terminal inline chat to get help with shell commands and terminal operations.
-
-```prompt
-How do I install npm packages?
+#changesに基づいてリリースノートを生成してください
 ```
 
 ```prompt
-List the top 5 largest files in the src directory
+#changes内の変更を要約してください
+```
+
+## 外部リソースでの作業
+
+VS Codeのチャットを使用して、WebやGitHubリポジトリのコンテンツを参照できます。
+
+```prompt
+React 18で'useState'フックはどのように使いますか？ #fetch https://18.react.dev/reference/react/useState#usage
 ```
 
 ```prompt
-undo the last git commit
-```
-
-## Working with Jupyter notebooks
-
-Use chat in VS Code to create, edit, and work with Jupyter notebooks.
-
-```prompt
-/newNotebook use pandas and seaborn to read and visualize the titanic dataset. Show key information from the dataset.
+住所情報を取得するAPIエンドポイントを作成してください。#githubRepo contoso/api-templatesのテンプレートを使用してください
 ```
 
 ```prompt
-Create a notebook to read data from #housing.csv and plot the distribution of prices
+このワークスペースでおすすめの#extensionsは何ですか？
+```
+
+## ターミナルとコマンドラインのタスク
+
+ターミナルのインラインチャットを使用して、シェルコマンドやターミナル操作の支援を受けることができます。
+
+```prompt
+npmパッケージはどのようにインストールしますか？
 ```
 
 ```prompt
-Make sure the data is cleaned before visualizing and processing it
+srcディレクトリ内でサイズが大きいファイル上位5つを一覧表示してください
 ```
 
 ```prompt
-Show the correlation between different features in the dataset
+最後のgit commitを取り消してください
 ```
 
-## Tips for crafting effective prompts
+## Jupyterノートブックでの作業
 
-* **Be specific**: Include details about what you want to accomplish, the technologies to use, and the expected output format.
-* **Add context**: Use #-mentions to reference files, symbols, or context variables like `#codebase`, `#changes`, or `#problems`.
-* **Iterate**: Start with a simple prompt and refine it based on the response. Ask follow-up questions to improve the results.
-* **Break down complex tasks**: Instead of asking for everything at once, break large tasks into smaller, manageable steps.
+VS Codeのチャットを使用して、Jupyterノートブックの作成、編集、作業を行えます。
 
-Learn more about [best practices for crafting prompts](/docs/copilot/guides/prompt-engineering-guide.md) and [adding context to your prompts](/docs/copilot/chat/copilot-chat-context.md).
+```prompt
+/newNotebook pandasとseabornを使用してtitanicデータセットを読み込み、可視化してください。データセットの主要な情報を表示してください。
+```
 
-## Related resources
+```prompt
+#housing.csvからデータを読み込み、価格の分布をプロットするノートブックを作成してください
+```
 
-* [Copilot Chat Cookbook](https://docs.github.com/en/copilot/example-prompts-for-github-copilot-chat) in the GitHub documentation
+```prompt
+可視化と処理の前にデータがクリーンになっていることを確認してください
+```
 
-* [Add context to your chat prompt](/docs/copilot/chat/copilot-chat-context.md)
+```prompt
+データセット内の異なる特徴量間の相関を表示してください
+```
+
+## 効果的なプロンプトを作成するためのヒント
+
+* **具体的にする**: 達成したいこと、使用する技術、期待する出力形式の詳細を含めてください。
+* **コンテキストを追加する**: #-mentionsを使用して、ファイル、シンボル、または`#codebase`、`#changes`、`#problems`などのコンテキスト変数を参照してください。
+* **反復する**: シンプルなプロンプトから始め、応答に基づいて改善してください。結果を良くするために追加の質問をしてください。
+* **複雑なタスクを分割する**: 一度にすべてを求めるのではなく、大きなタスクを小さく管理しやすい手順に分割してください。
+
+[プロンプト作成のベストプラクティス](/docs/copilot/guides/prompt-engineering-guide.md)と[プロンプトへのコンテキストの追加](/docs/copilot/chat/copilot-chat-context.md)の詳細をご覧ください。
+
+## 関連リソース
+
+* GitHubドキュメントの[Copilot Chat Cookbook](https://docs.github.com/en/copilot/example-prompts-for-github-copilot-chat)
+
+* [チャットプロンプトにコンテキストを追加する](/docs/copilot/chat/copilot-chat-context.md)

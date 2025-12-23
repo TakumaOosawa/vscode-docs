@@ -1,110 +1,110 @@
 ---
 ContentId: 8d5c9f2a-1e4b-7c9f-3a8e-2b7d4f1c6e0a
 DateApproved: 12/10/2025
-MetaDescription: Use cloud agents and GitHub Copilot coding agent in VS Code to autonomously handle coding tasks with automatic pull request generation and team collaboration workflows.
+MetaDescription: VS CodeでクラウドエージェントとGitHub Copilot coding agentを使用して、自動プルリクエスト生成とチームコラボレーションのワークフローにより、コーディングタスクを自律的に処理します。
 MetaSocialImage: ../images/shared/github-copilot-social.png
 Keywords:
-- ai
-- agents
-- cloud agent
-- copilot coding agent
+- AI
+- エージェント
+- クラウドエージェント
+- Copilot coding agent
 ---
 
-# Cloud agents in Visual Studio Code
+# Visual Studio Codeのクラウドエージェント
 
-Cloud agents perform AI-powered coding tasks and run on remote infrastructure for scalable, isolated execution. Cloud agents like Copilot coding agent integrate with GitHub repositories and pull requests to enable team collaboration and code reviews. Cloud agents operate isolated from your local workspace via branches and pull requests to prevent interference.
+クラウドエージェントはAIを活用したコーディングタスクを実行し、スケーラブルで分離された実行のためにリモートインフラストラクチャ上で動作します。Copilot coding agentなどのクラウドエージェントはGitHubリポジトリやプルリクエストと統合され、チームコラボレーションとコードレビューを可能にします。クラウドエージェントはブランチとプルリクエストを介してローカルワークスペースから分離して動作し、干渉を防ぎます。
 
-This article covers the key features of cloud agents, and how to start and manage cloud agent sessions for coding tasks that can range anywhere from simple to complex.
+この記事では、クラウドエージェントの主な機能と、単純なものから複雑なものまで幅広いコーディングタスクに対応するクラウドエージェントセッションの開始方法と管理方法を説明します。
 
-![Screenshot of cloud agent session as a chat editor in VS Code.](../images/cloud-agents/cloud-agent-session.png)
+![VS Codeでチャットエディターとして表示されるクラウドエージェントセッションのスクリーンショット。](../images/cloud-agents/cloud-agent-session.png)
 
-## What are cloud agents?
+## クラウドエージェントとは
 
-Unlike local and background agents that run on your local machine, cloud agents like Copilot coding agent run on remote infrastructure. You can view and manage all your cloud agent sessions from the unified Chat view in VS Code. This view also lets you create new cloud agent sessions directly from VS Code or hand off local or background agent conversations to cloud agents.
+ローカルマシンで動作するローカルエージェントやバックグラウンドエージェントとは異なり、Copilot coding agentなどのクラウドエージェントはリモートインフラストラクチャ上で動作します。VS Codeの統合されたChatビューから、すべてのクラウドエージェントセッションを表示および管理できます。このビューでは、VS Codeから直接新しいクラウドエージェントセッションを作成したり、ローカルまたはバックグラウンドエージェントの会話をクラウドエージェントに引き継いだりすることもできます。
 
-Because cloud agents run remotely without user interaction, they are well-suited for tasks that have a well-defined scope and all necessary context. Their integration with pull requests makes them very effective for team collaboration.
+クラウドエージェントはユーザーの操作なしにリモートで実行されるため、スコープが明確に定義され、必要なコンテキストがすべて揃っているタスクに適しています。プルリクエストとの統合により、チームコラボレーションに非常に有効です。
 
-Due to their remote execution environment, cloud agents can't directly access VS Code built-in tools and run-time context (like failed tests or text selections). They are limited to the MCP servers and language models that are configured in the cloud agent service.
+リモート実行環境であるため、クラウドエージェントはVS Codeの組み込みツールや実行時コンテキスト(失敗したテストやテキスト選択など)に直接アクセスできません。クラウドエージェントサービスで構成されているMCPサーバーと言語モデルに制限されます。
 
-To assign a task to a cloud agent, you can either create a new cloud session directly from the Chat view or hand off a local and background agent conversation from VS Code to a cloud agent.
+クラウドエージェントにタスクを割り当てるには、Chatビューから直接新しいクラウドセッションを作成するか、VS Codeからローカルおよびバックグラウンドエージェントの会話をクラウドエージェントに引き継ぐことができます。
 
 ### GitHub Copilot coding agent
 
-The **GitHub Copilot coding agent** is the primary cloud agent available in VS Code.
+**GitHub Copilot coding agent**は、VS Codeで利用できる主要なクラウドエージェントです。
 
-Key capabilities include:
+主な機能は次のとおりです。
 
-* Large-scale refactoring across your GitHub repository
-* Complete feature implementation from high-level requirements
-* Automatic pull request generation with detailed descriptions
-* Code review integration and feedback addressing
+* GitHubリポジトリ全体にわたる大規模なリファクタリング
+* 高レベルの要件からの機能実装の完了
+* 詳細な説明を含むプルリクエストの自動生成
+* コードレビューの統合とフィードバックへの対応
 
-## View and manage cloud agent sessions
+## クラウドエージェントセッションの表示と管理
 
-You can view and manage all your cloud agent sessions from the Chat view in VS Code. Filter the session list to show only cloud agent sessions by selecting the **Cloud Agents** from the filter options.
+VS CodeのChatビューから、すべてのクラウドエージェントセッションを表示および管理できます。フィルターオプションから**Cloud Agents**を選択してセッションリストを絞り込み、クラウドエージェントセッションのみを表示します。
 
-![Screenshot of cloud agent filter in VS Code Chat view.](../images/cloud-agents/cloud-agent-filter.png)
+![VS CodeのChatビューにあるクラウドエージェントフィルターのスクリーンショット。](../images/cloud-agents/cloud-agent-filter.png)
 
-Select a cloud agent session from the list to open the session details in the Chat view. If you prefer to view the session in an editor tab (chat editor), right-click the session and select **Open as Editor**.
+リストからクラウドエージェントセッションを選択すると、Chatビューでセッションの詳細が開きます。エディタータブ(チャットエディター)でセッションを表示したい場合は、セッションを右クリックして**Open as Editor**を選択します。
 
-![Screenshot of cloud agent session as a chat editor in VS Code.](../images/cloud-agents/cloud-agent-session.png)
+![VS Codeでチャットエディターとして表示されるクラウドエージェントセッションのスクリーンショット。](../images/cloud-agents/cloud-agent-session.png)
 
-## Start a cloud agent session
+## クラウドエージェントセッションを開始する
 
-Depending on your workflow, you can start cloud agent sessions in several ways. You can create a new session from the Chat view or submit a local chat prompt to a cloud agent.
+ワークフローに応じて、いくつかの方法でクラウドエージェントセッションを開始できます。Chatビューから新しいセッションを作成するか、ローカルのチャットプロンプトをクラウドエージェントに送信できます。
 
-Another approach - especially for more complex tasks - is to first interact with a local agent in chat in VS Code, and once the scope and details are clear, hand off the task to a cloud agent session. For example, you might use the [Plan agent](/docs/copilot/chat/chat-planning.md) to outline a multi-step feature implementation, then hand off the actual coding to a cloud agent.
+別の方法として、特により複雑なタスクの場合は、まずVS Codeのチャットでローカルエージェントとやり取りし、スコープと詳細が明確になったらタスクをクラウドエージェントセッションに引き継ぎます。たとえば、[Planエージェント](/docs/copilot/chat/chat-planning.md)を使用して複数ステップの機能実装の概要を作成し、その後、実際のコーディングをクラウドエージェントに引き継ぐことができます。
 
-If you prefer to work in the browser, you can also start cloud agent sessions directly from GitHub.com using the [GitHub Copilot coding agent](https://docs.github.com/en/copilot/how-tos/use-copilot-agents/manage-agents).
+ブラウザーで作業したい場合は、[GitHub Copilot coding agent](https://docs.github.com/en/copilot/how-tos/use-copilot-agents/manage-agents)を使用してGitHub.comから直接クラウドエージェントセッションを開始することもできます。
 
 > [!NOTE]
-> You currently can't specify which language model a cloud agent uses.
+> 現時点では、クラウドエージェントが使用する言語モデルを指定できません。
 
-### Create a cloud agent session from the Chat view
+### Chatビューからクラウドエージェントセッションを作成する
 
-You can create a new cloud agent session in VS Code in several ways:
+VS Codeで新しいクラウドエージェントセッションを作成する方法はいくつかあります。
 
-* From the Chat view:
+* Chatビューから:
 
-    1. Open the Chat view (`kb(workbench.action.chat.open)`)
+    1. Chatビューを開きます(`kb(workbench.action.chat.open)`)
 
-    1. Select the **New Chat** dropdown > **New Cloud Agent**
+    1. **New Chat**のドロップダウン > **New Cloud Agent**を選択します
 
-* While you're in a local chat session:
+* ローカルチャットセッション中:
 
-    * Type `@cloud <task description>` in the chat input and send the message
+    * チャット入力欄に`@cloud <task description>`と入力してメッセージを送信します
 
-    * Enter a prompt and then select **Continue In** > **Cloud**
+    * プロンプトを入力し、**Continue In** > **Cloud**を選択します
 
-* Run the **Chat: New Cloud Agent** command from the Command Palette (`kb(workbench.action.showCommands)`)
+* コマンドパレット(`kb(workbench.action.showCommands)`)から**Chat: New Cloud Agent**コマンドを実行します
 
-A new cloud agent session opens where you can provide additional task details and track the progress of the cloud agent session.
+新しいクラウドエージェントセッションが開き、追加のタスク詳細を提供したり、クラウドエージェントセッションの進行状況を追跡したりできます。
 
-### Hand off an agent session to a cloud agent
+### エージェントセッションをクラウドエージェントに引き継ぐ
 
-For complex tasks, it can be helpful to first interact with a local agent in VS Code chat to clarify requirements, then hand off the task to a cloud agent for autonomous execution. When you hand off a local agent conversation to a cloud agent session, the entire chat context is passed to the cloud agent.
+複雑なタスクでは、まずVS Codeのチャットでローカルエージェントとやり取りして要件を明確にし、その後、自律実行のためにタスクをクラウドエージェントに引き継ぐと便利な場合があります。ローカルエージェントの会話をクラウドエージェントセッションに引き継ぐと、チャットのコンテキスト全体がクラウドエージェントに渡されます。
 
-To hand off a local agent session to a cloud agent session:
+ローカルエージェントセッションをクラウドエージェントセッションに引き継ぐには:
 
-1. Open the Chat view (`kb(workbench.action.chat.open)`)
+1. Chatビューを開きます(`kb(workbench.action.chat.open)`)
 
-1. Interact with a local agent until you're ready to hand off the task to a cloud agent
+1. タスクをクラウドエージェントに引き継ぐ準備ができるまで、ローカルエージェントとやり取りします
 
-1. To hand off to a cloud agent:
+1. クラウドエージェントに引き継ぐには:
 
-    * Select **Continue In** and then select **Cloud**
+    * **Continue In**を選択し、次に**Cloud**を選択します
 
-    * If you're using the [Plan agent](/docs/copilot/chat/chat-planning.md), select the **Start Implementation** dropdown and then select **Continue in Cloud** to run the implementation in a cloud agent session
+    * [Planエージェント](/docs/copilot/chat/chat-planning.md)を使用している場合は、**Start Implementation**のドロップダウンを選択し、次に**Continue in Cloud**を選択してクラウドエージェントセッションで実装を実行します
 
-    * Type `@cloud` in the chat input to hand off the task to a cloud agent
+    * チャット入力欄に`@cloud`と入力して、タスクをクラウドエージェントに引き継ぎます
 
-The cloud agent session starts automatically, carrying over the full chat history and context. You can monitor the cloud agent's progress in the Chat view.
+クラウドエージェントセッションは自動的に開始され、チャット履歴とコンテキスト全体が引き継がれます。Chatビューでクラウドエージェントの進行状況を監視できます。
 
-To hand off a background agent session to a cloud agent session, enter `/delegate` in the chat input of the background agent session. This command passes the full chat history and context to a new cloud agent session, which you can then monitor in the Chat view.
+バックグラウンドエージェントセッションをクラウドエージェントセッションに引き継ぐには、バックグラウンドエージェントセッションのチャット入力欄に`/delegate`と入力します。このコマンドは、チャット履歴とコンテキスト全体を新しいクラウドエージェントセッションに渡し、その後Chatビューで監視できます。
 
-## Related resources
+## 関連リソース
 
-* [Agents overview](/docs/copilot/agents/overview.md): Understand different agent types and delegation
-* [Background agents](/docs/copilot/agents/background-agents.md): Learn about CLI-based autonomous agents for isolated development
-* [Custom agents](/docs/copilot/customization/custom-agents.md): Create custom agent roles and personas
-* [GitHub Copilot coding agent](https://docs.github.com/en/copilot/how-tos/use-copilot-agents/manage-agents): Managing agents on GitHub.com
+* [エージェントの概要](/docs/copilot/agents/overview.md): さまざまなエージェントの種類と委任について理解する
+* [バックグラウンドエージェント](/docs/copilot/agents/background-agents.md): 分離された開発のためのCLIベースの自律エージェントについて学ぶ
+* [カスタムエージェント](/docs/copilot/customization/custom-agents.md): カスタムエージェントのロールとペルソナを作成する
+* [GitHub Copilot coding agent](https://docs.github.com/en/copilot/how-tos/use-copilot-agents/manage-agents): GitHub.comでエージェントを管理する

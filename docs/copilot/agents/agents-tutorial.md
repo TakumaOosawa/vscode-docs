@@ -1,36 +1,36 @@
 ---
 ContentId: 8f2c9a1b-3d4e-5f6a-7b8c-9d0e1f2a3b4c
 DateApproved: 12/10/2025
-MetaDescription: Get started with different types of agents in VS Code to run tasks locally, in the background, or in the cloud. Hand off work across agents to use what works best for your workflow.
+MetaDescription: VS Codeのさまざまな種類のエージェントを使って、ローカル、バックグラウンド、またはクラウドでタスクを実行する方法を開始します。エージェント間で作業を引き継ぎ、ワークフローに最適なものを活用します。
 MetaSocialImage: ../images/shared/github-copilot-social.png
 Keywords:
 - ai
-- agents
-- background agent
-- cloud agent
+- エージェント
+- バックグラウンドエージェント
+- クラウドエージェント
 - copilot coding agent
 - copilot cli
-- tutorial
+- チュートリアル
 ---
 
-# Tutorial: Work with agents in VS Code
+# チュートリアル: VS Codeでエージェントを活用する
 
-This tutorial walks you through using different types of agents in Visual Studio Code. You build a todo app from scratch, add a theme toggle, and redesign the layout by delegating work across local, plan, background, and cloud agents.
+このチュートリアルでは、Visual Studio Codeでさまざまな種類のエージェントを使用する方法を説明します。todoアプリをゼロから作成し、テーマの切り替えを追加し、ローカル、プラン、バックグラウンド、クラウドエージェントに作業を委任してレイアウトを再設計します。
 
 > [!TIP]
-> If you don't yet have a Copilot subscription, you can use Copilot for free by signing up for the [Copilot Free plan](https://github.com/github-copilot/signup) and get a monthly limit of inline suggestions and chat interactions.
+> まだCopilotサブスクリプションがない場合は、[Copilot Freeプラン](https://github.com/github-copilot/signup)にサインアップすることでCopilotを無料で利用でき、インライン提案とチャットインタラクションの月間上限が適用されます。
 
-## Prerequisites
+## 前提条件
 
-To complete this tutorial, you need:
+このチュートリアルを完了するには、次が必要です:
 
-* [Visual Studio Code installed on your computer](/download)
-* [A GitHub account](https://docs.github.com/en/get-started/start-your-journey/creating-an-account-on-github) (for cloud agent workflow)
-* [A GitHub Copilot subscription](/docs/copilot/setup.md)
+* [コンピューターにインストールされたVisual Studio Code](/download)
+* [GitHubアカウント](https://docs.github.com/en/get-started/start-your-journey/creating-an-account-on-github) (クラウドエージェントのワークフロー用)
+* [GitHub Copilotサブスクリプション](/docs/copilot/setup.md)
 
-## Step 1: Use a local agent to scaffold an app
+## 手順1: ローカルエージェントを使ってアプリをスキャフォールドする
 
-In this step, you use a local agent to create the initial todo app structure. Local agents are ideal for interactive tasks where you want immediate feedback and results, such as scaffolding a new project or iterating on a new feature.
+この手順では、ローカルエージェントを使用してtodoアプリの初期構造を作成します。ローカルエージェントは、新しいプロジェクトのスキャフォールドや新機能の反復など、すぐにフィードバックと結果が欲しいインタラクティブなタスクに最適です。
 
 1. Create a new project folder and ensure it's under Git version control.
 
@@ -42,111 +42,111 @@ In this step, you use a local agent to create the initial todo app structure. Lo
 
 1. Open the project folder in VS Code.
 
-1. Open the Chat view (`kb(workbench.action.chat.open)`) and select **Agent** from the Agents dropdown.
+1. チャットビュー(`kb(workbench.action.chat.open)`)を開き、エージェントドロップダウンから**Agent**を選択します。
 
-    Optionally, choose a specific language model if you have a preference.
+    必要に応じて、好みがあれば特定の言語モデルを選択します。
 
-1. Enter the following prompt in the chat input field to scaffold the todo app and select **Send**.
+1. チャット入力フィールドに次のプロンプトを入力してtodoアプリをスキャフォールドし、**Send**を選択します。
 
     ```prompt
-    Create a simple todo app with HTML, CSS, and JavaScript. Include an input field to add todos, a list to display them, and a delete button for each item.
+    HTML、CSS、JavaScriptでシンプルなtodoアプリを作成してください。todoを追加するための入力フィールド、表示用のリスト、各項目に削除ボタンを含めてください。
     ```
 
     <video src="../images/agents-tutorial/local-agent-todo-app-scaffold.mp4" alt="Video showing a local agent scaffolding a todo app in VS Code." muted autoplay loop></video>
 
-1. Review as the agent generates the different files for the app. Use **Keep** or **Undo** to accept or reject changes as needed.
+1. エージェントがアプリのさまざまなファイルを生成する様子を確認します。必要に応じて**Keep**または**Undo**を使用して変更を承認または拒否します。
 
-1. To preview the edits live as you develop, install the [Live Preview](https://marketplace.visualstudio.com/items?itemName=ms-vscode.live-server) extension if you don't have it already.
+1. 開発しながら編集内容をライブでプレビューするには、まだインストールしていない場合は[Live Preview](https://marketplace.visualstudio.com/items?itemName=ms-vscode.live-server)拡張機能をインストールします。
 
-1. Open the generated HTML file and select **Show Preview** to preview and interact with the app directly in VS Code.
+1. 生成されたHTMLファイルを開き、**Show Preview**を選択してVS Code内で直接アプリをプレビューし、操作します。
 
     <video src="../images/agents-tutorial/local-agent-todo-app-live-preview.mp4" alt="Video showing a local agent enhancing a todo app in VS Code with live preview." muted autoplay loop></video>
 
-1. Send additional prompts to enhance the app further. Notice that the preview updates live as you make changes.
+1. 追加のプロンプトを送信して、アプリをさらに強化します。変更を加えるたびにプレビューがライブで更新されることを確認します。
 
-    For example, you can ask:
+    たとえば、次のように依頼できます:
 
     ```prompt
-    Mark todos as completed with a strikethrough effect.
+    完了したtodoに取り消し線の効果を付けてマークしてください。
     ```
 
-You now have a working todo app that you can extend with additional features. By using a local agent, you can interactively generate and refine your code in real-time.
+これで、追加機能で拡張できる動作するtodoアプリができました。ローカルエージェントを使用することで、リアルタイムにコードを対話的に生成し、洗練できます。
 
-## Step 2: Use a background agent to implement a feature plan
+## 手順2: バックグラウンドエージェントを使って機能プランを実装する
 
-In this step, you use the plan agent to create an implementation plan for a theme toggle and then hand off the implementation to a background agent. Background agents are ideal for delegating tasks that don't require immediate interaction. They use Git worktrees to isolate file changes from your main workspace and prevent conflicts.
+この手順では、プランエージェントを使用してテーマ切り替えの実装プランを作成し、その実装をバックグラウンドエージェントに引き継ぎます。バックグラウンドエージェントは、即時のやり取りを必要としないタスクの委任に最適です。Git worktreeを使用して、メインワークスペースからファイル変更を分離し、競合を防ぎます。
 
-1. First, commit your current changes in the Source Control view to have a clean state.
+1. まず、ソース管理ビューで現在の変更をコミットして、クリーンな状態にします。
 
-1. In the Chat view, select **New Chat (+)** > **New Chat** to start a new local agent session. Notice that your previous chat session is preserved in the sessions list.
+1. チャットビューで**New Chat (+)** > **New Chat**を選択して、新しいローカルエージェントセッションを開始します。以前のチャットセッションがセッションリストに保持されていることを確認します。
 
-1. Select **Plan** from the Agents dropdown to switch to the plan agent and enter the following prompt:
+1. エージェントドロップダウンから**Plan**を選択してプランエージェントに切り替え、次のプロンプトを入力します:
 
     ```text
-    Create a plan to add a dark/light theme toggle to the app. The toggle should switch between themes and persist the user's preference.
+    アプリにダーク/ライトテーマの切り替えを追加するためのプランを作成してください。この切り替えはテーマ間を切り替え、ユーザーの設定を永続化する必要があります。
     ```
 
-1. Review the proposed implementation plan and make any adjustments as needed.
+1. 提案された実装プランを確認し、必要に応じて調整します。
 
-1. When you're ready, select **Start Implementation** > **Continue in Background** to hand off the plan to a background agent.
+1. 準備ができたら、**Start Implementation** > **Continue in Background**を選択して、プランをバックグラウンドエージェントに引き継ぎます。
 
     ![Screenshot showing the Start Implementation button in the Chat view.](../images/agents-tutorial/start-implementation-button.png)
 
-1. The background agent creates a Git worktree where it starts implementing the feature. You can track the background agent in the **Sessions** view. Select the session to see details about its progress.
+1. バックグラウンドエージェントは、機能の実装を開始するためのGit worktreeを作成します。**Sessions**ビューでバックグラウンドエージェントを追跡できます。セッションを選択して進行状況の詳細を確認します。
 
     <video src="../images/agents-tutorial/background-agent-theme-switcher.mp4" alt="Video showing a background agent implementing a theme switcher feature in VS Code." muted autoplay loop></video>
 
     > [!TIP]
-    > While the background agent works, you can continue editing your main workspace without conflicts.
+    > バックグラウンドエージェントが作業している間も、競合なくメインワークスペースの編集を続けられます。
 
-1. Once the background agent finishes, review the changes from the session details. Alternatively, switch to the Source Control view to see the changes in the Git worktree.
+1. バックグラウンドエージェントが完了したら、セッションの詳細から変更を確認します。あるいは、ソース管理ビューに切り替えてGit worktree内の変更を確認します。
 
-1. When you're happy with the changes, in the Chat view, select **Keep** and then select **Apply** to apply the changes into your main workspace.
+1. 変更内容に問題がなければ、チャットビューで**Keep**を選択し、次に**Apply**を選択して変更をメインワークスペースに適用します。
 
     ![Screenshot showing the HTML preview of the app, which now has a theme switcher button.](../images/agents-tutorial/todo-app-theme-switcher.png)
 
-You've successfully used a background agent to perform a task autonomously in the background. You can start multiple background agents for different tasks without interrupting your main workflow.
+バックグラウンドエージェントを使用して、バックグラウンドでタスクを自律的に実行できました。メインのワークフローを中断することなく、異なるタスク向けに複数のバックグラウンドエージェントを開始できます。
 
-## Step 3: Use a cloud agent to collaborate on a feature
+## 手順3: クラウドエージェントを使って機能を共同作業する
 
-In this step, you use a cloud agent (Copilot coding agent) to redesign the app layout and use pull requests and collaboration features in GitHub. Copilot coding agent runs on remote infrastructure and are ideal for tasks that don't require immediate feedback, don't need to run locally, or involve collaboration through GitHub.
+この手順では、クラウドエージェント(Copilot coding agent)を使用してアプリのレイアウトを再設計し、GitHubのプルリクエストとコラボレーション機能を使用します。Copilot coding agentはリモートインフラストラクチャで実行され、即時のフィードバックを必要としないタスク、ローカルで実行する必要がないタスク、またはGitHubを通じた共同作業を伴うタスクに最適です。
 
-1. First, publish the project to a GitHub repository and add it as a remote to use Copilot coding agent on your project.
+1. まず、プロジェクトをGitHubリポジトリに公開し、リモートとして追加してプロジェクトでCopilot coding agentを使用できるようにします。
 
-    1. Run the **Publish to GitHub** command from the Command Palette (`kb(workbench.action.showCommands)`) and follow the prompts to create a new repository.
+    1. コマンドパレット(`kb(workbench.action.showCommands)`)から**Publish to GitHub**コマンドを実行し、プロンプトに従って新しいリポジトリを作成します。
 
-    1. Run the **Git: Add Remote** command from the Command Palette and follow the prompts to add your GitHub repository as a remote.
+    1. コマンドパレットから**Git: Add Remote**コマンドを実行し、プロンプトに従ってGitHubリポジトリをリモートとして追加します。
 
-1. In the Chat view, select **New Chat (+)** > **New Cloud Agent** and enter the following prompt:
+1. チャットビューで**New Chat (+)** > **New Cloud Agent**を選択し、次のプロンプトを入力します:
 
     ```text
-    Redesign the todo app layout to improve user experience. Update colors, spacing, typography, and add animations to give it a modern look.
+    ユーザーエクスペリエンスを向上させるためにtodoアプリのレイアウトを再設計してください。色、余白、タイポグラフィを更新し、アニメーションを追加してモダンな見た目にしてください。
     ```
 
-1. The cloud agent starts a new session to work on your request. It creates a branch and pull request in your GitHub repository.
+1. クラウドエージェントはリクエストに対応するための新しいセッションを開始します。GitHubリポジトリにブランチとプルリクエストを作成します。
 
     <video src="../images/agents-tutorial/cloud-agent-redesign-todo-app.mp4" alt="Video showing a cloud agent redesigning a todo app in VS Code." muted autoplay loop></video>
 
-1. You can track the cloud agent in the **Sessions** view in the Chat view, where you can see all ongoing agent sessions and their status.
+1. チャットビューの**Sessions**ビューでクラウドエージェントを追跡できます。進行中のすべてのエージェントセッションとその状態を確認できます。
 
     > [!TIP]
-    > If you have the GitHub Pull Requests extension installed, you can also track the pull request progress in the **Copilot on my Behalf** view in the GitHub Pull Requests view.
+    > GitHub Pull Requests拡張機能がインストールされている場合は、GitHub Pull Requestsビューの**Copilot on my Behalf**ビューでプルリクエストの進行状況も追跡できます。
 
-1. Once completed, the cloud agent assigns the pull request to you for review.
+1. 完了すると、クラウドエージェントはレビューのためにプルリクエストをあなたに割り当てます。
 
     ![Screenshot showing the cloud agent session details, with the file change details.](../images/agents-tutorial/cloud-agent-pull-request.png)
 
-1. Right-click the cloud agent session in the **Sessions** view to view additional options, such as checking out the pull request locally or viewing it in GitHub.
+1. **Sessions**ビューでクラウドエージェントセッションを右クリックして、プルリクエストをローカルにチェックアウトする、GitHubで表示するなどの追加オプションを表示します。
 
     <video src="../images/agents-tutorial/cloud-agent-checkout-pr.mp4" alt="Video showing checking out a pull request created by a cloud agent in VS Code." muted autoplay loop></video>
 
-1. You can use the standard GitHub code review workflow with your team to review, comment, and merge the pull request.
+1. チームで標準のGitHubコードレビューのワークフローを使用して、プルリクエストをレビュー、コメント、マージできます。
 
-You've successfully used a cloud agent to collaborate on a feature using GitHub. Cloud agents enable you to use remote resources and collaborate seamlessly through GitHub.
+クラウドエージェントを使用して、GitHubで機能の共同作業を行えました。クラウドエージェントにより、リモートリソースを利用し、GitHubを通じてシームレスに共同作業できます。
 
-## Next steps
+## 次のステップ
 
-You've successfully used different types of agents to build, enhance, and redesign a todo app. Continue exploring agents:
+さまざまな種類のエージェントを使用して、todoアプリの構築、強化、再設計を行えました。引き続きエージェントを探索しましょう:
 
-* Learn about [agent types and when to use them](/docs/copilot/agents/overview.md)
-* Explore [creating custom agents](/docs/copilot/customization/custom-agents.md)
+* [エージェントの種類と使いどころ](/docs/copilot/agents/overview.md)について学ぶ
+* [カスタムエージェントの作成](/docs/copilot/customization/custom-agents.md)を探索する

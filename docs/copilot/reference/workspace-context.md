@@ -1,156 +1,156 @@
 ---
 ContentId: c77dcce9-4ba9-40ac-8ae5-2df855088090
 DateApproved: 12/10/2025
-MetaDescription: Learn how workspace context gives chat a deep understanding of your entire codebase to provide accurate, contextual answers.
+MetaDescription: ワークスペース コンテキストによってチャットがコードベース全体を深く理解し、正確で文脈に沿った回答を提供する仕組みを学びます。
 MetaSocialImage: ../images/shared/github-copilot-social.png
 ---
-# Make chat an expert in your workspace
+# チャットをワークスペースのエキスパートにする
 
-Chat becomes significantly more helpful when it has a deep understanding of your entire codebase, not just individual files. Workspace context is the underlying mechanism that enables the AI to search across your project, understand how components connect, and provide answers grounded in your actual code. This enables you to ask broad questions like "where is authentication handled?" or "how do I add a new API endpoint?" and get accurate answers based on your specific codebase.
+チャットは、個々のファイルだけでなくコードベース全体を深く理解していると、はるかに役立つようになります。ワークスペース コンテキストは、AIがプロジェクト全体を検索し、コンポーネント同士のつながりを理解し、実際のコードに基づいた回答を提供できるようにする基盤となる仕組みです。これにより、「認証はどこで処理されていますか?」や「新しいAPIエンドポイントを追加するにはどうすればよいですか?」のような広い質問を投げかけ、特定のコードベースに基づいた正確な回答を得ることができます。
 
-This article explains how workspace context works, how to manage your workspace index for optimal results, and how to use `@workspace` and `#codebase` to leverage it in your prompts.
+この記事では、ワークスペース コンテキストの仕組み、最適な結果を得るためにワークスペース インデックスを管理する方法、そしてプロンプトで`@workspace`と`#codebase`を使って活用する方法を説明します。
 
-The intelligence behind workspace context automatically adjusts based on your project's size and setup, ensuring you get accurate results whether you're working on a small personal project or a large enterprise codebase.
+ワークスペース コンテキストの背後にあるインテリジェンスは、プロジェクトの規模や構成に応じて自動的に調整され、小規模な個人プロジェクトでも大規模なエンタープライズのコードベースでも、正確な結果が得られるようにします。
 
-## How workspace context works
+## ワークスペース コンテキストの仕組み
 
-VS Code uses intelligent search strategies to find the most relevant code for your questions. Rather than using a single approach, it automatically selects the best method based on your project size and available resources. VS Code might run multiple strategies in parallel and then choose the one that produces the best results the fastest.
+VS Codeは、質問に最も関連性の高いコードを見つけるために、インテリジェントな検索戦略を使用します。単一のアプローチを使うのではなく、プロジェクトの規模や利用可能なリソースに基づいて最適な方法を自動的に選択します。VS Codeは複数の戦略を並列に実行し、その中から最も速く最良の結果を生成するものを選ぶ場合があります。
 
-### What sources are used for context?
+### コンテキストにはどのソースが使用されますか?
 
-Workspace context searches through the same sources a developer would use when navigating a codebase in VS Code:
+ワークスペース コンテキストは、開発者がVS Codeでコードベースを探索するときに使用するのと同じソースを検索します:
 
-* All [indexable files](#what-content-is-included-in-the-workspace-index) in the workspace (workspace index), except those ignored by a `.gitignore` file
-* Directory structure with nested folders and file names
-* Code symbols and definitions (classes, functions, variables)
-* Currently selected text or visible text in the active editor
+* ワークスペース内のすべての[インデックス可能なファイル](#what-content-is-included-in-the-workspace-index)(ワークスペース インデックス)。ただし、`.gitignore`ファイルで無視されるものを除きます
+* ネストされたフォルダーやファイル名を含むディレクトリ構造
+* コード シンボルと定義(クラス、関数、変数)
+* アクティブ エディターで現在選択されているテキスト、または表示されているテキスト
 
-The workspace index can be maintained remotely by GitHub or stored locally on your machine. See the [workspace index](#workspace-index) section for more details.
+ワークスペース インデックスはGitHubによってリモートで維持されるか、マシンにローカル保存されます。詳細については、[ワークスペース インデックス](#workspace-index)セクションを参照してください。
 
 > [!IMPORTANT]
-> `.gitignore` is bypassed if you have a file open or have text selected within an ignored file.
+> 無視されているファイルを開いている場合、または無視されているファイル内のテキストを選択している場合は、`.gitignore`はバイパスされます。
 
-### Search strategy
+### 検索戦略
 
-For small projects, the entire workspace can be included directly in the chat context. For larger projects, VS Code uses different strategies to find the most relevant information to include in the chat context for your prompt.
+小規模なプロジェクトでは、ワークスペース全体をチャット コンテキストに直接含めることができます。大規模なプロジェクトでは、VS Codeはプロンプトのチャット コンテキストに含める最も関連性の高い情報を見つけるために、さまざまな戦略を使用します。
 
-The following steps outline how VS Code constructs the workspace context:
+次の手順は、VS Codeがワークスペース コンテキストを構築する方法の概要を示しています:
 
-1. Determine which information from the workspace is needed to answer your question, also including the conversation history, workspace structure, and current editor selection.
+1. 質問に答えるためにワークスペースからどの情報が必要かを判断し、会話履歴、ワークスペース構造、現在のエディターの選択内容も含めます。
 
-1. Collect relevant code snippets from the [workspace index](#workspace-index) by using various approaches:
+1. さまざまな方法を使用して、[ワークスペース インデックス](#workspace-index)から関連するコード スニペットを収集します:
 
-    * [GitHub's code search](https://github.blog/2023-02-06-the-technology-behind-githubs-new-code-search)
-    * Local semantic search to find code that matches the meaning of your question, not just exact keywords
-    * Text-based file-name and content search
-    * VS Code's language IntelliSense to add details like function signatures, parameters, and more.
+    * [GitHubのコード検索](https://github.blog/2023-02-06-the-technology-behind-githubs-new-code-search)
+    * 厳密なキーワード一致だけでなく、質問の意味に一致するコードを見つけるためのローカルのセマンティック検索
+    * テキストベースのファイル名と内容の検索
+    * 関数シグネチャ、パラメーターなどの詳細を追加するためのVS Codeの言語IntelliSense
 
-1. If the resulting context is too large to fit in the _context window_, only the most relevant parts are kept.
+1. 生成されたコンテキストが_コンテキスト ウィンドウ_に収まらないほど大きい場合は、最も関連性の高い部分のみが保持されます。
 
-## Workspace index
+## ワークスペース インデックス
 
-Chat in VS Code uses an index to quickly and accurately search your codebase for relevant code snippets. This index can either be maintained by GitHub or stored locally on your machine.
+VS Codeのチャットは、関連するコード スニペットをコードベースからすばやく正確に検索するためにインデックスを使用します。このインデックスはGitHubによって維持されるか、マシンにローカル保存されます。
 
-The remote index is built from the committed state of your repository on GitHub or Azure DevOps. This means that any uncommitted changes in your local workspace are not included in the remote index.
+リモート インデックスは、GitHubまたはAzure DevOps上のリポジトリのコミット済みの状態から構築されます。これは、ローカル ワークスペース内の未コミットの変更はリモート インデックスに含まれないことを意味します。
 
-When you have local uncommitted changes, VS Code uses a hybrid approach combining the remote index with local file tracking. VS Code detects which files have been modified since the indexed commit and also reads the current file content from the editor for real-time content.
+ローカルに未コミットの変更がある場合、VS Codeはリモート インデックスとローカル ファイル トラッキングを組み合わせたハイブリッド アプローチを使用します。VS Codeは、インデックス化されたコミット以降に変更されたファイルを検出し、リアルタイムの内容としてエディターから現在のファイル内容も読み取ります。
 
-You can view the type of index that is being used and its indexing status in the Copilot status dashboard in the VS Code Status Bar.
+使用されているインデックスの種類とそのインデックス作成状態は、VS Codeのステータス バーにあるCopilotステータス ダッシュボードで確認できます。
 
 ![Screenshot showing the workspace index status in the Copilot status menu.](../images/workspace-context/workspace-index-status.png)
 
-### Remote index
+### リモート インデックス
 
-VS Code can use remote code search indexes to enable AI to search your codebase quickly, even for large codebases. Remote code search is currently available for workspaces that use GitHub or Azure DevOps repositories.
+VS Codeは、リモートのコード検索インデックスを使用して、大規模なコードベースでもAIがコードベースをすばやく検索できるようにします。リモートのコード検索は現在、GitHubまたはAzure DevOpsリポジトリを使用するワークスペースで利用できます。
 
-#### GitHub remote indexing
+#### GitHubのリモート インデックス作成
 
-VS Code automatically builds and uses remote code search indexes for any GitHub-backed repositories in your workspace. Sign in with your GitHub account in VS Code and chat will automatically start using any available remote code search indexes.
+VS Codeは、ワークスペース内のGitHubで管理されているリポジトリについて、リモートのコード検索インデックスを自動的に構築して使用します。VS CodeでGitHubアカウントにサインインすると、チャットは利用可能なリモートのコード検索インデックスを自動的に使用し始めます。
 
-Repositories are automatically indexed the first time `@workspace` or `#codebase` is used in chat.  You can also force indexing by running the **Build Remote Workspace Index** command in the Command Palette (`kb(workbench.action.showCommands)`).
+リポジトリは、チャットで初めて`@workspace`または`#codebase`が使用されたときに自動的にインデックス化されます。コマンド パレット(`kb(workbench.action.showCommands)`)で**Build Remote Workspace Index**コマンドを実行して、インデックス作成を強制することもできます。
 
-The index only needs to be built once per repository. After that, the index is automatically kept up to date. Building the index is fast for small and medium sized projects, but may take a little time if your repository contains hundreds of thousands of files. The remote index works also best if GitHub has a relatively up-to-date version of your code, so make sure to push your code to GitHub regularly.
+インデックスはリポジトリごとに一度だけ構築すれば十分です。その後はインデックスが自動的に最新の状態に保たれます。インデックスの構築は小規模および中規模のプロジェクトでは高速ですが、リポジトリに数十万のファイルが含まれている場合は少し時間がかかることがあります。また、GitHubに比較的新しいバージョンのコードがある場合にリモート インデックスは最適に機能するため、コードは定期的にGitHubへプッシュしてください。
 
-Currently remote indexing works for GitHub repositories hosted on GitHub.com or on GitHub Enterprise Cloud. It is not supported for repositories that use GitHub Enterprise Server.
+現在、リモート インデックス作成はGitHub.comまたはGitHub Enterprise CloudでホストされているGitHubリポジトリで動作します。GitHub Enterprise Serverを使用するリポジトリではサポートされていません。
 
-#### Azure DevOps remote indexing
+#### Azure DevOpsのリモート インデックス作成
 
-VS Code can also use remote indexes for Azure DevOps repositories. These indexes are automatically built and maintained. Sign in with your Microsoft account in VS Code for chat to start using the remote indexes. Check the Copilot Status Bar item for the current index status and to get a sign-in link if your account doesn't have the right permissions to access the Azure DevOps repository.
+VS Codeは、Azure DevOpsリポジトリでもリモート インデックスを使用できます。これらのインデックスは自動的に構築され、維持されます。VS CodeでMicrosoftアカウントにサインインすると、チャットがリモート インデックスの使用を開始します。現在のインデックス状態を確認したり、アカウントにAzure DevOpsリポジトリへアクセスするための適切な権限がない場合にサインイン リンクを取得したりするには、Copilotステータス バー項目を確認してください。
 
-### Local index
+### ローカル インデックス
 
-If you can't use a [remote index](#remote-index), for example because you're not using a GitHub or Azure DevOps repository, VS Code can use an advanced semantic index that is stored on your local machine to provide fast, high quality search results. Currently, local indexes are limited to 2500 indexable files.
+[リモート インデックス](#remote-index)を使用できない場合(たとえばGitHubまたはAzure DevOpsリポジトリを使用していない場合)、VS Codeはローカル マシンに保存された高度なセマンティック インデックスを使用して、高速で高品質な検索結果を提供できます。現在、ローカル インデックスはインデックス可能なファイルが2500個までに制限されています。
 
-To build a local index:
+ローカル インデックスを構築するには:
 
-* The project has less than 750 indexable files: VS Code automatically builds an advanced local index.
+* プロジェクトにインデックス可能なファイルが750個未満ある場合: VS Codeは高度なローカル インデックスを自動的に構築します。
 
-* The project has between 750 and 2500 indexable files: run the **Build local workspace index** command in the Command Palette (`kb(workbench.action.showCommands)`) - this should only be run once.
+* プロジェクトにインデックス可能なファイルが750～2500個ある場合: コマンド パレット(`kb(workbench.action.showCommands)`)で**Build local workspace index**コマンドを実行します。これは一度だけ実行すれば十分です。
 
-* The project has more than 2500 indexable files: use a [basic index](#basic-index).
+* プロジェクトにインデックス可能なファイルが2500個を超える場合: [基本インデックス](#basic-index)を使用します。
 
-It might take some time to build the initial local index or update the index if many files have changed, for example when switching git branches. You can monitor the current local index status in the Copilot status dashboard in the Status Bar.
+最初のローカル インデックスを構築したり、たとえばgitブランチの切り替えなどで多くのファイルが変更された場合にインデックスを更新したりするには、時間がかかることがあります。現在のローカル インデックスの状態は、ステータス バーのCopilotステータス ダッシュボードで監視できます。
 
-### Basic index
+### 基本インデックス
 
-If your project does not have a [remote index](#remote-index) and has more than 2500 [indexable files](#what-content-is-included-in-the-workspace-index), VS Code falls back to using a basic index to search your codebase. This index uses simpler algorithms to search your codebase and is optimized to work locally for larger codebases.
+プロジェクトに[リモート インデックス](#remote-index)がなく、[インデックス可能なファイル](#what-content-is-included-in-the-workspace-index)が2500個を超える場合、VS Codeはコードベースの検索に基本インデックスを使用するようフォールバックします。このインデックスはよりシンプルなアルゴリズムを使用してコードベースを検索し、大規模なコードベースでローカルに動作するよう最適化されています。
 
-The basic index should work just fine for many types of chat prompts. However, if you find that chat is struggling to provide relevant answers to questions about your codebase, consider upgrading to a [remote index](#remote-index).
+基本インデックスは多くの種類のチャット プロンプトで十分に機能するはずです。ただし、チャットがコードベースに関する質問に対して関連性の高い回答を提供するのに苦労していると感じる場合は、[リモート インデックス](#remote-index)へのアップグレードを検討してください。
 
-### What content is included in the workspace index
+### ワークスペース インデックスに含まれる内容
 
-VS Code indexes relevant text files that are part of your current project. This is not limited to specific file types or programming languages, however VS Code automatically skips over some common file types that are typically not relevant to workspace questions, such as `.tmp` or `.out` files.
+VS Codeは、現在のプロジェクトの一部である関連するテキスト ファイルをインデックス化します。これは特定のファイルの種類やプログラミング言語に限定されませんが、VS Codeは`.tmp`や`.out`ファイルなど、ワークスペースに関する質問には通常関連しない一般的なファイルの種類を自動的にスキップします。
 
-The workspace index also excludes any files that are excluded from VS Code using the `setting(files.exclude)` setting or that are part of the `.gitignore` file.
+ワークスペース インデックスは、`setting(files.exclude)`設定でVS Codeから除外されているファイルや、`.gitignore`ファイルに含まれるファイルも除外します。
 
-VS Code also currently does not index binary files, such as images or PDFs.
+また、VS Codeは現在、画像やPDFなどのバイナリ ファイルはインデックス化しません。
 
-## Use workspace context in chat
+## チャットでワークスペース コンテキストを使用する
 
-When you ask a workspace-related question in chat, the behavior for determining the workspace context depends on which agent you're using:
+チャットでワークスペースに関する質問をする場合、ワークスペース コンテキストを判定する動作は、使用しているエージェントによって異なります:
 
 * **Agent/Plan**
 
-    When using agents, the agent automatically performs an _agentic_ codebase search based on your prompt. This means that after performing an initial search to determine the workspace context, depending on the results, the agent might decide to perform additional, more targeted searches to gather the information it needs to answer your question.
+    エージェントを使用している場合、エージェントはプロンプトに基づいて自動的に_エージェント的_なコードベース検索を実行します。これは、ワークスペース コンテキストを判定するための最初の検索を行った後、結果に応じて、質問に答えるために必要な情報を収集するための追加の、より的を絞った検索を実行することをエージェントが決定する可能性があることを意味します。
 
-    You don't need to explicitly reference the `#codebase` tool in your prompt, but you can do so if you want to ensure that workspace context is used for your question. This is useful if your prompt is ambiguous and might be interpreted as not requiring workspace context.
+    プロンプトで`#codebase`ツールを明示的に参照する必要はありませんが、質問でワークスペース コンテキストが使用されることを確実にしたい場合は参照できます。これは、プロンプトが曖昧で、ワークスペース コンテキストを必要としないものとして解釈される可能性がある場合に役立ちます。
 
 * **Ask/Edit**
 
-    In Ask or Edit, VS Code performs intent detection on your prompt to determine if it requires workspace context. If requires workspace context, VS Code performs a codebase search and adds the relevant code snippets to the chat context. As opposed to using agents, no follow-up searches are performed.
+    AskまたはEditでは、VS Codeはプロンプトに対して意図検出を行い、ワークスペース コンテキストが必要かどうかを判断します。ワークスペース コンテキストが必要な場合、VS Codeはコードベース検索を実行し、関連するコード スニペットをチャット コンテキストに追加します。エージェントの使用とは異なり、フォローアップ検索は実行されません。
 
-    You don't need to explicitly reference the `#codebase` tool in your prompt, but you can do so if you want to ensure that workspace context is used for your question. This is useful if your prompt is ambiguous and might be interpreted as not requiring workspace context.
+    プロンプトで`#codebase`ツールを明示的に参照する必要はありませんが、質問でワークスペース コンテキストが使用されることを確実にしたい場合は参照できます。これは、プロンプトが曖昧で、ワークスペース コンテキストを必要としないものとして解釈される可能性がある場合に役立ちます。
 
-## Tips for using workspace context
+## ワークスペース コンテキストを使用するためのヒント
 
-The way you phrase your question can significantly influence the quality of the context and the accuracy of the response. To optimize results, consider the following tips:
+質問の言い回しは、コンテキストの品質と回答の正確性に大きく影響します。結果を最適化するために、次のヒントを検討してください:
 
-* Be specific and detailed in your question, avoiding vague or ambiguous terms like "what does this do", where "this" could be interpreted as the last answer, current file, or whole project.
-* Incorporate terms and concepts in your prompt that are likely to appear in your code or its documentation.
-* Explicitly include relevant context by selecting code, referencing files, or [#-mentioning context items](/docs/copilot/chat/copilot-chat-context.md) such as debug context, terminal output, and more.
-* Responses can draw from multiple references, such as "find exceptions without a catch block" or "provide examples of how handleError is called". However, don't anticipate a comprehensive code analysis across your codebase, such as "how many times is this function invoked?" or "rectify all bugs in this project".
-* When asking about information beyond the code, such as "who contributed to this file?" or "summarize review comments for this folder", make sure to configure the relevant [tools or MCP servers](/docs/copilot/chat/chat-tools.md) when using agents.
+* 質問は具体的かつ詳細にし、「これは何をしますか」のような曖昧な表現は避けてください。この場合の「これ」は、直前の回答、現在のファイル、またはプロジェクト全体として解釈される可能性があります。
+* コードやそのドキュメントに出現しそうな用語や概念をプロンプトに取り入れてください。
+* コードを選択したり、ファイルを参照したり、デバッグ コンテキスト、ターミナル出力などのコンテキスト項目を[#-メンション](/docs/copilot/chat/copilot-chat-context.md)したりして、関連するコンテキストを明示的に含めてください。
+* 回答は、「catchブロックのない例外を見つける」や「handleErrorが呼び出される方法の例を示す」のように、複数の参照から導かれることがあります。ただし、「この関数は何回呼び出されていますか?」や「このプロジェクトのすべてのバグを修正してください」のような、コードベース全体にわたる包括的なコード解析を期待しないでください。
+* 「このファイルに誰が貢献しましたか?」や「このフォルダーのレビュー コメントを要約してください」のように、コード以外の情報を尋ねる場合は、エージェントを使用するときに関連する[ツールまたはMCPサーバー](/docs/copilot/chat/chat-tools.md)を構成してください。
 
-## Private repositories
+## プライベート リポジトリ
 
-To enable more workspace search features for private repositories, we require additional permissions. If we detect that we don't have these permissions already, we will ask for them at startup. Once granted, we'll securely store the session for the future.
+プライベート リポジトリでより多くのワークスペース検索機能を有効にするには、追加のアクセス許可が必要です。これらのアクセス許可がまだないことが検出された場合、起動時に要求します。許可されると、今後のためにセッションを安全に保存します。
 
 ![Modal window asking for additional authentication for a private repository.](../images/workspace-context/authentication.png)
 
-Learn more about security, privacy, and transparency in the [GitHub Copilot Trust Center](https://resources.github.com/copilot-trust-center/).
+セキュリティ、プライバシー、透明性の詳細については、[GitHub Copilot Trust Center](https://resources.github.com/copilot-trust-center/)を参照してください。
 
-## Frequently asked questions
+## よく寄せられる質問
 
-### What is the difference between `@workspace` and `#codebase`?
+### `@workspace`と`#codebase`の違いは何ですか?
 
-Conceptually, both `@workspace` and `#codebase` enable you to ask questions about your entire codebase. However, there are some differences in how you can use them:
+概念的には、`@workspace`と`#codebase`のどちらもコードベース全体に関する質問をできるようにします。ただし、使い方にはいくつかの違いがあります:
 
-* `@workspace` is a [chat participant](/docs/copilot/chat/copilot-chat-context.md#atmentions)
+* `@workspace`は[チャット参加者](/docs/copilot/chat/copilot-chat-context.md#atmentions)です
 
-    The `@workspace` participant is subject matter expert that is specialized to answering questions about your codebase. The language model hands off the entire chat prompt to the participant, which uses its knowledge of the codebase to provide an answer. The language model can't perform any additional processing or invoke other tools when using a chat participant. A chat prompt can only contain a single chat participant.
+    `@workspace`参加者は、コードベースに関する質問に答えることに特化した分野の専門家です。言語モデルはチャット プロンプト全体を参加者に引き渡し、参加者はコードベースに関する知識を使って回答を提供します。チャット参加者を使用しているとき、言語モデルは追加の処理を実行したり、他のツールを呼び出したりできません。チャット プロンプトに含められるチャット参加者は1つだけです。
 
-* `#codebase` is a [chat tool](/docs/copilot/chat/chat-tools)
+* `#codebase`は[チャット ツール](/docs/copilot/chat/chat-tools)です
 
-    The `#codebase` tool is specialized in searching your codebase for relevant information. It is one of many tools that the language model can choose to invoke when answering your chat prompt. The language model can decide to invoke the `#codebase` tool multiple times, interleaved with other tools, to gather the information it needs to answer your question. A chat prompt can contain multiple tools.
+    `#codebase`ツールは、コードベースから関連情報を検索することに特化しています。これは、チャット プロンプトに答えるときに言語モデルが呼び出すことを選択できる多数のツールの1つです。言語モデルは、質問に答えるために必要な情報を収集するために、他のツールと織り交ぜながら`#codebase`ツールを複数回呼び出すことを決定できます。チャット プロンプトには複数のツールを含めることができます。
 
-It's recommended to use `#codebase` in your chat prompts, as it provides more flexibility.
+柔軟性が高いため、チャット プロンプトでは`#codebase`を使用することをおすすめします。

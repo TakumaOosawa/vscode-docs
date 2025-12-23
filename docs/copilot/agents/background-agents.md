@@ -1,7 +1,7 @@
 ---
 ContentId: 9f1a2b3c-4e5f-6d7c-8a9b-1c2d3e4f5a6b
 DateApproved: 12/10/2025
-MetaDescription: Learn how to use background agents like Copilot CLI for autonomous coding tasks, terminal integration, and isolated development workflows in VS Code.
+MetaDescription: VS Codeで、自律的なコーディング タスク、ターミナル統合、分離された開発ワークフローに利用できるCopilot CLIなどのバックグラウンド エージェントの使い方を学びます。
 MetaSocialImage: ../images/shared/github-copilot-social.png
 Keywords:
 - ai
@@ -10,31 +10,31 @@ Keywords:
 - copilot cli
 ---
 
-# Background agents in Visual Studio Code
+# Visual Studio Codeのバックグラウンド エージェント
 
-Background agents in Visual Studio Code are CLI-based agents, such as Copilot CLI, that run in the background on your local machine. They operate autonomously while you continue other work in the editor. Background agents can use Git worktrees to work isolated from your main workspace and prevent conflicts with your active work.
+Visual Studio Codeのバックグラウンド エージェントは、ローカル マシン上でバックグラウンドで実行されるCopilot CLIなどのCLIベースのエージェントです。エディターで別の作業を続けている間も、自律的に動作します。バックグラウンド エージェントはGit worktreeを使用してメイン ワークスペースから分離して作業し、進行中の作業との競合を防ぐことができます。
 
-This article covers the key features of background agents, and how to start and manage background sessions from Copilot CLI or OpenAI Codex.
+この記事では、バックグラウンド エージェントの主な機能と、Copilot CLIまたはOpenAI Codexからバックグラウンド セッションを開始および管理する方法について説明します。
 
-![Screenshot of background agent session as a chat editor in VS Code.](../images/background-agents/background-agent-session.png)
+![VS Codeで、バックグラウンド エージェント セッションをチャット エディターとして表示しているスクリーンショット。](../images/background-agents/background-agent-session.png)
 
-## What are background agents?
+## バックグラウンド エージェントとは
 
-Unlike local agents that operate in and have aware of VS Code's editor context, background agents run independently via command-line interfaces (CLIs) on your local machine. You can view and manage all your background agent sessions from the unified Chat view in VS Code. This view also lets you create new background agent sessions directly from VS Code or hand off local agent conversations to background agents.
+VS Codeのエディター コンテキスト内で動作し、その内容を認識できるローカル エージェントとは異なり、バックグラウンド エージェントはローカル マシン上でコマンドライン インターフェイス(CLI)を介して独立して実行されます。VS Codeの統合されたチャット ビューから、すべてのバックグラウンド エージェント セッションを表示して管理できます。このビューでは、VS Codeから直接新しいバックグラウンド エージェント セッションを作成したり、ローカル エージェントの会話をバックグラウンド エージェントに引き継いだりすることもできます。
 
-Because background agents run in the background without user interaction, they are well-suited for tasks that have a well-defined scope and all necessary context. Examples include implementing a feature from a plan, creating multiple variants of a proof of concept, or implementing clearly defined fixes or features.
+バックグラウンド エージェントはユーザー操作なしでバックグラウンド実行されるため、スコープが明確で必要なコンテキストがそろっているタスクに適しています。たとえば、計画に基づく機能の実装、概念実証の複数バリエーションの作成、明確に定義された修正や機能の実装などがあります。
 
-Background agents autonomously apply changes to your codebase. To prevent interference with your active work in the editor, background agents can use Git worktrees to run in an [isolated environment](#create-an-isolated-background-agent-session-experimental) where they can make changes without affecting your main workspace. When you start a background agent session with worktree isolation, VS Code automatically creates a separate folder for that session. You can choose to run a background agent in your main workspace, however this might lead to conflicts.
+バックグラウンド エージェントは、コードベースへの変更を自律的に適用します。エディターでの進行中の作業への干渉を防ぐため、バックグラウンド エージェントはGit worktreeを使用して[分離された環境](#create-an-isolated-background-agent-session-experimental)で実行でき、メイン ワークスペースに影響を与えずに変更を行えます。worktreeの分離でバックグラウンド エージェント セッションを開始すると、VS Codeはそのセッション用に別のフォルダーを自動的に作成します。メイン ワークスペースでバックグラウンド エージェントを実行することもできますが、競合が発生する可能性があります。
 
-Background agents run via the CLI and can't directly access VS Code built-in tools and run-time context (like failed tests or text selections). They also don't have access to MCP servers or extension-provided tools. They are limited to the models available via the CLI tool. Background agents can run terminal commands and might prompt you for approvals if needed.
+バックグラウンド エージェントはCLI経由で実行され、VS Codeの組み込みツールや実行時コンテキスト(失敗したテストやテキスト選択など)に直接アクセスできません。また、MCPサーバーや拡張機能が提供するツールにもアクセスできません。CLIツール経由で利用可能なモデルに限定されます。バックグラウンド エージェントはターミナル コマンドを実行でき、必要に応じて承認を求めることがあります。
 
-To assign a task to a background agent, you can create a new background session directly from the Chat view, use the agent's dedicated CLI, or hand off a local chat conversation from VS Code as a background agent session.
+バックグラウンド エージェントにタスクを割り当てるには、チャット ビューから直接新しいバックグラウンド セッションを作成する、エージェント専用のCLIを使用する、またはVS Codeのローカル チャット会話をバックグラウンド エージェント セッションとして引き継ぐ方法があります。
 
 ### Copilot CLI
 
-The **Copilot CLI** is the primary background agent in VS Code. You can use the Copilot CLI directly from the terminal or start and manage sessions from with VS Code.
+**Copilot CLI**は、VS Codeの主要なバックグラウンド エージェントです。ターミナルからCopilot CLIを直接使用するか、VS Codeからセッションを開始および管理できます。
 
-To get started, make sure to install and set up Copilot CLI. VS Code should handle this for you, but you can also choose to manually install the CLI via the following command:
+開始するには、Copilot CLIをインストールしてセットアップしてください。VS Codeがこれを処理するはずですが、次のコマンドでCLIを手動でインストールすることもできます。
 
 ```bash
 npm install -g @github/copilot
@@ -44,152 +44,152 @@ Learn more about [Copilot CLI](https://docs.github.com/en/copilot/concepts/agent
 
 ### OpenAI Codex
 
-The **OpenAI Codex** background agent uses OpenAI's Codex to perform coding tasks autonomously. To use the OpenAI Codex agent, make sure to install the [OpenAI Codex](https://marketplace.visualstudio.com/items?itemName=openai.chatgpt) extension from the Visual Studio Marketplace.
+**OpenAI Codex**バックグラウンド エージェントはOpenAIのCodexを使用して、自律的にコーディング タスクを実行します。OpenAI Codexエージェントを使用するには、Visual Studio Marketplaceから[OpenAI Codex](https://marketplace.visualstudio.com/items?itemName=openai.chatgpt)拡張機能をインストールしてください。
 
-OpenAI Codex in VS Code enables you to use your Copilot Pro+ subscription to authenticate and access Codex without additional setup. Get more information about [GitHub Copilot billing and premium requests](https://docs.github.com/en/copilot/concepts/billing/copilot-requests) in the GitHub documentation.
+VS CodeのOpenAI Codexでは、Copilot Pro+サブスクリプションを使用して認証し、追加のセットアップなしでCodexにアクセスできます。[GitHub Copilotの請求とプレミアム リクエスト](https://docs.github.com/en/copilot/concepts/billing/copilot-requests)の詳細はGitHubドキュメントを参照してください。
 
-## View and manage background agent sessions
+## バックグラウンド エージェント セッションを表示して管理する
 
-You can view and manage all your background agent sessions from the Chat view in VS Code. Filter the session list to show only background agent sessions by selecting the **Background Agents** from the filter options.
+VS Codeのチャット ビューから、すべてのバックグラウンド エージェント セッションを表示して管理できます。フィルター オプションから**バックグラウンド エージェント**を選択すると、セッション一覧をバックグラウンド エージェント セッションのみに絞り込めます。
 
-![Screenshot of background agent filter in VS Code Chat view.](../images/background-agents/background-agent-filter.png)
+![VS Codeのチャット ビューにあるバックグラウンド エージェント フィルターのスクリーンショット。](../images/background-agents/background-agent-filter.png)
 
-Select a background agent session from the list to open the session details in the Chat view. If you prefer to view the session in an editor tab (chat editor), right-click the session and select **Open as Editor**.
+一覧からバックグラウンド エージェント セッションを選択すると、チャット ビューでセッションの詳細が開きます。エディター タブ(チャット エディター)でセッションを表示したい場合は、セッションを右クリックして**エディターとして開く**を選択します。
 
-If you prefer to view a background session in the terminal instead of the chat conversation in VS Code, right-click the session in the Chat view and select **Resume Agent Session in Terminal**. You can interact with the Copilot CLI directly in VS Code.
+VS Code内のチャット会話ではなくターミナルでバックグラウンド セッションを表示したい場合は、チャット ビューでセッションを右クリックし、**ターミナルでエージェント セッションを再開**を選択します。VS CodeでCopilot CLIを直接操作できます。
 
-![Screenshot showing the Copilot CLI session inside VS Code.](../images/background-agents/copilot-cli-in-terminal.png)
+![VS Code内でCopilot CLIセッションを表示しているスクリーンショット。](../images/background-agents/copilot-cli-in-terminal.png)
 
-## Start a background agent session
+## バックグラウンド エージェント セッションを開始する
 
-Depending on your workflow, you can start background agent sessions in several ways. You can create a new session and provide the task details directly by using the CLI, or start a new session from the [Chat view](/docs/copilot/agents/overview.md#manage-agent-sessions) in VS Code.
+ワークフローに応じて、いくつかの方法でバックグラウンド エージェント セッションを開始できます。CLIを使用して新しいセッションを作成し、タスクの詳細を直接指定することも、VS Codeの[チャット ビュー](/docs/copilot/agents/overview.md#manage-agent-sessions)から新しいセッションを開始することもできます。
 
-Another approach - especially for complex tasks - is to first interact with a local agent in chat in VS Code, and once the scope and details are clear, hand off the task to a background agent session. For example, you might use the [Plan agent](/docs/copilot/chat/chat-planning.md) to outline a multi-step feature implementation, then delegate the actual coding to a background agent.
+別の方法として(特に複雑なタスクの場合)、まずVS Codeのチャットでローカル エージェントとやり取りし、スコープと詳細が明確になったらタスクをバックグラウンド エージェント セッションに引き継ぐことができます。たとえば、[Plan agent](/docs/copilot/chat/chat-planning.md)を使用して複数ステップの機能実装を概略化し、その後の実際のコーディングをバックグラウンド エージェントに委任できます。
 
 ### Create a Copilot CLI background agent session
 
-You can create a new Copilot CLI background agent session in VS Code in several ways:
+VS Codeでは、いくつかの方法で新しいCopilot CLIバックグラウンド エージェント セッションを作成できます。
 
-* From the Chat view:
+* チャット ビューから:
 
-    1. Open the Chat view (`kb(workbench.action.chat.open)`)
+    1. チャット ビューを開く(`kb(workbench.action.chat.open)`)
 
-    1. Select the **New Chat** dropdown > **New Background Agent**
+    1. **新しいチャット**のドロップダウン > **新しいバックグラウンド エージェント**を選択する
 
-* While you're in a local chat session:
+* ローカル チャット セッション中:
 
-    * Type `@cli <task description>` in the chat input and send the message
+    * チャット入力に`@cli <task description>`と入力してメッセージを送信する
 
-    * Enter a prompt and then select **Continue In** > **Background Agent**
+    * プロンプトを入力し、**続行先** > **バックグラウンド エージェント**を選択する
 
-* Run the **Chat: New Background Agent** command from the Command Palette (`kb(workbench.action.showCommands)`)
+* コマンド パレット(`kb(workbench.action.showCommands)`)から**Chat: 新しいバックグラウンド エージェント**コマンドを実行する
 
-A new background agent session opens where you can provide additional task details and track the progress of the Copilot CLI session.
+新しいバックグラウンド エージェント セッションが開き、追加のタスク詳細を指定したり、Copilot CLIセッションの進行状況を追跡したりできます。
 
 > [!TIP]
-> When you use the GitHub Copilot CLI in the terminal to start a session, the Chat view in VS Code automatically detects and displays this background session. You can further interact with this background session from within VS Code.
+> ターミナルでGitHub Copilot CLIを使用してセッションを開始すると、VS Codeのチャット ビューがこのバックグラウンド セッションを自動的に検出して表示します。VS Code内からこのバックグラウンド セッションをさらに操作できます。
 
 ### Create an OpenAI Codex background agent session
 
-To create a new OpenAI Codex background agent session from the Chat view:
+チャット ビューから新しいOpenAI Codexバックグラウンド エージェント セッションを作成するには:
 
-* From the Chat view:
+* チャット ビューから:
 
-    1. Open the Chat view (`kb(workbench.action.chat.open)`)
+    1. チャット ビューを開く(`kb(workbench.action.chat.open)`)
 
-    1. Select the **New Chat** dropdown > **New Codex Agent**
+    1. **新しいチャット**のドロップダウン > **新しいCodex エージェント**を選択する
 
-* Run the **Codex: New Codex Agent** command from the Command Palette (`kb(workbench.action.showCommands)`)
+* コマンド パレット(`kb(workbench.action.showCommands)`)から**Codex: 新しいCodex エージェント**コマンドを実行する
 
-A new Codex background agent session opens where you can provide additional task details and track the progress of the Codex session.
+新しいCodexバックグラウンド エージェント セッションが開き、追加のタスク詳細を指定したり、Codexセッションの進行状況を追跡したりできます。
 
 ### Hand off an agent session to a background agent
 
-For complex tasks, it can be helpful to first interact with a local agent in VS Code chat to clarify requirements, then hand off the task to a background agent for autonomous execution. When you hand off a local agent conversation to a background agent session, the full conversation history and context is passed to the background agent.
+複雑なタスクの場合、まずVS Codeのチャットでローカル エージェントとやり取りして要件を明確にし、その後、自律実行のためにタスクをバックグラウンド エージェントに引き継ぐと便利です。ローカル エージェントの会話をバックグラウンド エージェント セッションに引き継ぐと、会話履歴とコンテキストの全体がバックグラウンド エージェントに渡されます。
 
-To continue a local agent session in a background agent session:
+ローカル エージェント セッションをバックグラウンド エージェント セッションで続行するには:
 
-1. Open the Chat view (`kb(workbench.action.chat.open)`)
+1. チャット ビューを開く(`kb(workbench.action.chat.open)`)
 
-1. Interact with a local agent until you're ready to hand off the task to a background agent
+1. タスクをバックグラウンド エージェントに引き継ぐ準備ができるまで、ローカル エージェントとやり取りする
 
-1. To hand off to a background agent, you have the following options:
+1. バックグラウンド エージェントに引き継ぐには、次のオプションがあります。
 
-    * Select **Continue In** and then select **Background**
+    * **続行先**を選択し、**バックグラウンド**を選択する
 
-        ![Screenshot showing the "Continue in Chat" button in VS Code chat interface.](../images/background-agents/continue-in-chat-background.png)
+        ![VS Codeのチャット インターフェイスにある「Continue in Chat」ボタンを示すスクリーンショット。](../images/background-agents/continue-in-chat-background.png)
 
-    * If you're using the [Plan agent](/docs/copilot/chat/chat-planning.md), select the **Start Implementation** dropdown and the select **Continue in Background** to run the implementation in a background agent session
+    * [Plan agent](/docs/copilot/chat/chat-planning.md)を使用している場合は、**Start Implementation**のドロップダウンを選択し、**Continue in Background**を選択して、バックグラウンド エージェント セッションで実装を実行する
 
-        ![Screenshot showing the "Start Implementation" button in VS Code chat interface.](../images/background-agents/plan-agent-start-implementation-background.png)
+        ![VS Codeのチャット インターフェイスにある「Start Implementation」ボタンを示すスクリーンショット。](../images/background-agents/plan-agent-start-implementation-background.png)
 
-    * Type `@cli` in the chat input to hand off the task to a background agent
+    * チャット入力で`@cli`と入力し、タスクをバックグラウンド エージェントに引き継ぐ
 
-The background agent session starts automatically, carrying over the full conversation history and context. You can monitor the background agent's progress in the Chat view.
+バックグラウンド エージェント セッションは自動的に開始され、会話履歴とコンテキストの全体が引き継がれます。チャット ビューでバックグラウンド エージェントの進行状況を監視できます。
 
-## Create an isolated background agent session (Experimental)
+## 分離されたバックグラウンド エージェント セッションを作成する(試験段階)
 
-To isolate background agent changes from your main workspace, you can create a background agent session that uses a [Git worktree](/docs/sourcecontrol/branches-worktrees.md#understanding-worktrees). When you create a worktree, VS Code creates a separate folder for the session. The background agent operates in this isolated folder, to prevent conflicts with your active work.
+バックグラウンド エージェントによる変更をメイン ワークスペースから分離するために、[Git worktree](/docs/sourcecontrol/branches-worktrees.md#understanding-worktrees)を使用するバックグラウンド エージェント セッションを作成できます。worktreeを作成すると、VS Codeはそのセッション用に別のフォルダーを作成します。バックグラウンド エージェントはこの分離フォルダー内で動作し、進行中の作業との競合を防ぎます。
 
-To use Git worktrees in a background agent session:
+バックグラウンド エージェント セッションでGit worktreeを使用するには:
 
-1. Start a new Copilot CLI background agent session in VS Code.
+1. VS Codeで新しいCopilot CLIバックグラウンド エージェント セッションを開始します。
 
-1. In the chat input box, select **Worktree** for the isolation mode.
+1. チャット入力ボックスで、分離モードとして**Worktree**を選択します。
 
-    ![Screenshot showing the "Worktree" isolation mode option in VS Code chat interface.](../images/background-agents/isolated-run-mode.png)
+    ![VS Codeのチャット インターフェイスで「Worktree」分離モード オプションを表示しているスクリーンショット。](../images/background-agents/isolated-run-mode.png)
 
-    When you select **Workspace**, the background agent applies changes directly to your main workspace.
+    **Workspace**を選択すると、バックグラウンド エージェントはメイン ワークスペースに直接変更を適用します。
 
-1. Enter a prompt to start the agent session. VS Code automatically creates a new Git worktree.
+1. プロンプトを入力してエージェント セッションを開始します。VS Codeは新しいGit worktreeを自動的に作成します。
 
-    All changes made by the background agent are applied to the worktree folder, isolating them from your main workspace.
+    バックグラウンド エージェントが行ったすべての変更はworktreeフォルダーに適用され、メイン ワークスペースから分離されます。
 
-1. In Source Control view, in the **Repositories** view, you can view the Git worktree
+1. ソース管理ビューの**リポジトリ**ビューで、Git worktreeを確認できます。
 
-    ![Screenshot showing Git worktree in VS Code Source Control view.](../images/background-agents/git-worktree-source-control.png)
+    ![VS Codeのソース管理ビューでGit worktreeを表示しているスクリーンショット。](../images/background-agents/git-worktree-source-control.png)
 
-    The Agents view also shows the worktree path for the background agent session.
+    エージェント ビューにも、バックグラウンド エージェント セッションのworktreeパスが表示されます。
 
-1. Monitor the background agent's progress in the Agents view
+1. エージェント ビューでバックグラウンド エージェントの進行状況を監視します。
 
-1. After the background agent completes the task, you can review and merge the changes from the worktree back into your main workspace.
+1. バックグラウンド エージェントがタスクを完了したら、worktreeの変更をレビューし、メイン ワークスペースにマージできます。
 
-    At the bottom of the background session output, there's a summary of the files changed from this background agent session, followed by all outstanding changes from this worktree (which could have come from the background agent, or your own edits to the worktree).
+    バックグラウンド セッション出力の下部には、このバックグラウンド エージェント セッションで変更されたファイルの概要が表示され、その後にこのworktreeの未処理の変更(バックグラウンド エージェントによるもの、またはworktreeに対する自分の編集によるもの)がすべて続きます。
 
-    ![Screenshot showing the ability to keep worktree changes.](../images/background-agents/filechanges.png)
+    ![worktreeの変更を保持できることを示すスクリーンショット。](../images/background-agents/filechanges.png)
 
-    You can choose to:
-    * Explore the file changes, by clicking on individual file names or using the `View All Edits` diff button
-    * Use the `Keep` button to keep the pending changes from the agentic session, or `Undo` to remove them
-    * Use the `Apply` button to apply all changes that were kept on the worktree to your local repository
+    次の操作を選択できます。
+    * 個々のファイル名をクリックするか、`View All Edits`の差分ボタンを使用して、ファイルの変更を確認する
+    * `Keep`ボタンを使用してエージェント セッションの保留中の変更を保持する、または`Undo`でそれらを削除する
+    * `Apply`ボタンを使用して、worktree上で保持されたすべての変更をローカル リポジトリに適用する
 
-Learn more about [using Git worktrees in VS Code source control](/docs/sourcecontrol/branches-worktrees.md).
+[VS Codeのソース管理でGit worktreeを使用する](/docs/sourcecontrol/branches-worktrees.md)方法の詳細を参照してください。
 
-## Use custom agents with background agents (Experimental)
+## バックグラウンド エージェントでカスタム エージェントを使用する(試験段階)
 
-[Custom agents](/docs/copilot/customization/custom-agents.md) let you define custom personas and roles for agents in VS Code. For example, you might create a custom agent for performing code reviews. Custom agents can define specific instructions and behaviors.
+[カスタム エージェント](/docs/copilot/customization/custom-agents.md)を使用すると、VS Codeのエージェント向けにカスタムのペルソナとロールを定義できます。たとえば、コード レビューを行うカスタム エージェントを作成できます。カスタム エージェントでは、特定の指示と動作を定義できます。
 
-When you create a background agent session, you can select a custom agent to handle the task. The background agent operates according to the custom agent's defined behavior.
+バックグラウンド エージェント セッションを作成するとき、タスクを処理するカスタム エージェントを選択できます。バックグラウンド エージェントは、カスタム エージェントで定義された動作に従って動作します。
 
-To enable custom agents with background agents:
+バックグラウンド エージェントでカスタム エージェントを有効にするには:
 
-1. Enable custom agents for background agents with the `setting(github.copilot.chat.cli.customAgents.enabled)` setting
+1. `setting(github.copilot.chat.cli.customAgents.enabled)`設定で、バックグラウンド エージェントのカスタム エージェントを有効にします。
 
-1. Create a custom agent in your workspace with the **Chat: New Custom Agent** command from the Command Palette (`kb(workbench.action.showCommands)`)
+1. コマンド パレット(`kb(workbench.action.showCommands)`)から**Chat: 新しいカスタム エージェント**コマンドを実行して、ワークスペースにカスタム エージェントを作成します。
 
     > [!NOTE]
-    > Currently, only custom agents defined in the workspace are available for background agent sessions. Learn more about [creating a custom agent](/docs/copilot/customization/custom-agents.md#create-a-custom-agent).
+    > 現在、ワークスペースで定義されたカスタム エージェントのみがバックグラウンド エージェント セッションで利用できます。[カスタム エージェントの作成](/docs/copilot/customization/custom-agents.md#create-a-custom-agent)の詳細を参照してください。
 
-1. Create a new background agent session and select the custom agent from the Agents dropdown
+1. 新しいバックグラウンド エージェント セッションを作成し、エージェントのドロップダウンからカスタム エージェントを選択します。
 
-    ![Screenshot showing custom agent selection in VS Code chat interface.](../images/background-agents/custom-agent-selection.png)
+    ![VS Codeのチャット インターフェイスでカスタム エージェントの選択を表示しているスクリーンショット。](../images/background-agents/custom-agent-selection.png)
 
-1. Enter a prompt and notice that the custom agent is used to handle the task
+1. プロンプトを入力し、タスクの処理にカスタム エージェントが使用されていることを確認します。
 
-## Related resources
+## 関連リソース
 
-* [Agents overview](/docs/copilot/agents/overview.md): Understand different agent types and how to hand off tasks between agents
-* [Cloud agents](/docs/copilot/agents/cloud-agents.md): Learn about cloud agents for tasks requiring GitHub integration
-* [Custom agents](/docs/copilot/customization/custom-agents.md): Create custom agent roles and personas
-* [GitHub Copilot CLI documentation](https://cli.github.com/manual/gh_copilot)
+* [エージェントの概要](/docs/copilot/agents/overview.md): さまざまなエージェントの種類と、エージェント間でタスクを引き継ぐ方法を理解する
+* [クラウド エージェント](/docs/copilot/agents/cloud-agents.md): GitHub統合が必要なタスク向けのクラウド エージェントについて学ぶ
+* [カスタム エージェント](/docs/copilot/customization/custom-agents.md): カスタム エージェントのロールとペルソナを作成する
+* [GitHub Copilot CLIドキュメント](https://cli.github.com/manual/gh_copilot)
