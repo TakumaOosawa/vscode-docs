@@ -4,237 +4,237 @@ DateApproved: 12/10/2025
 MetaDescription: Copilot is your AI pair programmer tool in Visual Studio Code. Get code suggestions as you type in the editor, or use natural language chat to ask about your code or start an editing session for implementing new feature and fixing bugs.
 MetaSocialImage: images/shared/github-copilot-social.png
 ---
-# GitHub Copilot in VS Code
+# VS CodeでのGitHub Copilot
 
-GitHub Copilot is an AI-powered coding assistant integrated into Visual Studio Code. It provides code suggestions, explanations, and automated implementations based on natural language prompts and existing code context. Copilot has been trained on public code repositories and can assist with most programming languages and frameworks.
+GitHub Copilotは、Visual Studio Codeに統合されたAI搭載のコーディングアシスタントです。自然言語プロンプトと既存のコードコンテキストに基づいて、コードの提案、説明、自動実装を提供します。Copilotは公開コードリポジトリでトレーニングされており、ほとんどのプログラミング言語とフレームワークを支援できます。
 
 <video src="images/overview/agent-mode-blog-video.mp4" title="Agent mode hero video" autoplay loop controls muted></video>
 
-## Core capabilities
+## コア機能
 
-### Inline suggestions
+### インライン提案
 
-Copilot provides inline code suggestions as you type, ranging from single line completions to entire function implementations. With next edit suggestions, it predicts the next logical code change based on your current context.
+Copilotは、入力中にインラインでコード提案を提供します。1行の補完から関数全体の実装まで多岐にわたります。次の編集提案では、現在のコンテキストに基づいて次の論理的なコード変更を予測します。
 
 <video src="images/inline-suggestions/nes-video.mp4" title="Copilot NES video" autoplay loop controls muted poster="./images/inline-suggestions/point3d.png"></video>
 
-**Examples:**
+**例:**
 
-- Type `function calculateTax(` to get a complete tax calculation implementation
-- Write `// Create a REST API endpoint for user authentication` to generate Express.js route code
-- Begin a React component with `const UserProfile = ({` to receive a complete functional component with TypeScript types
+- `function calculateTax(`と入力して、完全な税計算実装を取得する
+- `// Create a REST API endpoint for user authentication`と記述して、Express.jsのルートコードを生成する
+- Reactコンポーネントを`const UserProfile = ({`で開始して、TypeScriptの型を含む完全な関数コンポーネントを受け取る
 
-Learn more about [inline suggestions in VS Code](/docs/copilot/ai-powered-suggestions.md).
+[VS Codeでのインライン提案](/docs/copilot/ai-powered-suggestions.md)の詳細をご覧ください。
 
-### Autonomous coding
+### 自律型コーディング
 
-Agents can autonomously plan and execute complex development tasks, coordinating multi-step workflows that involve running terminal commands or invoking specialized tools. It can transform high-level requirements into working code.
+エージェントは、ターミナルコマンドの実行や特殊なツールの呼び出しを含むマルチステップワークフローを調整しながら、複雑な開発タスクを自律的に計画および実行できます。高レベルの要件を動作するコードに変換できます。
 
-Install Model Context Protocol (MCP) servers or tools from Marketplace extensions to further enhance the capabilities of the autonomous coding experience. For example, pull information from a database or connect to external APIs.
+Model Context Protocol (MCP)サーバーまたはMarketplace拡張機能のツールをインストールして、自律型コーディング体験の機能をさらに強化します。たとえば、データベースから情報を取得したり、外部APIに接続したりします。
 
 <video src="images/overview/agent-mode-short.mp4" title="Agent mode video" autoplay loop controls muted></video>
 
-**Example tasks:**
+**タスクの例:**
 
-- Implement authentication using OAuth
-- Migrate the codebase to a new framework or language
-- Debug failing tests and apply fixes
-- Optimize performance across the application
+- OAuthを使用した認証の実装
+- コードベースの新しいフレームワークまたは言語への移行
+- 失敗したテストのデバッグと修正の適用
+- アプリケーション全体のパフォーマンスの最適化
 
-Learn more about [autonomous coding with agents](/docs/copilot/chat/copilot-chat.md) and [configuring MCP servers in VS Code](/docs/copilot/customization/mcp-servers.md).
+[エージェントによる自律型コーディング](/docs/copilot/chat/copilot-chat.md)および[VS CodeでのMCPサーバーの構成](/docs/copilot/customization/mcp-servers.md)の詳細をご覧ください。
 
-### Natural language chat
+### 自然言語チャット
 
-Use natural language to interact with your codebase through chat interfaces. Ask questions, request explanations, or specify code changes using conversational prompts.
+自然言語を使用して、チャットインターフェイスを通じてコードベースと対話します。質問、説明の要求、または会話型のプロンプトを使用してコード変更を指定します。
 
-Apply changes across multiple files in your project using single prompts. Copilot analyzes your project structure and makes coordinated modifications.
+単一のプロンプトを使用して、プロジェクト内の複数のファイルに変更を適用します。Copilotはプロジェクト構造を分析し、調整された修正を行います。
 
-**Common queries:**
+**一般的なクエリ:**
 
-- "How does authentication work in this project?"
-- "What's causing the memory leak in the data processing function?"
-- "Add error handling to the payment processing service"
-- "Add a login form and backend API"
+- 「このプロジェクトでの認証の仕組みはどうなっていますか？」
+- 「データ処理関数のメモリリークの原因は何ですか？」
+- 「支払い処理サービスにエラー処理を追加してください」
+- 「ログインフォームとバックエンドAPIを追加してください」
 
-![Screenshot of the Chat view, showing the response to asking how to add a login page to a web app.](images/overview/copilot-chat-view-add-page.png)
+![Webアプリにログインページを追加する方法を尋ねた際の応答を示すチャットビューのスクリーンショット。](images/overview/copilot-chat-view-add-page.png)
 
-Learn more about [using chat in VS Code](/docs/copilot/chat/copilot-chat.md).
+[VS Codeでのチャットの使用](/docs/copilot/chat/copilot-chat.md)の詳細をご覧ください。
 
-### Smart actions
+### スマートアクション
 
-VS Code has many predefined actions for common development tasks that are enhanced with AI capabilities and integrated into the editor.
+VS Codeには、AI機能で強化されエディターに統合された、一般的な開発タスク用の事前定義されたアクションが多数あります。
 
-From helping you write commit messages or pull requests descriptions, renaming code symbols, fixing errors in the editor, to semantic search that helps you find relevant files.
+コミットメッセージやプルリクエストの説明の作成支援、コードシンボルの名前変更、エディター内のエラー修正から、関連ファイルを見つけるのに役立つセマンティック検索まで。
 
-![Screenshot of the Smart Actions menu in VS Code](images/overview/copilot-chat-fix-test-failure.png)
+![VS Codeのスマートアクションメニューのスクリーンショット](images/overview/copilot-chat-fix-test-failure.png)
 
-Learn more about the [smart actions in VS Code](/docs/copilot/copilot-smart-actions.md).
+[VS Codeのスマートアクション](/docs/copilot/copilot-smart-actions.md)の詳細をご覧ください。
 
-## Getting started
+## はじめに
 
-### Step 1: Set up Copilot
+### ステップ 1: Copilotのセットアップ
 
-1. Hover over the Copilot icon in the Status Bar and select **Set up Copilot**.
+1. ステータスバーのCopilotアイコンにカーソルを合わせ、**Copilotのセットアップ**を選択します。
 
-    ![Hover over the Copilot icon in the Status Bar and select Set up Copilot.](images/setup/setup-copilot-status-bar.png)
+    ![ステータスバーのCopilotアイコンにカーソルを合わせ、[Copilotのセットアップ]を選択します。](images/setup/setup-copilot-status-bar.png)
 
-1. Choose a sign-in method and follow the prompts. If you don't have a Copilot subscription yet, you'll be signed up for the [Copilot Free plan](https://docs.github.com/en/copilot/managing-copilot/managing-copilot-as-an-individual-subscriber/managing-copilot-free/about-github-copilot-free).
+1. サインイン方法を選択し、プロンプトに従います。まだCopilotサブスクリプションをお持ちでない場合は、[Copilot Freeプラン](https://docs.github.com/en/copilot/managing-copilot/managing-copilot-as-an-individual-subscriber/managing-copilot-free/about-github-copilot-free)にサインアップされます。
 
-### Step 2: Basic inline suggestions
+### ステップ 2: 基本的なインライン提案
 
-1. Create a new file and start typing. VS Code shows inline suggestions in _ghost text_ in the editor.
+1. 新しいファイルを作成し、入力を開始します。VS Codeはエディターの_ゴーストテキスト_にインライン提案を表示します。
 
-    For example, create a new JavaScript file and start typing a function definition:
+    たとえば、新しいJavaScriptファイルを作成し、関数定義の入力を開始します:
 
     ```javascript
-    // Try typing this in a new .js file:
+    // 新しい.jsファイルにこれを入力してみてください:
     function factorial(
     ```
 
-1. Accept the inline suggestions with the `kbstyle(Tab)` key.
+1. `kbstyle(Tab)`キーでインライン提案を受け入れます。
 
-### Step 3: Autonomous coding
+### ステップ 3: 自律型コーディング
 
-To perform more complex tasks in an autonomous manner, use agents in the chat interface. The AI will iterate on the code until the task is complete.
+自律的な方法でより複雑なタスクを実行するには、チャットインターフェイスのエージェントを使用します。AIはタスクが完了するまでコードを反復します。
 
-1. Open the Chat view (`kb(workbench.action.chat.open)`)
-1. Select **Agent** from the agent picker
-1. Ask to generate a basic web app, for example:
+1. チャットビューを開きます (`kb(workbench.action.chat.open)`)
+1. エージェントピッカーから**Agent**を選択します
+1. たとえば、次のような基本的なWebアプリの生成を依頼します:
 
     ```prompt
-    Create a basic node.js web app for sharing recipes. Make it look modern and responsive.
+    レシピ共有用の基本的なnode.js Webアプリを作成してください。モダンでレスポンシブな外観にしてください。
     ```
 
-Notice how the agent independently generates code across multiple files and installs dependencies as needed for the task.
+エージェントが複数のファイルにわたってコードを独立して生成し、タスクに必要な依存関係をインストールする様子に注目してください。
 
-### Step 4: Inline chat
+### ステップ 4: インラインチャット
 
-To get help with generating, refactoring, or explaining code directly in the editor, you can use editor inline chat. Enter a prompt and the AI will suggest code changes in the current file, keeping you in the flow of coding.
+エディターで直接コードの生成、リファクタリング、または説明の支援を受けるには、エディターインラインチャットを使用できます。プロンプトを入力すると、AIが現在のファイル内のコード変更を提案し、コーディングの流れを維持します。
 
-1. Select some code in your editor
-1. Press `kb(inlinechat.start)` to open editor inline chat
-1. Ask to explain or make a modification like: "Refactor this code to ..."
-1. Review and accept the suggested changes
+1. エディターでコードを選択します
+1. `kb(inlinechat.start)`を押してエディターインラインチャットを開きます
+1. 「このコードを...にリファクタリングしてください」のように説明または修正を依頼します
+1. 提案された変更を確認して受け入れます
 
-## Usage scenarios
+## 使用シナリオ
 
-### Code analysis and review
+### コード分析とレビュー
 
-Understanding existing codebases and identifying issues:
+既存のコードベースの理解と問題の特定:
 
-- "Explain the authentication flow in this application"
-- "What are the potential security issues in this payment handler?"
-- "Document this API endpoint with proper JSDoc comments"
+- 「このアプリケーションの認証フローを説明してください」
+- 「この支払いハンドラーの潜在的なセキュリティ問題は何ですか？」
+- 「適切なJSDocコメントでこのAPIエンドポイントを文書化してください」
 
-### Debugging and troubleshooting
+### デバッグとトラブルシューティング
 
-Identifying and resolving code issues:
+コードの問題の特定と解決:
 
-- "Why is this component re-rendering unnecessarily?"
-- "Find and fix the memory leak in this data processing pipeline"
-- "Optimize this database query for better performance"
+- 「なぜこのコンポーネントは不必要に再レンダリングされるのですか？」
+- 「このデータ処理パイプラインのメモリリークを見つけて修正してください」
+- 「パフォーマンス向上のためにこのデータベースクエリを最適化してください」
 
-Learn more about using [AI for debugging](/docs/copilot/guides/debug-with-copilot.md).
+[デバッグにAIを使用する](/docs/copilot/guides/debug-with-copilot.md)の詳細をご覧ください。
 
-### Feature implementation
+### 機能の実装
 
-Building new functionality:
+新しい機能の構築:
 
-- "Create a user registration system with email verification"
-- "Add real-time notifications using WebSockets"
-- "Implement a shopping cart with local storage persistence"
+- 「メール検証付きのユーザー登録システムを作成してください」
+- 「WebSocketを使用してリアルタイム通知を追加してください」
+- 「ローカルストレージ永続化を備えたショッピングカートを実装してください」
 
-### Testing and quality assurance
+### テストと品質保証
 
-Generating tests and ensuring code quality:
+テストの生成とコード品質の保証:
 
-- "Generate comprehensive unit tests for this service class"
-- "Create integration tests for the API endpoints"
-- "Add property-based tests for this data validation function"
+- 「このサービスクラスの包括的な単体テストを生成してください」
+- 「APIエンドポイントの統合テストを作成してください」
+- 「このデータ検証関数のプロパティベースのテストを追加してください」
 
-Learn more about using [AI for testing](/docs/copilot/guides/test-with-copilot.md).
+[テストにAIを使用する](/docs/copilot/guides/test-with-copilot.md)の詳細をご覧ください。
 
-### Learning and documentation
+### 学習とドキュメント
 
-Understanding new technologies and patterns:
+新しいテクノロジーとパターンの理解:
 
-- "Show me the differences between async/await and Promises"
-- "How would you implement this pattern in Go instead of Python?"
-- "What are the best practices for error handling in React?"
+- 「async/awaitとPromisesの違いを教えてください」
+- 「Pythonの代わりにGoでこのパターンをどのように実装しますか？」
+- 「Reactでのエラー処理のベストプラクティスは何ですか？」
 
-## Customize the AI to your workflow
+## AIをワークフローに合わせてカスタマイズする
 
-### Custom instructions
+### カスタム手順
 
-Use custom instructions to define project-specific coding conventions and patterns, and the AI will generate code that matches your style. Automatically apply these instructions to all chat requests or only for specific file types.
+カスタム手順を使用して、プロジェクト固有のコーディング規約とパターンを定義すると、AIはスタイルに合ったコードを生成します。これらの手順をすべてのチャットリクエストに自動的に適用するか、特定のファイルタイプにのみ適用します。
 
 ```markdown
 ---
 applyTo: "**"
 ---
-# My Coding Style
-- Use arrow functions for components
-- Prefer const over let
-- Always include TypeScript types
-- Use descriptive variable names
-- Follow the Repository pattern for data access
+# 私のコーディングスタイル
+- コンポーネントにはアロー関数を使用する
+- letよりもconstを優先する
+- 常にTypeScriptの型を含める
+- わかりやすい変数名を使用する
+- データアクセスにはリポジトリパターンに従う
 ```
 
-Learn more about [using custom instructions](/docs/copilot/customization/custom-instructions.md) to tailor the AI to your coding style.
+AIをコーディングスタイルに合わせて調整するための[カスタム手順の使用](/docs/copilot/customization/custom-instructions.md)の詳細をご覧ください。
 
-### Language models
+### 言語モデル
 
-Quickly switch between different AI models to optimize for speed, reasoning, or specialized tasks. Choose from various built-in models or connect to external providers and bring your own API keys.
+速度、推論、または特殊なタスクに合わせて最適化するために、さまざまなAIモデルをすばやく切り替えます。さまざまな組み込みモデルから選択するか、外部プロバイダーに接続して独自のAPIキーを持ち込みます。
 
-![Screenshot that shows the model picker in the Chat view.](images/language-models/model-dropdown-change-model.png)
+![チャットビューのモデルピッカーを示すスクリーンショット。](images/language-models/model-dropdown-change-model.png)
 
-Learn more about using [language models in VS Code](/docs/copilot/customization/language-models.md).
+[VS Codeでの言語モデル](/docs/copilot/customization/language-models.md)の使用の詳細をご覧ください。
 
-### Custom agents
+### カスタムエージェント
 
-The chat experience in VS Code can use different agents to switch between asking questions, making edits, or running autonomous coding sessions. You can also create custom agents that fit your workflow. For example, create a custom agent that focuses on planning and architecture discussions. Specify which tools the agent is allowed to use, and provide custom instructions to provide the right context in which it should operate.
+VS Codeのチャット体験では、さまざまなエージェントを使用して、質問、編集、自律型コーディングセッションの実行を切り替えることができます。ワークフローに合わせたカスタムエージェントを作成することもできます。たとえば、計画とアーキテクチャの議論に焦点を当てたカスタムエージェントを作成します。エージェントが使用できるツールを指定し、エージェントが動作すべき正しいコンテキストを提供するためにカスタム手順を提供します。
 
-![Screenshot showing the Chat view, highlighting the agent picker.](images/overview/chat-mode-dropdown.png)
+![エージェントピッカーを強調表示したチャットビューを示すスクリーンショット。](images/overview/chat-mode-dropdown.png)
 
-Learn more about [creating your own custom agents](/docs/copilot/customization/custom-agents.md).
+[独自のカスタムエージェントの作成](/docs/copilot/customization/custom-agents.md)の詳細をご覧ください。
 
-### Extend chat with tools
+### ツールを使用したチャットの拡張
 
-Extend the capabilities of the chat experience with specialized tools from MCP servers or Marketplace extensions. For example, add tools for querying databases, connecting to external APIs, or performing specialized tasks.
+MCPサーバーまたはMarketplace拡張機能の特殊なツールを使用して、チャット体験の機能を拡張します。たとえば、データベースクエリ、外部APIへの接続、または特殊なタスクを実行するためのツールを追加します。
 
-![MCP tools list](images/mcp-servers/agent-mode-select-tools.png)
+![MCPツールリスト](images/mcp-servers/agent-mode-select-tools.png)
 
-Learn more about [using MCP servers and tools](/docs/copilot/customization/mcp-servers.md).
+[MCPサーバーとツールの使用](/docs/copilot/customization/mcp-servers.md)の詳細をご覧ください。
 
-## Best Practices
+## ベストプラクティス
 
-- Choose the right tool for the task. Get inline suggestions while you're coding, use chat for natural language queries, and pick the agent that fits your workflow.
+- タスクに適したツールを選択してください。コーディング中はインライン提案を取得し、自然言語クエリにはチャットを使用し、ワークフローに合ったエージェントを選択してください。
 
-- Write effective prompts to get the best results. Be specific, provide the right context, and iterate often.
+- 最良の結果を得るために効果的なプロンプトを作成してください。具体的にし、正しいコンテキストを提供し、頻繁に反復してください。
 
-- Customize the AI to your coding style and project conventions by using custom instructions, prompt files, or custom agents.
-- Extend the AI's capabilities with tools from MCP servers or Marketplace extensions.
+- カスタム手順、プロンプトファイル、またはカスタムエージェントを使用して、コーディングスタイルとプロジェクト規約に合わせてAIをカスタマイズしてください。
+- MCPサーバーまたはMarketplace拡張機能のツールを使用して、AIの機能を拡張してください。
 
-- Choose a language model that is optimized for your task. Use fast models for quick code suggestions, reasoning models for more complex requests.
+- タスクに最適化された言語モデルを選択してください。素早いコード提案には高速モデルを、より複雑なリクエストには推論モデルを使用してください。
 
-Get more [tips and tricks for using AI in VS Code](/docs/copilot/copilot-tips-and-tricks.md).
+[VS CodeでのAI使用のヒントとコツ](/docs/copilot/copilot-tips-and-tricks.md)の詳細をご覧ください。
 
-## Support
+## サポート
 
-Support for GitHub Copilot Chat is provided by GitHub and can be reached at <https://support.github.com>.
+GitHub Copilot ChatのサポートはGitHubによって提供されており、<https://support.github.com>で連絡できます。
 
-To learn more about Copilot's security, privacy, compliance, and transparency, see the [GitHub Copilot Trust Center FAQ](https://copilot.github.trust.page/faq).
+Copilotのセキュリティ、プライバシー、コンプライアンス、透明性の詳細については、[GitHub CopilotトラストセンターFAQ](https://copilot.github.trust.page/faq)をご覧ください。
 
-## Pricing
+## 価格
 
-You can start using GitHub Copilot for free with monthly limits on inline suggestions and chat interactions. For more extensive usage, you can choose from various paid plans.
+インライン提案とチャットインタラクションの月間制限付きでGitHub Copilotを無料で使用開始できます。より広範な使用については、さまざまな有料プランから選択できます。
 
-[View detailed GitHub Copilot pricing](https://docs.github.com/en/copilot/get-started/plans)
+[GitHub Copilotの詳細な価格を見る](https://docs.github.com/en/copilot/get-started/plans)
 
-## Next steps
+## 次のステップ
 
-- [Set up Copilot in VS Code](/docs/copilot/setup.md)
-- [Get started with hands-on examples](/docs/copilot/getting-started.md)
-- [Customize the AI for your workflow](/docs/copilot/customization/overview.md)
-- [Learn about security considerations of using AI in VS Code](/docs/copilot/security.md)
-- [Get started with agents](/docs/copilot/agents/agents-tutorial.md)
+- [VS CodeでのCopilotのセットアップ](/docs/copilot/setup.md)
+- [ハンズオン例の使用開始](/docs/copilot/getting-started.md)
+- [ワークフローに合わせたAIのカスタマイズ](/docs/copilot/customization/overview.md)
+- [VS CodeでのAI使用のセキュリティに関する考慮事項について学ぶ](/docs/copilot/security.md)
+- [エージェントの使用開始](/docs/copilot/agents/agents-tutorial.md)

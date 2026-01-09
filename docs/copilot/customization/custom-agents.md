@@ -4,47 +4,47 @@ DateApproved: 12/10/2025
 MetaDescription: Learn how to create custom agents (formerly custom chat modes) to tailor AI chat behavior in VS Code for your specific workflows and development scenarios.
 MetaSocialImage: ../images/shared/github-copilot-social.png
 ---
-# Custom agents in VS Code
+# VS Code のカスタムエージェント
 
-Custom agents enable you to configure the AI to adopt different personas tailored to specific development roles and tasks. For example, you might create agents for a security reviewer, planner, solution architect, or other specialized roles. Each persona can have its own behavior, available tools, and instructions.
+カスタムエージェントを使用すると、特定の開発者の役割やタスクに合わせてパーソナライズされたペルソナを採用するように AI を構成できます。たとえば、セキュリティレビュー担当者、プランナー、ソリューションアーキテクト、またはその他の専門的な役割のためのエージェントを作成できます。各ペルソナは、独自の動作、使用可能なツール、および指示を持つことができます。
 
-You can also use handoffs to create guided workflows between agents, allowing you to transition seamlessly from one specialized agent to another with a single click. For example, you could move from planning agent directly into implementation agent, or hand off to a code reviewer with the relevant context.
+また、ハンドオフを使用してエージェント間のガイド付きワークフローを作成し、ワンクリックである専門エージェントから別のエージェントにシームレスに移行できます。たとえば、計画エージェントから実装エージェントに直接移動したり、関連するコンテキストを持ってコードレビュー担当者に引き継いだりできます。
 
-This article describes how to create and manage custom agents in VS Code.
-
-> [!NOTE]
-> Custom agents are available as of VS Code release 1.106. Custom agents were previously known as custom chat modes.
-
-## What are custom agents?
-
-The [built-in agents](/docs/copilot/chat/copilot-chat.md#switch-between-agents) provide general-purpose configurations for chat in VS Code. For a more tailored chat experience, you can create your own custom agents.
-
-Custom agents consist of a set of instructions and tools that are applied when you switch to that agent. For example, a "Plan" agent could include instructions for generating an implementation plan and only use read-only tools. By creating a custom agent, you can quickly switch to that specific configuration without having to manually select relevant tools and instructions each time.
-
-Custom agents are defined in a `.agent.md` Markdown file, and can be stored in your workspace for others to use, or in your user profile, where you can reuse them across different workspaces.
-
-You can reuse your custom agents in [background agents](/docs/copilot/agents/background-agents.md) and [cloud agents](/docs/copilot/agents/cloud-agents.md), enabling you to run autonomous tasks with the same specialized configurations.
-
-## Why use custom agents?
-
-Different tasks require different capabilities. A planning agent might only need read-only tools for research and analysis to prevent accidental code changes, while an implementation agent would need full editing capabilities. Custom agents let you specify exactly which tools are available for each task, ensuring the AI has the right capabilities for the job.
-
-Custom agents also let you provide specialized instructions that define how the AI should operate. For instance, a planning agent could instruct the AI to collect project context and generate a detailed implementation plan, while a code review agent might focus on identifying security vulnerabilities and suggesting improvements. These specialized instructions ensure consistent, task-appropriate responses every time you switch to that agent.
+この記事では、VS Code でカスタムエージェントを作成および管理する方法について説明します。
 
 > [!NOTE]
-> Subagents can run with a custom agent. Learn more about running [subagents with custom agents](/docs/copilot/chat/chat-sessions.md#use-a-custom-agent-with-subagents-experimental) (experimental).
+> カスタムエージェントは、VS Code リリース 1.106 以降で使用できます。カスタムエージェントは以前はカスタムチャットモードと呼ばれていました。
 
-## Handoffs
+## カスタムエージェントとは?
 
-Handoffs enable you to create guided sequential workflows that transition between agents with suggested next steps. After a chat response completes, handoff buttons appear that let users move to the next agent with relevant context and a pre-filled prompt.
+[組み込みエージェント](/docs/copilot/chat/copilot-chat.md#switch-between-agents)は、VS Code のチャットに汎用的な構成を提供します。よりカスタマイズされたチャットエクスペリエンスが必要な場合は、独自のカスタムエージェントを作成できます。
 
-Handoffs are useful for orchestrating multi-step workflows, that give developer's control for reviewing and approving each step before moving to the next one. For example:
+カスタムエージェントは、そのエージェントに切り替えたときに適用される一連の指示とツールで構成されます。たとえば、「Plan (計画)」エージェントには、実装計画を生成するための指示が含まれ、読み取り専用ツールのみを使用する場合があります。カスタムエージェントを作成することで、毎回関連するツールや指示を手動で選択しなくても、その特定の構成にすばやく切り替えることができます。
 
-* **Planning → Implementation**: Generate a plan in planning agent, then hand off to implementation agent to start coding.
-* **Implementation → Review**: Complete implementation, then switch to a code review agent to check for quality and security issues.
-* **Write Failing Tests → Write Passing Tests**: Generate failing tests that are easier to review than big implementations, then hand off to make those tests pass by implementing the required code changes.
+カスタムエージェントは `.agent.md` マークダウンファイルで定義され、ワークスペースに保存して他のユーザーが使用できるようにしたり、ユーザープロファイルに保存して異なるワークスペース間で再利用したりできます。
 
-To define handoffs in your agent file, add them to the frontmatter. Each handoff specifies the target agent, the button label, and an optional prompt to send:
+カスタムエージェントは[バックグラウンドエージェント](/docs/copilot/agents/background-agents.md)や[クラウドエージェント](/docs/copilot/agents/cloud-agents.md)で再利用できるため、同じ専門的な構成で自律的なタスクを実行できます。
+
+## なぜカスタムエージェントを使用するのか?
+
+タスクによって必要な機能は異なります。計画エージェントは、誤ったコード変更を防ぐために調査と分析のための読み取り専用ツールのみを必要とする場合がありますが、実装エージェントには完全な編集機能が必要です。カスタムエージェントを使用すると、タスクごとに使用可能なツールを正確に指定できるため、AI が作業に適した機能を備えていることが保証されます。
+
+また、カスタムエージェントを使用すると、AI の動作方法を定義する専門的な指示を提供できます。たとえば、計画エージェントは、プロジェクトのコンテキストを収集して詳細な実装計画を生成するように AI に指示する場合がありますが、コードレビューエージェントは、セキュリティの脆弱性を特定し、改善を提案することに重点を置く場合があります。これらの専門的な指示により、そのエージェントに切り替えるたびに、一貫したタスクに適した応答が保証されます。
+
+> [!NOTE]
+> サブエージェントはカスタムエージェントで実行できます。詳細については、[カスタムエージェントでのサブエージェントの実行](/docs/copilot/chat/chat-sessions.md#use-a-custom-agent-with-subagents-experimental) (試験機能) を参照してください。
+
+## ハンドオフ
+
+ハンドオフを使用すると、提案された次のステップを使用してエージェント間を移行するガイド付きシーケンシャルワークフローを作成できます。チャットの応答が完了すると、ユーザーが関連するコンテキストと事前に入力されたプロンプトを持って次のエージェントに移動できるハンドオフボタンが表示されます。
+
+ハンドオフは、開発者が次のステップに進む前に各ステップを確認および承認するための制御を提供するマルチステップワークフローを調整する場合に役立ちます。次に例を示します。
+
+* **計画 → 実装**: 計画エージェントで計画を生成し、実装エージェントに引き継いでコーディングを開始します。
+* **実装 → レビュー**: 実装を完了してから、コードレビューエージェントに切り替えて品質とセキュリティの問題を確認します。
+* **失敗するテストの作成 → 合格するテストの作成**: 大きな実装よりもレビューしやすい失敗するテストを生成し、引き継いで必要なコード変更を実装してそれらのテストに合格させます。
+
+エージェントファイルでハンドオフを定義するには、フロントマターに追加します。各ハンドオフには、ターゲットエージェント、ボタンラベル、および送信するオプションのプロンプトを指定します。
 
 ```markdown
 ---
@@ -58,51 +58,51 @@ handoffs:
 ---
 ```
 
-When users see the handoff button and select it, they switch to the target agent with the prompt pre-filled. If `send: true`, the prompt automatically submits to start the next workflow step.
+ユーザーがハンドオフボタンを表示して選択すると、プロンプトが事前に入力された状態でターゲットエージェントに切り替わります。`send: true`の場合、プロンプトは自動的に送信され、次のワークフローステップが開始されます。
 
-## Custom agent file structure
+## カスタムエージェントファイルの構造
 
-Custom agent files are Markdown files and use the `.agent.md` extension and have the following structure.
+カスタムエージェントファイルはマークダウンファイルであり、`.agent.md`拡張子を使用し、次の構造を持っています。
 
 > [!NOTE]
-> VS Code detects any `.md` files in the `.github/agents` folder of your workspace as custom agents.
+> VS Code は、ワークスペースの `.github/agents` フォルダーにあるすべての `.md` ファイルをカスタムエージェントとして検出します。
 
-### Header (optional)
+### ヘッダー (オプション)
 
-The header is formatted as YAML frontmatter with the following fields:
+ヘッダーは YAML フロントマターとしてフォーマットされ、次のフィールドがあります。
 
-| Field | Description |
+| フィールド | 説明 |
 | --- | --- |
-| `description`     | A brief description of the custom agent, shown as placeholder text in the chat input field. |
-| `name`            | The name of the custom agent. If not specified, the file name is used. |
-| `argument-hint`   | Optional hint text shown in the chat input field to guide users on how to interact with the custom agent. |
-| `tools`           | A list of tool or tool set names that are available for this custom agent. Can include built-in tools, tool sets, MCP tools, or tools contributed by extensions. To include all tools of an MCP server, use the `<server name>/*` format.<br/>Learn more about [tools in chat](/docs/copilot/chat/chat-tools.md). |
-| `model`           | The AI model to use when running the prompt. If not specified, the currently selected model in model picker is used. |
-| `infer`           | Optional boolean flag to enable use of the custom agent as a [subagent](/docs/copilot/chat/chat-sessions.md#context-isolated-subagents) (default is `true`). |
-| `target`          | The target environment or context for the custom agent (`vscode` or `github-copilot`). |
-| `mcp-servers`     | Optional list of Model Context Protocol (MCP) server config json to use with [custom agents in GitHub Copilot](https://docs.github.com/en/copilot/how-tos/use-copilot-agents/coding-agent/create-custom-agents) (target: `github-copilot`). |
-| `handoffs`        | Optional list of suggested next actions or prompts to transition between custom agents. Handoff buttons appear as interactive suggestions after a chat response completes. |
-| `handoffs.label`  | The display text shown on the handoff button. |
-| `handoffs.agent`  | The target agent identifier to switch to. |
-| `handoffs.prompt` | The prompt text to send to the target agent. |
-| `handoffs.send`   | Optional boolean flag to auto-submit the prompt (default is `false`) |
+| `description`     | カスタムエージェントの簡単な説明。チャット入力フィールドにプレースホルダーテキストとして表示されます。 |
+| `name`            | カスタムエージェントの名前。指定しない場合、ファイル名が使用されます。 |
+| `argument-hint`   | チャット入力フィールドに表示されるオプションのヒントテキストで、カスタムエージェントとの対話方法をユーザーに案内します。 |
+| `tools`           | このカスタムエージェントで使用可能なツールまたはツールセット名のリスト。組み込みツール、ツールセット、MCP ツール、または拡張機能によって提供されるツールを含めることができます。MCP サーバーのすべてのツールを含めるには、`<server name>/*` 形式を使用します。<br/>詳細については、[チャットでのツール](/docs/copilot/chat/chat-tools.md)を参照してください。 |
+| `model`           | プロンプトを実行するときに使用する AI モデル。指定しない場合、モデルピッカーで現在選択されているモデルが使用されます。 |
+| `infer`           | カスタムエージェントを[サブエージェント](/docs/copilot/chat/chat-sessions.md#context-isolated-subagents)として使用できるようにするオプションのブール値フラグ (デフォルトは `true`)。 |
+| `target`          | カスタムエージェントのターゲット環境またはコンテキスト (`vscode` または `github-copilot`)。 |
+| `mcp-servers`     | [GitHub Copilot のカスタムエージェント](https://docs.github.com/en/copilot/how-tos/use-copilot-agents/coding-agent/create-custom-agents) (ターゲット: `github-copilot`) で使用する Model Context Protocol (MCP) サーバー構成 json のオプションリスト。 |
+| `handoffs`        | カスタムエージェント間を移行するための提案された次のアクションまたはプロンプトのオプションリスト。ハンドオフボタンは、チャット応答が完了した後にインタラクティブな提案として表示されます。 |
+| `handoffs.label`  | ハンドオフボタンに表示されるテキスト。 |
+| `handoffs.agent`  | 切り替え先のターゲットエージェント識別子。 |
+| `handoffs.prompt` | ターゲットエージェントに送信するプロンプトテキスト。 |
+| `handoffs.send`   | プロンプトを自動送信するオプションのブール値フラグ (デフォルトは `false`) |
 
 > [!NOTE]
-> If a given tool is not available when using the custom agent, it is ignored.
+> 指定されたツールがカスタムエージェントを使用するときに使用できない場合、そのツールは無視されます。
 
-### Body
+### 本文
 
-The custom agent file body contains the custom agent implementation, formatted as Markdown. This is where you provide specific prompts, guidelines, or any other relevant information that you want the AI to follow when in this custom agent.
+カスタムエージェントファイルの本文には、マークダウンとしてフォーマットされたカスタムエージェントの実装が含まれます。ここでは、このカスタムエージェントにいるときに AI に従わせたい特定のプロンプト、ガイドライン、またはその他の関連情報を提供します。
 
-You can reference other files by using Markdown links, for example to reuse instructions files.
+マークダウンリンクを使用して他のファイルを参照できます。たとえば、説明ファイルを再利用する場合などです。
 
-To reference agent tools in the body text, use the `#tool:<tool-name>` syntax. For example, to reference the `githubRepo` tool, use `#tool:githubRepo`.
+本文テキストでエージェントツールを参照するには、`#tool:<tool-name>` 構文を使用します。たとえば、`githubRepo` ツールを参照するには、`#tool:githubRepo` を使用します。
 
-When you select the custom agent in the Chat view, the guidelines in the custom agent file body are prepended to the user chat prompt.
+チャットビューでカスタムエージェントを選択すると、カスタムエージェントファイル本文のガイドラインがユーザーのチャットプロンプトの先頭に追加されます。
 
-### Custom agent example
+### カスタムエージェントの例
 
-The following code snippet shows an example of a "Plan" custom agent file that generates an implementation plan and doesn't make any code edits. For more community-contributed examples, see the [Awesome Copilot repository](https://github.com/github/awesome-copilot/tree/main).
+次のコードスニペットは、実装計画を生成し、コード編集を行わない「Plan (計画)」カスタムエージェントファイルの例を示しています。その他のコミュニティ提供の例については、[Awesome Copilot リポジトリ](https://github.com/github/awesome-copilot/tree/main)を参照してください。
 
 ```markdown
 ---
@@ -128,68 +128,68 @@ The plan consists of a Markdown document that describes the implementation plan,
 * Testing: A list of tests that need to be implemented to verify the feature or refactoring task.
 ```
 
-## Create a custom agent
+## カスタムエージェントの作成
 
-You can create a custom agent file in your workspace or user profile.
+カスタムエージェントファイルは、ワークスペースまたはユーザープロファイルに作成できます。
 
-1. Select **Configure Custom Agents** from the agents dropdown and then select **Create new custom agent** or run the **Chat: New Custom Agent** command in the Command Palette (`kb(workbench.action.showCommands)`).
+1. エージェントのドロップダウンから **[Configure Custom Agents (カスタムエージェントの構成)]** を選択し、**[Create new custom agent (新しいカスタムエージェントの作成)]** を選択するか、コマンドパレット (`kb(workbench.action.showCommands)`) で **[Chat: New Custom Agent]** コマンドを実行します。
 
-1. Choose the location where the custom agent file should be created.
+1. カスタムエージェントファイルを作成する場所を選択します。
 
-    * **Workspace**: create the custom agent definition file in the `.github/agents` folder of your workspace to only use it within that workspace
+    * **Workspace (ワークスペース)**: ワークスペースの `.github/agents` フォルダーにカスタムエージェント定義ファイルを作成し、そのワークスペース内でのみ使用します
 
-    * **User profile**: create the custom agent definition file in the [current profile folder](/docs/configure/profiles.md) to use it across all your workspaces
+    * **User profile (ユーザープロファイル)**: [現在のプロファイルフォルダー](/docs/configure/profiles.md)にカスタムエージェント定義ファイルを作成し、すべてのワークスペースで使用します
 
-1. Enter a file name for the custom agent. This is the default name that appears in the agents dropdown.
+1. カスタムエージェントのファイル名を入力します。これは、エージェントのドロップダウンに表示されるデフォルトの名前です。
 
-1. Provide the details for the custom agent in the newly created `.agent.md` file.
+1. 新しく作成された `.agent.md` ファイルにカスタムエージェントの詳細を入力します。
 
-    * Fill in the YAML frontmatter at the top of the file to configure the custom agent's name, description, tools, and other settings.
-    * Add instructions for the custom agent in the body of the file.
+    * ファイルの上部にある YAML フロントマターに入力して、カスタムエージェントの名前、説明、ツール、およびその他の設定を構成します。
+    * ファイルの本文にカスタムエージェントの指示を追加します。
 
-To update a custom agent definition file, select **Configure Custom Agents** from the agents dropdown, and then select a custom agent from the list to modify it.
+カスタムエージェント定義ファイルを更新するには、エージェントのドロップダウンから **[Configure Custom Agents (カスタムエージェントの構成)]** を選択し、リストから変更するカスタムエージェントを選択します。
 
 > [!NOTE]
-> If you've previously created custom chat modes with a `.chatmode.md` extension in the `.github/chatmodes` folder of your workspace, VS Code still recognizes those files as custom agents. You can use a Quick Fix action to rename and move them to the new `.github/agents` folder with a `.agent.md` extension.
+> 以前にワークスペースの `.github/chatmodes` フォルダーに `.chatmode.md` 拡張子を持つカスタムチャットモードを作成した場合でも、VS Code はそれらのファイルをカスタムエージェントとして認識します。クイックフィックスアクションを使用して、名前を変更し、`.agent.md` 拡張子を持つ新しい `.github/agents` フォルダーに移動できます。
 
-## Customize the agents dropdown list
+## エージェントのドロップダウンリストのカスタマイズ
 
-If you have multiple custom agents, you can customize which ones appear in the agents dropdown. To show or hide specific custom agents:
+複数のカスタムエージェントがある場合は、エージェントのドロップダウンに表示するエージェントをカスタマイズできます。特定のカスタムエージェントを表示または非表示にするには:
 
-1. Select **Configure Custom Agents** from the agents dropdown.
+1. エージェントのドロップダウンから **[Configure Custom Agents (カスタムエージェントの構成)]** を選択します。
 
-1. Hover over a custom agent in the list, and then select the eye icon to show or hide it from the agents dropdown.
+1. リスト内のカスタムエージェントにカーソルを合わせ、目のアイコンを選択して、エージェントのドロップダウンから表示または非表示にします。
 
-## Tool list priority
+## ツールリストの優先順位
 
-You can specify the list of available tools for both a custom agent and prompt file by using the `tools` metadata field. Prompt files can also reference a custom agent by using the `agent` metadata field.
+`tools` メタデータフィールドを使用して、カスタムエージェントとプロンプトファイルの両方で使用可能なツールのリストを指定できます。プロンプトファイルは、`agent` メタデータフィールドを使用してカスタムエージェントを参照することもできます。
 
-The list of available tools in chat is determined by the following priority order:
+チャットで使用可能なツールのリストは、次の優先順で決定されます。
 
-1. Tools specified in the prompt file (if any)
-2. Tools from the referenced custom agent in the prompt file (if any)
-3. Default tools for the selected agent (if any)
+1. プロンプトファイルで指定されたツール (ある場合)
+2. プロンプトファイルで参照されているカスタムエージェントのツール (ある場合)
+3. 選択したエージェントのデフォルトツール (ある場合)
 
-## Share custom agents across teams (Experimental)
+## チーム間でのカスタムエージェントの共有 (試験機能)
 
-To share custom agents across your team, you can create a workspace-level custom agent (`.github/agents` folder). If you want to share custom agents across multiple workspaces within your organization, you can define them at the GitHub organization level.
+チーム全体でカスタムエージェントを共有するには、ワークスペースレベルのカスタムエージェント (`.github/agents` フォルダー) を作成できます。組織内の複数のワークスペースでカスタムエージェントを共有する場合は、GitHub 組織レベルで定義できます。
 
-VS Code automatically detects custom agents defined at the organization level to which your account has access. These agents appear in the Agents dropdown in chat alongside the built-in agents, and your personal and workspace custom agents.
+VS Code は、アカウントがアクセスできる組織レベルで定義されたカスタムエージェントを自動的に検出します。これらのエージェントは、チャットのエージェントドロップダウンに、組み込みエージェント、および個人用およびワークスペースのカスタムエージェントと一緒に表示されます。
 
-To enable discovery of organization-level custom agents, set `setting(github.copilot.chat.customAgents.showOrganizationAndEnterpriseAgents)` to `true`.
+組織レベルのカスタムエージェントの検出を有効にするには、`setting(github.copilot.chat.customAgents.showOrganizationAndEnterpriseAgents)` を `true` に設定します。
 
-Learn how you can [create custom agents for your organization](https://docs.github.com/en/copilot/how-tos/use-copilot-agents/coding-agent/create-custom-agents) in the GitHub documentation.
+GitHub ドキュメントで、[組織向けのカスタムエージェントの作成](https://docs.github.com/en/copilot/how-tos/use-copilot-agents/coding-agent/create-custom-agents)方法について詳しく学習してください。
 
-## Frequently asked questions
+## よくある質問
 
-### Are custom agents different from chat modes?
+### カスタムエージェントはチャットモードと異なりますか?
 
-Custom agents were previously known as custom chat modes. The functionality remains the same, but the terminology has been updated to better reflect their purpose in customizing AI behavior for specific tasks.
+カスタムエージェントは以前はカスタムチャットモードと呼ばれていました。機能は同じですが、特定のタスクに合わせて AI の動作をカスタマイズするという目的をより適切に反映するように用語が更新されました。
 
-VS Code still recognizes any existing `.chatmode.md` files as custom agents. You can use a Quick Fix action to rename and move them to the new `.github/agents` folder with a `.agent.md` extension.
+VS Code は、既存の `.chatmode.md` ファイルをカスタムエージェントとして認識します。クイックフィックスアクションを使用して、名前を変更し、`.agent.md` 拡張子を持つ新しい `.github/agents` フォルダーに移動できます。
 
-## Related resources
+## 関連リソース
 
-* [Customize AI with custom instructions](/docs/copilot/customization/custom-instructions.md)
-* [Create reusable prompt files](/docs/copilot/customization/prompt-files.md)
-* [Use tools in chat](/docs/copilot/chat/chat-tools.md)
+* [カスタム指示による AI のカスタマイズ](/docs/copilot/customization/custom-instructions.md)
+* [再利用可能なプロンプトファイルの作成](/docs/copilot/customization/prompt-files.md)
+* [チャットでのツールの使用](/docs/copilot/chat/chat-tools.md)

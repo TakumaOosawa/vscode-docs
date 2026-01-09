@@ -1,145 +1,145 @@
 ---
 ContentId: ae1f36a9-7597-425f-97fc-49bd51c153a3
 DateApproved: 12/10/2025
-MetaDescription: Get started with AI-powered chat conversations with GitHub Copilot in Visual Studio Code, inline while you're coding, or in a separate Chat view.
+MetaDescription: Visual Studio CodeでGitHub Copilotを使用したAI搭載のチャット会話を、コーディング中のインライン、または別のチャットビューで開始しましょう。
 MetaSocialImage: ../images/shared/github-copilot-social.png
 ---
-# Getting started with chat in VS Code
+# VS Codeでのチャットの開始
 
-This tutorial walks you through using chat in Visual Studio Code. You use AI-powered chat conversations to help with refactoring code, improving your code understanding, and finding your way around configuring VS Code.
+このチュートリアルでは、Visual Studio Codeでチャットを使用する方法について説明します。AIを活用したチャット会話を使用して、コードのリファクタリング、コード理解の向上、VS Codeの設定方法の確認を行うことができます。
 
-If you're new to using Copilot in VS Code, see the [Copilot Overview](/docs/copilot/overview.md) or get set up and discover the key capabilities in the [Copilot Quickstart](/docs/copilot/getting-started.md).
+VS CodeでCopilotを初めて使用する場合は、[Copilotの概要](/docs/copilot/overview.md)を参照するか、[Copilotクイックスタート](/docs/copilot/getting-started.md)でセットアップを行い、主な機能を確認してください。
 
 > [!TIP]
-> If you don't yet have a Copilot subscription, you can use Copilot for free by signing up for the [Copilot Free plan](https://github.com/github-copilot/signup) and get a monthly limit of inline suggestions and chat interactions.
+> Copilotサブスクリプションをお持ちでない場合は、[Copilot Freeプラン](https://github.com/github-copilot/signup)にサインアップしてCopilotを無料で使用でき、毎月のインライン提案とチャット対話の制限内で利用できます。
 
-## Prerequisites
+## 前提条件
 
-To use GitHub Copilot in VS Code, you need to have the following:
+VS CodeでGitHub Copilotを使用するには、以下が必要です。
 
-* Access to GitHub Copilot
-* GitHub Copilot extensions installed in VS Code
+* GitHub Copilotへのアクセス
+* VS CodeにインストールされたGitHub Copilot拡張機能
 
-Follow the steps in the [GitHub Copilot set up guide](/docs/copilot/setup.md) to get access to GitHub Copilot and install the Copilot extensions in VS Code.
+[GitHub Copilotセットアップガイド](/docs/copilot/setup.md)の手順に従って、GitHub Copilotへのアクセスを取得し、VS CodeにCopilot拡張機能をインストールしてください。
 
-## Get your first chat conversation
+## 最初のチャット会話を取得する
 
-Chat lets you interact with GitHub Copilot by using natural language, to ask and receive answers to coding-related questions.
+チャットを使用すると、自然言語を使用してGitHub Copilotと対話し、コーディング関連の質問をして回答を受け取ることができます。
 
-In this tutorial, you'll be creating a simple Node.js web application.
+このチュートリアルでは、シンプルなNode.js Webアプリケーションを作成します。
 
-1. Open a new VS Code window. You'll be creating a new workspace in a follow-up step.
+1. 新しいVS Codeウィンドウを開きます。後続のステップで新しいワークスペースを作成します。
 
-1. Select **Open Chat** from the Chat menu in the title bar or use the `kb(workbench.action.chat.open)` keyboard shortcut.
+1. タイトルバーのチャットメニューから**チャットを開く** (**Open Chat**)を選択するか、キーボードショートカット`kb(workbench.action.chat.open)`を使用します。
 
-    ![Screenshot of VS Code editor, showing the Copilot Chat view, highlighting the chat menu in the Command Center.](./images/getting-started-chat/copilot-chat-menu-command-center.png)
+    ![VS Codeエディターのスクリーンショット。Copilotチャットビューが表示され、コマンドセンターのチャットメニューが強調表示されています。](./images/getting-started-chat/copilot-chat-menu-command-center.png)
 
-    Notice that the Chat view opens in the Secondary Side Bar. Having the Chat view on the side allows you to keep the conversation going while you work on your code.
+    チャットビューがセカンダリサイドバーで開くことに注目してください。チャットビューを横に配置することで、コードに取り組みながら会話を続けることができます。
 
-1. In the Chat view, select **Ask** from the chat mode dropdown.
+1. チャットビューで、チャットモードのドロップダウンから**Ask** (質問)を選択します。
 
-    Use _ask mode_ to ask questions about coding and technology topics, explain code, or brainstorm ideas.
+    _askモード_を使用して、コーディングやテクノロジーのトピックについて質問したり、コードを説明したり、アイデアをブレインストーミングしたりします。
 
-    ![Screenshot of VS Code Chat view, showing the Ask mode dropdown.](./images/getting-started-chat/copilot-chat-ask-mode.png)
+    ![VS Codeチャットビューのスクリーンショット。Askモードのドロップダウンが表示されています。](./images/getting-started-chat/copilot-chat-ask-mode.png)
 
-1. Let's ask about popular web frameworks. Enter "what are the most popular web frameworks?" in the chat input field.
+1. 人気のあるWebフレームワークについて聞いてみましょう。チャット入力フィールドに「最も人気のあるWebフレームワークは何ですか？」（what are the most popular web frameworks?）と入力します。
 
-    VS Code returns a list of popular web frameworks. Experiment with asking follow-up questions to get more information about a specific framework, or to compare frameworks. For example, you can ask "what are the differences between Express and Fastify?" or "how to do server-side rendering?".
+    VS Codeは人気のあるWebフレームワークのリストを返します。特定のフレームワークに関する詳細情報を取得したり、フレームワークを比較したりするために、フォローアップの質問をしてみてください。たとえば、「ExpressとFastifyの違いは何ですか？」や「サーバーサイドレンダリングを行うにはどうすればよいですか？」と尋ねることができます。
 
-1. To scaffold a new web app, enter "new express app with typescript and pug" in the chat input field.
+1. 新しいWebアプリのスキャフォールディングを行うには、チャット入力フィールドに「TypeScriptとPugを使用した新しいExpressアプリ」（new express app with typescript and pug）と入力します。
 
-    Notice how VS Code returns a file tree that represents the new workspace files. Select any file in the file tree to preview its content.
+    VS Codeが新しいワークスペースファイルを表すファイルツリーを返す方法に注目してください。ファイルツリー内の任意のファイルを選択して、その内容をプレビューします。
 
-    ![Screenshot of Chat view, showing a file tree for a new workspace and a 'Create Workspace' button.](./images/getting-started-chat/copilot-chat-view-workspace-file-tree.png)
+    ![新しいワークスペースのファイルツリーと「ワークスペースの作成」ボタンを示すチャットビューのスクリーンショット。](./images/getting-started-chat/copilot-chat-view-workspace-file-tree.png)
 
-1. Select **Create Workspace** to create the app, and select a folder on disk where the workspace should be created.
+1. **ワークスペースの作成** (**Create Workspace**)を選択してアプリを作成し、ワークスペースを作成するディスク上のフォルダーを選択します。
 
-    Select **Open** in the dialog to open the newly-created workspace in VS Code.
+    ダイアログで**開く** (**Open**)を選択して、新しく作成されたワークスペースをVS Codeで開きます。
 
     > [!NOTE]
-    > VS Code might ask if you want to trust the new workspace. Select **Yes, I trust the contents** to trust the workspace. Get more details about [workspace trust](/docs/editing/workspaces/workspace-trust.md).
+    > VS Codeが新しいワークスペースを信頼するかどうかを尋ねる場合があります。**はい、内容を信頼します** (**Yes, I trust the contents**)を選択して、ワークスペースを信頼してください。[ワークスペースの信頼](/docs/editing/workspaces/workspace-trust.md)に関する詳細を確認してください。
 
-## Stay in the flow with inline chat
+## インラインチャットでフローを維持する
 
-While the Chat view is great for keeping a conversation going, _editor inline chat_ is optimized for situations where you want to ask Copilot about the code you're actively working on in the editor. For example, to refactor a specific piece of code, or explain a complex algorithm.
+チャットビューは会話を続けるのに最適ですが、_エディターインラインチャット_は、エディターでアクティブに作業しているコードについてCopilotに質問したい状況に最適化されています。たとえば、特定のコードのリファクタリングや、複雑なアルゴリズムの説明などです。
 
-Let's look at how to use editor inline chat for code refactoring.
+コードのリファクタリングにエディターインラインチャットを使用する方法を見てみましょう。
 
-1. Open the `app.ts` file and use the `kb(inlinechat.start)` keyboard shortcut to bring up editor inline chat. Alternatively, select **Open Inline Chat** from the Chat menu in the title bar.
+1. `app.ts`ファイルを開き、キーボードショートカット`kb(inlinechat.start)`を使用してエディターインラインチャットを表示します。または、タイトルバーのチャットメニューから**インラインチャットを開く** (**Open Inline Chat**)を選択します。
 
-    A chat input field appears inline in the editor, where you can enter your chat prompt and ask Copilot about the code in the editor.
+    エディター内のインラインにチャット入力フィールドが表示され、チャットプロンプトを入力して、エディター内のコードについてCopilotに質問できます。
 
-    ![Screenshot of VS Code editor, highlighting the Inline Chat popup control.](./images/getting-started-chat/copilot-inline-chat-popup.png)
+    ![VS Codeエディターのスクリーンショット。インラインチャットのポップアップコントロールが強調表示されています。](./images/getting-started-chat/copilot-inline-chat-popup.png)
 
-1. Enter "Add support for JSON output" in the chat input field and press `kbstyle(Enter)`.
+1. チャット入力フィールドに「JSON出力のサポートを追加」（Add support for JSON output）と入力し、`kbstyle(Enter)`を押します。
 
-    Notice how Copilot provides a code suggestion to add support for JSON output in Express.
+    CopilotがExpressでJSON出力のサポートを追加するためのコード提案を提供することに注目してください。
 
-    ![Screenshot of VS Code editor with the suggested code change.](./images/getting-started-chat/copilot-inline-chat-json-support.png)
+    ![提案されたコード変更を含むVS Codeエディターのスクリーンショット。](./images/getting-started-chat/copilot-inline-chat-json-support.png)
 
-1. Select **Accept** or **Close** to apply or ignore the changes.
+1. **承諾** (**Accept**)または**閉じる** (**Close**)を選択して、変更を適用または無視します。
 
-    If you're not happy with the suggested code changes, you can select the **Rerun Request** control or ask a follow-up question to get another suggestion.
+    提案されたコード変更に満足できない場合は、**リクエストの再実行** (**Rerun Request**)コントロールを選択するか、フォローアップの質問をして別の提案を得ることができます。
 
 > [!TIP]
-> Right-click in the editor to access commonly used AI commands, such as fixing or explaining code or generating tests.
+> エディター内を右クリックして、コードの修正や説明、テストの生成など、よく使用されるAIコマンドにアクセスします。
 
-## Make edits across multiple files
+## 複数のファイルにわたる編集を行う
 
-With inline chat, you made changes to a single file. You can also use Copilot to make changes across multiple files in your workspace by switching to _edit mode_ in the Chat view.
+インラインチャットでは、単一のファイルに変更を加えました。チャットビューで_編集モード_に切り替えることで、Copilotを使用してワークスペース内の複数のファイルに変更を加えることもできます。
 
-Let's use edit mode to use a `.env` file to store the configuration for your web app.
+編集モードを使用して、Webアプリの設定を保存するために`.env`ファイルを使用してみましょう。
 
-1. Open the Chat view and select **Edit** from the chat mode dropdown.
+1. チャットビューを開き、チャットモードのドロップダウンから**Edit** (編集)を選択します。
 
-    ![Screenshot of VS Code Copilot Chat view, showing the Edit mode dropdown.](./images/getting-started-chat/chat-mode-dropdown-edit.png)
+    ![VS Code Copilotチャットビューのスクリーンショット。編集モードのドロップダウンが表示されています。](./images/getting-started-chat/chat-mode-dropdown-edit.png)
 
-1. To help Copilot understand the scope of your request, let's add `package.json` and `app.ts` as context to the prompt.
+1. Copilotがリクエストの範囲を理解できるように、プロンプトのコンテキストとして`package.json`と`app.ts`を追加しましょう。
 
-    1. Select **Add Context** in the Chat view, type `package` in the search field, and select the `package.json` file from the list of files. Notice that there are many types of context you can add.
+    1. チャットビューで**コンテキストの追加** (**Add Context**)を選択し、検索フィールドに`package`と入力して、ファイルリストから`package.json`ファイルを選択します。追加できるコンテキストには多くの種類があることに注目してください。
 
-    1. Open the `app.ts` file in the editor, and notice that Copilot automatically adds the active file to the chat context.
+    1. エディターで`app.ts`ファイルを開き、Copilotがアクティブなファイルをチャットコンテキストに自動的に追加することに注目してください。
 
-1. Enter "Use a .env file for configuration" in the chat input field and press `kbstyle(Enter)`.
+1. チャット入力フィールドに「設定に.envファイルを使用」（Use a .env file for configuration）と入力し、`kbstyle(Enter)`を押します。
 
-1. Notice how Copilot makes updates across multiple files and adds a new `.env` file to your workspace.
+1. Copilotが複数のファイルにわたって更新を行い、新しい`.env`ファイルをワークスペースに追加する方法に注目してください。
 
-    The Chat view shows the files that were changed in bold text in the Chat view.
+    チャットビューには、変更されたファイルが太字で表示されます。
 
-    ![Screenshot of VS Code editor, showing the suggested code change in the app.ts file.](./images/getting-started-chat/copilot-inline-chat-env-file.png)
+    ![VS Codeエディターのスクリーンショット。app.tsファイルで提案されたコード変更が表示されています。](./images/getting-started-chat/copilot-inline-chat-env-file.png)
 
-1. Select **Keep** in the Chat view to confirm all suggested changes.
+1. チャットビューで**保持** (**Keep**)を選択して、提案されたすべての変更を確認します。
 
-    Use the overlay controls in the editor to easily navigate and review the individual changes across your files.
+    エディターのオーバーレイコントロールを使用して、ファイル全体の個々の変更を簡単にナビゲートおよび確認します。
 
-## Start an agentic coding flow
+## エージェントコーディングフローを開始する
 
-For more complex requests, you can use _agent mode_ to let Copilot autonomously plan and execute the tasks that are needed to complete your request. These tasks can involve editing code but also include running commands in the terminal. In agent mode, Copilot might invoke different tools to accomplish the task.
+より複雑なリクエストの場合は、_エージェントモード_を使用して、リクエストを完了するために必要なタスクをCopilotに自律的に計画および実行させることができます。これらのタスクには、コードの編集だけでなく、ターミナルでのコマンドの実行も含まれる場合があります。エージェントモードでは、Copilotはタスクを遂行するためにさまざまなツールを呼び出す場合があります。
 
-Let's use agent mode to make the web app about sharing travel tips and add testing.
+エージェントモードを使用して、Webアプリを旅行のヒントを共有するものにし、テストを追加してみましょう。
 
-1. Open the Chat view and select **Agent** from the chat mode dropdown.
+1. チャットビューを開き、チャットモードのドロップダウンから**Agent** (エージェント)を選択します。
 
-    ![Screenshot of VS Code Copilot Chat view, showing the Agent mode dropdown.](./images/getting-started-chat/chat-mode-dropdown-agent.png)
+    ![VS Code Copilotチャットビューのスクリーンショット。エージェントモードのドロップダウンが表示されています。](./images/getting-started-chat/chat-mode-dropdown-agent.png)
 
-1. Enter "Make the app a travel blog. Add tests to avoid code regression." in the chat input field and press `kbstyle(Enter)`.
+1. チャット入力フィールドに「アプリを旅行ブログにする。コードの回帰を防ぐためにテストを追加する。」（Make the app a travel blog. Add tests to avoid code regression.）と入力し、`kbstyle(Enter)`を押します。
 
-    Note that you don't need to add context to your prompt. Agent mode automatically analyzes the code in your workspace.
+    プロンプトにコンテキストを追加する必要がないことに注意してください。エージェントモードは、ワークスペース内のコードを自動的に分析します。
 
-1. Copilot iterates to apply code changes and run commands like running tests. Confirm terminal commands by selecting **Continue** in the Chat view.
+1. Copilotは、コード変更の適用とテストの実行などのコマンド実行を繰り返し行います。チャットビューで**続行** (**Continue**)を選択して、ターミナルコマンドを確認します。
 
-    ![Screenshot of VS Code editor, showing the Chat view asking to confirm running tests in the terminal.](./images/getting-started-chat/copilot-chat-agent-terminal.png)
+    ![VS Codeエディターのスクリーンショット。ターミナルでのテスト実行を確認するように求めるチャットビューが表示されています。](./images/getting-started-chat/copilot-chat-agent-terminal.png)
 
-    Depending on the complexity of your request, Copilot might take a few minutes to complete all tasks. If it encounters issues along the way, it iterates to fix them.
+    リクエストの複雑さによっては、Copilotがすべてのタスクを完了するのに数分かかる場合があります。途中で問題が発生した場合は、修正を繰り返します。
 
-1. Once Copilot completes the tasks, review the changes, and test the app.
+1. Copilotがタスクを完了したら、変更を確認し、アプリをテストします。
 
-    You can also ask Copilot to run the app by giving it a prompt like "Run the app" or "Start the server".
+    「アプリを実行して」や「サーバーを起動して」などのプロンプトを指定して、Copilotにアプリを実行するように依頼することもできます。
 
-## Congratulations
+## おめでとうございます
 
-Congratulations, you successfully used Copilot Chat in VS Code to ask questions and make code edits across your workspace. Continue to experiment with different prompts and chat modes to get the most out of Copilot Chat.
+おめでとうございます。VS CodeでCopilotチャットを使用して質問をし、ワークスペース全体でコード編集を行うことに成功しました。さまざまなプロンプトとチャットモードを試して、Copilotチャットを最大限に活用してください。
 
-## Additional resources
+## 追加リソース
 
-* [Get an overview of Copilot Chat in VS Code](/docs/copilot/chat/copilot-chat.md)
+* [VS CodeでのCopilotチャットの概要](/docs/copilot/chat/copilot-chat.md)

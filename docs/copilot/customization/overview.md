@@ -1,123 +1,123 @@
 ---
 ContentId: 16c73175-a606-4aab-8ae5-a507
 DateApproved: 12/10/2025
-MetaDescription: Learn how to customize chat in VS Code with custom instructions, reusable prompt files, and custom agents to align AI responses with your coding practices and project requirements.
+MetaDescription: カスタム指示、再利用可能なプロンプトファイル、カスタムエージェントを使用してVS Codeのチャットをカスタマイズし、AIの応答をコーディング習慣やプロジェクトの要件に合わせる方法について説明します。
 MetaSocialImage: ../images/shared/github-copilot-social.png
 ---
-# Customize chat to your workflow
+# ワークフローに合わせてチャットをカスタマイズする
 
-You can customize chat in Visual Studio Code to match your coding practices and project requirements. Set up persistent configurations that automatically apply your preferred context, tools, and guidelines to every conversation. This saves time and ensures consistent responses without manually providing the same information in each chat request.
+Visual Studio Codeのチャットをカスタマイズして、コーディング習慣やプロジェクトの要件に合わせることができます。優先されるコンテキスト、ツール、ガイドラインをすべての会話に自動的に適用する永続的な構成を設定します。これにより、時間を節約し、チャットリクエストごとに同じ情報を手動で提供することなく、一貫した応答を得ることができます。
 
-## Customization options
+## カスタマイズオプション
 
-There are six main ways to customize chat in Visual Studio Code. These options work independently or you can combine them for more comprehensive customization.
+Visual Studio Codeでチャットをカスタマイズするには、主に6つの方法があります。これらのオプションは独立して機能しますが、組み合わせてより包括的なカスタマイズを行うこともできます。
 
-### Custom instructions
+### カスタム指示
 
-[Custom instructions](/docs/copilot/customization/custom-instructions.md) let you define common guidelines or rules in a Markdown file for tasks like generating code, performing code reviews, or generating commit messages. With custom instruction, you describe _how_ a specific task should be performed. VS Code can automatically apply these instructions or you can choose to include them in specific chat requests.
+[カスタム指示](/docs/copilot/customization/custom-instructions.md)を使用すると、コードの生成、コードレビューの実行、コミットメッセージの生成などのタスクに関する一般的なガイドラインやルールをMarkdownファイルで定義できます。カスタム指示を使用すると、特定のタスクを*どのように*実行するかを記述します。VS Codeはこれらの指示を自動的に適用することも、特定のチャットリクエストに含めるように選択することもできます。
 
-Use custom instructions to:
+カスタム指示を使用して、以下を行います:
 
-- Specify coding practices, preferred technologies, or project requirements, so generated code follows your standards
-- Provide guidelines about how a commit message or pull request title and description should be structured
-- Set rules for code reviews, such as checking for security vulnerabilities, performance issues, or adherence to coding standards
+- コーディング習慣、優先されるテクノロジ、またはプロジェクトの要件を指定して、生成されるコードが標準に従うようにします
+- コミットメッセージやプルリクエストのタイトルと説明の構造に関するガイドラインを提供します
+- セキュリティの脆弱性、パフォーマンスの問題、コーディング標準への準拠を確認するなど、コードレビューのルールを設定します
 
-### Agent Skills (Preview)
+### エージェントスキル (プレビュー)
 
-[Agent Skills](/docs/copilot/customization/agent-skills.md) enable you to teach Copilot specialized capabilities through folders containing instructions, scripts, and resources. This feature is currently available in [VS Code Insiders](https://code.visualstudio.com/insiders/) only. Agent Skills is an [open standard](https://agentskills.io) that works across multiple AI agents, including VS Code, GitHub Copilot CLI, and GitHub Copilot coding agent. This makes skills portable across different AI tools. Unlike custom instructions that primarily define coding guidelines, skills focus on specialized workflows and capabilities.
+[エージェントスキル](/docs/copilot/customization/agent-skills.md)を使用すると、指示、スクリプト、リソースを含むフォルダーを通じてCopilotに特化した機能を教えることができます。この機能は現在、[VS Code Insiders](https://code.visualstudio.com/insiders/)でのみ利用可能です。エージェントスキルは、VS Code、GitHub Copilot CLI、GitHub Copilotコーディングエージェントなど、複数のAIエージェント間で機能する[オープンスタンダード](https://agentskills.io)です。これにより、スキルはさまざまなAIツール間で移植可能になります。主にコーディングガイドラインを定義するカスタム指示とは異なり、スキルは特化したワークフローと機能に焦点を当てています。
 
-Use Agent Skills to:
+エージェントスキルを使用して、以下を行います:
 
-- Create reusable capabilities that work across different GitHub Copilot tools
-- Define specialized workflows for testing, debugging, or deployment processes
-- Share capabilities with the AI community using the open standard
-- Include scripts, examples, and other resources alongside instructions
+- さまざまなGitHub Copilotツール間で機能する再利用可能な機能を作成します
+- テスト、デバッグ、またはデプロイプロセスのための特化したワークフローを定義します
+- オープンスタンダードを使用してAIコミュニティと機能を共有します
+- 指示とともにスクリプト、例、その他のリソースを含めます
 
-### Prompt files
+### プロンプトファイル
 
-[Prompt files](/docs/copilot/customization/prompt-files.md) let you define reusable prompts for common and repeatable development tasks in a Markdown file. Prompt files are standalone prompts that you can run directly in chat. You can include task-specific context and guidelines about how the task should be performed. Combine prompt files with custom instructions to ensure consistent execution of complex tasks.
+[プロンプトファイル](/docs/copilot/customization/prompt-files.md)を使用すると、一般的で反復可能な開発タスクの再利用可能なプロンプトをMarkdownファイルで定義できます。プロンプトファイルは、チャットで直接実行できるスタンドアロンのプロンプトです。タスク固有のコンテキストや、タスクをどのように実行すべきかについてのガイドラインを含めることができます。プロンプトファイルをカスタム指示と組み合わせて、複雑なタスクの一貫した実行を保証します。
 
-Use prompt files to:
+プロンプトファイルを使用して、以下を行います:
 
-- Create reusable prompts for common coding tasks, such as scaffolding a new component, API route, or generating tests
-- Define prompts for performing code reviews, such as checking for code quality, security vulnerabilities, or performance issues
-- Create step-by-step guides for complex processes or project-specific patterns
-- Define prompts for generating implementation plans, architectural designs, or migration strategies
+- 新しいコンポーネント、APIルートの足場作り、テストの生成など、一般的なコーディングタスクの再利用可能なプロンプトを作成します
+- コード品質、セキュリティの脆弱性、またはパフォーマンスの問題のチェックなど、コードレビューを実行するためのプロンプトを定義します
+- 複雑なプロセスやプロジェクト固有のパターンのためのステップバイステップガイドを作成します
+- 実装計画、アーキテクチャ設計、または移行戦略を生成するためのプロンプトを定義します
 
-### Custom agents
+### カスタムエージェント
 
-[Custom agents](/docs/copilot/customization/custom-agents.md) are a way to create a specialist assistant for specific roles or tasks, like a database administrator, front-end development, or planning. Within a custom agent Markdown file, you describe its scope and capabilities, which tools it can access, and a preferred language model.
+[カスタムエージェント](/docs/copilot/customization/custom-agents.md)は、データベース管理者、フロントエンド開発、計画など、特定の役割やタスクのためのスペシャリストアシスタントを作成する方法です。カスタムエージェントのMarkdownファイル内で、その範囲と機能、アクセスできるツール、優先される言語モデルを記述します。
 
-Use custom agents to:
+カスタムエージェントを使用して、以下を行います:
 
-- Create a custom agent for planning, where the AI has read-only access to the codebase and can only generate implementation plans
-- Define a research custom agent, where the AI can reach out to external resources to explore new technologies or gather information
-- Create a front-end developer custom agent, where the AI can only generate and modify code related to front-end development
+- AIがコードベースへの読み取り専用アクセスを持ち、実装計画のみを生成できる計画用のカスタムエージェントを作成します
+- AIが外部リソースにアクセスして新しいテクノロジを探索したり情報を収集したりできる研究用カスタムエージェントを定義します
+- AIがフロントエンド開発に関連するコードのみを生成および変更できるフロントエンド開発者カスタムエージェントを作成します
 
-### Language models
+### 言語モデル
 
-[Language models](/docs/copilot/customization/language-models.md) let you choose from different AI models optimized for specific tasks. You can switch between models to get the best performance for code generation, reasoning, or specialized tasks like vision processing. Bring your own API key to access more models or have more control over model hosting.
+[言語モデル](/docs/copilot/customization/language-models.md)を使用すると、特定のタスクに最適化されたさまざまなAIモデルから選択できます。モデルを切り替えて、コード生成、推論、またはビジョン処理などの特殊なタスクで最高のパフォーマンスを得ることができます。独自のAPIキーを使用してより多くのモデルにアクセスしたり、モデルのホスティングをより詳細に制御したりできます。
 
-Use different language models to:
+さまざまな言語モデルを使用して、以下を行います:
 
-- Use a fast model for quick code suggestions and simple refactoring tasks
-- Switch to a more capable model for complex architectural decisions or detailed code reviews
-- Bring your own API key to access experimental models or use locally hosted models
+- 素早いコード提案や単純なリファクタリングタスクには高速なモデルを使用します
+- 複雑なアーキテクチャの決定や詳細なコードレビューには、より高性能なモデルに切り替えます
+- 独自のAPIキーを使用して実験的なモデルにアクセスしたり、ローカルでホストされているモデルを使用したりします
 
-### MCP and tools
+### MCPとツール
 
-[MCP and tools](/docs/copilot/customization/mcp-servers.md) let you connect external services and specialized tools through Model Context Protocol (MCP). This extends chat capabilities beyond code to interact with databases, APIs, and other development tools.
+[MCPとツール](/docs/copilot/customization/mcp-servers.md)を使用すると、Model Context Protocol (MCP) を通じて外部サービスや特殊なツールを接続できます。これにより、チャット機能がコードを超えて拡張され、データベース、API、その他の開発ツールと対話できるようになります。
 
-Use MCP and tools to:
+MCPとツールを使用して、以下を行います:
 
-- Connect database tools to query and analyze data without leaving your development environment
-- Integrate with external APIs to fetch real-time information or perform actions
+- 開発環境を離れることなく、データをクエリおよび分析するためにデータベースツールを接続します
+- リアルタイム情報を取得したりアクションを実行したりするために外部APIと統合します
 
-## Usage scenarios
+## 使用シナリオ
 
-Different customization methods work best for different scenarios. The following table lists common use cases and the recommended approach:
+さまざまなカスタマイズ方法は、さまざまなシナリオに最適です。次の表に、一般的なユースケースと推奨されるアプローチを示します。
 
-| Use Case | Approach |
+| ユースケース | アプローチ |
 |----------|----------|
-| Project-wide coding standards | [Custom instructions](/docs/copilot/customization/custom-instructions.md) |
-| Language or framework-specific rules | [Custom instructions with glob patterns](/docs/copilot/customization/custom-instructions.md#instructions-file-format) |
-| Specialized capabilities that work across tools | [Agent Skills](/docs/copilot/customization/agent-skills.md) |
-| Reusable development tasks | [Prompt files](/docs/copilot/customization/prompt-files.md) |
-| Use chat for planning or research | [Custom agents](/docs/copilot/customization/custom-agents.md) |
-| Define specialized workflows | [Custom agents](/docs/copilot/customization/custom-agents.md) |
-| Complex reasoning and analysis | [Language models](/docs/copilot/customization/language-models.md) |
-| Bring your own model | [Language models](/docs/copilot/customization/language-models.md) |
-| Integrate external services | [MCP and tools](/docs/copilot/customization/mcp-servers.md) |
+| プロジェクト全体のコーディング標準 | [カスタム指示](/docs/copilot/customization/custom-instructions.md) |
+| 言語またはフレームワーク固有のルール | [グロブパターンを使用したカスタム指示](/docs/copilot/customization/custom-instructions.md#instructions-file-format) |
+| ツール間で機能する特殊な機能 | [エージェントスキル](/docs/copilot/customization/agent-skills.md) |
+| 再利用可能な開発タスク | [プロンプトファイル](/docs/copilot/customization/prompt-files.md) |
+| 計画や研究にチャットを使用する | [カスタムエージェント](/docs/copilot/customization/custom-agents.md) |
+| 特殊なワークフローを定義する | [カスタムエージェント](/docs/copilot/customization/custom-agents.md) |
+| 複雑な推論と分析 | [言語モデル](/docs/copilot/customization/language-models.md) |
+| 独自のモデルを持ち込む | [言語モデル](/docs/copilot/customization/language-models.md) |
+| 外部サービスを統合する | [MCPとツール](/docs/copilot/customization/mcp-servers.md) |
 
-## Getting started
+## はじめに
 
-You can implement chat customizations incrementally, starting with the simplest options and gradually adding more complexity as needed.
+チャットのカスタマイズは、最も簡単なオプションから始めて、必要に応じて徐々に複雑さを増していくことで、段階的に実装できます。
 
-### 1. Try different language models
+### 1. さまざまな言語モデルを試す
 
-Start by experimenting with different **language models** to get better results for different types of work. Use the model picker in chat to switch between models - try faster models for simple tasks and more capable models for complex reasoning. This requires no setup and provides immediate results.
+まずは、さまざまな**言語モデル**を試して、さまざまな種類の作業でより良い結果を得ることから始めましょう。チャットのモデルピッカーを使用してモデルを切り替えます。単純なタスクには高速なモデルを、複雑な推論にはより高性能なモデルを試してください。これにはセットアップが不要で、すぐに結果が得られます。
 
-### 2. Set up basic guidelines
+### 2. 基本的なガイドラインを設定する
 
-Create **custom instructions** for consistent results across all your chat interactions. Create a `.github/copilot-instructions.md` file with your coding standards and preferences. This automatically improves all chat responses without extra effort. Create different instructions files for different parts of your codebase using glob patterns to target specific languages or frameworks.
+チャットの対話全体で一貫した結果を得るために、**カスタム指示**を作成します。コーディング標準と好みを記載した `.github/copilot-instructions.md` ファイルを作成します。これにより、余分な労力をかけずにすべてのチャット応答が自動的に改善されます。グロブパターンを使用してコードベースのさまざまな部分に対して異なる指示ファイルを作成し、特定の言語やフレームワークをターゲットにします。
 
-### 3. Add task automation
+### 3. タスクの自動化を追加する
 
-Once you identify repetitive tasks, create **prompt files** for common workflows like component generation, code reviews, or documentation tasks. These save time and ensure consistency across your team.
+反復的なタスクを特定したら、コンポーネントの生成、コードレビュー、ドキュメント作成タスクなどの一般的なワークフロー用に**プロンプトファイル**を作成します。これにより、時間が節約され、チーム全体で一貫性が確保されます。
 
-### 4. Extend capabilities
+### 4. 機能を拡張する
 
-When you need to connect external services or perform specialized operations, add **MCP servers and tools** to extend chat beyond basic code assistance.
+外部サービスに接続したり、特殊な操作を実行したりする必要がある場合は、**MCPサーバーとツール**を追加して、基本的なコード支援を超えてチャットを拡張します。
 
-### 5. Create specialized workflows
+### 5. 特殊なワークフローを作成する
 
-For advanced usage, build **custom agents** that combine specific tools, instructions, and context for particular roles or project phases.
+高度な使用法として、特定の役割やプロジェクトのフェーズに合わせて特定のツール、指示、コンテキストを組み合わせた**カスタムエージェント**を構築します。
 
-## Related resources
+## 関連リソース
 
-- [Create custom instructions](/docs/copilot/customization/custom-instructions.md)
-- [Use Agent Skills](/docs/copilot/customization/agent-skills.md)
-- [Create reusable prompt files](/docs/copilot/customization/prompt-files.md)
-- [Create custom agents](/docs/copilot/customization/custom-agents.md)
-- [Choose language models](/docs/copilot/customization/language-models.md)
-- [Use MCP servers and tools](/docs/copilot/customization/mcp-servers.md)
+- [カスタム指示を作成する](/docs/copilot/customization/custom-instructions.md)
+- [エージェントスキルを使用する](/docs/copilot/customization/agent-skills.md)
+- [再利用可能なプロンプトファイルを作成する](/docs/copilot/customization/prompt-files.md)
+- [カスタムエージェントを作成する](/docs/copilot/customization/custom-agents.md)
+- [言語モデルを選択する](/docs/copilot/customization/language-models.md)
+- [MCPサーバーとツールを使用する](/docs/copilot/customization/mcp-servers.md)

@@ -1,31 +1,31 @@
 ---
 ContentId: f8820661-7772-47e6-b63e-ac59f6752d9c
 DateApproved: 12/10/2025
-MetaDescription: Learn how to implement context engineering using VS Code's built-in AI features.
+MetaDescription: VS Codeの組み込みAI機能を使用してコンテキストエンジニアリングを実装する方法を学びます。
 MetaSocialImage: ../images/shared/github-copilot-social.png
 ---
-# Set up a context engineering flow in VS Code
+# VS Codeでコンテキストエンジニアリングフローを設定する
 
-This guide shows you how to set up a context engineering workflow in VS Code using custom instructions, custom agents, and prompt files.
+このガイドでは、カスタム指示、カスタムエージェント、およびプロンプトファイルを使用して、VS Codeでコンテキストエンジニアリングワークフローを設定する方法を示します。
 
-Context engineering is a systematic approach to providing AI agents with targeted project information to improve the quality and accuracy of generated code. By curating essential project context through custom instructions, implementation plans, and coding guidelines, you enable AI to make better decisions, improve accuracy, and maintain persistent knowledge across interactions.
+コンテキストエンジニアリングは、生成されるコードの品質と精度を向上させるために、AIエージェントに対象となるプロジェクト情報を提供する体系的なアプローチです。カスタム指示、実装計画、コーディングガイドラインを通じて重要なプロジェクトコンテキストをキュレートすることで、AIがより良い意思決定を行い、精度を向上させ、対話全体で永続的な知識を維持できるようになります。
 
 > [!TIP]
-> VS Code chat provides a [built-in plan agent](/docs/copilot/chat/chat-planning.md) to help you create detailed implementation plans before starting complex coding tasks. If you don't want to create a custom planning workflow, you can use the plan agent to generate implementation plans quickly.
+> VS Codeチャットには、複雑なコーディングタスクを開始する前に詳細な実装計画を作成するのに役立つ[組み込みの計画エージェント](/docs/copilot/chat/chat-planning.md)が用意されています。カスタム計画ワークフローを作成したくない場合は、計画エージェントを使用して実装計画を迅速に生成できます。
 
-## Context engineering workflow
+## コンテキストエンジニアリングワークフロー
 
-The high-level workflow for context engineering in VS Code consists of the following steps:
+VS Codeにおけるコンテキストエンジニアリングのハイレベルワークフローは、次のステップで構成されています。
 
-1. Curate project-wide context: use custom instructions to include relevant documentation (for example, architecture, design, contributor guidelines) as context to all agent interactions.
-1. Generate implementation plan: create a planning persona by using a custom agent and a prompt to generate a detailed feature implementation plan.
-1. Generate implementation code: use custom instructions to generate code based on the implementation plan that adheres to your coding guidelines.
+1. プロジェクト全体のコンテキストをキュレートする: カスタム指示を使用して、関連ドキュメント（例：アーキテクチャ、設計、貢献者ガイドライン）をすべてのエージェントとの対話のコンテキストとして含めます。
+1. 実装計画を生成する: カスタムエージェントとプロンプトを使用して計画ペルソナを作成し、詳細な機能実装計画を生成します。
+1. 実装コードを生成する: カスタム指示を使用して、コーディングガイドラインに準拠した実装計画に基づいてコードを生成します。
 
-As you work through the steps, you can iterate and refine the output with follow-up prompts in the chat.
+ステップを進めながら、チャットでのフォローアッププロンプトを使用して出力を反復し、洗練させることができます。
 
-The following diagram illustrates a context engineering workflow in VS Code:
+次の図は、VS Codeでのコンテキストエンジニアリングワークフローを示しています。
 
-![Diagram that shows the context engineering workflow in VS Code consisting of three main steps.](../images/context-engineering-guide/context-engineering-workflow.png)
+![VS Codeにおけるコンテキストエンジニアリングワークフローを示す図。3つの主要なステップで構成されています。](../images/context-engineering-guide/context-engineering-workflow.png)
 
 <!--
 ```mermaid
@@ -53,257 +53,257 @@ flowchart TD
 ```
 -->
 
-## Step 1: Curate project-wide context
+## ステップ1: プロジェクト全体のコンテキストをキュレートする
 
-To ground the AI agent in the specifics of the project, collect key project information like product vision, architecture, and other relevant documentation and add it as chat context via custom instructions. By using custom instructions, you ensure that the agent consistently has access to this context and doesn't have to re-learn it for each chat interaction
+AIエージェントをプロジェクトの詳細に基づいて動作させるには、製品ビジョン、アーキテクチャ、その他の関連ドキュメントなどの主要なプロジェクト情報を収集し、カスタム指示を介してチャットコンテキストとして追加します。カスタム指示を使用することで、エージェントが常にこのコンテキストにアクセスできるようになり、チャット対話のたびに再学習する必要がなくなります。
 
-**Why this helps:** The agent could find this information in the codebase, but it might be buried in comments or scattered across multiple files. By providing a concise summary of the most important information, you help the agent to always have critical context available for decision-making.
+**これが役立つ理由:** エージェントはコードベース内でこの情報を見つけることができますが、コメントに埋もれていたり、複数のファイルに散らばっていたりする可能性があります。最も重要な情報の簡潔な要約を提供することで、エージェントが意思決定のために重要なコンテキストを常に利用できるようにします。
 
-1. Describe relevant project documentation in Markdown files in the repository, for example create `PRODUCT.md`, `ARCHITECTURE.md`, and `CONTRIBUTING.md` files.
+1. リポジトリ内のMarkdownファイルに関連するプロジェクトドキュメントを記述します。たとえば、`PRODUCT.md`、`ARCHITECTURE.md`、`CONTRIBUTING.md`ファイルを作成します。
 
     > [!TIP]
-    > If you have an existing codebase, you can use AI to generate these project documentation files. Make sure to review and refine the generated documentation files to ensure accuracy and completeness.
-    > * `Generate an ARCHITECTURE.md (max 2 page) file that describes the overall architecture of the project.`
-    > * `Generate a PRODUCT.md (max 2 page) file that describes the product functionality of the project.`
-    > * `Generate a CONTRIBUTING.md (max 1 page) file that describes developer guidelines and best practices for contributing to the project.`
+    > 既存のコードベースがある場合は、AIを使用してこれらのプロジェクトドキュメントファイルを生成できます。生成されたドキュメントファイルを確認し、洗練させて、正確性と完全性を確保してください。
+    > * ``プロジェクトの全体的なアーキテクチャを説明するARCHITECTURE.md（最大2ページ）ファイルを生成してください。``
+    > * ``プロジェクトの製品機能を説明するPRODUCT.md（最大2ページ）ファイルを生成してください。``
+    > * ``プロジェクトへの貢献に関する開発者ガイドラインとベストプラクティスを説明するCONTRIBUTING.md（最大1ページ）ファイルを生成してください。``
 
-1. Create a `.github/copilot-instructions.md` [instructions file](/docs/copilot/customization/custom-instructions.md#use-a-githubcopilot-instructionsmd-file) at the root of your repository.
+1. リポジトリのルートに`.github/copilot-instructions.md`[指示ファイル](/docs/copilot/customization/custom-instructions.md#use-a-githubcopilot-instructionsmd-file)を作成します。
 
-    The instructions in this file are automatically included in all chat interactions as context for the AI agent.
+    このファイルの指示は、AIエージェントのコンテキストとしてすべてのチャット対話に自動的に含まれます。
 
-1. Provide a high-level overview for the agent with the project context and guidelines. Reference relevant supporting documentation files by using Markdown links.
+1. プロジェクトのコンテキストとガイドラインを含むエージェント向けのハイレベルな概要を提供します。Markdownリンクを使用して、関連するサポートドキュメントファイルを参照してください。
 
-    The following example `.github/copilot-instructions.md` file provides a starting point:
+    次の`.github/copilot-instructions.md`ファイルの例は、出発点となります。
 
     ```markdown
-    # [Project Name] Guidelines
+    # [プロジェクト名] ガイドライン
 
-    * [Product Vision and Goals](../PRODUCT.md): Understand the high-level vision and objectives of the product to ensure alignment with business goals.
-    * [System Architecture and Design Principles](../ARCHITECTURE.md): Overall system architecture, design patterns, and design principles that guide the development process.
-    * [Contributing Guidelines](../CONTRIBUTING.md): Overview of the project's contributing guidelines and collaboration practices.
+    * [製品のビジョンと目標](../PRODUCT.md): ビジネス目標との整合性を確保するために、製品のハイレベルなビジョンと目的を理解してください。
+    * [システムアーキテクチャと設計原則](../ARCHITECTURE.md): 開発プロセスを導く全体的なシステムアーキテクチャ、設計パターン、および設計原則。
+    * [貢献ガイドライン](../CONTRIBUTING.md): プロジェクトの貢献ガイドラインとコラボレーションプラクティスの概要。
 
-    Suggest to update these documents if you find any incomplete or conflicting information during your work.
+    作業中に不完全または矛盾する情報を見つけた場合は、これらのドキュメントを更新するように提案してください。
     ```
 
 > [!TIP]
-> Start small, keeping the initial project-wide context concise and focused on the most critical information. If uncertain, focus on high-level architecture and only add new rules to address errors or incorrect behavior the agent makes repeatedly (for example, using the wrong shell command, ignoring certain files).
+> 最初は小さく始め、初期のプロジェクト全体のコンテキストを簡潔にし、最も重要な情報に焦点を当てます。不確かな場合は、ハイレベルなアーキテクチャに焦点を当て、エージェントが繰り返し行うエラーや誤った動作（たとえば、間違ったシェルコマンドの使用、特定のファイルの無視など）に対処するための新しいルールのみを追加してください。
 
-## Step 2: Create implementation plan
+## ステップ2: 実装計画を作成する
 
-Once you have the project-specific context in place, you can use AI to prompt the creation of an implementation plan for a new feature or bug fix. Generating an implementation plan is an iterative process that might require multiple rounds of refinement to ensure it's complete and accurate.
+プロジェクト固有のコンテキストが整ったら、AIを使用して、新機能またはバグ修正の実装計画の作成を促すことができます。実装計画の生成は反復的なプロセスであり、完全かつ正確であることを確認するために、複数回の改良が必要になる場合があります。
 
-With a [custom agent](/docs/copilot/customization/custom-agents.md) for planning, you can create a dedicated persona with planning-specific guidelines and tools (for example, read-only access to the codebase). They can also capture specific workflows for brainstorming, researching, and collaborating for your project and team.
+計画用の[カスタムエージェント](/docs/copilot/customization/custom-agents.md)を使用すると、計画固有のガイドラインとツール（たとえば、コードベースへの読み取り専用アクセス）を備えた専用のペルソナを作成できます。また、プロジェクトやチームのブレーンストーミング、調査、コラボレーションのための特定のワークフローをキャプチャすることもできます。
 
 > [!TIP]
-> Once you create custom agents, treat them as living documents. Refine and improve them over time based on any mistakes or shortcomings you observe in the agent's behavior.
+> カスタムエージェントを作成したら、それを生きたドキュメントとして扱います。エージェントの動作に見られる間違いや欠点に基づいて、時間の経過とともに改良および改善してください。
 
-1. Create a planning document template `plan-template.md` that defines the structure and sections of the implementation plan document.
+1. 実装計画ドキュメントの構造とセクションを定義する計画ドキュメントテンプレート`plan-template.md`を作成します。
 
-    By using a template, you ensure that the agent collects all necessary information and presents it in a consistent format. This also helps improve the quality of the code that is generated from the plan.
+    テンプレートを使用することで、エージェントが必要なすべての情報を収集し、一貫した形式で提示するようにできます。これは、計画から生成されるコードの品質向上にも役立ちます。
 
-    The following `plan-template.md` file provides sample structure for an implementation plan template:
+    次の`plan-template.md`ファイルは、実装計画テンプレートのサンプル構造を提供します。
 
     ```markdown
     ---
-    title: [Short descriptive title of the feature]
-    version: [optional version number]
+    title: [機能の短い説明的なタイトル]
+    version: [オプションのバージョン番号]
     date_created: [YYYY-MM-DD]
     last_updated: [YYYY-MM-DD]
     ---
-    # Implementation Plan: <feature>
-    [Brief description of the requirements and goals of the feature]
+    # 実装計画: <feature>
+    [機能の要件と目標の簡単な説明]
 
-    ## Architecture and design
-    Describe the high-level architecture and design considerations.
+    ## アーキテクチャと設計
+    ハイレベルなアーキテクチャと設計上の考慮事項について説明してください。
 
-    ## Tasks
-    Break down the implementation into smaller, manageable tasks using a Markdown checklist format.
+    ## タスク
+    Markdownチェックリスト形式を使用して、実装を小さく管理しやすいタスクに分解してください。
 
-    ## Open questions
-    Outline 1-3 open questions or uncertainties that need to be clarified.
+    ## 未解決の質問
+    明確にする必要のある1〜3個の未解決の質問または不確実性の概要を説明してください。
     ```
 
-1. Create a planning [agent](/docs/copilot/customization/custom-agents.md) `.github/agents/plan.agent.md`
+1. 計画[エージェント](/docs/copilot/customization/custom-agents.md)`.github/agents/plan.agent.md`を作成します
 
-    The planning agent defines a planning persona and instructs the agent not to perform implementation tasks, but to focus on creating the implementation plan. You can specify [handoffs](/docs/copilot/customization/custom-agents.md#handoffs) to transition to an implementation agent after the plan is complete.
+    計画エージェントは計画ペルソナを定義し、エージェントに実装タスクを実行しないよう指示しますが、実装計画の作成に集中するようにします。[ハンドオフ](/docs/copilot/customization/custom-agents.md#handoffs)を指定して、計画の完了後に実装エージェントに移行できます。
 
-    To create a custom agent, run the **Chat: New Custom Agent** command in the Command Palette.
+    カスタムエージェントを作成するには、コマンドパレットで**Chat: New Custom Agent**コマンドを実行します。
 
-    If you want to access GitHub issues for context, make sure to install the [GitHub MCP server](https://github.com/mcp).
+    コンテキストとしてGitHubの問題にアクセスしたい場合は、[GitHub MCPサーバー](https://github.com/mcp)がインストールされていることを確認してください。
 
-    You might want to configure the `model` metadata property to use a language model that is optimized for reasoning and deep understanding.
+    推論と深い理解に最適化された言語モデルを使用するように、`model`メタデータプロパティを構成することをお勧めします。
 
-    The following `plan.agent.md` file provides a starting point for a planning custom agent and handoff to a TDD implementation agent:
+    次の`plan.agent.md`ファイルは、計画カスタムエージェントとTDD実装エージェントへのハンドオフの出発点となります。
 
     ```markdown
     ---
-    description: 'Architect and planner to create detailed implementation plans.'
+    description: '詳細な実装計画を作成するアーキテクトおよびプランナー。'
     tools: ['fetch', 'githubRepo', 'problems', 'usages', 'search', 'todos', 'runSubagent', 'github/github-mcp-server/get_issue', 'github/github-mcp-server/get_issue_comments', 'github/github-mcp-server/list_issues']
     handoffs:
-    - label: Start Implementation
+    - label: 実装を開始
         agent: tdd
-        prompt: Now implement the plan outlined above using TDD principles.
+        prompt: 上記の計画をTDD原則を使用して実装してください。
         send: true
     ---
-    # Planning Agent
+    # 計画エージェント
 
-    You are an architect focused on creating detailed and comprehensive implementation plans for new features and bug fixes. Your goal is to break down complex requirements into clear, actionable tasks that can be easily understood and executed by developers.
+    あなたは、新機能やバグ修正のための詳細かつ包括的な実装計画の作成に焦点を当てたアーキテクトです。あなたの目標は、複雑な要件を、開発者が簡単に理解して実行できる明確で実行可能なタスクに分解することです。
 
-    ## Workflow
+    ## ワークフロー
 
-    1. Analyze and understand: Gather context from the codebase and any provided documentation to fully understand the requirements and constraints. Run #tool:runSubagent tool, instructing the agent to work autonomously without pausing for user feedback.
-    2. Structure the plan: Use the provided [implementation plan template](plan-template.md) to structure the plan.
-    3. Pause for review: Based on user feedback or questions, iterate and refine the plan as needed.
+    1. 分析と理解: コードベースおよび提供されたドキュメントからコンテキストを収集し、要件と制約を完全に理解します。#tool:runSubagentツールを実行し、ユーザーからのフィードバックを待たずに自律的に作業するようにエージェントに指示します。
+    2. 計画の構造化: 提供された[実装計画テンプレート](plan-template.md)を使用して計画を構造化します。
+    3. レビューのために一時停止: ユーザーからのフィードバックや質問に基づいて、必要に応じて計画を反復し、洗練させます。
     ```
 
-1. You can now select the **plan** custom agent in the Chat view, and enter a task for implementing a new feature. It will generate a response that contains the implementation plan based on the provided template.
+1. これで、チャットビューで**plan**カスタムエージェントを選択し、新機能を実装するタスクを入力できます。提供されたテンプレートに基づいて、実装計画を含む応答が生成されます。
 
-    For example, enter the following prompt to create an implementation plan for a new feature: `Add user authentication with email and password, including registration, login, logout, and password reset functionality`.
+    たとえば、次のプロンプトを入力して、新機能の実装計画を作成します: `登録、ログイン、ログアウト、パスワードリセット機能を含む、電子メールとパスワードによるユーザー認証を追加してください`。
 
-    You can also reference a GitHub issue to provide specific context: `Implement the feature from issue #43`, in which case the agent will fetch the issue description and comments to come up with requirements.
+    また、GitHubの問題を参照して特定のコンテキストを提供することもできます: `issue #43の機能を実装してください`と入力すると、エージェントは問題の説明とコメントを取得して要件を導き出します。
 
-1. Optionally, create a [prompt file](/docs/copilot/customization/prompt-files.md) `.github/prompts/plan.prompt.md` that invokes plan agent and instructs the agent to create an implementation plan from a provided feature request.
+1. オプションで、計画エージェントを呼び出し、提供された機能リクエストから実装計画を作成するようにエージェントに指示する[プロンプトファイル](/docs/copilot/customization/prompt-files.md)`.github/prompts/plan.prompt.md`を作成します。
 
-    The following `plan-qna.prompt.md` file provides a varied starting point for the planning prompt, using the same workflow but adding a clarification step.
+    次の`plan-qna.prompt.md`ファイルは、同じワークフローを使用しつつ明確化ステップを追加した、計画プロンプトの多様な出発点となります。
 
     ```markdown
     ---
     agent: plan
-    description: Create a detailed implementation plan.
+    description: 詳細な実装計画を作成します。
     ---
-    Briefly analyze my feature request, then ask me 3 questions to clarify the requirements. Only then start the planning workflow.
+    機能リクエストを簡単に分析し、要件を明確にするために3つの質問をしてください。その後にのみ、計画ワークフローを開始してください。
     ```
 
-1. In the Chat view, enter the `/plan-qna` slash command to invoke the clarifying planning prompt and provide details about the feature you want to implement in your prompt.
+1. チャットビューで、`/plan-qna`スラッシュコマンドを入力して明確化計画プロンプトを呼び出し、実装したい機能の詳細をプロンプトで提供します。
 
-    For example, enter the following prompt: `/plan-qna add a customer details page for displaying and editing customer information`
+    たとえば、次のプロンプトを入力します: `/plan-qna 顧客情報を表示および編集するための顧客詳細ページを追加してください`
 
-    The agent will ask clarifying questions to better understand the requirements before creating the implementation plan, reducing any misunderstandings.
+    エージェントは、実装計画を作成する前に要件をよりよく理解するために明確化の質問を行い、誤解を減らします。
 
 > [!TIP]
-> Use custom agents to define workflows that follow a multi-turn process with specific tools. Use them stand-alone or in combination with prompt files to add different variants and configurations of the same workflows.
+> カスタムエージェントを使用して、特定のツールを使用したマルチターンプロセスに従うワークフローを定義します。それらを単独で使用するか、プロンプトファイルと組み合わせて使用し、同じワークフローのさまざまなバリエーションや構成を追加します。
 
-## Step 3: Generate implementation code
+## ステップ3: 実装コードを生成する
 
-After you have generated and refined the implementation plan, you can now use AI to implement the feature by generating code from the implementation plan.
+実装計画を生成して洗練させたら、AIを使用して実装計画からコードを生成することで、機能を実装できます。
 
-1. For smaller tasks, you can directly implement the feature by prompting the agent to generate code based on the implementation plan.
+1. 小さなタスクの場合、実装計画に基づいてコードを生成するようにエージェントに促すことで、機能を直接実装できます。
 
-    For larger or complex features, you can switch to **Agent** and prompt it to save the implementation plan to a file (for example, `<my-feature>-plan.md`) or add it as comment to the mentioned GitHub issue. You can then open a new chat and reference the implementation plan file in your prompt to reset the chat context.
+    大規模な機能や複雑な機能の場合は、**Agent**に切り替えて、実装計画をファイル（たとえば、`<my-feature>-plan.md`）に保存するか、言及されたGitHubの問題にコメントとして追加するように促すことができます。その後、新しいチャットを開き、プロンプトで実装計画ファイルを参照して、チャットコンテキストをリセットできます。
 
-1. You can now instruct the agent to implement the feature based on the implementation plan you created in the previous step.
+1. これで、前のステップで作成した実装計画に基づいて機能を実装するようにエージェントに指示できます。
 
-    For example, enter a chat prompt like `implement #<my-plan>.md`, which references the implementation plan file.
+    たとえば、実装計画ファイルを参照する`implement #<my-plan>.md`のようなチャットプロンプトを入力します。
 
     > [!TIP]
-    > Agent is optimized for executing multi-step tasks and figuring out how to best accomplish a goal based on the plan and your project context. You only need to provide the plan file or reference it in your prompt.
+    > エージェントは、計画とプロジェクトのコンテキストに基づいて、多段階のタスクを実行し、目標を達成するための最善の方法を判断するのに最適化されています。計画ファイルを提供するか、プロンプトで参照するだけで済みます。
 
-1. For a more customized workflow, create a [custom agent](/docs/copilot/customization/custom-agents.md) `.github/agents/implement.agent.md` specialized in implementing code based on a plan.
+1. よりカスタマイズされたワークフローの場合は、計画に基づいてコードを実装することに特化した[カスタムエージェント](/docs/copilot/customization/custom-agents.md)`.github/agents/implement.agent.md`を作成します。
 
-    The following `tdd.agent.md` file provides a starting point for a test-driven implementation custom agent.
+    次の`tdd.agent.md`ファイルは、テスト駆動型実装カスタムエージェントの出発点となります。
 
     ```markdown
     ---
-    description: 'Execute a detailed implementation plan as a test-driven developer.'
+    description: 'テスト駆動型開発者として詳細な実装計画を実行します。'
     ---
-    # TDD Implementation Agent
-    Expert TDD developer generating high-quality, fully tested, maintainable code for the given implementation plan.
+    # TDD実装エージェント
+    与えられた実装計画に対して、高品質で完全にテストされた、保守可能なコードを生成するエキスパートTDD開発者。
 
-    ## Test-driven development
-    1. Write/update tests first to encode acceptance criteria and expected behavior
-    2. Implement minimal code to satisfy test requirements
-    3. Run targeted tests immediately after each change
-    4. Run full test suite to catch regressions before moving to next task
-    5. Refactor while keeping all tests green
+    ## テスト駆動開発
+    1. 受け入れ基準と期待される動作をエンコードするために、最初にテストを作成/更新します
+    2. テスト要件を満たすための最小限のコードを実装します
+    3. 各変更の直後にターゲットテストを実行します
+    4. 次のタスクに進む前に回帰をキャッチするために完全なテストスイートを実行します
+    5. すべてのテストをグリーンの状態に保ちながらリファクタリングします
 
-    ## Core principles
-    * Incremental Progress: Small, safe steps keeping system working
-    * Test-Driven: Tests guide and validate behavior
-    * Quality Focus: Follow existing patterns and conventions
+    ## コア原則
+    * 漸進的な進歩: システムを動作させ続ける、小さくて安全なステップ
+    * テスト駆動: テストが動作を導き、検証します
+    * 品質重視: 既存のパターンと規約に従います
 
-    ## Success criteria
-    * All planned tasks completed
-    * Acceptance criteria satisfied for each task
-    * Tests passing (unit, integration, full suite)
+    ## 成功基準
+    * すべての計画されたタスクが完了しました
+    * 各タスクの受け入れ基準が満たされました
+    * テストが合格しました（ユニット、統合、完全なスイート）
     ```
 
     > [!TIP]
-    > As smaller language models are great at following explicit instructions to generate code, an `implement` agent benefits from setting the `model` property to a language model.
+    > 小規模な言語モデルは、コードを生成するための明示的な指示に従うのが得意であるため、`implement`エージェントは、`model`プロパティを言語モデルに設定することで恩恵を受けます。
 
 > [!TIP]
-> Get a fresh pair of agent eyes: create a new chat (`kb(workbench.action.chat.newChat)`) and ask the agent to review the code changes against the implementation plan. It can help identify any missed requirements or inconsistencies.
+> 新しいエージェントの視点を取り入れる: 新しいチャットを作成し（`kb(workbench.action.chat.newChat)`）、エージェントに実装計画に照らしてコードの変更を確認するように依頼します。これは、見逃した要件や不整合を特定するのに役立ちます。
 
-## Best practices and common patterns
+## ベストプラクティスと一般的なパターン
 
-Following these best practices helps you establish a sustainable and effective context engineering workflow.
+これらのベストプラクティスに従うことで、持続可能で効果的なコンテキストエンジニアリングワークフローを確立するのに役立ちます。
 
-### Context management principles
+### コンテキスト管理の原則
 
-**Start small and iterate**: Begin with minimal project context and gradually add detail based on observed AI behavior. Avoid context overload that can dilute focus.
+**小さく始めて反復する**: 最小限のプロジェクトコンテキストから始めて、観察されたAIの動作に基づいて徐々に詳細を追加します。焦点がぼやける可能性のあるコンテキストの過負荷を避けてください。
 
-**Keep context fresh**: Regularly audit and update your project documentation (using the agent) as the codebase evolves. Stale context leads to outdated or incorrect suggestions.
+**コンテキストを新鮮に保つ**: コードベースの進化に合わせて、定期的に（エージェントを使用して）プロジェクトドキュメントを監査および更新してください。古いコンテキストは、古くなったり間違ったりした提案につながります。
 
-**Use progressive context building**: Start with high-level concepts and progressively add detail rather than overwhelming the AI with comprehensive information upfront.
+**段階的なコンテキスト構築を使用する**: 最初から包括的な情報でAIを圧倒するのではなく、ハイレベルな概念から始めて、徐々に詳細を追加してください。
 
-**Maintain context isolation**: Keep different types of work (planning, coding, testing, debugging) in separate chat sessions to prevent context mixing and confusion.
+**コンテキストの分離を維持する**: コンテキストの混合や混乱を防ぐために、さまざまな種類の作業（計画、コーディング、テスト、デバッグ）を別々のチャットセッションに分けてください。
 
-### Documentation strategies
+### ドキュメント戦略
 
-**Create living documents**: Treat your custom instructions, custom agents, and templates as evolving resources. Refine them based on observed AI mistakes or shortcomings.
+**生きたドキュメントを作成する**: カスタム指示、カスタムエージェント、およびテンプレートを進化するリソースとして扱います。観察されたAIの間違いや欠点に基づいて、それらを洗練させてください。
 
-**Focus on decision-making context**: Prioritize information that helps AI make better architectural and implementation decisions rather than exhaustive technical details.
+**意思決定のコンテキストに焦点を当てる**: 網羅的な技術的な詳細よりも、AIがより良いアーキテクチャおよび実装の意思決定を行うのに役立つ情報を優先してください。
 
-**Use consistent patterns**: Establish and document coding conventions, naming patterns, and architectural decisions to help AI generate consistent code.
+**一貫したパターンを使用する**: AIが一貫したコードを生成できるように、コーディング規約、命名パターン、およびアーキテクチャ上の決定を確立し、文書化してください。
 
-**Reference external knowledge**: Link to relevant external documentation, APIs, or standards that the AI should consider when generating code.
+**外部知識を参照する**: コードを生成する際にAIが考慮すべき関連する外部ドキュメント、API、または標準にリンクしてください。
 
-### Workflow optimization
+### ワークフローの最適化
 
-**Handoffs between agents**: Use [handoffs](/docs/copilot/customization/custom-agents.md#handoffs) to create guided transitions and implement end-to-end development workflows between planning, implementation, and review agents.
+**エージェント間のハンドオフ**: [ハンドオフ](/docs/copilot/customization/custom-agents.md#handoffs)を使用して、誘導された移行を作成し、計画、実装、レビューの各エージェント間でエンドツーエンドの開発ワークフローを実装します。
 
-**Implement feedback loops**: Continuously validate that AI understands your context correctly. Ask clarifying questions and course-correct early when misunderstandings occur.
+**フィードバックループを実装する**: AIがコンテキストを正しく理解していることを継続的に検証してください。明確化の質問をし、誤解が生じた場合は早期に修正してください。
 
-**Use incremental complexity**: Build features incrementally, validating each step before adding complexity. This prevents compounding errors and maintains working code.
+**段階的な複雑さを使用する**: 機能を段階的に構築し、複雑さを加える前に各ステップを検証してください。これにより、エラーの複合を防ぎ、動作するコードを維持できます。
 
-**Separate concerns**: Use different agents for different activities (planning versus implementation versus review) to maintain focused, relevant context.
+**関心の分離**: 焦点を絞った関連性の高いコンテキストを維持するために、さまざまなアクティビティ（計画対実装対レビュー）に異なるエージェントを使用してください。
 
-**Version your context**: Use git to track changes to your context engineering setup, allowing you to revert problematic changes and understand what works best.
+**コンテキストをバージョン管理する**: gitを使用してコンテキストエンジニアリング設定への変更を追跡し、問題のある変更を元に戻したり、何が最適に機能するかを理解したりできるようにします。
 
-### Anti-patterns to avoid
+### 避けるべきアンチパターン
 
-**Context dumping**: Avoid providing excessive, unfocused information that doesn't directly help with decision-making.
+**コンテキストのダンプ**: 意思決定に直接役立たない、過度で焦点の定まらない情報を提供することは避けてください。
 
-**Inconsistent guidance**: Ensure all documentation aligns with your chosen architectural patterns and coding standards.
+**一貫性のないガイダンス**: すべてのドキュメントが、選択したアーキテクチャパターンおよびコーディング標準と一致していることを確認してください。
 
-**Neglecting validation**: Don't assume AI correctly understands your context. Always test understanding before proceeding with complex implementations.
+**検証の無視**: AIがコンテキストを正しく理解していると思い込まないでください。複雑な実装を進める前に、常に理解度をテストしてください。
 
-**One-size-fits-all**: Different team members or project phases may need different context configurations. Be flexible in your approach.
+**画一的なアプローチ**: チームメンバーやプロジェクトのフェーズによって、必要なコンテキスト構成が異なる場合があります。アプローチには柔軟性を持たせてください。
 
-### Measuring success
+### 成功の測定
 
-A successful context engineering setup should result in:
+成功したコンテキストエンジニアリングのセットアップは、次のような結果になるはずです。
 
-* **Reduced back-and-forth**: Less need to correct or redirect AI responses
-* **Consistent code quality**: Generated code follows established patterns and conventions
-* **Faster implementation**: Less time spent explaining context and requirements
-* **Better architectural decisions**: AI suggests solutions that align with project goals and constraints
+* **やり取りの削減**: AIの応答を修正またはリダイレクトする必要性が減る
+* **一貫したコード品質**: 生成されたコードが確立されたパターンと規約に従っている
+* **実装の高速化**: コンテキストと要件の説明に費やす時間が減る
+* **より良いアーキテクチャ上の決定**: AIがプロジェクトの目標と制約に沿ったソリューションを提案する
 
-### Scaling context engineering
+### コンテキストエンジニアリングの拡張
 
-**For teams**: Share context engineering setups through version control and establish team conventions for maintaining shared context.
+**チーム向け**: バージョン管理を通じてコンテキストエンジニアリング設定を共有し、共有コンテキストを維持するためのチーム規約を確立してください。
 
-**For large projects**: Consider creating context hierarchies with project-wide, module-specific, and feature-specific context layers using [instructions files](/docs/copilot/customization/custom-instructions.md).
+**大規模プロジェクト向け**: [指示ファイル](/docs/copilot/customization/custom-instructions.md)を使用して、プロジェクト全体、モジュール固有、および機能固有のコンテキストレイヤーを持つコンテキスト階層を作成することを検討してください。
 
-**For long-term projects**: Establish regular context review cycles to keep documentation current and remove outdated information.
+**長期プロジェクト向け**: ドキュメントを最新の状態に保ち、古い情報を削除するために、定期的なコンテキストレビューサイクルを確立してください。
 
-**For multiple projects**: Create reusable templates and patterns that can be adopted across different codebases and domains.
+**複数のプロジェクト向け**: さまざまなコードベースやドメイン全体で採用できる再利用可能なテンプレートとパターンを作成してください。
 
-By following these practices and continuously refining your approach, you'll develop a context engineering workflow that enhances AI-assisted development while maintaining code quality and project consistency.
+これらのプラクティスに従い、継続的にアプローチを洗練させることで、コード品質とプロジェクトの一貫性を維持しながら、AI支援開発を強化するコンテキストエンジニアリングワークフローを開発できます。
 
-## Related resources
+## 関連リソース
 
-Learn more about customizing AI in VS Code:
+VS CodeでのAIのカスタマイズの詳細については、以下を参照してください。
 
-* [Instructions files](/docs/copilot/customization/custom-instructions.md)
-* [Custom agents](/docs/copilot/customization/custom-agents.md)
-* [Prompt files](/docs/copilot/customization/prompt-files.md)
+* [指示ファイル](/docs/copilot/customization/custom-instructions.md)
+* [カスタムエージェント](/docs/copilot/customization/custom-agents.md)
+* [プロンプトファイル](/docs/copilot/customization/prompt-files.md)
