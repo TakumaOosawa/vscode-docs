@@ -4,70 +4,70 @@ DateApproved: 01/08/2026
 MetaDescription: Learn how to edit previous chat requests, restore your workspace to earlier states using checkpoints, and undo changes made by chat in Visual Studio Code.
 MetaSocialImage: ../images/shared/github-copilot-social.png
 ---
-# Revert changes with checkpoints and editing requests
+# チェックポイントとリクエストの編集で変更を元に戻す
 
-A chat session in Visual Studio Code might result in changes to one or more files in your workspace, which could be tedious to manually revert. For example, you might want to refine a previous chat request, try a different approach, or recover from unexpected changes.
+Visual Studio Codeのチャットセッションでは、ワークスペース内の1つ以上のファイルが変更される可能性があり、手動で元に戻すのは面倒な場合があります。たとえば、前のチャットリクエストを修正したり、別のアプローチを試したり、予期しない変更から回復したりしたい場合があります。
 
-This article describes how to edit previous chat requests and how to use checkpoints to roll back file changes made by chat.
+この記事では、以前のチャットリクエストを編集する方法と、チェックポイントを使用してチャットによるファイル変更をロールバックする方法について説明します。
 
-## Edit a previous chat request
+## 以前のチャットリクエストの編集
 
 > [!NOTE]
-> The ability to edit chat requests is available as of VS Code version 1.102.
+> チャットリクエストを編集する機能は、VS Code バージョン1.102から利用可能です。
 
-Each chat request in your conversation history is editable. When you edit a previous chat request, the edited request is sent to the language model as a new request, and any file changes made by the original request and subsequent requests are reverted.
+会話履歴の各チャットリクエストは編集可能です。以前のチャットリクエストを編集すると、編集後のリクエストが新しいリクエストとして言語モデルに送信され、元のリクエストおよびそれ以降のリクエストによって行われたファイル変更は元に戻されます。
 
-To edit a previous chat request, select the request in the Chat view to modify and then resend it. You can configure or disable the editing experience with the `setting(chat.editRequests)` setting.
+以前のチャットリクエストを編集するには、修正するリクエストをチャットビューで選択し、再送信します。`setting(chat.editRequests)`設定で編集体験を構成または無効にすることができます。
 
 <video src="../images/chat-checkpoints/chat-edit-request.mp4" title="Video showing the editing of a previous chat request in the Chat view." autoplay loop controls muted></video>
 
-## Use checkpoints to revert file changes
+## チェックポイントを使用してファイル変更を元に戻す
 
 > [!NOTE]
-> Checkpoints are available as of VS Code release 1.103.
+> チェックポイントは、VS Code リリース 1.103から利用可能です。
 
-Chat checkpoints provide a way to restore the state of your workspace to a previous point in time, and are useful when chat interactions resulted in changes across multiple files.
+チャットチェックポイントは、ワークスペースの状態を過去の時点に復元する方法を提供し、チャットのやり取りによって複数のファイルに変更が生じた場合に役立ちます。
 
-When checkpoints are enabled, VS Code automatically creates snapshots of your files at key points during chat interactions, allowing you to return to a known good state if the changes made by chat requests are not what you expected or if you want to try a different approach.
+チェックポイントが有効な場合、VS Codeはチャットのやり取り中の重要なポイントでファイルの変更のスナップショットを自動的に作成し、チャットリクエストによる変更が期待したものでなかった場合や、別のアプローチを試したい場合に、既知の良好な状態に戻ることができます。
 
-To enable checkpoints, configure the `setting(chat.checkpoints.enabled)` setting.
+チェックポイントを有効にするには、`setting(chat.checkpoints.enabled)`設定を構成します。
 
-### Restore a checkpoint
+### チェックポイントの復元
 
-When you restore a checkpoint, VS Code reverts the workspace to the state it was in at the time of that checkpoint. This means that _all_ changes made to files after that checkpoint will be undone.
+チェックポイントを復元すると、VS Codeはワークスペースをそのチェックポイントの時点の状態に戻します。つまり、そのチェックポイント以降にファイルに加えられた変更は*すべて*元に戻されます。
 
-To restore your workspace to a previous checkpoint:
+ワークスペースを以前のチェックポイントに復元するには:
 
-1. In the Chat view, navigate to previous chat request in the chat session.
+1. チャットビューで、チャットセッション内の以前のチャットリクエストに移動します。
 
-1. Hover over the chat request and select **Restore Checkpoint**.
+1. チャットリクエストにカーソルを合わせ、**チェックポイントの復元 (Restore Checkpoint)** を選択します。
 
     ![Screenshot of the Chat view, showing the Restore Checkpoint action in the Chat view.](../images/chat-checkpoints/chat-restore-checkpoint.png)
 
-1. Confirm that you want to restore the checkpoint and undo any file changes made after that point.
+1. チェックポイントを復元し、その時点以降に行われたファイル変更を元に戻すことを確認します。
 
-    Notice that the chat request is removed from the conversation history, and the workspace files are restored to their state at the time of the checkpoint.
+    チャットリクエストが会話履歴から削除され、ワークスペースファイルがチェックポイントの時点の状態に復元されることに注意してください。
 
-### Redo after restoring
+### 復元後のやり直し
 
-After restoring to a previous checkpoint, you can redo the changes that were undone. This might be useful if you inadvertently restored to a checkpoint.
+以前のチェックポイントに復元した後、元に戻した変更をやり直すことができます。これは、誤ってチェックポイントに復元してしまった場合に役立つことがあります。
 
-To redo changes after restoring a checkpoint, select **Redo** in the Chat view.
+チェックポイントの復元後に変更をやり直すには、チャットビューで **やり直し (Redo)** を選択します。
 
 ![Screenshot of the Chat view, showing the Redo button to redo the changes after restoring a checkpoint to a previous state.](../images/chat-checkpoints/chat-redo-checkpoint.png)
 
-### View file changes in checkpoints
+### チェックポイントでのファイル変更の表示
 
-To help you understand the effect of each chat request and make it easier to decide which checkpoint to restore to, enable the `setting(chat.checkpoints.showFileChanges)` setting. This shows the list of files that were modified at the end of each chat request, along with the number of lines added and removed in each file.
+各チャットリクエストの影響を理解し、どのチェックポイントに復元するかを判断しやすくするために、`setting(chat.checkpoints.showFileChanges)`設定を有効にします。これにより、各チャットリクエストの終了時に変更されたファイルのリストと、各ファイルで追加および削除された行数が表示されます。
 
 ![Screenshot of the Chat view, showing the file changes at the end of a chat request.](../images/chat-checkpoints/chat-checkpoint-changed-files.png)
 
-## Frequently asked questions
+## よくある質問
 
-### Do checkpoints replace Git version control?
+### チェックポイントはGitバージョン管理に代わるものですか?
 
-No. Checkpoints are designed for quick iteration within a chat session and are temporary. They complement Git but don't replace it. Use Git for permanent version control and collaboration. Checkpoints are ideal for experimenting during active chat sessions.
+いいえ。チェックポイントはチャットセッション内の迅速な反復のために設計されており、一時的なものです。Gitを補完するものであり、Gitに代わるものではありません。永続的なバージョン管理とコラボレーションにはGitを使用してください。チェックポイントは、アクティブなチャットセッション中の実験に最適です。
 
-## Related resources
+## 関連リソース
 
-* [Get started with chat in VS Code](/docs/copilot/chat/copilot-chat.md)
+* [VS Codeでのチャットの開始](/docs/copilot/chat/copilot-chat.md)

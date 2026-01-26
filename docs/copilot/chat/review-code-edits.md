@@ -4,47 +4,47 @@ DateApproved: 01/08/2026
 MetaDescription: Learn how to review and manage AI-generated code edits in Visual Studio Code chat.
 MetaSocialImage: ../images/shared/github-copilot-social.png
 ---
-# Review AI-generated code edits
+# AI生成コードの編集をレビューする
 
-When you interact with chat in Visual Studio Code, the AI can generate code edits across multiple files in your project. This article explains how to review, accept, or discard these AI-generated code edits.
+Visual Studio Codeでチャットと対話すると、AIはプロジェクト内の複数のファイルにわたってコード編集を生成できます。この記事では、これらのAI生成コード編集をレビュー、承認、または破棄する方法について説明します。
 
-## Pending changes
+## 保留中の変更
 
-Once the AI has made changes to your files, they are directly applied and saved to disk. VS Code keeps track of which files have pending edits and lets you review them individually or all at once.
+AIがファイルに変更を加えると、それらは直接適用され、ディスクに保存されます。VS Codeは、保留中の編集があるファイルを追跡し、それらを個別にまたは一度にまとめてレビューできるようにします。
 
-The Chat view shows the list of files that were edited and are pending your review. Files with pending edits also have an indicator in the Explorer view and editor tabs with a squared-dot icon.
+チャットビューには、編集され、レビュー待ちのファイルのリストが表示されます。保留中の編集があるファイルには、エクスプローラービューとエディタータブに四角いドットのアイコンのインジケーターも表示されます。
 
-![Screenshot that shows the Chat view, highlighting the changed files list and the indicator in the Explorer view and editor tabs.](../images/review-code-edits/copilot-edits-changed-files-full.png)
+![チャットビューを表示したスクリーンショット。変更されたファイルリストと、エクスプローラービューおよびエディタータブのインジケーターが強調表示されています。](../images/review-code-edits/copilot-edits-changed-files-full.png)
 
-When you open a file that was changed, the editor shows an inline diff of the applied changes.
+変更されたファイルを開くと、エディターには適用された変更のインライン差分が表示されます。
 
-When you close VS Code, the status of the pending edits is remembered and restored when you reopen VS Code.
+VS Codeを閉じると、保留中の編集のステータスは記憶され、VS Codeを再度開いたときに復元されます。
 
-## Review changes
+## 変更のレビュー
 
-With the editor overlay controls, you can navigate between the suggested edits by using the `kbstyle(Up)` and `kbstyle(Down)` controls. Use the **Keep** or **Undo** button to accept or reject the edits for a given file.
+エディターのオーバーレイコントロールを使用して、`kbstyle(Up)`と`kbstyle(Down)`コントロールを使用して提案された編集間を移動できます。**Keep**または**Undo**ボタンを使用して、特定のファイルの編集を承認または拒否します。
 
-![Screenshot showing the Editor with proposed changes, highlighting the review controls in the editor overlay controls.](../images/review-code-edits/copilot-edits-file-review-controls.png)
+![提案された変更を含むエディターを表示したスクリーンショット。エディターオーバーレイコントロールのレビューコントロールが強調表示されています。](../images/review-code-edits/copilot-edits-file-review-controls.png)
 
-When you hover over an inline change, the overlay controls let you accept or reject individual changes. In the Chat view, you can accept or reject all changes across all files at once.
+インライン変更にカーソルを合わせると、オーバーレイコントロールにより個々の変更を承認または拒否できます。チャットビューでは、すべてのファイルのすべての変更を一度に承認または拒否できます。
 
-## Source Control integration
+## ソース管理の統合
 
-If you stage your changes in the Source Control view, any pending edits are automatically accepted. On the other hand, if you discard your changes, any pending edits are also discarded.
+ソース管理ビューで変更をステージングすると、保留中の編集は自動的に承認されます。一方、変更を破棄すると、保留中の編集も破棄されます。
 
-## Auto-accept edits
+## 編集の自動承認
 
-You can configure VS Code to automatically accept AI-generated code edits after a specific delay with the `setting(chat.editing.autoAccept)` setting. By hovering over the editor overlay controls, you can cancel the auto-accept countdown.
+`setting(chat.editing.autoAccept)`設定を使用して、特定の遅延後にAI生成コード編集を自動的に承認するようにVS Codeを構成できます。エディターのオーバーレイコントロールにカーソルを合わせることで、自動承認のカウントダウンをキャンセルできます。
 
-If you automatically accept all edits, it's strongly recommended to still review the changes before committing them in source control. Learn more about the [security considerations of using AI in VS Code](/docs/copilot/security.md).
+すべての編集を自動的に承認する場合でも、ソース管理にコミットする前に変更をレビューすることを強くお勧めします。[VS CodeでのAI使用に関するセキュリティ上の考慮事項](/docs/copilot/security.md)について詳しくはこちらをご覧ください。
 
-## Edit sensitive files
+## 機密ファイルの編集
 
-To prevent inadvertent edits to sensitive files, such as workspace configuration settings or environment settings, VS Code prompts you to approve edits before they are applied. In chat, you can see a diff view of the proposed changes and choose to approve or reject them.
+ワークスペース構成設定や環境設定などの機密ファイルへの意図しない編集を防ぐため、VS Codeは編集が適用される前に承認を求めます。チャットでは、提案された変更の差分ビューを表示し、承認するか拒否するかを選択できます。
 
-Use the `setting(chat.tools.edits.autoApprove)` setting to configure which files require approval. The setting uses glob patterns to match file paths in your workspace.
+`setting(chat.tools.edits.autoApprove)`設定を使用して、承認が必要なファイルを構成します。この設定では、globパターンを使用してワークスペース内のファイルパスを照合します。
 
-The following example configuration automatically allows edits to all files except for JSON files in the `.vscode` folder and files named `.env`, which you are prompted to approve:
+次の構成例では、承認を求められる`.vscode`フォルダー内のJSONファイルと`.env`という名前のファイルを除き、すべてのファイルへの編集を自動的に許可します。
 
 ```json
 "chat.tools.edits.autoApprove": {
@@ -54,6 +54,6 @@ The following example configuration automatically allows edits to all files exce
 }
 ```
 
-## Related resources
+## 関連リソース
 
-* [Learn more about using chat in VS Code](/docs/copilot/chat/copilot-chat.md)
+* [VS Codeでのチャットの使用について詳しくはこちら](/docs/copilot/chat/copilot-chat.md)

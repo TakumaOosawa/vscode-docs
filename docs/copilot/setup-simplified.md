@@ -4,33 +4,33 @@ DateApproved: 01/08/2026
 MetaDescription: Set up Copilot in VS Code
 MetaSocialImage: images/shared/github-copilot-social.png
 ---
-# Set up Visual Studio Code with Copilot
+# Visual Studio Code と Copilot のセットアップ
 
-Welcome to AI-powered development with Visual Studio Code! Follow the steps in this guide to get started in minutes.
+Visual Studio Code による AI 支援開発へようこそ！このガイドの手順に従って、数分で使い始めることができます。
 
-## Set up Copilot in VS Code
+## VS Code で Copilot をセットアップする
 
-To use Copilot in VS Code, you need access to a GitHub Copilot subscription. You can set up Copilot directly from within VS Code.
+VS Code で Copilot を使用するには、GitHub Copilot サブスクリプションにアクセスする必要があります。VS Code 内から直接 Copilot をセットアップできます。
 
-1. [Download and install Visual Studio Code](https://code.visualstudio.com/Download) for your platform
+1. プラットフォーム用の [Visual Studio Code をダウンロードしてインストール](https://code.visualstudio.com/Download)します
 
-1. Start VS Code
+1. VS Code を起動します
 
-1. Hover over the Copilot icon in the Status Bar and select **Set up Copilot**.
+1. ステータスバーの Copilot アイコンにカーソルを合わせ、**Set up Copilot** を選択します。
 
-    ![Hover over the Copilot icon in the Status Bar and select Set up Copilot.](images/setup/setup-copilot-status-bar.png)
+    ![ステータスバーの Copilot アイコンにカーソルを合わせ、[Set up Copilot] を選択します。](images/setup/setup-copilot-status-bar.png)
 
-1. Select **Sign in** to sign in to your GitHub account or **Use Copilot** if you're already signed in.
+1. **Sign in** を選択して GitHub アカウントにサインインするか、すでにサインインしている場合は **Use Copilot** を選択します。
 
-    If you don't have a Copilot subscription yet, you'll be signed up for the [Copilot Free plan](https://docs.github.com/en/copilot/managing-copilot/managing-copilot-as-an-individual-subscriber/managing-copilot-free/about-github-copilot-free).
+    Copilot サブスクリプションをまだお持ちでない場合は、[Copilot Free プラン](https://docs.github.com/en/copilot/managing-copilot/managing-copilot-as-an-individual-subscriber/managing-copilot-free/about-github-copilot-free)にサインアップされます。
 
     > [!IMPORTANT]
-    > Telemetry in your free version of GitHub Copilot is currently enabled. By default, code suggestions that match public code, including code references in the VS Code and <github.com> experience, are allowed. You can opt out of telemetry data collection by disabling telemetry in VS Code by setting `setting(telemetry.telemetryLevel)` to `off`, or you can adjust both telemetry and code suggestion settings in [Copilot Settings](https://github.com/settings/copilot).
+    > GitHub Copilot の無料バージョンのテレメトリは現在有効になっています。デフォルトでは、公開コードと一致するコードの提案（VS Code および <github.com> エクスペリエンスでのコード参照を含む）は許可されています。VS Code で `setting(telemetry.telemetryLevel)` を `off` に設定してテレメトリを無効にすることで、テレメトリ データの収集をオプトアウトできます。または、[Copilot Settings](https://github.com/settings/copilot) でテレメトリとコード提案の両方の設定を調整できます。
 
-1. You can now start using Copilot in VS Code. Learn the basics with the [Copilot Quickstart](/docs/copilot/getting-started.md).
+1. これで、VS Code で Copilot を使い始めることができます。[Copilot クイックスタート](/docs/copilot/getting-started.md)で基本を学びましょう。
 
-## Next steps
+## 次のステップ
 
-- Discover AI-powered development in VS Code with our [Copilot Quickstart](/docs/copilot/getting-started.md)
-- Get an [overview of Copilot in VS Code](/docs/copilot/overview.md)
-- Get more info about the [Copilot Free plan details and conditions](https://docs.github.com/en/copilot/about-github-copilot/subscription-plans-for-github-copilot)
+- [Copilot クイックスタート](/docs/copilot/getting-started.md)で VS Code における AI 支援開発を発見する
+- [VS Code における Copilot の概要](/docs/copilot/overview.md)を取得する
+- [Copilot Free プランの詳細と条件](https://docs.github.com/en/copilot/about-github-copilot/subscription-plans-for-github-copilot)に関する詳細情報を取得する

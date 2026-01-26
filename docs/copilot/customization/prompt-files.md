@@ -1,61 +1,61 @@
 ---
 ContentId: 5c8e7d42-9b1a-4f85-a3e2-6d5b8a9c1e43
 DateApproved: 01/08/2026
-MetaDescription: Learn how to create reusable prompt files for GitHub Copilot Chat in VS Code to standardize common development tasks and improve your coding workflow efficiency.
+MetaDescription: VS Code の GitHub Copilot Chat 用の再利用可能なプロンプトファイルを作成して、一般的な開発タスクを標準化し、コーディングワークフローの効率を向上させる方法を学びます。
 MetaSocialImage: ../images/shared/github-copilot-social.png
 ---
-# Use prompt files in VS Code
+# VS Code でプロンプトファイルを使用する
 
-Prompt files are Markdown files that define reusable prompts for common development tasks like generating code, performing code reviews, or scaffolding project components. They are standalone prompts that you can run directly in chat, enabling the creation of a library of standardized development workflows.
+プロンプトファイルは、コードの生成、コードレビューの実行、プロジェクトコンポーネントのスキャフォールディングなど、一般的な開発タスク用の再利用可能なプロンプトを定義する Markdown ファイルです。これらはチャットで直接実行できるスタンドアロンのプロンプトであり、標準化された開発ワークフローのライブラリを作成できます。
 
-They can include task-specific guidelines or reference custom instructions to ensure consistent execution. Unlike custom instructions that apply to all requests, prompt files are triggered on-demand for specific tasks.
+タスク固有のガイドラインを含めたり、カスタム指示を参照して、一貫した実行を確保したりできます。すべてのリクエストに適用されるカスタム指示とは異なり、プロンプトファイルは特定のタスクに対してオンデマンドでトリガーされます。
 
-VS Code supports two types of scopes for prompt files:
+VS Code は、プロンプトファイルの2種類のスコープをサポートしています。
 
-* **Workspace prompt files**: Are only available within the workspace and are stored in the `.github/prompts` folder of the workspace.
-* **User prompt files**: Are available across multiple workspaces and are stored in the current [VS Code profile](/docs/configure/profiles.md).
+* **ワークスペースプロンプトファイル**: ワークスペース内でのみ使用でき、ワークスペースの `.github/prompts` フォルダーに保存されます。
+* **ユーザープロンプトファイル**: 複数のワークスペースで使用でき、現在の [VS Code プロファイル](/docs/configure/profiles.md)に保存されます。
 
-## Prompt file structure
+## プロンプトファイルの構造
 
-Prompt files are Markdown files and use the `.prompt.md` extension and have this structure:
+プロンプトファイルは Markdown ファイルであり、`.prompt.md` 拡張子を使用し、次の構造を持ちます。
 
-### Header (optional)
+### ヘッダー (オプション)
 
-The header is formatted as YAML frontmatter with the following fields:
+ヘッダーは、次のフィールドを持つ YAML フロントマターとしてフォーマットされます。
 
-| Field | Description |
+| フィールド | 説明 |
 | --- | --- |
-| `description`     | A short description of the prompt. |
-| `name`            | The name of the prompt, used after typing `/` in chat. If not specified, the file name is used. |
-| `argument-hint`   | Optional hint text shown in the chat input field to guide users on how to interact with the prompt. |
-| `agent`           | The agent used for running the prompt: `ask`, `edit`, `agent`, or the name of a [custom agent](/docs/copilot/customization/custom-agents.md). By default, the current agent is used. If tools are specified and the current agent is `ask` or `edit`, the default agent is `agent`. |
-| `model`           | The language model used when running the prompt. If not specified, the currently selected model in model picker is used. |
-| `tools`           | A list of tool or tool set names that are available for this prompt. Can include built-in tools, tool sets, MCP tools, or tools contributed by extensions. To include all tools of an MCP server, use the `<server name>/*` format.<br/>Learn more about [tools in chat](/docs/copilot/chat/chat-tools.md). |
+| `description`     | プロンプトの短い説明。 |
+| `name`            | チャットで `/` を入力した後に使用されるプロンプトの名前。指定しない場合は、ファイル名が使用されます。 |
+| `argument-hint`   | プロンプトとの対話方法をユーザーに案内するためにチャット入力フィールドに表示されるオプションのヒントテキスト。 |
+| `agent`           | プロンプトの実行に使用されるエージェント: `ask`、`edit`、`agent`、または[カスタムエージェント](/docs/copilot/customization/custom-agents.md)の名前。デフォルトでは、現在のエージェントが使用されます。ツールが指定されていて、現在のエージェントが `ask` または `edit` の場合、デフォルトのエージェントは `agent` になります。 |
+| `model`           | プロンプトの実行時に使用される言語モデル。指定しない場合は、モデルピッカーで現在選択されているモデルが使用されます。 |
+| `tools`           | このプロンプトで使用できるツールまたはツールセット名のリスト。組み込みツール、ツールセット、MCP ツール、または拡張機能によって提供されるツールを含めることができます。MCP サーバーのすべてのツールを含めるには、`<server name>/*` 形式を使用します。<br/>詳細については、[チャットのツール](/docs/copilot/chat/chat-tools.md)をご覧ください。 |
 
 > [!NOTE]
-> If a given tool is not available when running the prompt, it is ignored.
+> プロンプトの実行時に特定のツールが使用できない場合、それは無視されます。
 
-### Body
+### 本文
 
-The prompt file body contains the prompt text that is sent to the LLM when running the prompt in chat. Provide specific instructions, guidelines, or any other relevant information that you want the AI to follow.
+プロンプトファイルの本文には、チャットでプロンプトを実行したときに LLM に送信されるプロンプトテキストが含まれます。AI に従わせたい具体的な指示、ガイドライン、またはその他の関連情報を提供します。
 
-You can reference other workspace files by using Markdown links. Use relative paths to reference these files, and ensure that the paths are correct based on the location of the prompt file.
+Markdown リンクを使用して、他のワークスペースファイルを参照できます。相対パスを使用してこれらのファイルを参照し、プロンプトファイルの場所に基づいてパスが正しいことを確認してください。
 
-To reference agent tools in the body text, use the `#tool:<tool-name>` syntax. For example, to reference the `githubRepo` tool, use `#tool:githubRepo`.
+本文テキストでエージェントツールを参照するには、`#tool:<tool-name>` 構文を使用します。たとえば、`githubRepo` ツールを参照するには、`#tool:githubRepo` を使用します。
 
-Within a prompt file, you can reference variables by using the `${variableName}` syntax. You can reference the following variables:
+プロンプトファイル内では、`${variableName}` 構文を使用して変数を参照できます。次の変数を参照できます。
 
-* Workspace variables - `${workspaceFolder}`, `${workspaceFolderBasename}`
-* Selection variables - `${selection}`, `${selectedText}`
-* File context variables - `${file}`, `${fileBasename}`, `${fileDirname}`, `${fileBasenameNoExtension}`
-* Input variables - `${input:variableName}`, `${input:variableName:placeholder}` (pass values to the prompt from the chat input field)
+* ワークスペース変数 - `${workspaceFolder}`, `${workspaceFolderBasename}`
+* 選択変数 - `${selection}`, `${selectedText}`
+* ファイルコンテキスト変数 - `${file}`, `${fileBasename}`, `${fileDirname}`, `${fileBasenameNoExtension}`
+* 入力変数 - `${input:variableName}`, `${input:variableName:placeholder}` (チャット入力フィールドからプロンプトに値を渡す)
 
-### Prompt file examples
+### プロンプトファイルの例
 
-The following examples demonstrate how to use prompt files. For more community-contributed examples, see the [Awesome Copilot repository](https://github.com/github/awesome-copilot/tree/main).
+次の例は、プロンプトファイルの使用方法を示しています。コミュニティが提供したその他の例については、[Awesome Copilot リポジトリ](https://github.com/github/awesome-copilot/tree/main)を参照してください。
 
 <details>
-<summary>Example: generate a React form component</summary>
+<summary>例: React フォームコンポーネントを生成する</summary>
 
 ```markdown
 ---
@@ -83,7 +83,7 @@ Requirements for the form:
 </details>
 
 <details>
-<summary>Example: perform a security review of a REST API</summary>
+<summary>例: REST API のセキュリティレビューを実行する</summary>
 
 ```markdown
 ---
@@ -103,102 +103,102 @@ Return the TODO list in a Markdown format, grouped by priority and issue type.
 
 </details>
 
-## Create a prompt file
+## プロンプトファイルを作成する
 
-When you create a prompt file, choose whether to store it in your workspace or user profile. Workspace prompt files apply only to that workspace, while user prompt files are available across multiple workspaces.
+プロンプトファイルを作成するときは、ワークスペースに保存するか、ユーザープロファイルに保存するかを選択します。ワークスペースプロンプトファイルはそのワークスペースにのみ適用されますが、ユーザープロンプトファイルは複数のワークスペースで使用できます。
 
-To create a prompt file:
+プロンプトファイルを作成するには:
 
-1. In the Chat view, select **Configure Chat** (gear icon) > **Prompt Files**, and then select **New prompt file**.
+1. チャットビューで、**チャットの構成** (歯車アイコン) > **プロンプトファイル**を選択し、**新しいプロンプトファイル**を選択します。
 
-    ![Screenshot showing the Chat view, and Configure Chat menu, highlighting the Configure Chat button.](../images/customization/configure-chat-instructions.png)
+    ![チャットビューと、チャットの構成ボタンを強調表示したチャットの構成メニューを示すスクリーンショット。](../images/customization/configure-chat-instructions.png)
 
-    Alternatively, use the **Chat: New Prompt File** or **Chat: New Untitled Prompt File** command from the Command Palette (`kb(workbench.action.showCommands)`).
+    あるいは、コマンドパレット (`kb(workbench.action.showCommands)`) から **Chat: New Prompt File** または **Chat: New Untitled Prompt File** コマンドを使用します。
 
-1. Choose the location where the prompt file should be created.
+1. プロンプトファイルを作成する場所を選択します。
 
-    * **Workspace**: create the prompt file in the `.github/prompts` folder of your workspace to only use it within that workspace. Add more prompt folders for your workspace with the `setting(chat.promptFilesLocations)` setting.
+    * **ワークスペース**: ワークスペースの `.github/prompts` フォルダーにプロンプトファイルを作成して、そのワークスペース内でのみ使用します。`setting(chat.promptFilesLocations)` 設定を使用して、ワークスペースにプロンプトフォルダーを追加します。
 
-    * **User profile**: create the prompt file in the [current profile folder](/docs/configure/profiles.md) to use it across all your workspaces.
+    * **ユーザープロファイル**: [現在のプロファイルフォルダー](/docs/configure/profiles.md)にプロンプトファイルを作成して、すべてのワークスペースで使用します。
 
-1. Enter a file name for your prompt file. This is the default name that appears when you type `/` in chat.
+1. プロンプトファイルのファイル名を入力します。これは、チャットで `/` を入力したときに表示されるデフォルトの名前です。
 
-1. Author the chat prompt by using Markdown formatting.
+1. Markdown フォーマットを使用してチャットプロンプトを作成します。
 
-    * Fill in the YAML frontmatter at the top of the file to configure the prompt's description, agent, tools, and other settings.
-    * Add instructions for the prompt in the body of the file.
+    * ファイルの上部にある YAML フロントマターに入力して、プロンプトの説明、エージェント、ツール、およびその他の設定を構成します。
+    * ファイルの本文にプロンプトの指示を追加します。
 
-To modify an existing prompt file, in the Chat view, select **Configure Chat** > **Prompt Files**, and then select a prompt file from the list. Alternatively, use the **Chat: Configure Prompt Files** command from the Command Palette (`kb(workbench.action.showCommands)`) and select the prompt file from the Quick Pick.
+既存のプロンプトファイルを変更するには、チャットビューで **チャットの構成** > **プロンプトファイル**を選択し、リストからプロンプトファイルを選択します。あるいは、コマンドパレット (`kb(workbench.action.showCommands)`) から **Chat: Configure Prompt Files** コマンドを使用して、クイックピックからプロンプトファイルを選択します。
 
-## Use a prompt file in chat
+## チャットでプロンプトファイルを使用する
 
-You have multiple options to run a prompt file:
+プロンプトファイルを実行するには、いくつかのオプションがあります。
 
-* In the Chat view, type `/` followed by the prompt name in the chat input field.
+* チャットビューで、チャット入力フィールドに `/` とプロンプト名を入力します。
 
-    You can add extra information in the chat input field. For example, `/create-react-form formName=MyForm` or `/create-api for listing customers`.
+    チャット入力フィールドに追加情報を追加できます。たとえば、`/create-react-form formName=MyForm` または `/create-api for listing customers` です。
 
-* Run the **Chat: Run Prompt** command from the Command Palette (`kb(workbench.action.showCommands)`) and select a prompt file from the Quick Pick.
+* コマンドパレット (`kb(workbench.action.showCommands)`) から **Chat: Run Prompt** コマンドを実行し、クイックピックからプロンプトファイルを選択します。
 
-* Open the prompt file in the editor, and press the play button in the editor title area. You can choose to run the prompt in the current chat session or open a new chat session.
+* エディターでプロンプトファイルを開き、エディターのタイトル領域にある再生ボタンを押します。現在のチャットセッションでプロンプトを実行するか、新しいチャットセッションを開くかを選択できます。
 
-    This option is useful for quickly testing and iterating on your prompt files.
+    このオプションは、プロンプトファイルをすばやくテストして反復処理する場合に便利です。
 
 > [!TIP]
-> Use the `setting(chat.promptFilesRecommendations)` setting to show prompts as recommended actions when starting a new chat session.
+> 新しいチャットセッションを開始するときに推奨されるアクションとしてプロンプトを表示するには、`setting(chat.promptFilesRecommendations)` 設定を使用します。
 >
-> ![Screenshot showing an "explain" prompt file recommendation in the Chat view.](../images/customization/prompt-file-recommendations.png)
+> ![チャットビューに「説明」プロンプトファイルの推奨事項が表示されているスクリーンショット。](../images/customization/prompt-file-recommendations.png)
 
-## Tool list priority
+## ツールリストの優先順位
 
-You can specify the list of available tools for both a custom agent and prompt file by using the `tools` metadata field. Prompt files can also reference a custom agent by using the `agent` metadata field.
+`tools` メタデータフィールドを使用して、カスタムエージェントとプロンプトファイルの両方で使用可能なツールのリストを指定できます。プロンプトファイルは、`agent` メタデータフィールドを使用してカスタムエージェントを参照することもできます。
 
-The list of available tools in chat is determined by the following priority order:
+チャットで使用可能なツールのリストは、次の優先順位で決定されます。
 
-1. Tools specified in the prompt file (if any)
-2. Tools from the referenced custom agent in the prompt file (if any)
-3. Default tools for the selected agent (if any)
+1. プロンプトファイルで指定されたツール (ある場合)
+2. プロンプトファイルで参照されているカスタムエージェントのツール (ある場合)
+3. 選択したエージェントのデフォルトツール (ある場合)
 
-## Sync user prompt files across devices
+## デバイス間でユーザープロンプトファイルを同期する
 
-VS Code can sync your user prompt files across multiple devices by using [Settings Sync](/docs/configure/settings-sync.md).
+VS Code は、[設定の同期](/docs/configure/settings-sync.md)を使用して、複数のデバイス間でユーザープロンプトファイルを同期できます。
 
-To sync your user prompt files, enable Settings Sync for prompt and instruction files:
+ユーザープロンプトファイルを同期するには、プロンプトおよび指示ファイルの設定の同期を有効にします。
 
-1. Make sure you have [Settings Sync](/docs/configure/settings-sync.md) enabled.
+1. [設定の同期](/docs/configure/settings-sync.md)が有効になっていることを確認します。
 
-1. Run **Settings Sync: Configure** from the Command Palette (`kb(workbench.action.showCommands)`).
+1. コマンドパレット (`kb(workbench.action.showCommands)`) から **設定の同期: 設定 (Settings Sync: Configure)** を実行します。
 
-1. Select **Prompts and Instructions** from the list of settings to sync.
+1. 同期する設定のリストから **Prompts and Instructions** を選択します。
 
-## Tips for defining prompt files
+## プロンプトファイルを定義するためのヒント
 
-* Clearly describe what the prompt should accomplish and what output format is expected.
+* プロンプトで何を達成すべきか、どのような出力形式が期待されるかを明確に記述してください。
 
-* Provide examples of the expected input and output to guide the AI's responses.
+* 期待される入力と出力の例を提供して、AI の応答をガイドしてください。
 
-* Use Markdown links to reference custom instructions rather than duplicating guidelines in each prompt.
+* 各プロンプトでガイドラインを重複させるのではなく、Markdown リンクを使用してカスタム指示を参照してください。
 
-* Take advantage of built-in variables like `${selection}` and input variables to make prompts more flexible.
+* `${selection}` などの組み込み変数や入力変数を利用して、プロンプトをより柔軟にしてください。
 
-* Use the editor play button to test your prompts and refine them based on the results.
+* エディターの再生ボタンを使用してプロンプトをテストし、結果に基づいてプロンプトを調整してください。
 
-## Frequently asked questions
+## よくある質問
 
-### How do I know where a prompt file comes from?
+### プロンプトファイルがどこから来たのかを知るにはどうすればよいですか?
 
-Prompt files can come from different sources: built-in, user-defined in your profile, workspace-defined prompts in your current workspace, or extension-contributed prompts.
+プロンプトファイルは、組み込み、プロファイル内のユーザー定義、現在のワークスペース内のワークスペース定義プロンプト、または拡張機能によって提供されるプロンプトなど、さまざまなソースから提供されます。
 
-To identify the source of a prompt file:
+プロンプトファイルのソースを特定するには:
 
-1. Select **Chat: Configure Prompt Files** from the Command Palette (`kb(workbench.action.showCommands)`).
-1. Hover over the prompt file in the list. The source location is displayed in a tooltip.
+1. コマンドパレット (`kb(workbench.action.showCommands)`) から **Chat: Configure Prompt Files** を選択します。
+1. リスト内のプロンプトファイルにカーソルを合わせます。ソースの場所がツールチップに表示されます。
 
-## Related resources
+## 関連リソース
 
-* [Customize AI responses overview](/docs/copilot/customization/overview.md)
-* [Create custom instructions](/docs/copilot/customization/custom-instructions.md)
-* [Create custom agents](/docs/copilot/customization/custom-agents.md)
-* [Get started with chat in VS Code](/docs/copilot/chat/copilot-chat.md)
-* [Configure tools in chat](/docs/copilot/chat/chat-tools.md)
-* [Community contributed instructions, prompts, and custom agents](https://github.com/github/awesome-copilot)
+* [AI 応答のカスタマイズの概要](/docs/copilot/customization/overview.md)
+* [カスタム指示を作成する](/docs/copilot/customization/custom-instructions.md)
+* [カスタムエージェントを作成する](/docs/copilot/customization/custom-agents.md)
+* [VS Code でのチャットの概要](/docs/copilot/chat/copilot-chat.md)
+* [チャットでツールを構成する](/docs/copilot/chat/chat-tools.md)
+* [コミュニティが提供した指示、プロンプト、およびカスタムエージェント](https://github.com/github/awesome-copilot)

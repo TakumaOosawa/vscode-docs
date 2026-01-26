@@ -4,6 +4,6 @@ DateApproved: 01/08/2026
 MetaDescription: Learn how to use GitHub Copilot in Visual Studio Code to review code.
 MetaSocialImage: ../images/shared/github-copilot-social.png
 ---
-# Review code with Copilot
+# Copilotでコードをレビューする
 
-This page is redirected to <https://docs.github.com/en/copilot/using-github-copilot/code-review/using-copilot-code-review> and only exists to keep the "Review code with Copilot" TOC item.
+このページは<https://docs.github.com/en/copilot/using-github-copilot/code-review/using-copilot-code-review>にリダイレクトされており、「Copilotでコードをレビューする」というTOC項目を維持するためだけに存在します。

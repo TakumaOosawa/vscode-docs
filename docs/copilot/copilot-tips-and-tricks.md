@@ -1,52 +1,52 @@
 ---
 ContentId: 58ea6755-9bfa-42c2-a4c8-ff0510f9c031
 DateApproved: 02/06/2025
-MetaDescription: Tips and tricks to optimize your development experience with GitHub Copilot in VS Code.
+MetaDescription: VS CodeでのGitHub Copilotを使用した開発体験を最適化するためのヒントとテクニック。
 MetaSocialImage: images/shared/github-copilot-social.png
 ---
-# Tips and tricks for Copilot in VS Code
+# VS CodeでのCopilotのヒントとテクニック
 
-This article provides tips and tricks to optimize your development experience for using GitHub Copilot in Visual Studio Code.
+この記事では、Visual Studio CodeでGitHub Copilotを使用するための開発体験を最適化するためのヒントとテクニックを紹介します。
 
-## Checklist for using Copilot in VS Code
+## VS CodeでCopilotを使用するためのチェックリスト
 
-Use the following checklist to get the most out of Copilot:
+Copilotを最大限に活用するには、次のチェックリストを使用してください：
 
-1. [Choose the right tool](#choose-the-right-copilot-tool). _Use the tool that's optimized for editing, asking questions, or staying in the flow of writing code._
+1. [適切なツールを選択する](#choose-the-right-copilot-tool)。_編集、質問、またはコード記述のフローを維持するために最適化されたツールを使用してください。_
 
-1. [Personalize Copilot](#personalize-copilot-with-instructions-files). _Use custom instructions to get code suggestions that match your style and coding practices._
+1. [Copilotをパーソナライズする](#personalize-copilot-with-instructions-files)。_カスタム指示を使用して、自分のスタイルやコーディング規約に合ったコード提案を取得してください。_
 
-1. [Write effective prompts](#prompt-engineering) and provide [context](#provide-the-right-context-and-tools). _Get the most relevant responses._
+1. [効果的なプロンプトを作成する](#prompt-engineering)および[コンテキスト](#provide-the-right-context-and-tools)を提供する。_最も関連性の高い回答を取得してください。_
 
-1. [Index your workspace](#workspace-indexing). _Receive accurate responses to questions about your codebase._
+1. [ワークスペースにインデックスを付ける](#workspace-indexing)。_コードベースに関する質問に対して正確な回答を受け取ってください。_
 
-1. [Choose your AI model](#choose-your-ai-model). _Choose between models for fast coding or planning/reasoning._
+1. [AIモデルを選択する](#choose-your-ai-model)。_高速コーディングまたは計画/推論のためのモデルを選択してください。_
 
-1. [Reuse prompts](#reusable-prompts). _Save time by saving and reusing task-specific prompts across your team._
+1. [プロンプトを再利用する](#reusable-prompts)。_チーム全体でタスク固有のプロンプトを保存して再利用することで時間を節約してください。_
 
-## Choose the right Copilot tool
+## 適切なCopilotツールを選択する
 
-Depending on your task, you can choose between different Copilot tools.
+タスクに応じて、さまざまなCopilotツールから選択できます。
 
-| Tool | Use case |
+| ツール | ユースケース |
 |------|----------|
-| [Inline suggestions](/docs/copilot/ai-powered-suggestions.md) | Streamline coding while staying in the flow.<br/>Receive inline suggestions for code snippets, variable names, and functions as you write them in the editor. |
-| [Chat](/docs/copilot/chat/copilot-chat.md) | Have an ongoing chat conversation for brainstorming design ideas or getting code suggestions, optionally calling on domain-specific chat participants.<br/>Choose to apply specific code suggestions to your codebase. |
-| [Use agents](/docs/copilot/chat/copilot-chat.md#built-in-agents) | Implement high-level requirements by starting an agentic coding flow.<br/>The agent autonomously invokes multiple tools to plan and implement the code changes and tasks that are needed. |
+| [インライン提案](/docs/copilot/ai-powered-suggestions.md) | フローを維持しながらコーディングを効率化します。<br/>エディターで記述する際に、コードスニペット、変数名、関数のインライン提案を受け取ります。 |
+| [チャット](/docs/copilot/chat/copilot-chat.md) | 設計アイデアのブレーンストーミングやコード提案の取得のために進行中のチャット会話を行い、必要に応じてドメイン固有のチャット参加者を呼び出します。<br/>特定のコード提案をコードベースに適用することを選択します。 |
+| [エージェントの使用](/docs/copilot/chat/copilot-chat.md#built-in-agents) | エージェント型コーディングフローを開始して、高レベルの要件を実装します。<br/>エージェントは自律的に複数のツールを呼び出して、必要なコード変更とタスクを計画および実装します。 |
 
-## Personalize Copilot with instructions files
+## 指示ファイルでCopilotをパーソナライズする
 
-When Copilot generates code or answers questions, it tries to match your coding practices and preferences such as which libraries you use or how you name your variables. However, it might not always have enough context to do this effectively. For example, if you work with a specific framework version, you need to provide additional context in your prompts.
+Copilotがコードを生成したり質問に答えたりするとき、使用するライブラリや変数の命名方法など、あなたのコーディング規約や好みに合わせようとします。ただし、効果的に行うための十分なコンテキストが常にあるとは限りません。たとえば、特定のフレームワークバージョンを使用している場合、プロンプトに追加のコンテキストを提供する必要があります。
 
-To enhance AI responses, you can use _instructions files_ to provide contextual details about your team's coding practices, tools, or project specifics. You can then attach these instructions to your chat prompt, or have them applied automatically.
+AIの応答を向上させるために、_指示ファイル_を使用して、チームのコーディング規約、ツール、またはプロジェクトの詳細に関するコンテキスト詳細を提供できます。その後、これらの指示をチャットプロンプトに添付するか、自動的に適用させることができます。
 
-To enable instructions files for your workspace:
+ワークスペースで指示ファイルを有効にするには：
 
-1. Run the **Chat: New Instructions File** command from the Command Palette.
+1. コマンドパレットから**Chat: New Instructions File**コマンドを実行します。
 
-    This command creates a `.instructions.md` file in `.github/instructions` folder.
+    このコマンドは、`.github/instructions`フォルダーに`.instructions.md`ファイルを作成します。
 
-1. Add your instructions in Markdown format to the file. For example:
+1. マークダウン形式で指示をファイルに追加します。例：
 
     ```markdown
     # Custom instructions for Copilot
@@ -64,7 +64,7 @@ To enable instructions files for your workspace:
     We use Jest for unit testing and Playwright for end-to-end testing.
     ```
 
-1. Optionally, add a glob pattern to the `applyTo` metadata field to specify which files the instructions apply to.
+1. オプションで、`applyTo`メタデータフィールドにglobパターンを追加して、指示が適用されるファイルを指定します。
 
     ```markdown
     ---
@@ -74,13 +74,13 @@ To enable instructions files for your workspace:
     ...
     ```
 
-Get more details about [using instructions files in VS Code](/docs/copilot/customization/custom-instructions.md).
+[VS Codeでの指示ファイルの使用](/docs/copilot/customization/custom-instructions.md)についての詳細を取得します。
 
-## Prompt engineering
+## プロンプトエンジニアリング
 
-You can enhance the quality of Copilot's responses by using effective prompts. A well-crafted prompt can help Copilot understand your requirements better and generate more relevant code suggestions.
+効果的なプロンプトを使用することで、Copilotの応答品質を向上させることができます。よく練られたプロンプトは、Copilotが要件をよりよく理解し、より関連性の高いコード提案を生成するのに役立ちます。
 
-* Start general, then get specific.
+* 一般的なものから始めて、具体的になります。
 
     ```text
     Generate a Calculator class.
@@ -88,7 +88,7 @@ You can enhance the quality of Copilot's responses by using effective prompts. A
     Don't use any external libraries and don't use recursion.
     ```
 
-* Give examples of what you want.
+* 欲しいものの例を示します。
 
     ```text
     Generate a function that takes a string and returns the number of vowels in it.
@@ -97,67 +97,67 @@ You can enhance the quality of Copilot's responses by using effective prompts. A
     findVowels("sky") returns 0
     ```
 
-* Break down complex tasks into simpler tasks.
+* 複雑なタスクをより単純なタスクに分割します。
 
-    Instead of asking Copilot to generate a meal planner app, break it down into smaller tasks:
-    * Generate a function that takes a list of ingredients and returns a list of recipes.
-    * Generate a function that takes a list of recipes and returns a shopping list.
-    * Generate a function that takes a list of recipes and returns a meal plan for the week.
+    Copilotに食事プランナーアプリを生成するように頼む代わりに、より小さなタスクに分割します：
+    * 食材のリストを受け取り、レシピのリストを返す関数を生成する。
+    * レシピのリストを受け取り、買い物リストを返す関数を生成する。
+    * レシピのリストを受け取り、1週間の食事プランを返す関数を生成する。
 
-* Provide the [right context](#provide-the-right-context-and-tools), such as code selections, files, terminal output, and more.
+* コード選択、ファイル、ターミナル出力などの[適切なコンテキスト](#provide-the-right-context-and-tools)を提供します。
 
-    Example, use the `#codebase` variable to refer to the entire codebase:
+    例、`#codebase`変数を使用してコードベース全体を参照します：
 
     ```text
     Where is the database connection string used in #codebase?
     ```
 
-* Iterate on your prompts.
+* プロンプトを反復します。
 
-    Provide follow-up prompts to refine or modify the response. For example:
+    応答を改良または修正するために、フォローアッププロンプトを提供します。例：
 
     * "Write a function to calculate the factorial of a number."
     * "Don't use recursion and optimize by using caching."
     * "Use meaningful variable names."
 
-* Keep chat history relevant.
+* チャット履歴を関連性のあるものに保ちます。
 
-    Copilot uses history of the conversation to provide context. Remove past questions and responses from the history if they're not relevant. Or, start a new session if you want to change the context.
+    Copilotは会話の履歴を使用してコンテキストを提供します。関連性がない場合は、過去の質問と回答を履歴から削除します。または、コンテキストを変更したい場合は新しいセッションを開始します。
 
-Get more details about [prompt engineering](/docs/copilot/guides/prompt-engineering-guide.md).
+[プロンプトエンジニアリング](/docs/copilot/guides/prompt-engineering-guide.md)についての詳細を取得します。
 
-Find practical [examples of prompts to use with chat](https://docs.github.com/en/copilot/copilot-chat-cookbook) in the GitHub Copilot documentation.
+GitHub Copilotドキュメントで[チャットで使用するプロンプトの実践的な例](https://docs.github.com/en/copilot/copilot-chat-cookbook)を見つけます。
 
-## Provide the right context and tools
+## 適切なコンテキストとツールを提供する
 
-Enrich your prompts with relevant context to get more accurate and relevant responses in chat. With the right tools, you can boost your developer productivity.
+プロンプトに関連するコンテキストを充実させて、チャットでより正確で関連性の高い回答を取得します。適切なツールを使用すると、開発者の生産性を高めることができます。
 
-* In [chat](/docs/copilot/chat/chat-tools.md), select the tools button to configure the tools you want to use or explicitly add them to your prompt.
-* Use `#codebase` to let Copilot find the right files automatically by performing a code search.
-* Use the `#fetch` tool to fetch content from a web page or use `#githubRepo` to perform a code search on a GitHub repository.
-* Reference files, folders, or symbols in your prompt by using `#<file name>`, `#<folder name>`, or `#<symbol>`.
-* Drag and drop files, folders, or editor tabs onto the chat prompt.
-* Add problems, test failures, or terminal output to your chat prompt for scenario-specific context.
-* Add images or screenshots to your prompt to let Copilot analyze the image.
-* When using agents, prompt to preview your app to directly open it with the built-in simple browser.
+* [チャット](/docs/copilot/chat/chat-tools.md)で、ツールボタンを選択して使用したいツールを構成するか、プロンプトに明示的に追加します。
+* `#codebase`を使用して、Copilotがコード検索を実行して適切なファイルを自動的に見つけられるようにします。
+* `#fetch`ツールを使用してWebページからコンテンツを取得するか、`#githubRepo`を使用してGitHubリポジトリでコード検索を実行します。
+* `#<file name>`、`#<folder name>`、または`#<symbol>`を使用して、プロンプト内のファイル、フォルダー、またはシンボルを参照します。
+* ファイル、フォルダー、またはエディタータブをチャットプロンプトにドラッグアンドドロップします。
+* 問題、テストの失敗、またはターミナル出力をチャットプロンプトに追加して、シナリオ固有のコンテキストを提供します。
+* 画像またはスクリーンショットをプロンプトに追加して、Copilotに画像を分析させます。
+* エージェントを使用する場合、アプリをプレビューするようにプロンプトを出して、組み込みのシンプルブラウザで直接開きます。
 
-When you use [agents](/docs/copilot/chat/copilot-chat.md#built-in-agents), the agent autonomously finds the relevant files and context for you.
+[エージェント](/docs/copilot/chat/copilot-chat.md#built-in-agents)を使用する場合、エージェントは関連するファイルとコンテキストを自律的に見つけます。
 
-Get more details about [adding context to chat prompts](/docs/copilot/chat/copilot-chat-context.md).
+[チャットプロンプトへのコンテキストの追加](/docs/copilot/chat/copilot-chat-context.md)についての詳細を取得します。
 
-## Reusable prompts
+## 再利用可能なプロンプト
 
-Prompt files enable you to save a prompt for a specific task with its context and instructions in a Markdown file. You can then attach and reuse that prompt in chat. If you store the prompt in your workspace, you can also share it with your team.
+プロンプトファイルを使用すると、特定のタスクのプロンプトをそのコンテキストと指示とともにマークダウンファイルに保存できます。その後、そのプロンプトをチャットに添付して再利用できます。プロンプトをワークスペースに保存すると、チームと共有することもできます。
 
-To create a reusable prompt:
+再利用可能なプロンプトを作成するには：
 
-1. Create a prompt file with the **Chat: New Prompt File** command in the Command Palette.
+1. コマンドパレットの**Chat: New Prompt File**コマンドを使用してプロンプトファイルを作成します。
 
-    This command creates a `.prompt.md` file in the `.github/prompts` folder at the root of your workspace.
+    このコマンドは、ワークスペースのルートにある`.github/prompts`フォルダーに`.prompt.md`ファイルを作成します。
 
-1. Describe your prompt and relevant context in Markdown format.
+1. マークダウン形式でプロンプトと関連するコンテキストを記述します。
 
-    For example, use this prompt to generate a new React form component.
+    たとえば、新しいReactフォームコンポーネントを生成するためにこのプロンプトを使用します。
 
     ```markdown
     Your goal is to generate a new React form component.
@@ -176,7 +176,7 @@ To create a reusable prompt:
     * Customize UX-friendly validation rules
     ```
 
-1. Optionally, add metadata about how to run the prompt in chat. Use the `agent` field to specify the agent, and the `tools` field to specify which agent mode tools to use.
+1. オプションで、チャットでプロンプトを実行する方法に関するメタデータを追加します。`agent`フィールドを使用してエージェントを指定し、`tools`フィールドを使用して使用するエージェントモードツールを指定します。
 
     ```markdown
     ---
@@ -192,35 +192,35 @@ To create a reusable prompt:
     * Always define TypeScript types for your form data
     ```
 
-1. Run the command by typing `/`, followed by the prompt file name in the chat input field.
+1. チャット入力フィールドに`/`に続いてプロンプトファイル名を入力してコマンドを実行します。
 
-    For example, type `/new-react-form` to run the prompt file named `new-react-form.prompt.md`.
+    たとえば、`/new-react-form`と入力して、`new-react-form.prompt.md`という名前のプロンプトファイルを実行します。
 
-Get started with [prompt files](/docs/copilot/customization/prompt-files.md).
+[プロンプトファイル](/docs/copilot/customization/prompt-files.md)の使用を開始します。
 
-## Choose your AI model
+## AIモデルを選択する
 
-Copilot offers different AI models to choose from. Some models are optimized for fast coding tasks, while others are better suited for slower planning and reasoning tasks.
+Copilotは、選択できるさまざまなAIモデルを提供しています。一部のモデルは高速なコーディングタスクに最適化されていますが、他のモデルはより遅い計画や推論のタスクに適しています。
 
-| Model type | Models |
+| モデルタイプ | モデル |
 |-----------|--------|
-| Fast coding | <ul><li>GPT-4o</li><li>Claude Sonnet 3.5</li><li>Claude Sonnet 3.7</li><li>Gemini 2.0 Flash</li></ul> |
-| Reasoning/planning | <ul><li>Claude Sonnet 3.7 Thinking</li><li>o1</li><li>o3-mini</li></ul> |
+| 高速コーディング | <ul><li>GPT-4o</li><li>Claude Sonnet 3.5</li><li>Claude Sonnet 3.7</li><li>Gemini 2.0 Flash</li></ul> |
+| 推論/計画 | <ul><li>Claude Sonnet 3.7 Thinking</li><li>o1</li><li>o3-mini</li></ul> |
 
-Choose the model that best fits your needs by using the model picker in the chat input field.
+チャット入力フィールドのモデルピッカーを使用して、ニーズに最適なモデルを選択してください。
 
-Learn more about [AI models for Copilot Chat](https://docs.github.com/en/copilot/using-github-copilot/ai-models/changing-the-ai-model-for-copilot-chat) in the GitHub Copilot documentation.
+GitHub Copilotドキュメントで[Copilot ChatのAIモデル](https://docs.github.com/en/copilot/using-github-copilot/ai-models/changing-the-ai-model-for-copilot-chat)について詳しく学びます。
 
-## Workspace indexing
+## ワークスペースのインデックス作成
 
-Copilot uses an index to quickly and accurately search your codebase for relevant code snippets. This index can either be maintained by GitHub or stored locally on your machine.
+Copilotはインデックスを使用して、関連するコードスニペットについてコードベースを迅速かつ正確に検索します。このインデックスは、GitHubによって維持されるか、マシンにローカルに保存されます。
 
-For GitHub repositories, you can use a remote index of your workspace, based on [GitHub code search](https://docs.github.com/en/enterprise-cloud@latest/copilot/using-github-copilot/asking-github-copilot-questions-in-github#asking-exploratory-questions-about-a-repository). This allows Copilot to search your entire codebase very quickly, even if the codebase is very large.
+GitHubリポジトリの場合、[GitHubのコード検索](https://docs.github.com/en/enterprise-cloud@latest/copilot/using-github-copilot/asking-github-copilot-questions-in-github#asking-exploratory-questions-about-a-repository)に基づいて、ワークスペースのリモートインデックスを使用できます。これにより、Copilotはコードベースが非常に大きい場合でも、コードベース全体を非常に迅速に検索できます。
 
-Get more details about [workspace indexing](/docs/copilot/reference/workspace-context.md).
+[ワークスペースのインデックス作成](/docs/copilot/reference/workspace-context.md)についての詳細を取得します。
 
-## Related resources
+## 関連リソース
 
-* [Prompt engineering guide](/docs/copilot/guides/prompt-engineering-guide.md)
-* [Best Practices for using GitHub Copilot](https://docs.github.com/en/copilot/using-github-copilot/best-practices-for-using-github-copilot) in the GitHub Copilot documentation
-* [Customize chat in VS Code](/docs/copilot/customization/overview.md)
+* [プロンプトエンジニアリングガイド](/docs/copilot/guides/prompt-engineering-guide.md)
+* GitHub Copilotドキュメントの[GitHub Copilotの使用に関するベストプラクティス](https://docs.github.com/en/copilot/using-github-copilot/best-practices-for-using-github-copilot)
+* [VS Codeでのチャットのカスタマイズ](/docs/copilot/customization/overview.md)
