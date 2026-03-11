@@ -1,7 +1,7 @@
 ---
 ContentId: f8e4b2c1-9d3a-4e5f-b6c7-8a9d0e1f2b3c
 DateApproved: 3/9/2026
-MetaDescription: Troubleshoot GitHub Copilot issues in Visual Studio Code with logs, diagnostics, and debugging tools.
+MetaDescription: Visual Studio CodeでGitHub Copilotの問題をログ、診断、デバッグツールで解決します。
 MetaSocialImage: images/shared/github-copilot-social.png
 Keywords:
 - ai
@@ -11,104 +11,105 @@ Keywords:
 - logs
 - debugging
 ---
-# Troubleshoot AI in Visual Studio Code
+# Visual Studio CodeのAIのトラブルシューティング
 
-This article covers diagnostic tools and techniques for troubleshooting AI-related issues in VS Code. Use these tools to identify problems with network connectivity, customization files, and AI responses.
+この記事では、VS CodeのAI関連の問題をトラブルシューティングするための診断ツールとテクニックについて説明します。これらのツールを使用して、ネットワーク接続、カスタマイズファイル、およびAI応答の問題を特定してください。
 
-## View logs for GitHub Copilot
+## GitHub Copilotのログを表示する
 
-The log files for the GitHub Copilot extension are stored in the standard log location for Visual Studio Code extensions. Use these logs to diagnose connection issues, extension errors, and unexpected behavior.
+GitHub Copilot拡張機能のログファイルは、Visual Studio Code拡張機能の標準的なログ場所に保存されます。これらのログを使用して、接続の問題、拡張機能のエラー、および予期しない動作を診断してください。
 
-To view detailed logs:
+詳細なログを表示するには：
 
-1. Open the Command Palette (`kb(workbench.action.showCommands)`).
-1. Run **Developer: Set Log Level** and set the value to **Trace** for the GitHub Copilot and GitHub Copilot Chat extensions.
-1. Run **Output: Show Output Channels** and select either **GitHub Copilot** or **GitHub Copilot Chat** from the list.
-1. In the Output panel, view the logs for the selected extension.
+1. コマンドパレットを開きます（`kb(workbench.action.showCommands)`）。
+1. **Developer: Set Log Level**を実行し、GitHub CopilotおよびGitHub Copilot Chat拡張機能の値を**Trace**に設定します。
+1. **Output: Show Output Channels**を実行し、リストから**GitHub Copilot**または**GitHub Copilot Chat**を選択します。
+1. 出力パネルで、選択した拡張機能のログを表示します。
 
-To switch between output channels, select **GitHub Copilot** or **GitHub Copilot Chat** from the dropdown menu on the right side of the Output panel.
+出力チャネルを切り替えるには、出力パネルの右側のドロップダウンメニューから**GitHub Copilot**または**GitHub Copilot Chat**を選択します。
 
-## Collect network diagnostics
+## ネットワーク診断を収集する
 
-If you encounter problems connecting to GitHub Copilot, collect network connectivity diagnostics to identify firewall, proxy, or VPN issues.
+GitHub Copilotへの接続に問題が発生した場合は、ネットワーク接続診断を収集して、ファイアウォール、プロキシ、またはVPNの問題を特定してください。
 
-1. Open the Command Palette (`kb(workbench.action.showCommands)`).
-1. Run **GitHub Copilot: Collect Diagnostics**.
-1. An editor tab opens with diagnostic information you can review and share when reporting issues.
+1. コマンドパレットを開きます（`kb(workbench.action.showCommands)`）。
+1. **GitHub Copilot: Collect Diagnostics**を実行します。
+1. エディタータブが開き、問題を報告する際にレビューして共有できる診断情報が表示されます。
 
-For more information about network configuration, see [Network and firewall configuration for Copilot](/docs/copilot/faq.md#network-and-firewall-configuration-for-copilot).
+ネットワーク設定の詳細については、「[Copilotのネットワークおよびファイアウォール構成](/docs/copilot/faq.md#network-and-firewall-configuration-for-copilot)」を参照してください。
 
-## Debug chat interactions
+## チャット操作をデバッグする
 
-VS Code provides tools to inspect what happens when you send a prompt to the AI.
+VS Codeは、プロンプトをAIに送信するときに何が起こるかを検査するためのツールを提供します。
 
-* **Agent Debug panel (Preview):**
+* **Agent Debugパネル（プレビュー）:**
 
-    Shows a chronological event log of agent interactions during a chat session, including tool call sequences, LLM requests, token usage, prompt file discovery, and errors. This is the primary tool for understanding and debugging chat interactions.
+    チャットセッション中のエージェント操作の時系列イベントログを表示します。ツール呼び出しシーケンス、LLMリクエスト、トークン使用量、プロンプトファイルディスカバリ、およびエラーが含まれます。これはチャット操作を理解およびデバッグするための主要なツールです。
 
-    To open the Agent Debug panel:
+    Agent Debugパネルを開くには：
 
-    1. Select the gear icon in the Chat view.
-    1. Select **Show Agent Logs**.
+    1. チャットビューでギアアイコンを選択します。
+    1. **Show Agent Logs**を選択します。
 
-    From the Agent Debug panel, you can attach a snapshot of the agent debug events to a chat conversation to ask the AI questions about the session and troubleshoot a specific interaction. Select the sparkle icon in the Logs view to [attach debug events to chat](/docs/copilot/chat/chat-debug-view.md#attach-debug-events-to-chat).
+    Agent Debugパネルから、エージェントデバッグイベントのスナップショットをチャット会話に添付して、AIにセッションについての質問をし、特定の操作をトラブルシューティングできます。ログビューのスパークルアイコンを選択して、[デバッグイベントをチャットに添付](/docs/copilot/chat/chat-debug-view.md#attach-debug-events-to-chat)します。
 
-* **Chat Debug view:**
+* **チャットデバッグビュー:**
 
-    Shows the raw details of each LLM request and response, including the full system prompt, user prompt, context, and tool invocation payloads. Use this view to inspect the exact data sent to and received from the language model for each interaction.
+    完全なシステムプロンプト、ユーザープロンプト、コンテキスト、およびツール呼び出しペイロードを含む、各LLMリクエストとレスポンスの詳細を表示します。このビューを使用して、各操作の言語モデルに送信および受信された正確なデータを検査してください。
 
-    To open the Chat Debug view:
+    チャットデバッグビューを開くには：
 
-    1. Select the overflow menu (`...`) in the Chat view.
-    1. Select **Show Chat Debug View**.
+    1. チャットビューのオーバーフローメニュー（`...`）を選択します。
+    1. **Show Chat Debug View**を選択します。
 
-Learn more about [debugging chat interactions](/docs/copilot/chat/chat-debug-view.md).
+[チャット操作のデバッグ](/docs/copilot/chat/chat-debug-view.md)の詳細をご覧ください。
 
-## Chat customization diagnostics
+## チャットカスタマイズ診断
 
-The chat customization diagnostics view shows all currently loaded custom agents, prompt files, instruction files, and skills. Use this view to troubleshoot issues with customization files that aren't being applied or are causing errors.
+チャットカスタマイズ診断ビューは、現在読み込まれているすべてのカスタムエージェント、プロンプトファイル、命令ファイル、およびスキルを表示します。このビューを使用して、適用されていないか、エラーを引き起こしているカスタマイズファイルの問題をトラブルシューティングしてください。
 
-To open the diagnostics view:
+診断ビューを開くには：
 
-1. Right-click in the Chat view.
-1. Select **Diagnostics**.
+1. チャットビューを右クリックします。
+1. **Diagnostics**を選択します。
 
-This opens a markdown document listing:
+これにより、以下を一覧表示するマークダウンドキュメントが開きます：
 
-* All active customization files and their locations
-* Load status for each file (loaded, failed, or skipped)
-* Error messages for files that failed to load
-* The order in which instructions are applied
+* すべてのアクティブなカスタマイズファイルとその場所
+* 各ファイルの読み込み状態（読み込み済み、失敗、またはスキップ）
+* 読み込みに失敗したファイルのエラーメッセージ
+* 命令が適用される順序
 
 > [!TIP]
-> If a customization file isn't being applied, check the diagnostics view to verify it was loaded successfully and review any error messages.
+> カスタマイズファイルが適用されていない場合は、診断ビューを確認して、正常に読み込まれたことを確認し、エラーメッセージを確認してください。
 
-## Troubleshoot MCP servers
+## MCPサーバーのトラブルシューティング
 
-MCP servers extend chat capabilities by connecting to external services. If an MCP server isn't working correctly, you can view its logs and restart it.
+MCPサーバーは外部サービスに接続することでチャット機能を拡張します。MCPサーバーが正常に動作していない場合は、そのログを表示して再起動できます。
 
-To troubleshoot MCP servers:
+MCPサーバーをトラブルシューティングするには：
 
-1. Open the Command Palette and run **MCP: List Servers**.
-1. Select a server to view its status and available actions.
-1. Select **Show Output** to view the server's logs.
-1. Select **Restart Server** to restart a misbehaving server.
+1. コマンドパレットを開き、**MCP: List Servers**を実行します。
+1. サーバーを選択して、そのステータスと利用可能なアクションを表示します。
+1. **Show Output**を選択して、サーバーのログを表示します。
+1. **Restart Server**を選択して、動作していないサーバーを再起動します。
 
-Learn more about [configuring and debugging MCP servers](/docs/copilot/customization/mcp-servers.md).
+[MCPサーバーの設定とデバッグ](/docs/copilot/customization/mcp-servers.md)の詳細をご覧ください。
 
-## Provide feedback
+## フィードバックを提供する
 
-If you encounter issues that you can't resolve, report them to help improve GitHub Copilot:
+解決できない問題が発生した場合は、GitHub Copilotの改善に役立つように報告してください：
 
-* **Ghost text suggestions**: Hover over a ghost text suggestion in the editor and select **Send Copilot Completion Feedback**.
-* **Next edit suggestions**: Select the **Feedback** action in the next edit suggestions menu in the editor gutter.
-* **General issues**: Open **Help** > **Report Issue**, select **VS Code Extension**, and choose **GitHub Copilot Chat**.
+* **ゴーストテキスト提案**：エディター内のゴーストテキスト提案にカーソルを合わせ、**Send Copilot Completion Feedback**を選択します。
+* **次の編集提案**：エディターのガターにある次の編集提案メニューの**Feedback**アクションを選択します。
+* **一般的な問題**：**Help**>**Report Issue**を開き、**VS Code Extension**を選択して、**GitHub Copilot Chat**を選択します。
 
-When reporting issues, include relevant information from the [Copilot logs](#view-logs-for-github-copilot) to help diagnose the problem.
+問題を報告する場合は、[Copilotログ](#github-copilotのログを表示する)から関連情報を含めて、問題の診断に役立つようにしてください。
 
-## Related resources
+## 関連リソース
 
-* [Debug chat interactions](/docs/copilot/chat/chat-debug-view.md)
-* [Custom instructions](/docs/copilot/customization/custom-instructions.md)
-* [MCP servers](/docs/copilot/customization/mcp-servers.md)
+* [チャット操作をデバッグする](/docs/copilot/chat/chat-debug-view.md)
+* [カスタム命令](/docs/copilot/customization/custom-instructions.md)
+* [MCPサーバー](/docs/copilot/customization/mcp-servers.md)
 * [GitHub Copilot FAQ](/docs/copilot/faq.md)
+

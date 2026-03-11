@@ -1,7 +1,7 @@
 ---
 ContentId: 16c73175-a606-4aab-8ae5-a5071d3b9e24
 DateApproved: 3/9/2026
-MetaDescription: Get started customizing AI in VS Code with custom instructions, prompt files, custom agents, MCP servers, and more to align AI responses with your coding practices.
+MetaDescription: Visual Studio Code でカスタム指示、プロンプトファイル、カスタムエージェント、MCP サーバーなど、AI をカスタマイズして始めましょう。AI の応答をコーディング実践と一致させます。
 MetaSocialImage: ../images/shared/github-copilot-social.png
 Keywords:
 - ai
@@ -16,82 +16,83 @@ Keywords:
 - agent skills
 - mcp
 ---
-# Customize AI in Visual Studio Code
+# Visual Studio Code で AI をカスタマイズする
 
-Visual Studio Code gives you several ways to teach the AI about your codebase, coding standards, and workflows. This article introduces the customization options and helps you get started.
+Visual Studio Code では、AI にコードベース、コーディング標準、ワークフローについて教える方法がいくつかあります。この記事では、カスタマイズオプションを紹介し、始め方をご説明します。
 
-<div class="docs-action" data-show-in-doc="true" data-show-in-sidebar="true" title="Core concepts">
-Learn about the different customization types and when to use each one.
+<div class="docs-action" data-show-in-doc="true" data-show-in-sidebar="true" title="基本概念">
+異なるカスタマイズタイプと、それぞれの使用時期について学習します。
 
-* [Customization concepts](/docs/copilot/concepts/customization.md)
-
-</div>
-
-<div class="docs-action" data-show-in-doc="false" data-show-in-sidebar="true" title="Tutorial">
-Follow a hands-on walkthrough to customize AI for your project.
-
-* [Customize AI for your project](/docs/copilot/guides/customize-copilot-guide.md)
+* [カスタマイズの概念](/docs/copilot/concepts/customization.md)
 
 </div>
 
-To access customizations, select the **Configure Chat (gear icon)** in the Chat view.
+<div class="docs-action" data-show-in-doc="false" data-show-in-sidebar="true" title="チュートリアル">
+プロジェクト用に AI をカスタマイズするための実践的なチュートリアルに従います。
 
-## Customization scenarios
+* [プロジェクト用に AI をカスタマイズする](/docs/copilot/guides/customize-copilot-guide.md)
 
-The following sections describe common customization scenarios and which options to use for each one.
+</div>
 
-### Define coding standards
+カスタマイズにアクセスするには、チャットビューで**チャットを構成（歯車アイコン）**を選択してください。
 
-Use [custom instructions](/docs/copilot/customization/custom-instructions.md) to share project-wide rules and conventions with the AI. Always-on instructions apply to every request, while file-based instructions target specific file types or folders. For example, enforce ESLint rules across all files and apply React patterns only in `.tsx` files.
+## カスタマイズシナリオ
 
-### Automate tasks and workflows
+以下のセクションでは、一般的なカスタマイズシナリオと、それぞれに使用するオプションについて説明します。
 
-Create [prompt files](/docs/copilot/customization/prompt-files.md) for repeatable tasks you run often, like scaffolding a component or preparing a pull request.
+### コーディング標準を定義する
 
-For more complex multi-step workflows that involve scripts and external tools, package them as [agent skills](/docs/copilot/customization/agent-skills.md).
+[カスタム指示](/docs/copilot/customization/custom-instructions.md)を使用して、プロジェクト全体のルールと規約を AI と共有します。常にオンの指示はすべてのリクエストに適用され、ファイルベースの指示は特定のファイルタイプまたはフォルダをターゲットにします。たとえば、すべてのファイル全体で ESLint ルールを適用し、`.tsx`ファイルでのみ React パターンを適用します。
 
-### Specialize the AI
+### タスクとワークフローを自動化する
 
-Create [custom agents](/docs/copilot/customization/custom-agents.md) that adopt specific personas, such as security reviewer, database admin, or planner. Each agent defines its own behavior, available tools, and language model preferences. Choose different [language models](/docs/copilot/customization/language-models.md) for different tasks, or bring your own API key to access additional models.
+[プロンプトファイル](/docs/copilot/customization/prompt-files.md)を作成して、コンポーネントのスキャフォールディングやプルリクエストの準備など、頻繁に実行する繰り返しタスク用。
 
-### Discover and install plugins
+スクリプトと外部ツールを含む、より複雑な複数ステップのワークフローの場合は、[エージェントスキル](/docs/copilot/customization/agent-skills.md)としてパッケージ化します。
 
-Install [agent plugins](/docs/copilot/customization/agent-plugins.md) (preview) to add pre-packaged bundles of customizations from plugin marketplaces. A single plugin can provide slash commands, skills, custom agents, hooks, and MCP servers.
+### AI を専門化する
 
-### Connect external tools and data
+セキュリティレビュアー、データベース管理者、プランナーなど、特定のペルソナを採用する[カスタムエージェント](/docs/copilot/customization/custom-agents.md)を作成します。各エージェントは、独自の動作、利用可能なツール、言語モデルの設定を定義します。異なるタスクに異なる[言語モデル](/docs/copilot/customization/language-models.md)を選択するか、独自の API キーを持参して追加のモデルにアクセスします。
 
-Add [MCP servers](/docs/copilot/customization/mcp-servers.md) to give the AI access to databases, APIs, and other services through the [Model Context Protocol](https://modelcontextprotocol.io/). Use [hooks](/docs/copilot/customization/hooks.md) to run shell commands at key lifecycle points, such as running a formatter after every file edit or enforcing security policies.
+### プラグインを検出してインストールする
 
-## Get started
+[エージェントプラグイン](/docs/copilot/customization/agent-plugins.md)（プレビュー）をインストールして、プラグインマーケットプレイスからカスタマイズの事前パッケージ化されたバンドルを追加します。1 つのプラグインでスラッシュコマンド、スキル、カスタムエージェント、フック、MCP サーバーを提供できます。
 
-Implement AI customizations incrementally. Start with the basics and add more as needed. For a hands-on walkthrough, see the [Customize AI for your project](/docs/copilot/guides/customize-copilot-guide.md) guide.
+### 外部ツールとデータを接続する
 
-1. **Initialize your project**: type `/init` in chat to generate a `.github/copilot-instructions.md` file with coding standards tailored to your codebase.
+[MCP サーバー](/docs/copilot/customization/mcp-servers.md)を追加して、[Model Context Protocol](https://modelcontextprotocol.io/)を通じてデータベース、API、その他のサービスに AI がアクセスできるようにします。[フック](/docs/copilot/customization/hooks.md)を使用して、ファイル編集後のフォーマッタの実行やセキュリティポリシーの強制など、主要なライフサイクルポイントでシェルコマンドを実行します。
 
-1. **Add targeted rules**: create file-based `*.instructions.md` files for specific parts of your codebase, such as language conventions or framework patterns.
+## 始める
 
-1. **Automate repetitive tasks**: create prompt files for common workflows and add MCP servers to connect external services.
+AI のカスタマイズを段階的に実装します。基本から始めて、必要に応じてさらに追加します。実践的なチュートリアルについては、[プロジェクト用に AI をカスタマイズする](/docs/copilot/guides/customize-copilot-guide.md)ガイドを参照してください。
 
-1. **Create specialized workflows**: build custom agents for specific roles. Package reusable capabilities as agent skills to share across tools.
+1. **プロジェクトを初期化する**：チャットで`/init`と入力して、コードベースに合わせたコーディング標準を含む`.github/copilot-instructions.md`ファイルを生成します。
 
-1. **Generate customizations with AI**: type `/create-prompt`, `/create-instruction`, `/create-skill`, `/create-agent`, or `/create-hook` in chat to generate customization files with AI assistance.
+1. **ターゲット規則を追加する**：言語規約やフレームワークパターンなど、コードベースの特定の部分用に、ファイルベースの`*.instructions.md`ファイルを作成します。
 
-## Chat Customizations editor
+1. **繰り返しタスクを自動化する**：一般的なワークフロー用にプロンプトファイルを作成し、外部サービスを接続するために MCP サーバーを追加します。
+
+1. **特殊なワークフローを作成する**：特定の役割用のカスタムエージェントを構築します。ツール全体で共有するエージェントスキルとして再利用可能な機能をパッケージ化します。
+
+1. **AI を使用してカスタマイズを生成する**：チャットで`/create-prompt`、`/create-instruction`、`/create-skill`、`/create-agent`、または`/create-hook`と入力して、AI 支援でカスタマイズファイルを生成します。
+
+## チャットカスタマイズエディター
 
 > [!NOTE]
-> The Chat Customizations editor is currently in preview.
+> チャットカスタマイズエディターは現在プレビュー中です。
 
-The Chat Customizations editor provides a centralized UI for discovering, creating, and managing all your customizations in one place. From the editor, you can browse customization categories (agents, skills, instructions, prompts, hooks, MCP servers), create new items with optional AI-guided generation, and edit existing customizations in an embedded code editor.
+チャットカスタマイズエディターは、1 つの場所ですべてのカスタマイズを検出、作成、管理するための一元化された UI を提供します。このエディターから、カスタマイズカテゴリ（エージェント、スキル、指示、プロンプト、フック、MCP サーバー）を参照し、オプションの AI ガイド付き生成で新しい項目を作成し、埋め込みコードエディターで既存のカスタマイズを編集できます。
 
-To open the Chat Customizations editor, run **Chat: Open Chat Customizations** from the Command Palette (`kb(workbench.action.showCommands)`).
+チャットカスタマイズエディターを開くには、コマンドパレット（`kb(workbench.action.showCommands)`）から**チャット：チャットカスタマイズを開く**を実行します。
 
-![Screenshot of the Chat Customizations editor, showing the sidebar with customization categories and the main view listing custom agents.](../images/customization/chat-customizations-editor.png)
+![チャットカスタマイズエディターのスクリーンショット。カスタマイズカテゴリを含むサイドバーと、カスタムエージェントをリストする主ビューを表示します。](../images/customization/chat-customizations-editor.png)
 
-## Troubleshoot customization issues
+## カスタマイズの問題をトラブルシューティングする
 
-If your customizations aren't being applied or cause unexpected behavior, select **Configure Chat (gear icon)** > **Show Agent Logs** in the Chat view to [troubleshoot agent issues](/docs/copilot/troubleshooting.md).
+カスタマイズが適用されていない場合や予期しない動作が発生する場合は、チャットビューで**チャットを構成（歯車アイコン）** > **エージェントログを表示**を選択して、[エージェント問題をトラブルシューティング](/docs/copilot/troubleshooting.md)してください。
 
-## Related resources
+## 関連リソース
 
-* [Customization concepts](/docs/copilot/concepts/customization.md)
-* [Customize AI for your project guide](/docs/copilot/guides/customize-copilot-guide.md)
+* [カスタマイズの概念](/docs/copilot/concepts/customization.md)
+* [プロジェクト用に AI をカスタマイズするガイド](/docs/copilot/guides/customize-copilot-guide.md)
+

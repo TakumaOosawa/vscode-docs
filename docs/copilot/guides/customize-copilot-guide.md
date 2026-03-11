@@ -1,7 +1,7 @@
 ---
 ContentId: 2e8a4b9c-3d1f-5e7a-9c2b-4f6d8e1a3b5c
 DateApproved: 3/9/2026
-MetaDescription: Step-by-step guide to customizing AI in VS Code with instructions, prompt files, custom agents, and skills.
+MetaDescription: VS Codeで AIをカスタマイズするためのステップバイステップガイド。手順、プロンプトファイル、カスタムエージェント、スキルについて説明します。
 MetaSocialImage: ../images/shared/github-copilot-social.png
 Keywords:
 - customization
@@ -13,206 +13,207 @@ Keywords:
 - ai
 - tutorial
 ---
-# Customize AI for your project
+# プロジェクト用のAIをカスタマイズする
 
-This guide walks you through setting up AI customizations for your project in Visual Studio Code. You start with basic coding standards and progressively add more targeted capabilities.
+このガイドでは、Visual Studio Codeでプロジェクト向けのAIカスタマイズを設定する方法を説明します。基本的なコーディング標準から始まり、より対象を絞った機能を段階的に追加します。
 
-By the end, your project will have:
+完了時には、プロジェクトに以下の機能が備わります:
 
-* Project-wide coding standards that apply to every chat request
-* File-specific instructions for frontend code
-* A reusable prompt file for a common task
-* A custom agent with restricted tools
-* A skill for a specialized capability
+* すべてのチャットリクエストに適用されるプロジェクト全体のコーディング標準
+* フロントエンドコード用のファイル固有の手順
+* 一般的なタスク用の再利用可能なプロンプトファイル
+* ツールが制限されたカスタムエージェント
+* 専門的な機能のためのスキル
 
-## Prerequisites
+## 前提条件
 
-* [VS Code](https://code.visualstudio.com/download) installed
-* A [GitHub Copilot plan](https://docs.github.com/en/copilot/about-github-copilot/subscription-plans-for-github-copilot) (Free, Pro, Business, or Enterprise)
-* The [GitHub Copilot extension](https://marketplace.visualstudio.com/items?itemName=GitHub.copilot) installed
-* An open workspace or folder in VS Code
+* [VS Code](https://code.visualstudio.com/download)がインストールされていること
+* [GitHub Copilotプラン](https://docs.github.com/en/copilot/about-github-copilot/subscription-plans-for-github-copilot)(Free、Pro、Business、またはEnterprise)
+* [GitHub Copilot拡張機能](https://marketplace.visualstudio.com/items?itemName=GitHub.copilot)がインストールされていること
+* VS Code内でワークスペースまたはフォルダが開かれていること
 
-## Step 1: Set project-wide coding standards
+## ステップ1: プロジェクト全体のコーディング標準を設定する
 
-Start by generating an instructions file that captures your project's coding standards. These instructions are automatically included in every chat request.
+プロジェクトのコーディング標準をキャプチャする手順ファイルを生成することから始めましょう。これらの手順はすべてのチャットリクエストに自動的に含まれます。
 
-1. Open the Chat view (`kb(workbench.action.chat.open)`).
+1. チャットビューを開きます(`kb(workbench.action.chat.open)`)。
 
-1. Type `/init` and press `kbstyle(Enter)`.
+1. `/init`を入力し、`kbstyle(Enter)`キーを押します。
 
-    ```prompt
-    /init
-    ```
+  ```prompt
+  /init
+  ```
 
-1. VS Code analyzes your project structure and generates a `.github/copilot-instructions.md` file tailored to your codebase.
+1. VS Codeがプロジェクト構造を分析し、コードベースに対応した`.github/copilot-instructions.md`ファイルを生成します。
 
-1. Review the generated file and customize it. For example, add a rule about your preferred import style:
+1. 生成されたファイルを確認して、カスタマイズします。たとえば、推奨インポートスタイルについてのルールを追加します:
 
-    ```markdown
-    ## Imports
-    - Use named imports instead of default imports.
-    - Group imports: external libraries first, then internal modules, then relative paths.
-    ```
+  ```markdown
+  ## インポート
+  - デフォルトインポートではなく、名前付きインポートを使用してください。
+  - インポートをグループ化してください: 外部ライブラリ、内部モジュール、相対パスの順です。
+  ```
 
-1. Save the file.
+1. ファイルを保存します。
 
-**Verify it works**: Ask Copilot to generate some code (for example, "create a utility function for date formatting"). Check that the response follows your coding standards. Select the **References** section in the chat response to confirm that `copilot-instructions.md` was included.
-
-> [!TIP]
-> Learn more about always-on instructions in [Use custom instructions](/docs/copilot/customization/custom-instructions.md#use-a-githubcopilot-instructionsmd-file).
-
-## Step 2: Add file-specific instructions
-
-When different parts of your codebase follow different conventions, use instructions files with `applyTo` patterns to target specific file types.
-
-1. In the Chat view, select **Configure Chat** (gear icon) > **Instructions & Rules**, and then select **New instruction file**.
-
-1. Select `.github/instructions/` to store the instructions in your project.
-
-1. Enter a file name, such as `react`.
-
-1. Add the following content to the file:
-
-    ```markdown
-    ---
-    applyTo: "**/*.tsx,**/*.jsx"
-    ---
-    # React component guidelines
-
-    - Use functional components with hooks.
-    - Define prop types with TypeScript interfaces.
-    - Use CSS modules for component styling.
-    - Export components as named exports.
-    ```
-
-1. Save the file.
-
-**Verify it works**: Open a `.tsx` file and ask Copilot to "create a user profile card component". The response should follow your React-specific conventions. Check the **References** section to confirm the instructions file was applied.
+**動作確認**: Copilotにコードを生成するよう指示します(たとえば、「日付フォーマット用のユーティリティ関数を作成してください」)。レスポンスがコーディング標準に従っていることを確認します。チャットレスポンスの**References**セクションを選択して、`copilot-instructions.md`が含まれていることを確認します。
 
 > [!TIP]
-> You can create multiple instructions files for different file types, frameworks, or modules. Learn more in [Use `.instructions.md` files](/docs/copilot/customization/custom-instructions.md#use-instructionsmd-files).
+> [カスタム手順を使用する](/docs/copilot/customization/custom-instructions.md#use-a-githubcopilot-instructionsmd-file)で、常に有効な手順について詳細を確認してください。
 
-## Step 3: Create a reusable prompt file
+## ステップ2: ファイル固有の手順を追加する
 
-Prompt files encode common tasks as slash commands you can invoke in chat. Create one for a task you perform regularly.
+コードベースの別々の部分が異なる規約に従う場合は、`applyTo`パターン付きの手順ファイルを使用して、特定のファイルタイプを対象にします。
 
-1. In the Chat view, select **Configure Chat** (gear icon) > **Prompt Files**, and then select **New prompt file**.
+1. チャットビューで、**Configure Chat**(ギアアイコン) > **Instructions & Rules**を選択し、**New instruction file**を選択します。
 
-1. Select `.github/prompts/` to store the prompt file in your project.
+1. `.github/instructions/`を選択して、手順をプロジェクトに保存します。
 
-1. Enter a file name, such as `create-component`.
+1. `react`などのファイル名を入力します。
 
-1. Add the following content to the file:
+1. ファイルに以下の内容を追加します:
 
-    ```markdown
-    ---
-    description: Scaffold a new React component with tests
-    agent: agent
-    tools: ['editFiles', 'createFile']
-    ---
-    Create a new React component based on the user's description.
+  ```markdown
+  ---
+  applyTo: "**/*.tsx,**/*.jsx"
+  ---
+  # Reactコンポーネントガイドライン
 
-    For each component, generate:
-    1. The component file in `src/components/`
-    2. A test file in `src/components/__tests__/`
+  - 関数型コンポーネントとhooksを使用してください。
+  - TypeScriptインターフェースでプロップタイプを定義してください。
+  - コンポーネントスタイリングにはCSSモジュールを使用してください。
+  - コンポーネントは名前付きエクスポートとしてエクスポートしてください。
+  ```
 
-    Follow the conventions in [React guidelines](../instructions/react.instructions.md).
-    ```
+1. ファイルを保存します。
 
-1. Save the file.
-
-**Verify it works**: In the Chat view, type `/create-component a data table with sorting and filtering` and press `kbstyle(Enter)`. Copilot should scaffold the component and test file according to your conventions.
+**動作確認**: `.tsx`ファイルを開き、Copilotに「ユーザープロファイルカードコンポーネントを作成してください」と指示します。レスポンスがReact固有の規約に従うはずです。**References**セクションを確認して、手順ファイルが適用されたことを確認します。
 
 > [!TIP]
-> Type `/create-prompt` in chat to generate a prompt file with AI assistance. You can also extract a reusable prompt from an ongoing conversation by asking "save this workflow as a prompt". Learn more in [Use prompt files](/docs/copilot/customization/prompt-files.md).
+> 異なるファイルタイプ、フレームワーク、またはモジュール用に複数の手順ファイルを作成できます。詳細は[`.instructions.md`ファイルを使用する](/docs/copilot/customization/custom-instructions.md#use-instructionsmd-files)を参照してください。
 
-## Step 4: Build a custom agent
+## ステップ3: 再利用可能なプロンプトファイルを作成する
 
-Custom agents let the AI adopt specialized personas with specific tool access. Create a code reviewer agent that can only read code, not modify it.
+プロンプトファイルは、チャットで呼び出せるスラッシュコマンドとして一般的なタスクをエンコードします。定期的に実行するタスク用に作成します。
 
-1. In the Chat view, select **Configure Chat** (gear icon) > **Custom Agents**, and then select **Create new custom agent**.
+1. チャットビューで、**Configure Chat**(ギアアイコン) > **Prompt Files**を選択し、**New prompt file**を選択します。
 
-1. Select `.github/agents/` to store the agent in your project.
+1. `.github/prompts/`を選択して、プロンプトファイルをプロジェクトに保存します。
 
-1. Enter a file name, such as `reviewer`.
+1. `create-component`などのファイル名を入力します。
 
-1. Add the following content to the file:
+1. ファイルに以下の内容を追加します:
 
-    ```markdown
-    ---
-    description: Review code for quality, security, and best practices
-    tools: ['search/codebase', 'search/workspace', 'githubRepo']
-    ---
-    You are a code reviewer. Analyze the provided code and identify:
+  ```markdown
+  ---
+  description: テスト付きの新しいReactコンポーネントをスキャフォルド
+  agent: agent
+  tools: ['editFiles', 'createFile']
+  ---
+  ユーザーの説明に基づいて新しいReactコンポーネントを作成してください。
 
-    1. **Security issues**: SQL injection, XSS, hardcoded secrets, insecure dependencies
-    2. **Code quality**: complex functions, duplicated logic, missing error handling
-    3. **Best practices**: naming conventions, documentation, test coverage
+  各コンポーネントについて、以下を生成してください:
+  1. `src/components/`内のコンポーネントファイル
+  2. `src/components/__tests__/`内のテストファイル
 
-    Provide specific, actionable feedback. Reference the relevant code locations.
-    Do NOT modify any files. Only review and report findings.
-    ```
+  [Reactガイドライン](../instructions/react.instructions.md)の規約に従ってください。
+  ```
 
-1. Save the file.
+1. ファイルを保存します。
 
-**Verify it works**: Select the **Reviewer** agent from the agents dropdown in the Chat view, then ask "review the authentication module". The agent should analyze the code without making changes.
-
-> [!TIP]
-> You can add `handoffs` to your agent to create guided workflows. For example, hand off from a planning agent to an implementation agent. Learn more in [Custom agents](/docs/copilot/customization/custom-agents.md#handoffs).
-
-## Step 5: Create a skill for a specialized capability
-
-Skills are folders of instructions, scripts, and resources that Copilot loads when relevant to perform specialized tasks. Unlike instructions files that define coding standards, skills teach Copilot how to perform specific workflows.
-
-1. Create a `.github/skills/update-readme/` directory in your workspace.
-
-1. Create a `SKILL.md` file in the directory with the following content:
-
-    ```markdown
-    ---
-    name: update-readme
-    description: Update the project README to reflect recent code changes. Whenever code changes are made, this skill reviews the changes and updates the README with new features, usage instructions, and API references.
-    ---
-    # Update README
-
-    When updating the README:
-    1. Review recent code changes to identify new or modified features
-    2. Update the relevant sections (installation, usage, API reference)
-    3. Add entries for new commands, configuration options, or environment variables
-    4. Remove documentation for deleted or deprecated features
-    5. Keep the existing tone, structure, and formatting conventions
-    ```
-
-1. Save the file.
-
-**Verify it works**: In chat, ask Copilot to add a new feature to your project (for example, "add a health check endpoint"). When it generates the code, it should also automatically update the README with the new endpoint's documentation. You can also invoke the skill directly by typing `/update-readme` in the Chat view.
+**動作確認**: チャットビューで、`/create-component ソートおよびフィルタリング機能付きのデータテーブル`と入力し、`kbstyle(Enter)`キーを押します。Copilotが規約に従ってコンポーネントとテストファイルをスキャフォルドするはずです。
 
 > [!TIP]
-> Type `/create-skill` in chat to generate a skill with AI assistance. You can also extract a skill from an ongoing conversation by asking "create a skill from what we just did". Learn more in [Agent Skills](/docs/copilot/customization/agent-skills.md).
+> チャットで`/create-prompt`と入力して、AI支援によるプロンプトファイルを生成します。進行中の会話から再利用可能なプロンプトを抽出するには、「このワークフローをプロンプトとして保存してください」と指示することもできます。詳細は[プロンプトファイルを使用する](/docs/copilot/customization/prompt-files.md)を参照してください。
 
-## What you built
+## ステップ4: カスタムエージェントを構築する
 
-Your project now has a layered AI customization setup:
+カスタムエージェントを使用すると、AIは特定のツールアクセス権を持つ専門化されたペルソナを採用できます。コードのみを読くことができ、変更することはできないコードレビュアーエージェントを作成してください。
+
+1. チャットビューで、**Configure Chat**(ギアアイコン) > **Custom Agents**を選択し、**Create new custom agent**を選択します。
+
+1. `.github/agents/`を選択して、エージェントをプロジェクトに保存します。
+
+1. `reviewer`などのファイル名を入力します。
+
+1. ファイルに以下の内容を追加します:
+
+  ```markdown
+  ---
+  description: コード品質、セキュリティ、ベストプラクティスをレビュー
+  tools: ['search/codebase', 'search/workspace', 'githubRepo']
+  ---
+  あなたはコードレビュアーです。提供されたコードを分析し、以下を特定してください:
+
+  1. **セキュリティ問題**: SQLインジェクション、XSS、ハードコードされたシークレット、安全でない依存関係
+  2. **コード品質**: 複雑な関数、重複したロジック、エラーハンドリングの欠落
+  3. **ベストプラクティス**: 命名規則、ドキュメント、テストカバレッジ
+
+  具体的で実行可能なフィードバックを提供してください。関連するコード位置を参照してください。
+  ファイルを変更しないでください。レビューと調査結果の報告のみしてください。
+  ```
+
+1. ファイルを保存します。
+
+**動作確認**: チャットビューのエージェントドロップダウンから**Reviewer**エージェントを選択し、「認証モジュールをレビューしてください」と指示します。エージェントが変更を加えずにコードを分析するはずです。
+
+> [!TIP]
+> エージェントに`handoffs`を追加して、ガイド付きワークフローを作成できます。たとえば、計画エージェントから実装エージェントにハンドオフします。詳細は[カスタムエージェント](/docs/copilot/customization/custom-agents.md#handoffs)を参照してください。
+
+## ステップ5: 専門的な機能のためのスキルを作成する
+
+スキルは、手順、スクリプト、およびリソースのフォルダであり、Copilotは関連する専門的なタスクを実行する際にロードします。コーディング標準を定義する手順ファイルとは異なり、スキルはCopilotに特定のワークフローの実行方法を教えます。
+
+1. ワークスペースに`.github/skills/update-readme/`ディレクトリを作成します。
+
+1. ディレクトリに`SKILL.md`ファイルを作成し、以下の内容を追加します:
+
+  ```markdown
+  ---
+  name: update-readme
+  description: 最近のコード変更を反映するようにプロジェクトREADMEを更新してください。コード変更が加えられるたびに、このスキルは変更をレビューし、新機能、使用方法、APIリファレンスを含むREADMEを更新します。
+  ---
+  # READMEを更新する
+
+  READMEを更新する際:
+  1. 最近のコード変更をレビューして、新規または変更された機能を特定してください
+  2. 関連するセクション(インストール、使用方法、APIリファレンス)を更新してください
+  3. 新しいコマンド、設定オプション、環境変数のエントリを追加してください
+  4. 削除または廃止された機能のドキュメントを削除してください
+  5. 既存のトーン、構造、フォーマット規則を保持してください
+  ```
+
+1. ファイルを保存します。
+
+**動作確認**: チャットで、Copilotにプロジェクトに新機能を追加するよう指示します(たとえば、「ヘルスチェックエンドポイントを追加してください」)。コードを生成するとき、READMEも新しいエンドポイントのドキュメントで自動的に更新するはずです。チャットで`/update-readme`と入力してスキルを直接呼び出すこともできます。
+
+> [!TIP]
+> チャットで`/create-skill`と入力して、AI支援によるスキルを生成します。進行中の会話からスキルを抽出するには、「我々が行ったことからスキルを作成してください」と指示することもできます。詳細は[エージェントスキル](/docs/copilot/customization/agent-skills.md)を参照してください。
+
+## 構築内容
+
+プロジェクトは現在、階層化されたAIカスタマイズセットアップを備えています:
 
 ```text
 your-project/
   .github/
-    copilot-instructions.md          # Project-wide coding standards (Step 1)
-    instructions/
-      react.instructions.md          # React-specific conventions (Step 2)
-    prompts/
-      create-component.prompt.md     # Reusable component scaffolding (Step 3)
-    agents/
-      reviewer.agent.md              # Read-only code reviewer (Step 4)
-    skills/
-      update-readme/
-        SKILL.md                     # README updater workflow (Step 5)
+  copilot-instructions.md          # プロジェクト全体のコーディング標準(ステップ1)
+  instructions/
+    react.instructions.md          # React固有の規約(ステップ2)
+  prompts/
+    create-component.prompt.md     # 再利用可能なコンポーネントスキャフォルド(ステップ3)
+  agents/
+    reviewer.agent.md              # 読み取り専用コードレビュアー(ステップ4)
+  skills/
+    update-readme/
+    SKILL.md                     # READMEアップデーターワークフロー(ステップ5)
 ```
 
-## Next steps
+## 次のステップ
 
-* Add [MCP servers](/docs/copilot/customization/mcp-servers.md) to extend the agent with external tools and services
-* Set up [hooks](/docs/copilot/customization/hooks.md) to automate tasks at agent lifecycle points, such as running a formatter after every file edit
-* Browse [agent plugins](/docs/copilot/customization/agent-plugins.md) to install pre-packaged customizations from community marketplaces
-* Share customizations with your team by committing the `.github/` directory to your repository
-* See all your customizations in one place with the [Chat Customizations editor](/docs/copilot/customization/overview.md#chat-customizations-editor)
+* [MCPサーバー](/docs/copilot/customization/mcp-servers.md)を追加して、外部ツールとサービスでエージェントを拡張してください
+* [フック](/docs/copilot/customization/hooks.md)を設定して、ファイルの編集後にフォーマッターを実行するなど、エージェントライフサイクルポイントでタスクを自動化してください
+* [エージェントプラグイン](/docs/copilot/customization/agent-plugins.md)をブラウズして、コミュニティマーケットプレイスからパッケージ化されたカスタマイズをインストールしてください
+* `.github/`ディレクトリをリポジトリにコミットして、チームとカスタマイズを共有してください
+* [チャットカスタマイズエディター](/docs/copilot/customization/overview.md#chat-customizations-editor)ですべてのカスタマイズを一箇所で確認してください
+

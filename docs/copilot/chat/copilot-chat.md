@@ -1,179 +1,180 @@
 ---
 ContentId: 557a7e74-f77e-488d-90ea-fd2cfecfffda
 DateApproved: 3/9/2026
-MetaDescription: Overview of chat in VS Code. Learn how to access different chat surfaces, configure your session, add context, write effective prompts, and review AI-generated changes.
+MetaDescription: VS Codeのチャットの概要。さまざまなチャット画面へのアクセス、セッションの設定、コンテキストの追加、効果的なプロンプトの作成、AI生成の変更の確認について学習します。
 MetaSocialImage: ../images/shared/github-copilot-social.png
 ---
-# Chat overview
+# チャット概要
 
-Chat in Visual Studio Code enables you to use natural language for AI-powered coding assistance. Ask questions about your code, get help understanding complex logic, generate new features, fix bugs, and more, all through a conversational interface. This article provides an overview of the chat surfaces, how to configure a chat session, add context, write effective prompts, and review AI-generated changes.
+Visual Studio Codeのチャットにより、自然言語を使用したAI駆動のコーディング支援を活用できます。コードに関する質問、複雑なロジックの理解、新機能の生成、バグの修正など、会話形式のインターフェイスを通じてすべてを実行できます。この記事では、チャット画面の概要、チャットセッションの設定方法、コンテキストの追加、効果的なプロンプトの作成、AI生成の変更の確認について説明します。
 
-<div class="docs-action" data-show-in-doc="false" data-show-in-sidebar="true" title="Get started with agents">
-Follow a hands-on tutorial to experience local, background, and cloud agents in VS Code.
+<div class="docs-action" data-show-in-doc="false" data-show-in-sidebar="true" title="エージェントの使い始め">
+VS Codeでローカル、バックグラウンド、クラウドエージェントを体験するための実践的なチュートリアルに従います。
 
-* [Start tutorial](/docs/copilot/agents/agents-tutorial.md)
+* [チュートリアルを開始](/docs/copilot/agents/agents-tutorial.md)
 
 </div>
 
-## Prerequisites
+## 前提条件
 
-* Access to [GitHub Copilot](/docs/copilot/setup.md). If you don't have a subscription, you can use Copilot for free by signing up for the [Copilot Free plan](https://github.com/github-copilot/signup).
+* [GitHub Copilot](/docs/copilot/setup.md)へのアクセス。サブスクリプションがない場合は、[Copilot Free プラン](https://github.com/github-copilot/signup)にサインアップしてCopilotを無料で使用できます。
 
-## Access chat in VS Code
+## VS Codeのチャットにアクセス
 
-VS Code provides multiple ways to start an AI chat conversation, each optimized for different workflows. Use the **Chat** menu in the VS Code title bar or the corresponding keyboard shortcuts.
+VS Codeは、AI チャット会話を開始する複数の方法を提供しており、各方法は異なるワークフロー向けに最適化されています。VS Codeのタイトルバーの**Chat**メニューまたは対応するキーボードショートカットを使用します。
 
-![Screenshot of the Copilot Chat menu in the VS Code Command Center.](images/copilot-chat/copilot-chat-menu-command-center.png)
+![VS Code Command CenterのCopilot Chat メニューのスクリーンショット。](images/copilot-chat/copilot-chat-menu-command-center.png)
 
-| Surface | Shortcut | Best for | Learn more |
+| 画面 | ショートカット | 最適用途 | 詳細 |
 |---|---|---|---|
-| **Chat view** | `kb(workbench.action.chat.open)` | Multi-turn conversations, agentic workflows, multi-file edits. Also available as an [editor tab or separate window](/docs/copilot/chat/chat-sessions.md#start-a-new-chat-session). | [Chat sessions](/docs/copilot/chat/chat-sessions.md) |
-| **Inline chat** | `kb(inlineChat.start)` | In-place code edits and terminal command suggestions. | [Inline chat](/docs/copilot/chat/inline-chat.md) |
-| **Quick chat** | `kb(workbench.action.quickchat.toggle)` | Quick questions without leaving your current view. Opens a lightweight chat panel at the top of the editor. | [Quick Chat](/docs/copilot/chat/inline-chat.md#use-quick-chat) |
-| **Command line** | `code chat` | Starting chat from outside VS Code. | [CLI docs](/docs/configure/command-line.md#start-chat-from-the-command-line) |
+| **チャットビュー** | `kb(workbench.action.chat.open)` | マルチターン会話、エージェントワークフロー、マルチファイル編集。[エディタタブまたは別ウィンドウ](/docs/copilot/chat/chat-sessions.md#start-a-new-chat-session)として利用可能。 | [チャットセッション](/docs/copilot/chat/chat-sessions.md) |
+| **インラインチャット** | `kb(inlineChat.start)` | その場でのコード編集とターミナルコマンドのサジェスト。 | [インラインチャット](/docs/copilot/chat/inline-chat.md) |
+| **クイックチャット** | `kb(workbench.action.quickchat.toggle)` | 現在のビューから離れず、すばやく質問を投げかけます。編集ウィンドウの上部に軽量のチャットパネルが開きます。 | [クイックチャット](/docs/copilot/chat/inline-chat.md#use-quick-chat) |
+| **コマンドライン** | `code chat` | VS Code外からチャットを開始します。 | [CLIドキュメント](/docs/configure/command-line.md#start-chat-from-the-command-line) |
 
-## Submit your first prompt
+## 最初のプロンプトを送信
 
-To see how chat works, try creating a basic app:
+チャットのしくみを確認するために、基本的なアプリを作成してみます。
 
-1. Open the Chat view by pressing `kb(workbench.action.chat.open)` or selecting **Chat** from the VS Code title bar.
+1. `kb(workbench.action.chat.open)`を押すか、VS Codeのタイトルバーから**Chat**を選択して、チャットビューを開きます。
 
-1. Select an agent from the agent picker. For example, select **Agent** to let chat autonomously determine what needs to be done and make changes to your workspace. Learn more about [built-in agents](/docs/copilot/agents/overview.md).
+1. エージェントピッカーからエージェントを選択します。たとえば、チャットが自律的に何をする必要があるかを判断し、ワークスペースに変更を加えるように**Agent**を選択します。[組み込みエージェント](/docs/copilot/agents/overview.md)についてくわしく学習します。
 
-1. Type the following prompt in the chat input field and press `kb(workbench.action.chat.submit)` to submit it:
+1. チャット入力フィールドに次のプロンプトを入力し、`kb(workbench.action.chat.submit)`を押して送信します:
 
     ```prompt
     Create a basic calculator app with HTML, CSS, and JavaScript
     ```
 
-    The agent applies changes directly to your workspace and might also run terminal commands, for example, to install dependencies or run build scripts.
+    エージェントは変更をワークスペースに直接適用し、依存関係をインストールしたりビルドスクリプトを実行したりするなど、ターミナルコマンドも実行する可能性があります。
 
-1. In the editor, [review the suggested changes](/docs/copilot/chat/review-code-edits.md) and choose to keep or discard them.
+1. エディタで、[提案された変更を確認](/docs/copilot/chat/review-code-edits.md)し、保持するか破棄するかを選択します。
 
 > [!TIP]
-> For a full hands-on walkthrough, follow the [agents tutorial](/docs/copilot/agents/agents-tutorial.md).
+> 完全な実践的なチュートリアルについては、[エージェントチュートリアル](/docs/copilot/agents/agents-tutorial.md)に従います。
 
-## Send messages while a request is running
-
-> [!NOTE]
-> Message steering and queuing are experimental features.
-
-You don't have to wait for a response to finish before sending your next message. While a request is in progress, use the dropdown on the **Send** button to choose how to handle the new message:
-
-* **Add to Queue**: the message waits and sends automatically after the current response completes.
-* **Steer with Message**: the current request yields and your new message processes immediately.
-* **Stop and Send**: cancels the current request and sends your new message right away.
-
-![Screenshot of the Chat view with the Send button dropdown expanded, showing options to add to queue, steer with message, or stop and send.](../images/chat-sessions/send-dropdown.png)
-
-When you have multiple pending messages, drag and drop them to reorder. Learn more about [sending messages while a request is running](/docs/copilot/chat/chat-sessions.md#send-messages-while-a-request-is-running).
-
-## Configure your chat session
-
-When you start or adjust a chat session, three choices shape how the AI responds: which agent to use, where the session runs, and which language model powers it.
-
-### Choose where to run
-
-Agent sessions can run in different environments to match your workflow. Select the session type from the session type dropdown in the Chat view.
-
-![Screenshot showing session type dropdown in the Chat view.](../images/agents-overview/agent-type-dropdown-jan.png)
-
-| Session type | Description |
-|---|---|
-| **Local** | Runs interactively in VS Code on your machine. Best for exploratory tasks that need immediate feedback. |
-| **Background** | Runs autonomously on your machine via the CLI. Best for well-defined tasks you want to run in the background. |
-| **Cloud** | Runs on remote infrastructure and opens a pull request. Best for team collaboration and well-defined tasks. |
-| **Third-party** | Uses agents from external providers like Anthropic or OpenAI. |
-
-You can hand off a session from one type to another mid-conversation, and the full conversation history carries over. Learn more about [agent types](/docs/copilot/agents/overview.md#types-of-agents) and [handing off sessions](/docs/copilot/agents/overview.md#hand-off-a-session-to-another-agent).
-
-### Choose an agent
-
-Agents let chat assume a different role or persona optimized for specific tasks. Select an agent from the agents dropdown in the Chat view. You can switch between agents at any time during a session.
-
-![Screenshot showing the Chat view with the agent picker expanded, displaying different agent options.](../images/customization/chat-mode-dropdown.png)
-
-VS Code provides three built-in agents:
-
-* **Agent**: autonomously plans and implements changes across files, runs terminal commands, and invokes tools.
-* **Plan**: creates a structured, step-by-step implementation plan before writing any code. Hands the plan off to an implementation agent when it looks right.
-* **Ask**: answers questions about coding concepts, your codebase, or VS Code itself without making file changes.
-
-For more specialized workflows, create your own [custom agents](/docs/copilot/customization/custom-agents.md) that define a specific role, available tools, and a language model.
-
-Learn more about the [built-in agents and their capabilities](/docs/copilot/agents/local-agents.md).
-
-### Choose a permission level
-
-The permissions picker controls how much autonomy the agent has over tool approvals during a session. Select a permission level from the permissions dropdown in the chat input area.
-
-| Permission level | Description |
-|---|---|
-| **Default Approvals** | Uses your configured approval settings. Tools that require approval show a confirmation dialog. |
-| **Bypass Approvals** | Auto-approves all tool calls without confirmation dialogs. |
-| **Autopilot** (Preview) | Auto-approves all tool calls, auto-responds to questions, and the agent continues working autonomously until the task is complete. |
-
-Learn more about [permission levels and Autopilot](/docs/copilot/agents/agent-tools.md#permission-levels).
-
-### Choose a language model
-
-VS Code offers different language models, each optimized for different tasks. Some models are designed for fast coding tasks, while others excel at complex reasoning and planning. Use the model dropdown in the chat input field to select the model that best fits your needs.
-
-![Screenshot of the language model dropdown in the Chat view, showing a dropdown list of available models.](images/copilot-chat/chat-model-picker.png)
-
-You can also add models from other providers and use them in chat. Learn more about [language models in VS Code](/docs/copilot/customization/language-models.md).
+## リクエストの実行中にメッセージを送信
 
 > [!NOTE]
-> The list of available models might vary based on your Copilot subscription and might change over time. For more information about the [available language models](https://docs.github.com/en/copilot/using-github-copilot/ai-models/changing-the-ai-model-for-copilot-chat?tool=vscode), see the GitHub Copilot documentation.
+> メッセージのステアリングとキューイングは実験的な機能です。
 
-## Add context to your prompts
+応答の終了を待たずにその次のメッセージを送信できます。リクエストが進行中の場合、**送信**ボタンのドロップダウンを使用して、新しいメッセージを処理する方法を選択します:
 
-Providing the right context helps the AI generate more relevant and accurate responses.
+* **キューに追加**: メッセージは待機し、現在の応答が完了した後に自動的に送信されます。
+* **メッセージでステアリング**: 現在のリクエストが譲歩し、新しいメッセージが直ちに処理されます。
+* **停止して送信**: 現在のリクエストをキャンセルし、新しいメッセージを直ちに送信します。
 
-* **Implicit context**: VS Code automatically includes the active file, your current selection, and the file name as context. When you use agents, the agent decides autonomously if additional context is needed.
+![送信ボタンのドロップダウンが展開され、キューに追加、メッセージでステアリング、停止して送信のオプションが表示されたチャットビューのスクリーンショット。](../images/chat-sessions/send-dropdown.png)
 
-* **`#`-mentions**: type `#` in the chat input to explicitly reference files (`#file`), folders, symbols, your codebase (`#codebase`), terminal output (`#terminalSelection`), or tools like `#fetch` and `#githubRepo`.
+複数の保留中のメッセージがある場合、ドラッグしてドロップして順序変更します。[リクエストの実行中にメッセージを送信する](/docs/copilot/chat/chat-sessions.md#send-messages-while-a-request-is-running)についてくわしく学習します。
 
-* **`@`-mentions**: type `@` to invoke specialized chat participants like `@vscode` or `@terminal`, each optimized for their respective domain.
+## チャットセッションの設定
 
-* **Vision**: attach images, such as screenshots or UI mockups, as context for your prompt.
+チャットセッションを開始または調整するときに、3つの選択肢がAIの応答方法を形成します: 使用するエージェント、セッションの実行場所、およびそれを駆動する言語モデル。
 
-* **Browser elements** (Experimental): select elements from the [integrated browser](/docs/debugtest/integrated-browser.md) to add HTML, CSS, and screenshot context to your prompt.
+### 実行場所の選択
 
-Learn more about [managing context for AI](/docs/copilot/chat/copilot-chat-context.md).
+エージェントセッションは、ワークフローに合わせるのに異なる環境で実行できます。チャットビューのセッションタイプドロップダウンからセッションタイプを選択します。
 
-## Review and manage changes
+![チャットビューのセッションタイプドロップダウンを表示するスクリーンショッピング。](../images/agents-overview/agent-type-dropdown-jan.png)
 
-After the AI makes changes to your files, review and accept or discard them.
+| セッションタイプ | 説明 |
+|---|---|
+| **ローカル** | マシン上のVS Codeで対話的に実行されます。すぐにフィードバックが必要な探索的なタスクに最適です。 |
+| **バックグラウンド** | CLIを介してマシン上で自律的に実行されます。明確に定義されたタスクで、バックグラウンドで実行する場合に最適です。 |
+| **クラウド** | リモートインフラストラクチャで実行され、プルリクエストを開きます。チームコラボレーションと明確に定義されたタスクに最適です。 |
+| **サードパーティ** | AnthropicやOpenAIなどの外部プロバイダーからのエージェントを使用します。 |
 
-* **Review inline diffs**: open a changed file to see inline diffs of the applied changes. Use the editor overlay controls to navigate between edits and **Keep** or **Undo** individual changes. For more information, see [reviewing AI-generated code edits](/docs/copilot/chat/review-code-edits.md).
+会話の途中で、あるタイプのセッションを別のタイプに引き渡すことができ、完全な会話履歴は引き継がれます。[エージェントタイプ](/docs/copilot/agents/overview.md#types-of-agents)および[セッションを別のエージェントに引き渡す](/docs/copilot/agents/overview.md#hand-off-a-session-to-another-agent)についてくわしく学習します。
 
-* **Use checkpoints**: VS Code can automatically create snapshots of your files at key points during chat interactions, enabling you to roll back to a previous state. For more information, see [checkpoints and editing requests](/docs/copilot/chat/chat-checkpoints.md).
+### エージェントを選択
 
-* **Stage to accept**: staging your changes in the Source Control view automatically accepts any pending edits. Discarding changes also discards pending edits.
+エージェントにより、チャットは特定のタスク向けに最適化された異なるロールまたはペルソナを想定できます。チャットビューのエージェントドロップダウンからエージェントを選択します。セッション中いつでもエージェント間を切り替えできます。
 
-![Screenshot showing the Editor with proposed changes, highlighting the review controls in the editor overlay controls.](../images/review-code-edits/copilot-edits-file-review-controls.png)
+![異なるエージェントオプションが表示されたエージェントピッカーが展開されたチャットビューのスクリーンショット。](../images/customization/chat-mode-dropdown.png)
 
-## Get better responses
+VS Codeは3つの組み込みエージェントを提供します:
 
-Chat provides several ways to improve the quality and relevance of AI responses:
+* **Agent**: ファイル全体にわたって自律的に変更を計画および実装し、ターミナルコマンドを実行し、ツールを呼び出します。
+* **Plan**: コードを記述する前に、段階的な実装計画を作成します。計画が正しく見えたら、実装エージェントに引き渡します。
+* **Ask**: ファイルを変更することなく、コーディング概念、コードベース、またはVS Code自体に関する質問に答えます。
 
-* **Write effective prompts**: be specific about what you want, reference relevant files and symbols, and use `/` commands for common tasks. Get inspired by [prompt examples](/docs/copilot/chat/prompt-examples.md) or review the full [prompt engineering guide](/docs/copilot/guides/prompt-engineering-guide.md).
+より専門的なワークフローの場合、特定のロール、利用可能なツール、および言語モデルを定義する独自の[カスタムエージェント](/docs/copilot/customization/custom-agents.md)を作成します。
 
-* **Customize the AI**: tailor the AI's behavior to your project by adding [custom instructions](/docs/copilot/customization/custom-instructions.md), creating reusable [prompt files](/docs/copilot/customization/prompt-files.md), or building [custom agents](/docs/copilot/customization/custom-agents.md) for specialized workflows. For example, create a "Code Reviewer" agent that provides feedback on code quality and adherence to your team's coding standards.
+[組み込みエージェントとそれらの機能](/docs/copilot/agents/local-agents.md)についてくわしく学習します。
 
-* **Extend with tools**: connect [MCP servers](/docs/copilot/customization/mcp-servers.md) or install extensions that contribute tools to give the agent access to external services, databases, or APIs.
+### 許可レベルの選択
 
-For more information, see [customizing AI in VS Code](/docs/copilot/customization/overview.md).
+許可ピッカーは、セッション中のツール承認に対するエージェントの自律性を制御します。チャット入力領域の許可ドロップダウンから許可レベルを選択します。
 
-## Troubleshoot chat interactions
+| 許可レベル | 説明 |
+|---|---|
+| **デフォルト承認** | 設定された承認設定を使用します。承認が必要なツールは確認ダイアログを表示します。 |
+| **承認バイパス** | 確認ダイアログなしで自動的にすべてのツール呼び出しを承認します。 |
+| **Autopilot**（プレビュー） | すべてのツール呼び出しを自動承認し、質問に自動応答し、エージェントはタスクが完了するまで自律的に動作を続けます。 |
 
-Use [Agent Logs and the Chat Debug view](/docs/copilot/chat/chat-debug-view.md) to inspect what happens when you send a prompt. Agent Logs shows a chronological event log of tool calls, LLM requests, and prompt file discovery. The Chat Debug view shows the raw system prompt, user prompt, context, and tool payloads for each interaction. These tools are useful for understanding why the AI responded in a certain way or for troubleshooting unexpected results.
+[許可レベルとAutopilot](/docs/copilot/agents/agent-tools.md#permission-levels)についてくわしく学習します。
 
-## Related resources
+### 言語モデルを選択
 
-* [Create and manage chat sessions](/docs/copilot/chat/chat-sessions.md)
+VS Codeはさまざまな言語モデルを提供します。それぞれは異なるタスク向けに最適化されています。一部のモデルは高速なコーディングタスク向けに設計され、他のモデルは複雑な推論と計画に優れています。チャット入力フィールドのモデルドロップダウンを使用して、ニーズに最適なモデルを選択します。
 
-* [Prompt examples](/docs/copilot/chat/prompt-examples.md)
+![利用可能なモデルのドロップダウンリストを表示するチャットビューの言語モデルドロップダウンのスクリーンショット。](images/copilot-chat/chat-model-picker.png)
 
-* [Agents overview](/docs/copilot/agents/overview.md)
+他のプロバイダーのモデルを追加して、チャットで使用することもできます。[VS Codeの言語モデル](/docs/copilot/customization/language-models.md)についてくわしく学習します。
+
+> [!NOTE]
+> 利用可能なモデルのリストはCopilotサブスクリプションに基づいて異なる場合があり、時間とともに変わる可能性があります。[利用可能な言語モデル](https://docs.github.com/en/copilot/using-github-copilot/ai-models/changing-the-ai-model-for-copilot-chat?tool=vscode)の詳細については、GitHub Copilotドキュメントを參照してください。
+
+## プロンプトにコンテキストを追加
+
+適切なコンテキストを提供すると、AIはより関連性の高い正確な応答を生成できます。
+
+* **暗黙的なコンテキスト**: VS Codeは自動的にアクティブなファイル、現在の選択、ファイル名をコンテキストとして含めます。エージェントを使用する場合、エージェントは自律的に追加のコンテキストが必要かどうかを判断します。
+
+* **`#`-mentions**: チャット入力で`#`を入力して、ファイル（`#file`）、フォルダ、シンボル、コードベース（`#codebase`）、ターミナル出力（`#terminalSelection`）、または`#fetch`および`#githubRepo`などのツールを明示的に参照します。
+
+* **`@`-mentions**: `@`を入力してそれぞれのドメイン向けに最適化された`@vscode`または`@terminal`などの専門的なチャット参加者を呼び出します。
+
+* **ビジョン**: スクリーンショットやUIモックアップなどの画像をプロンプトのコンテキストとして添付します。
+
+* **ブラウザ要素**（実験的）: [統合ブラウザ](/docs/debugtest/integrated-browser.md)から要素を選択して、HTML、CSS、スクリーンショットのコンテキストをプロンプトに追加します。
+
+[AIのコンテキスト管理](/docs/copilot/chat/copilot-chat-context.md)についてくわしく学習します。
+
+## 変更の確認と管理
+
+AIがファイルに変更を加えた後、変更を確認して受け入れるか破棄します。
+
+* **インラインdiffを確認**: 変更されたファイルを開いて、適用された変更のインラインdiffを確認します。エディタオーバーレイコントロールを使用して編集内容を移動し、個々の変更で**保持**または**元に戻す**を実行します。詳細については、[AI生成コード編集の確認](/docs/copilot/chat/review-code-edits.md)を参照してください。
+
+* **チェックポイントを使用**: VS Codeはチャット操作中の重要なポイントでファイルのスナップショットを自動的に作成でき、前の状態にロールバックできます。詳細については、[チェックポイントと編集リクエスト](/docs/copilot/chat/chat-checkpoints.md)を参照してください。
+
+* **ステージで受け入れる**: ソース管理ビューで変更をステージ化することで、保留中の編集が自動的に受け入れられます。変更を破棄すると、保留中の編集も破棄されます。
+
+![提案された変更を強調表示するエディタとエディタオーバーレイコントロールのレビューコントロールのスクリーンショット。](../images/review-code-edits/copilot-edits-file-review-controls.png)
+
+## より適切な応答を得る
+
+チャットは、AI応答の品質と関連性を向上させるいくつかの方法を提供します:
+
+* **効果的なプロンプトを作成**: 必要なことについて具体的に説明し、関連するファイルとシンボルを参照し、一般的なタスク用に`/`コマンドを使用します。[プロンプト例](/docs/copilot/chat/prompt-examples.md)に着想を得るか、完全な[プロンプトエンジニアリングガイド](/docs/copilot/guides/prompt-engineering-guide.md)を確認します。
+
+* **AIをカスタマイズ**: [カスタム指示](/docs/copilot/customization/custom-instructions.md)を追加してプロジェクトに対するAIの動作をカスタマイズし、再利用可能な[プロンプトファイル](/docs/copilot/customization/prompt-files.md)を作成するか、特殊化されたワークフロー向けの[カスタムエージェント](/docs/copilot/customization/custom-agents.md)を構築します。たとえば、コード品質とチームのコーディング標準への準拠に関するフィードバックを提供する「コードレビュー」エージェントを作成します。
+
+* **ツールを使用して拡張**: [MCPサーバー](/docs/copilot/customization/mcp-servers.md)を接続するか、外部サービス、データベース、またはAPIへのアクセス権をエージェントに与えるツールを提供する拡張機能をインストールします。
+
+詳細については、[VS CodeのAIのカスタマイズ](/docs/copilot/customization/overview.md)を参照してください。
+
+## チャット操作のトラブルシューティング
+
+[エージェントログとチャットデバッグビュー](/docs/copilot/chat/chat-debug-view.md)を使用して、プロンプトの送信時に何が起こるかを検調します。エージェントログは、ツール呼び出し、LLMリクエスト、プロンプトファイルの検出の時系列イベントログを表示します。チャットデバッグビューは、各操作の生のシステムプロンプト、ユーザープロンプト、コンテキスト、ツール。ペイロードを表示します。これらのツールは、AIが特定の方法で応答した理由を理解したり、予期しない結果をトラブルシューティングしたりするのに役立ちます。
+
+## 関連リソース
+
+* [チャットセッションの作成と管理](/docs/copilot/chat/chat-sessions.md)
+
+* [プロンプト例](/docs/copilot/chat/prompt-examples.md)
+
+* [エージェント概要](/docs/copilot/agents/overview.md)
+

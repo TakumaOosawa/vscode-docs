@@ -1,7 +1,7 @@
 ---
 ContentId: 7c550054-4ade-4665-b368-215798c48673
 DateApproved: 3/9/2026
-MetaDescription: Learn how to add and manage Model Context Protocol (MCP) servers with GitHub Copilot in Visual Studio Code.
+MetaDescription: Visual Studio CodeでGitHub Copilotを使用してModel Context Protocol(MCP)サーバーを追加および管理する方法について説明します。
 MetaSocialImage: ../images/shared/github-copilot-social.png
 Keywords:
 - mcp
@@ -14,68 +14,68 @@ Keywords:
 - customization
 - api
 ---
-# Add and manage MCP servers in VS Code
+# VS CodeでMCPサーバーを追加および管理する
 
-[Model Context Protocol (MCP)](https://modelcontextprotocol.io/) is an open standard for connecting AI models to external tools and services. In Visual Studio Code, MCP servers provide [tools](/docs/copilot/agents/agent-tools.md) for tasks like file operations, databases, or external APIs. MCP servers can also provide [resources, prompts, and interactive apps](#other-mcp-capabilities).
+[Model Context Protocol(MCP)](https://modelcontextprotocol.io/)は、AIモデルを外部ツールおよびサービスに接続するためのオープンスタンダードです。Visual Studio Codeでは、MCPサーバーはファイル操作、データベース、外部APIなどのタスク用の[ツール](/docs/copilot/agents/agent-tools.md)を提供します。MCPサーバーは、[リソース、プロンプト、インタラクティブアプリ](#other-mcp-capabilities)も提供できます。
 
-For background on how MCP fits into the AI customization framework, see [Customization concepts](/docs/copilot/concepts/customization.md#mcp) and [Tools concepts](/docs/copilot/concepts/tools.md).
+MCPがAIカスタマイズフレームワークにどのように適合するかについては、[カスタマイズの概念](/docs/copilot/concepts/customization.md#mcp)および[ツールの概念](/docs/copilot/concepts/tools.md)を参照してください。
 
-This article covers how to add, configure, and manage MCP servers. To learn about using tools in chat, see [Use tools with agents](/docs/copilot/agents/agent-tools.md).
+この記事では、MCPサーバーを追加、構成、管理する方法について説明します。チャットでのツールの使用方法については、[エージェントでツールを使用する](/docs/copilot/agents/agent-tools.md)を参照してください。
 
 > [!TIP]
-> Use the [Chat Customizations editor](/docs/copilot/customization/overview.md#chat-customizations-editor) (Preview) to discover, create, and manage all your chat customizations in one place. Run **Chat: Open Chat Customizations** from the Command Palette.
+> [チャットカスタマイズエディター](/docs/copilot/customization/overview.md#chat-customizations-editor)(プレビュー)を使用して、すべてのチャットカスタマイズを一か所で検出、作成、管理できます。コマンドパレットから**Chat: Open Chat Customizations**を実行してください。
 
-## Quickstart: use an MCP server in chat
+## クイックスタート: チャットでMCPサーバーを使用する
 
-Follow these steps to install an MCP server and use its tools in chat. This example uses the [Playwright](https://github.com/microsoft/playwright-mcp) MCP server to interact with web pages through a browser.
+次の手順に従ってMCPサーバーをインストールし、チャットでそのツールを使用してください。この例では、[Playwright](https://github.com/microsoft/playwright-mcp)MCPサーバーを使用してブラウザーを通じてWebページと対話します。
 
-1. Open the Extensions view (`kb(workbench.view.extensions)`) and enter `@mcp playwright` in the search field.
+1. 拡張機能ビュー(`kb(workbench.view.extensions)`)を開き、検索フィールドに`@mcp playwright`と入力します。
 
-1. Select **Install** to install the Playwright MCP server in your user profile.
+1. **インストール**を選択して、Playwright MCPサーバーをユーザープロファイルにインストールします。
 
-1. When prompted, confirm that you trust the server to start it. VS Code discovers the server's tools and makes them available in chat.
+1. プロンプトが表示されたら、サーバーの起動を信頼することを確認します。VS Codeはサーバーのツールを検出し、チャットで利用可能にします。
 
-1. Open the Chat view (`kb(workbench.action.chat.open)`) and enter a prompt that uses the Playwright tools. For example:
+1. チャットビュー(`kb(workbench.action.chat.open)`)を開き、Playwrightツールを使用するプロンプトを入力します。例:
 
     ```prompt
     Go to code.visualstudio.com, decline the cookie banner, and give me a screenshot of the homepage.
     ```
 
-    VS Code invokes the Playwright tools to open the page in a browser, and take a screenshot. You might be asked to confirm each tool invocation.
+    VS Codeがplaywrightツールを呼び出してページをブラウザーで開き、スクリーンショットを撮ります。各ツール呼び出しを確認するよう求められる場合があります。
 
 > [!TIP]
-> Select the **Configure Tools** button in the chat input to see all available tools for the Playwright MCP server and toggle specific tools on or off.
+> チャット入力の**ツールを構成**ボタンをクリックして、Playwright MCPサーバーで利用可能なすべてのツールを表示し、特定のツールのオン/オフを切り替えます。
 
-## Add an MCP server
+## MCPサーバーを追加する
 
-To install an MCP server from the MCP server gallery:
+MCPサーバーギャラリーからMCPサーバーをインストールするには:
 
-1. Open the Extensions view (`kb(workbench.view.extensions)`) and enter `@mcp` in the search field. This shows the list of available MCP servers in the gallery.
+1. 拡張機能ビュー(`kb(workbench.view.extensions)`)を開き、検索フィールドに`@mcp`と入力します。これにより、ギャラリーで利用可能なMCPサーバーのリストが表示されます。
 
-1. You can install an MCP server in your user profile or in your workspace:
+1. MCPサーバーをユーザープロファイルまたはワークスペースにインストールできます:
 
-    * To install in your user profile, select **Install**.
+    * ユーザープロファイルにインストールするには、**インストール**を選択します。
 
-    * To install in your workspace, right-click the MCP server and select **Install in Workspace**. This updates the `.vscode/mcp.json` file in your workspace.
+    * ワークスペースにインストールするには、MCPサーバーを右クリックして**ワークスペースにインストール**を選択します。これにより、ワークスペース内の`.vscode/mcp.json`ファイルが更新されます。
 
-1. To view the MCP server details, select the MCP server in the list to open the details page.
+1. MCPサーバーの詳細を表示するには、リスト内のMCPサーバーを選択して詳細ページを開きます。
 
 > [!CAUTION]
-> Local MCP servers can run arbitrary code on your machine. Only add servers from [trusted sources](#mcp-server-trust), and review the publisher and server configuration before starting it. Read the [Security documentation](/docs/copilot/security.md) for using AI in VS Code to understand the implications.
+> ローカルMCPサーバーはマシン上で任意のコードを実行できます。[信頼できるソース](#mcp-server-trust)からのみサーバーを追加し、起動前にパブリッシャーとサーバー構成を確認してください。VS CodeでAIを使用する場合の影響を理解するために、[セキュリティドキュメント](/docs/copilot/security.md)を読んでください。
 
-### Configure the `mcp.json` file
+### `mcp.json`ファイルを構成する
 
-You can manually configure MCP servers by editing the `mcp.json` file. There are two locations for this file:
+`mcp.json`ファイルを編集してMCPサーバーを手動で構成できます。このファイルには2つの場所があります:
 
-* **Workspace**: create or open `.vscode/mcp.json` in your project. Include this file in source control to share MCP server configurations with your team.
-* **User profile**: run the **MCP: Open User Configuration** command to open the `mcp.json` file in your [user profile](/docs/configure/profiles.md) folder. Servers configured here are available across all your workspaces. When you use multiple profiles, each profile can have its own MCP server configuration.
+* **ワークスペース**: プロジェクトで`.vscode/mcp.json`を作成または開きます。このファイルをソース管理に含めて、MCPサーバー構成をチーム全体と共有できます。
+* **ユーザープロファイル**: **MCP: Open User Configuration**コマンドを実行して、[ユーザープロファイル](/docs/configure/profiles.md)フォルダーの`mcp.json`ファイルを開きます。ここで構成されたサーバーは、すべてのワークスペースで利用可能です。複数のプロファイルを使用する場合、各プロファイルは独自のMCPサーバー構成を持つことができます。
 
-You can also run **MCP: Add Server** in the Command Palette (`kb(workbench.action.showCommands)`) to add a server through a guided flow, choosing either **Workspace** or **Global** as the target.
+コマンドパレット(`kb(workbench.action.showCommands)`)で**MCP: Add Server**を実行して、ガイド付きフローでサーバーを追加することもでき、ターゲットとして**ワークスペース**または**グローバル**を選択できます。
 
 > [!IMPORTANT]
-> Avoid hardcoding sensitive information like API keys. Use [input variables](/docs/copilot/reference/mcp-configuration.md#input-variables-for-sensitive-data) or environment files instead.
+> APIキーなどの機密情報をハードコードしないでください。代わりに[入力変数](/docs/copilot/reference/mcp-configuration.md#input-variables-for-sensitive-data)または環境ファイルを使用してください。
 
-The following example shows an `mcp.json` file that configures a remote MCP server and a local MCP server:
+次の例は、リモートMCPサーバーとローカルMCPサーバーを構成する`mcp.json`ファイルを示しています:
 
 ```json
 {
@@ -92,19 +92,19 @@ The following example shows an `mcp.json` file that configures a remote MCP serv
 }
 ```
 
-VS Code provides IntelliSense for the configuration file. For the full configuration schema and field reference, see the [MCP configuration reference](/docs/copilot/reference/mcp-configuration.md).
+VS Codeは構成ファイルのIntelliSenseを提供します。完全な構成スキーマとフィールドリファレンスについては、[MCP構成リファレンス](/docs/copilot/reference/mcp-configuration.md)を参照してください。
 
 > [!NOTE]
-> MCP servers run wherever they are configured. Servers in your user profile run locally. If you're connected to a [remote](/docs/remote/remote-overview.md) and want a server to run on the remote machine, define it in the workspace settings or remote user settings (**MCP: Open Remote User Configuration**).
+> MCPサーバーは構成されている場所で実行されます。ユーザープロファイル内のサーバーはローカルで動作します。[リモート](/docs/remote/remote-overview.md)に接続していて、サーバーをリモートマシンで実行したい場合は、ワークスペース設定またはリモートユーザー設定(**MCP: Open Remote User Configuration**)で定義してください。
 
-### Other options to add an MCP server
+### MCPサーバーを追加する他のオプション
 
 <details>
-<summary>Add an MCP server to a dev container</summary>
+<summary>MCPサーバーをdeveloper containerに追加する</summary>
 
-MCP servers can be configured in Dev Containers through the `devcontainer.json` file. This allows you to include MCP server configurations as part of your containerized development environment.
+MCPサーバーは、`devcontainer.json`ファイルを通じてDev Containerで構成できます。これにより、MCPサーバー構成をコンテナ化された開発環境の一部として含めることができます。
 
-To configure MCP servers in a Dev Container, add the server configuration to the `customizations.vscode.mcp` section:
+Dev ContainerでMCPサーバーを構成するには、`customizations.vscode.mcp`セクションにサーバー構成を追加します:
 
 ```json
 {
@@ -124,25 +124,25 @@ To configure MCP servers in a Dev Container, add the server configuration to the
 }
 ```
 
-When the Dev Container is created, VS Code automatically writes the MCP server configurations to the remote `mcp.json` file, making them available in your containerized development environment.
+Dev Containerが作成されると、VS Codeは自動的にMCPサーバー構成をリモート`mcp.json`ファイルに書き込み、コンテナ化された開発環境で利用可能にします。
 
 </details>
 
 <details>
-<summary>Automatically discover MCP servers</summary>
+<summary>MCPサーバーを自動的に検出する</summary>
 
-VS Code can automatically detect and reuse MCP server configurations from other applications, such as Claude Desktop.
+VS Codeはその他のアプリケーション(Claude Desktopなど)からMCPサーバー構成を自動的に検出および再利用できます。
 
-With the `setting(chat.mcp.discovery.enabled)` setting, you can select one or more tools from which to discover their MCP server configuration.
+`setting(chat.mcp.discovery.enabled)`設定により、MCPサーバーの設定を検出するためのツールを1つ以上選択できます。
 
 </details>
 
 <details>
-<summary>Install an MCP server from the command line</summary>
+<summary>コマンドラインからMCPサーバーをインストールする</summary>
 
-You can also use the VS Code command-line interface to add an MCP server to your user profile or to a workspace.
+VS Codeコマンドラインインターフェースを使用してMCPサーバーをユーザープロファイルまたはワークスペースに追加することもできます。
 
-To add an MCP server to your user profile, use the `--add-mcp` VS Code command line option, and provide the JSON server configuration in the form `{\"name\":\"server-name\",\"command\":...}`.
+MCPサーバーをユーザープロファイルに追加するには、`--add-mcp`VS Codeコマンドラインオプションを使用し、JSON サーバー構成を`{\"name\":\"server-name\",\"command\":...}`の形式で提供します。
 
 ```bash
 code --add-mcp "{\"name\":\"my-server\",\"command\": \"uvx\",\"args\": [\"mcp-server-fetch\"]}"
@@ -150,23 +150,23 @@ code --add-mcp "{\"name\":\"my-server\",\"command\": \"uvx\",\"args\": [\"mcp-se
 
 </details>
 
-## Other MCP capabilities
+## その他のMCP機能
 
-Beyond tools, MCP servers can provide other capabilities:
+ツール以外に、MCPサーバーは他の機能を提供できます:
 
-| Capability | Description | How to use |
+| 機能 | 説明 | 使用方法 |
 |------------|-------------|------------|
-| **Resources** | Access data from MCP servers as context in your prompts, such as files, database tables, or API responses. Resources provide read-only context that you attach to a chat request. | In the Chat view, select **Add Context** > **MCP Resources**. You can also use the **MCP: Browse Resources** command. |
-| **Prompts** | Use preconfigured prompt templates from MCP servers to standardize common tasks. Each MCP server can expose its own set of prompts tailored to its capabilities. | Type `/<MCP server>.<prompt>` in the chat input. |
-| **MCP Apps** | Get interactive UI components like forms, visualizations, and drag-and-drop lists rendered directly in chat. MCP Apps enable richer interactions beyond text responses. Learn more in the [MCP Apps blog post](https://code.visualstudio.com/blogs/2026/01/26/mcp-apps-support). | MCP Apps appear inline when an MCP server supports them. |
+| **リソース** | ファイル、データベーステーブル、APIレスポンスなど、MCPサーバーからのデータをプロンプト内のコンテキストとしてアクセスします。リソースは、チャトリクエストに添付する読み取り専用コンテキストを提供します。 | チャットビューで**コンテキストを追加**> **MCPリソース**を選択します。**MCP: Browse Resources**コマンドも使用できます。 |
+| **プロンプト** | MCPサーバーから事前に構成されたプロンプトテンプレートを使用して一般的なタスクを標準化します。各MCPサーバーは、その機能に合わせた独自のプロンプトセットを公開できます。 | チャット入力に`/<MCPサーバー>.<プロンプト>`と入力します。 |
+| **MCPアプリ** | フォーム、ビジュアライゼーション、ドラッグアンドドロップリストなどのインタラクティブUIコンポーネントをチャットに直接レンダリングされます。MCPアプリはテキストレスポンスを超えたより豊かなインタラクションを実現します。詳細は、[MCPアプリブログポスト](https://code.visualstudio.com/blogs/2026/01/26/mcp-apps-support)を参照してください。 | MCPアプリはMCPサーバーがそれらをサポートする場合、インラインで表示されます。 |
 
-## Sandbox MCP servers
+## MCPサーバーのサンドボックス化
 
-On macOS and Linux, you can enable sandboxing for locally-running stdio MCP servers to restrict their access to the file system and network. Sandboxed servers run in an isolated environment and can only access the file paths and network domains that you explicitly permit.
+macOSおよびLinuxでは、ローカルで実行されるstdio MCPサーバーのサンドボックス化を有効にして、ファイルシステムおよびネットワークへのアクセスを制限できます。サンドボックス化されたサーバーは分離された環境で実行され、明示的に許可したファイルパスおよびネットワークドメインにのみアクセスできます。
 
-To enable sandboxing for a server, set `"sandboxEnabled": true` in the server configuration in your `mcp.json` file. You can further customize the sandbox restrictions by adding a `sandbox` object with specific file system and network rules.
+サーバーのサンドボックス化を有効にするには、`mcp.json`ファイルのサーバー構成で`"sandboxEnabled": true`を設定します。`sandbox`オブジェクトを追加して特定のファイルシステムおよびネットワークルールでサンドボックスの制限をさらにカスタマイズできます。
 
-The following example shows how to enable sandboxing for a local MCP server and restrict its access to only write to files in the workspace and access a specific API domain:
+次の例は、ローカルMCPサーバーのサンドボックス化を有効にし、ワークスペース内のファイルへの書き込みおよび特定のAPIドメインへのアクセスのみに制限する方法を示しています:
 
 ```json
 {
@@ -189,81 +189,82 @@ The following example shows how to enable sandboxing for a local MCP server and 
 }
 ```
 
-When sandboxing is enabled, tool calls from the server are auto-approved because they run in a controlled environment.
+サンドボックス化が有効な場合、サーバーからのツール呼び出しは制御された環境で実行されるため、自動承認されます。
 
-For the full sandbox configuration schema, see the [Sandbox configuration](/docs/copilot/reference/mcp-configuration.md#sandbox-configuration) reference.
+完全なサンドボックス構成スキーマについては、[サンドボックス構成](/docs/copilot/reference/mcp-configuration.md#sandbox-configuration)リファレンスを参照してください。
 
 > [!NOTE]
-> Sandboxing is currently not available on Windows.
+> サンドボックス化は現在Windowsで利用できません。
 
-## Manage MCP servers
+## MCPサーバーを管理する
 
-VS Code provides several options to manage your MCP servers, such as starting or stopping a server, viewing logs, uninstalling, or clearing cached tools.
+VS Codeはサーバーの開始または停止、ログの表示、アンインストール、キャッシュされたツールのクリアなど、MCPサーバーを管理するための複数のオプションを提供します。
 
-| Method | Description | |
+| 方法 | 説明 | |
 |--------|-------------|---|
-| **Extensions view** | Right-click a server in the **MCP SERVERS - INSTALLED** section or select the gear icon. | ![Screenshot showing the MCP servers in the Extensions view.](../images/mcp-servers/extensions-view-mcp-servers.png) |
-| **`mcp.json` editor** | Open the configuration file and use the inline actions (code lenses). Use **MCP: Open User Configuration** or **MCP: Open Workspace Folder Configuration** to open the file. | ![MCP server configuration with lenses to manage server.](../images/mcp-servers/mcp-server-config-lenses.png) |
-| **Command Palette** | Run **MCP: List Servers**, select a server, and choose an action. | ![Screenshot showing the actions for an MCP server in the Command Palette.](../images/mcp-servers/mcp-list-servers-actions.png) |
+| **拡張機能ビュー** | **MCP SERVERS - INSTALLED**セクションでサーバーを右クリックするか、ギアアイコンを選択します。 | ![拡張機能ビューのMCPサーバーを示すスクリーンショット。](../images/mcp-servers/extensions-view-mcp-servers.png) |
+| **`mcp.json`エディター** | 構成ファイルを開き、インラインアクション(コードレンズ)を使用します。**MCP: Open User Configuration**または**MCP: Open Workspace Folder Configuration**を使用してファイルを開きます。 | ![サーバーを管理するレンズを含むMCPサーバー構成。](../images/mcp-servers/mcp-server-config-lenses.png) |
+| **コマンドパレット** | **MCP: List Servers**を実行してサーバーを選択し、アクションを選択します。 | ![コマンドパレットのMCPサーバーのアクションを示すスクリーンショット。](../images/mcp-servers/mcp-list-servers-actions.png) |
 
-## Centrally manage access to MCP servers in VS Code
+## VS CodeでMCPサーバーへのアクセスを一元管理する
 
-Organizations can centrally manage access to MCP servers via GitHub policies. Learn more about [enterprise management of MCP servers](/docs/enterprise/ai-settings.md#configure-mcp-server-access).
+組織はGitHubポリシーを通じてMCPサーバーへのアクセスを一元的に管理できます。[MCPサーバーのエンタープライズ管理](/docs/enterprise/ai-settings.md#configure-mcp-server-access)について詳細を学びます。
 
-## Automatically start MCP servers
+## MCPサーバーを自動的に起動する
 
-When you add an MCP server or change its configuration, VS Code needs to (re)start the server to discover the tools it provides.
+MCPサーバーを追加するか、その構成を変更する場合、VS Codeはサーバーを(再)起動して、それが提供するツールを検出する必要があります。
 
-You can configure VS Code to automatically restart the MCP server when configuration changes are detected by using the `setting(chat.mcp.autoStart)` setting (Experimental).
+`setting(chat.mcp.autoStart)`設定(実験的)を使用して、構成変更が検出されたときにVS CodeがMCPサーバーを自動的に再起動するように構成できます。
 
-## MCP server trust
+## MCPサーバーの信頼
 
-When you add an MCP server to your workspace or change its configuration, you need to confirm that you trust the server and its capabilities before starting it. VS Code shows a dialog to confirm that you trust the server when you start a server for the first time. In the dialog, select the link to the MCP server to review its configuration.
+ワークスペースにMCPサーバーを追加するか、その構成を変更する場合、サーバーを起動する前にサーバーとその機能を信頼することを確認する必要があります。VS Codeはサーバーを初めて起動するときにサーバーを信頼していることを確認するダイアログを表示します。ダイアログで、MCPサーバーへのリンクを選択して、その構成を確認してください。
 
-![Screenshot showing the MCP server trust prompt.](../images/mcp-servers/mcp-server-trust-dialog.png)
+![MCPサーバーの信頼プロンプトを示すスクリーンショット。](../images/mcp-servers/mcp-server-trust-dialog.png)
 
-If you don't trust the MCP server, it will not be started, and chat requests will continue without using the tools provided by the server.
+MCPサーバーを信頼しない場合、サーバーは起動されず、チャトリクエストはサーバーが提供するツールを使用せずに続行されます。
 
-You can reset trust for your MCP servers by running the **MCP: Reset Trust** command from the Command Palette.
+**MCP: Reset Trust**コマンドをコマンドパレットから実行してMCPサーバーの信頼をリセットできます。
 
 > [!WARNING]
-> If you start the MCP server directly from the `mcp.json` file, you will not be prompted to trust the server configuration.
+> `mcp.json`ファイルから直接MCPサーバーを起動する場合、サーバーの構成を信頼するよう求められません。
 
-## Synchronize MCP configuration across devices
+## デバイス間でMCP構成を同期する
 
-With [Settings Sync](/docs/configure/settings-sync.md) enabled, you can synchronize settings and configurations across devices, including MCP server configurations. This enables you to maintain a consistent development environment and access the same MCP servers on all your devices.
+[設定同期](/docs/configure/settings-sync.md)を有効にすると、MCPサーバー構成を含む設定と構成をデバイス間で同期できます。これにより、一貫した開発環境を維持し、すべてのデバイスで同じMCPサーバーにアクセスできます。
 
-To synchronize MCP server configuration with Settings Sync:
+設定同期でMCPサーバー構成を同期するには:
 
-1. Run the **Settings Sync: Configure** command from the Command Palette
+1. コマンドパレットから**Settings Sync: Configure**コマンドを実行します
 
-1. Enable the **MCP Servers** option in the list of synchronized configurations
+1. 同期構成のリストで**MCPサーバー**オプションを有効にします
 
-## Troubleshoot and debug MCP servers
+## MCPサーバーのトラブルシューティングとデバッグ
 
-### MCP output log
+### MCPの出力ログ
 
-When VS Code encounters an issue with an MCP server, it shows an error indicator in the Chat view.
+VS CodeがMCPサーバーで問題が発生すると、チャットビューではエラー指標が表示されます。
 
-![MCP Server Error](../images/mcp-servers/mcp-error-loading-tool.png)
+![MCPサーバーエラー](../images/mcp-servers/mcp-error-loading-tool.png)
 
-Select the error notification in the Chat view, and then select the **Show Output** option to view the server logs. Alternatively, run **MCP: List Servers** from the Command Palette, select the server, and then choose **Show Output**.
+チャットビューのエラー通知を選択してから、**出力を表示**オプションを選択してサーバーログを表示します。または、コマンドパレットから**MCP: List Servers**を実行して、サーバーを選択してから、**出力を表示**を選択します。
 
-![MCP Server Error Output](../images/mcp-servers/mcp-server-error-output.png)
+![MCPサーバーエラー出力](../images/mcp-servers/mcp-server-error-output.png)
 
-## Frequently asked questions
+## よくある質問
 
 <details>
-<summary>The MCP server is not starting when using Docker</summary>
+<summary>Dockerを使用している場合、MCPサーバーが開始されない</summary>
 
-Verify that the command arguments are correct and that the container is not running in detached mode (`-d` option). You can also check the MCP server output for any error messages (see [Troubleshooting](#troubleshoot-and-debug-mcp-servers)).
+コマンド引数が正しいことと、コンテナーが切り離されたモード(`-d`オプション)で実行されていないことを確認してください。MCPサーバー出力でエラーメッセージを確認することもできます([トラブルシューティング](#troubleshoot-and-debug-mcp-servers)を参照)。
 
 </details>
 
-## Related resources
+## 関連リソース
 
-* [MCP configuration reference](/docs/copilot/reference/mcp-configuration.md)
-* [Use tools with agents](/docs/copilot/agents/agent-tools.md)
+* [MCP構成リファレンス](/docs/copilot/reference/mcp-configuration.md)
+* [エージェントでツールを使用する](/docs/copilot/agents/agent-tools.md)
 * [Model Context Protocol Documentation](https://modelcontextprotocol.io/)
-* [MCP Apps support in VS Code](https://code.visualstudio.com/blogs/2026/01/26/mcp-apps-support)
-* [Discover and manage agent plugins](/docs/copilot/customization/agent-plugins.md)
+* [VS CodeのMCPアプリのサポート](https://code.visualstudio.com/blogs/2026/01/26/mcp-apps-support)
+* [エージェントプラグインを検出および管理する](/docs/copilot/customization/agent-plugins.md)
+

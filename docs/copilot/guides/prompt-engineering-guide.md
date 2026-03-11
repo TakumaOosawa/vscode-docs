@@ -1,110 +1,111 @@
 ---
 ContentId: 5dfd207f-fcee-42c3-b7fe-622b42b3397c
 DateApproved: 3/9/2026
-MetaDescription: Optimize your development experience with chat in VS Code with best practices for crafting chat prompts and providing context.
+MetaDescription: VS Codeでチャットを使用した開発体験を最適化し、チャトプロンプトの作成とコンテキスト提供のベストプラクティスを学びます。
 MetaSocialImage: ../images/shared/github-copilot-social.png
 ---
-# Prompt engineering in VS Code
+# VS Codeでのプロンプトエンジニアリング
 
-This article covers tips to write prompts to get better and more relevant responses from AI in Visual Studio Code. _Prompt engineering_ or _prompt crafting_ is a common phrase you'll hear when discussing AI and refers to how and what information is packaged and sent to an AI API endpoint.
+この記事では、Visual Studio Codeのai から、より良く、より関連性の高い応答を得るためのプロンプト作成のヒントをカバーしています。_プロンプトエンジニアリング_または_プロンプトクラフティング_は、aiとの議論で聞く一般的なフレーズで、情報がどのようにパッケージ化され、ai APIエンドポイントに送信されるかを指します。
 
-<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/hh1nOX14TyY" title="Core principles of prompt engineering with GitHub Copilot" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/hh1nOX14TyY" title="GitHub Copilotを使用したプロンプトエンジニアリングのコア原則" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-If you are new to VS Code or AI, you might want to review the [AI in VS Code Overview](/docs/copilot/overview.md) article first or dive straight into the [Getting started](/docs/copilot/getting-started.md) tutorial.
+VS Codeやaiが初めての場合は、まず[VS Code概要のaiに関するページ](/docs/copilot/overview.md)を確認するか、[はじめに](/docs/copilot/getting-started.md)チュートリアルに直接進んでください。
 
-## Getting the most out of inline suggestions
+## インライン提案を最大限に活用する
 
-Inline suggestions help you code more efficiently by automatically offering suggestions to complete your code, comments, tests, and more. There are things you can do to help ("prompt") the AI to give you the best possible suggestions.
+インライン提案は、コード、コメント、テストなどを自動的に補完するための提案を提供することで、より効率的にコーディングできます。ai に最良の提案を与えるよう促すためにできることがあります。
 
-### Provide context
+### コンテキストを提供する
 
-The AI works best when it has sufficient context to know what you're doing and what you want help with. Just as you would provide a colleague with the context when asking for help with a specific programming task, you can do the same with AI.
+AIは、あなたが何をしているのか、どんなサポートが必要なのかを理解するのに十分なコンテキストがあると、最もうまく機能します。特定のプログラミングタスクの手伝いを求める際にコンテキストを同僚に提供するのと同じように、AIでも同じことができます。
 
-#### Open files
+#### 開いているファイル
 
-For inline suggestions, VS Code looks at the current and open files in your editor to analyze the context and create appropriate suggestions. Having related files open in VS Code while using inline suggestions helps set this context and lets the AI see a bigger picture of your project.
+インライン提案の場合、VS Codeはエディタの現在のオープンファイルをコンテキストを分析し、適切な提案を作成するために見ます。インライン提案を使用する際にVS Codeで関連ファイルを開いておくと、このコンテキストが設定され、AIがプロジェクトの全体像を見ることができます。
 
-#### Top level comment
+#### トップレベルコメント
 
-Just as you would give a brief, high-level introduction to a coworker, a top level comment in the file you're working in can help the AI understand the overall context of the pieces you are creating.
+同僚に簡潔な高レベルの紹介を与えるのと同じように、作業中のファイル内のトップレベルコメントは、AIが作成しているピースの全体的なコンテキストを理解するのに役立ちます。
 
-#### Appropriate includes and references
+#### 適切なインクルードと参照
 
-It's best to manually set the includes or module references you need for your work. The AI can make suggestions, but you likely know best what dependencies you need to include. This can also help let the AI know what frameworks, libraries, and their versions you'd like it to use when crafting suggestions.
+作業に必要なインクルードまたはモジュール参照を手動で設定するのが最善です。AIは提案を行うことができますが、おそらくどの依存関係を含める必要があるかを最もよく知っています。これはまた、aiが提案を作成する際に使用するフレームワーク、ライブラリ、およびそれらのバージョンを知らせるのに役立ちます。
 
-In the following TypeScript example, we want to log the output of the `add` method. When we don't have any includes, the AI suggests using `console.log`:
+次のTypeScript例では、`add`メソッドの出力をログに記録したいと考えています。インクルードがない場合、AIは`console.log`の使用を提案します:
 
-![AI inline suggestion proposes Console.log when no imports in the file.](../images/prompt-engineering-guide/copilot-suggestion-console-log.png)
-On the other hand, when you add a reference to `Log4js`, the AI suggests using that framework for logging the output:
+![ファイルのインポートがない場合、AIインライン提案はConsole.logを提案します。](../images/prompt-engineering-guide/copilot-suggestion-console-log.png)
+一方、`Log4js`への参照を追加すると、AIはログ出力にそのフレームワークを使用することを提案します:
 
-![AI inline suggestion proposes logging using the imported logging framework.](../images/prompt-engineering-guide/copilot-suggestion-framework-log.png)
+![AIインライン提案は、インポートされたロギングフレームワークを使用したロギングを提案します。](../images/prompt-engineering-guide/copilot-suggestion-framework-log.png)
 
-#### Meaningful function names
+#### 意味のある関数名
 
-Just as a method called `fetchData()` won't mean much to a coworker (or you after several months), `fetchData()` won't help the AI either. Using meaningful function names helps the AI provide a body that does what you want.
+`fetchData()`という名前のメソッドは同僚に（または数ヶ月後のあなたに）あまり意味がないのと同じように、`fetchData()`はAIにも役立ちません。意味のある関数名を使用すると、AIが目的の本体を提供しやすくなります。
 
-#### Specific and well-scoped function comments
+#### 具体的でスコープが適切な関数コメント
 
-A function name can only be so descriptive without being overly long. Function comments can help fill in details that the AI might need to know.
-<!-- Example of a meaningful function/method comment -->
+関数名は、長すぎずに説明できるだけです。関数コメントは、AIが知る必要があるかもしれない詳細を埋めるのに役立ちます。
+<!-- 意味のある関数/メソッドコメントの例 -->
 
-#### Prime AI with sample code
+#### サンプルコードでAIをプライム化する
 
-One trick to get AI on the right page, is to copy and paste sample code that is close to what you are looking for into your open editor. Providing a small example can help AI generate suggestions that match the language and tasks you want to achieve. Once AI begins providing you with the code you want and will actually use, you can delete the sample code from the file. This can be especially helpful to jumpstart AI to a newer library version when it defaults to providing older code suggestions.
+AIを正しい方向に向ける1つのトリックは、探しているものに近いサンプルコードをコピーして、開いているエディタに貼り付けることです。小さな例を提供することは、AIが目的の言語とタスクに一致する提案を生成するのに役立ちます。AIが希望する、実際に使用するコードの提供を開始したら、ファイルからサンプルコードを削除できます。これは特に、古いライブラリバージョンにデフォルト設定されている場合に新しいライブラリバージョンにAIをジャンプスタートするのに役立ちます。
 
-### Be consistent and keep the quality bar high
+### 一貫性を保ち、品質基準を高く保つ
 
-The AI is going to latch on to your code to generate suggestions that follow the existing pattern, so the adage "garbage in, garbage out" applies.
-Always keeping a high quality bar can take discipline. Especially when you're coding fast and loose to get something working, you might want to disable completions while in "hacking" mode. To snooze inline suggestions temporarily, select the Copilot menu in the Status Bar, and then select the **Snooze** button to increment the snooze time by five minutes. To resume inline suggestions, select the **Cancel Snooze** button in the Copilot menu.
+AIはコードを利用して既存のパターンに従う提案を生成するため、「ガベージイン、ガベージアウト」ということわざが適用されます。
+常に高い品質基準を維持することには規律が必要です。特に何かを機能させるためにコーディングを素早く行っている場合、「ハッキング」モード中は補完を無効にしたい場合があります。インライン提案を一時的にスヌーズするには、ステータスバーのCopilotメニューを選択し、**スヌーズ**ボタンを選択してスヌーズ時間を5分ずつ増やします。インライン提案を再開するには、Copilotメニューの**スヌーズをキャンセル**ボタンを選択します。
 
-![Screenshot of the Copilot menu in the Status Bar with Snooze and Cancel Snooze buttons.](../images/inline-suggestions/snooze-code-completions.png)
+![スヌーズボタンとスヌーズをキャンセルボタンが表示されたステータスバーのCopilotメニューのスクリーンショット。](../images/inline-suggestions/snooze-code-completions.png)
 
-## Getting the most out of chat
+## チャットを最大限に活用する
 
-When you're using chat, there are several things you can do to optimize your experience.
+チャットを使用するときは、体験を最適化するためにできることがいくつかあります。
 
-### Add relevant context
+### 関連するコンテキストを追加する
 
-You can explicitly add context to your prompt by typing `#` followed by the context item you want to mention. VS Code supports different types of context items: files, folders, code symbols, tools, terminal output, source control changes, and more.
+`#`に続けてコンテキストアイテムを入力することで、プロンプトに明示的にコンテキストを追加できます。VS Codeは異なるタイプのコンテキストアイテムをサポートしています: ファイル、フォルダ、コードシンボル、ツール、ターミナル出力、ソース管理の変更など。
 
-Type the `#` symbol in the chat input field to see a list of available context items, or select **Add Context** in the Chat view to open the context picker.
+チャット入力フィールドで`#`記号を入力して利用可能なコンテキストアイテムのリストを表示するか、チャットビューで**コンテキストを追加**を選択してコンテキストピッカーを開きます。
 
-For example, with `#<file name>` or `#<folder name>` you can reference specific files or folders from your workspace in your chat prompt. This helps make the answers from Copilot Chat more relevant to your code by providing context about the file you are working with. You can ask questions like "Can you suggest improvements to #package.json?" or "How do I add an extension in #devcontainer.json?".
+例えば、`#<ファイル名>`または`#<フォルダ名>`を使用して、チャットプロンプトでワークスペースから特定のファイルまたはフォルダを参照できます。これにより、作業中のファイルについてのコンテキストを提供することで、Copilot Chatからの回答がコードにより関連性を持つようになります。「#package.jsonの改善を提案できますか?」または「#devcontainer.jsonに拡張機能を追加するにはどうすればいいですか?」などの質問ができます。
 
-Instead of adding individual files manually, you can let VS Code find the right files from your codebase automatically by using `#codebase`. This can be useful when you don't know which files are relevant to your question.
+個別にファイルを手動で追加する代わりに、`#codebase`を使用して、VS Codeがコードベースから自動的に適切なファイルを見つけることができます。これは、どのファイルが質問に関連しているかわからない場合に便利です。
 
-![Screenshot of Chat view, showing the Attach context button and context Quick Pick.](../images/prompt-engineering-guide/copilot-chat-view-attach-context.png)
+![コンテキストボタンと関連情報クイックピックを添付するチャットビューのスクリーンショット。](../images/prompt-engineering-guide/copilot-chat-view-attach-context.png)
 
-Learn more about [using context in chat](/docs/copilot/chat/copilot-chat-context.md).
+詳細は、[チャットでコンテキストを使用する](/docs/copilot/chat/copilot-chat-context.md)を参照してください。
 
-### Be specific and keep it simple
+### 具体的でシンプルに保つ
 
-When you ask chat to do something, be specific in your ask and break down a large task into separate, smaller tasks. For example, don't ask chat to create an Express app, that uses TypeScript and Pug, and that has a products page that retrieves data from a MongoDB database. Instead, first ask to create the Express app with TypeScript and Pug. Next, ask to add a products page, and finally ask to retrieve the customer data from a database.
+チャットに何かをするよう要求する場合は、要求を具体的にし、大きなタスクをより小さく、より小さなタスクに分割してください。例えば、Express appTypeScriptAndPugを使用し、MongoDBdatabaseからデータを取得する製品ページがあるを作成するようチャットに要求しないでください。代わりに、まずTypeScriptAndPugを使用してExpress appを作成するように要求してください。次に、製品ページの追加を要求し、最後に顧客データをdatabaseから取得するよう要求してください。
 
-When you ask chat to do a specific task, be specific about the inputs, outputs, APIs, or frameworks you want to use. The more specific your prompt is, the better the outcome will be. For example, instead of "read product data from the database", use "read all products by category, return the data in JSON format, and use the Mongoose library".
+チャットに特定のタスクを実行するよう要求する場合は、使用したい入力、出力、api、またはフレームワークについて具体的にしてください。プロンプトが具体的であれば、結果はより良くなります。例えば、「databaseから製品データを読み取る」の代わりに、「すべての製品をカテゴリ別に読み取り、データをJson形式で返し、Mongooseライブラリを使用する」を使用してください。
 
-### Iterate on your solution
+### ソリューションを繰り返す
 
-When asking chat for help, you aren't stuck with the first response. You can iterate and prompt chat to improve the solution. Chat has both the context of the generated code and also your current conversation.
-Here's an example using Inline Chat to create a function to calculate Fibonacci numbers:
+チャットにサポートを求める場合は、最初の応答に制限されるわけではありません。反復処理を行い、チャットに促してソリューションを改善できます。チャットは、生成されたコードのコンテキストと現在の会話の両方を持ちます。
+Fibonacci数値を計算する関数を作成するためのインラインチャットを使用した例を次に示します:
 
-![First response from AI for a function to calculate Fibonacci numbers](../images/prompt-engineering-guide/fibonacci-first.png)
+![Fibonacci数値を計算する関数のAIからの最初の応答](../images/prompt-engineering-guide/fibonacci-first.png)
 
-Maybe you prefer a solution that doesn't use recursion:
+おそらく、再帰を使用しないソリューションを好みます:
 
-![Ask AI to not use recursion and new result](../images/prompt-engineering-guide/fibonacci-second.png)
+![AIに再帰を使用しないように依頼し、新しい結果](../images/prompt-engineering-guide/fibonacci-second.png)
 
-You can even ask AI to follow coding conventions or improve variable names:
+AIに対して、コーディング規則に従うか、変数名を改善するよう要求することもできます:
 
-![Ask AI to use better variable names and new result](../images/prompt-engineering-guide/fibonacci-third.png)
+![AIに変数の名前を使用するよう要求し、新しい結果](../images/prompt-engineering-guide/fibonacci-third.png)
 
-Even if you've already accepted a result, you can always ask AI to iterate on the code later.
+既に結果を受け入れていても、後でいつでもAIにコードを繰り返すよう要求できます。
 
-## More resources about prompting for Copilot
+## Copilotのプロンプトに関する詳しいリソース
 
-If you'd like to learn more about productively using GitHub Copilot, you can follow up with these videos and blog posts:
+GitHub Copilotを生産的に使用する方法についてさらに詳しく知りたい場合は、次のビデオとブログ投稿をご確認ください:
 
-* [Effective Prompting for GitHub Copilot](https://www.youtube.com/watch?v=ImWfIDTxn7E)
-* [Pragmatic techniques to get the most out of GitHub Copilot](https://www.youtube.com/watch?v=CwAzIpc4AnA)
-* [Best practices for prompting GitHub Copilot in VS Code](https://www.linkedin.com/pulse/best-practices-prompting-github-copilot-vs-code-pamela-fox)
-* [How to use GitHub Copilot: Prompts, tips, and use cases](https://github.blog/2023-06-20-how-to-write-better-prompts-for-github-copilot/)
+* [GitHub Copilotの効果的なプロンプト](https://www.youtube.com/watch?v=ImWfIDTxn7E)
+* [GitHub Copilotおよび最大限に活用するための実用的な手法](https://www.youtube.com/watch?v=CwAzIpc4AnA)
+* [VS CodeでGitHub Copilotをプロンプトするためのベストプラクティス](https://www.linkedin.com/pulse/best-practices-prompting-github-copilot-vs-code-pamela-fox)
+* [GitHub Copilot使用方法: プロンプト、ヒント、ユースケース](https://github.blog/2023-06-20-how-to-write-better-prompts-for-github-copilot/)
+

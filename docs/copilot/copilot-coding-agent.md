@@ -1,307 +1,308 @@
 ---
 ContentId: f8b9e2a4-7c1d-4f5e-9a8b-3d2e1f0c6789
 DateApproved: 3/9/2026
-MetaDescription: Learn how to interact with the GitHub Copilot coding agent in VS Code to autonomously implement features and fix bugs in the background.
+MetaDescription: VS Codeで GitHub Copilot コーディングエージェントと相互作用して、バックグラウンドで機能を自律的に実装し、バグを修正する方法について説明します。
 MetaSocialImage: images/shared/github-copilot-social.png
 ---
-# GitHub Copilot coding agent
+# GitHub Copilot コーディングエージェント
 
-[GitHub Copilot coding agent](https://docs.github.com/en/copilot/concepts/about-copilot-coding-agent) is a GitHub-hosted, autonomous AI developer that works independently in the background to complete development tasks. To invoke the coding agent, assign a GitHub issue to Copilot or delegate a task from chat, and the agent will work autonomously to implement features, fix bugs, and make changes across your repository using its own isolated development environment.
+[GitHub Copilot コーディングエージェント](https://docs.github.com/en/copilot/concepts/about-copilot-coding-agent)は、GitHub でホストされている自律的な AI 開発者で、バックグラウンドで独立して開発タスクを完了するために機能します。コーディングエージェントを起動するには、GitHub Issue を Copilot に割り当てるか、チャットからタスクを委任します。その後、エージェントは機能を実装し、バグを修正し、独立した開発環境を使用してリポジトリ全体で変更を行うために自律的に機能します。
 
-This is different from [using agents](/docs/copilot/agents/local-agents.md) in VS Code, which provide interactive development within the editor and requires your active participation during the coding session.
+これは、[VS Code でエージェントを使用する](/docs/copilot/agents/local-agents.md)場合と異なります。これはエディター内で対話的な開発を提供し、コーディングセッション中に積極的な参加が必要です。
 
-![GIF showing how to assign an issue to Copilot coding agent from within VS Code.](images/copilot-coding-agent/assign-to-copilot-gif.gif)
+![VS Code 内から Copilot コーディングエージェントに Issue を割り当てる方法を示す GIF。](images/copilot-coding-agent/assign-to-copilot-gif.gif)
 
-## How it works
+## 仕組み
 
-The Copilot coding agent workflow:
+Copilot コーディングエージェントのワークフロー:
 
-1. **Assignment**: You [assign a GitHub issue to `@copilot`](#method-1-assign-issues-to-copilot), [delegate a task from VS Code chat](#method-2-delegate-from-chat), or [use TODO code actions](#method-3-fix-todos-with-coding-agent)
-1. **Analysis**: The agent analyzes the task and your repository structure
-1. **Development**: Copilot works in its own isolated GitHub Actions environment where it can:
-   * Explore your codebase
-   * Make changes across multiple files
-   * Run builds and tests
-   * Execute linters and other automated checks
-1. **Pull request**: The agent creates a pull request with the implementation
-1. **Review**: You review the changes and can request modifications through PR comments
-1. **Iteration**: The agent responds to feedback and updates the implementation
+1. **割り当て**: [GitHub Issue を`@copilot`に割り当てるか](#method-1-assign-issues-to-copilot)、[VS Code チャットからタスクを委任するか](#method-2-delegate-from-chat)、[TODO コードアクションを使用します](#method-3-fix-todos-with-coding-agent)
+1. **分析**: エージェントがタスクとリポジトリ構造を分析します
+1. **開発**: Copilot は独立した GitHub Actions 環境で機能し、次のことができます:
+   * コードベースを参照
+   * 複数のファイル全体で変更を行う
+   * ビルドとテストを実行
+   * リンターと他の自動化チェックを実行
+1. **Pull request**: エージェントが実装を含む pull request を作成します
+1. **レビュー**: 変更をレビューし、PR コメントを通じて修正をリクエストできます
+1. **イテレーション**: エージェントがフィードバックに応答し、実装を更新します
 
-## Prerequisites
+## 前提条件
 
-Before you can use Copilot coding agent, you need:
+Copilot コーディングエージェントを使用する前に、以下が必要です:
 
-* **GitHub Copilot subscription**: Available with Copilot Pro, Pro+, Business, or Enterprise plans
-* **Write access**: You must have write permissions to the repository
-* **Enable the agent**: Copilot coding agent [must be enabled](https://docs.github.com/copilot/concepts/coding-agent/enable-coding-agent) for your account or organization
-* **VS Code setup**: Install the [GitHub Pull Requests extension](https://marketplace.visualstudio.com/items?itemName=GitHub.vscode-pull-request-github)
+* **GitHub Copilot サブスクリプション**: Copilot Pro、Pro+、Business、または Enterprise プランで利用可能
+* **書き込みアクセス**: リポジトリへの書き込み権限が必要です
+* **エージェントを有効にする**: Copilot コーディングエージェントは、アカウントまたは組織の[有効にする必要があります](https://docs.github.com/copilot/concepts/coding-agent/enable-coding-agent)
+* **VS Code セットアップ**: [GitHub Pull Requests 拡張機能](https://marketplace.visualstudio.com/items?itemName=GitHub.vscode-pull-request-github)をインストールします
 
-Ensure you are signed into the GitHub Pull Request extension with the correct GitHub account.
+GitHub Pull Request 拡張機能に正しい GitHub アカウントでサインインしていることを確認してください。
 
-![Screenshot showing the accounts menu, highlighting the sign in to GitHub Pull Request action.](images/copilot-coding-agent/sign-in-github-pull-requests.png)
+![アカウントメニューを表示するスクリーンショット。GitHub Pull Request アクションへのサインインを強調しています。](images/copilot-coding-agent/sign-in-github-pull-requests.png)
 
-**Optional**: Enable the experimental setting `setting(githubPullRequests.codingAgent.uiIntegration)` to show a **Delegate to coding agent** button in Copilot Chat for easier task delegation.
+**オプション**: 実験的設定`setting(githubPullRequests.codingAgent.uiIntegration)`を有効にして、Copilot Chat に**コーディングエージェントに委任する**ボタンを表示し、タスク委任を簡単にします。
 
-You can also manage coding agent sessions from a dedicated chat editor and view a **Chat Sessions** view by enabling the experimental setting `setting(chat.agentSessionsViewLocation)`.
+また、実験的設定`setting(chat.agentSessionsViewLocation)`を有効にすることで、専用のチャットエディターからコーディングエージェントセッションを管理し、**Chat Sessions**ビューを表示できます。
 
 > [!TIP]
-> If you don't have Copilot access yet, you can sign up for the [Copilot Free plan](https://github.com/features/copilot/plans) to get a monthly limit of interactions.
+> Copilot アクセスをまだお持ちでない場合は、[Copilot Free プラン](https://github.com/features/copilot/plans)にサインアップして、月間のインタラクション制限を受けることができます。
 
-## Assign work to Copilot coding agent in VS Code
+## VS Code で Copilot コーディングエージェントに作業を割り当てる
 
-### Method 1: Assign issues to Copilot
+### 方法 1: Issue を Copilot に割り当てる
 
-You can trigger Copilot coding agent by assigning a GitHub issue to Copilot, similar to how you assign an issue to a team member. Copilot coding agent automatically analyzes the issue and starts working on it.
+GitHub Issue をチームメンバーに割り当てるのと同じように、GitHub Issue を Copilot に割り当てることで Copilot コーディングエージェントをトリガーできます。Copilot コーディングエージェントは自動的に Issue を分析し、作業を開始します。
 
-1. In the **GitHub Pull Requests** view, navigate to the **Issues** section
+1. **GitHub Pull Requests**ビューで、**Issues**セクションに移動します
 
-1. Find the issue you want to assign to Copilot
+1. Copilot に割り当てる Issue を見つけます
 
-1. Right-click the issue and select **Assign to Copilot** or select **Assign** and then select `@copilot`
+1. Issue を右クリックして**Copilot に割り当てる**を選択するか、**割り当て**を選択してから`@copilot`を選択します
 
    > [!TIP]
-   > You can also assign issues to `@copilot` directly on GitHub.com. The coding agent will work the same way, creating a pull request that you can then review in VS Code or on GitHub.
+   > GitHub.com で`@copilot`に Issue を直接割り当てることもできます。コーディングエージェントは同じ方法で機能し、VS Code または GitHub で確認できる pull request を作成します。
 
-1. The agent will begin working on the issue in the background
+1. エージェントがバックグラウンドで Issue の処理を開始します
 
-1. Open the Chat view in VS Code (`kb(workbench.action.chat.open)`)
-   ![Screenshot showing the GitHub Pull Requests view, highlighting the assign to Copilot action, and the PR query for work assigned to Copilot.](images/copilot-coding-agent/github-pull-request-coding-agent.png)
+1. VS Code でチャットビューを開きます(`kb(workbench.action.chat.open)`)
+   ![GitHub Pull Requests ビューを表示するスクリーンショット。Copilot アクションへの割り当てと、Copilot に割り当てられた作業の PR クエリを強調しています。](images/copilot-coding-agent/github-pull-request-coding-agent.png)
 
-### Method 2: Delegate from chat
+### 方法 2: チャットから委任する
 
-You can also hand off work to Copilot coding agent directly from your chat conversation. Instead of having the agent implement changes immediately in your editor, you can delegate the task to the coding agent to work on it autonomously in the background.
+チャット会話から直接 Copilot コーディングエージェントに作業を引き渡すこともができます。エージェントをエディターで変更をすぐに実装する代わりに、タスクをコーディングエージェントに委任して、バックグラウンドで自律的に処理してもらうことができます。
 
-1. Open the Chat view in VS Code (`kb(workbench.action.chat.open)`)
+1. VS Code でチャットビューを開きます(`kb(workbench.action.chat.open)`)
 
-1. Have a conversation about the feature or change you want to implement
+1. 実装したい機能または変更について会話します
 
-1. When ready, delegate to the agent by using one of these methods:
+1. 準備ができたら、以下の方法のいずれかを使用してエージェントに委任します:
 
-   **Use the delegate button (Experimental)**
+   **委任ボタンを使用する (実験的)**
 
-   Enable the experimental setting `setting(githubPullRequests.codingAgent.uiIntegration)` to show a **Delegate to coding agent** button in the Chat view for repositories that have the agent enabled. Select this button to hand off your current chat context to the coding agent.
+   実験的設定`setting(githubPullRequests.codingAgent.uiIntegration)`を有効にして、エージェントが有効になっているリポジトリのチャットビューに**コーディングエージェントに委任する**ボタンを表示します。このボタンを選択して、現在のチャットコンテキストをコーディングエージェントに引き渡します。
 
-   When you delegate a task, additional context including file references are forwarded to the coding agent, enabling you to precisely plan out a task for the coding agent to complete. A new chat editor opens with the coding agent's progress shown in real-time.
+   タスクを委任すると、ファイル参照を含む追加コンテキストがコーディングエージェントに転送され、エージェントが完了するタスクを正確に計画できるようになります。新しいチャットエディターが開き、コーディングエージェントの進行状況がリアルタイムで表示されます。
 
-   <video src="images/copilot-coding-agent/delegate-to-coding-agent.mp4" title="Video showing how to delegate to coding agent from VS Code chat." controls poster="images/copilot-coding-agent/delegate-to-coding-agent-poster.png"></video>
+   <video src="images/copilot-coding-agent/delegate-to-coding-agent.mp4" title="VS Code チャットからコーディングエージェントに委任する方法を示すビデオ。" controls poster="images/copilot-coding-agent/delegate-to-coding-agent-poster.png"></video>
 
-   **Use the #copilotCodingAgent tool**
+   **#copilotCodingAgent ツールを使用する**
 
-   You can also reference the `#copilotCodingAgent` tool directly in your prompt to ask Copilot to continue a local change in the background. This tool automatically pushes pending changes to a remote branch and initiates a coding agent session:
+   プロンプトで`#copilotCodingAgent`ツールを直接参照することで、Copilot にローカル変更をバックグラウンドで続行するよう依頼することもできます。このツールは、保留中の変更をリモートブランチに自動的にプッシュし、コーディングエージェントセッションを開始します:
 
-   ![Screenshot showing handing off a session to Copilot coding agent](images/copilot-coding-agent/coding-agent-start.png)
+   ![Copilot コーディングエージェントにセッションを引き渡すスクリーンショット](images/copilot-coding-agent/coding-agent-start.png)
 
-1. The agent will create a pull request and begin implementing the discussed changes. When you start a coding agent session (via `#copilotCodingAgent` or with the **Delegate to coding agent** action), the pull request is rendered as a card in the Chat view.
+1. エージェントが pull request を作成し、説明された変更の実装を開始します。コーディングエージェントセッションを開始する場合(`#copilotCodingAgent`または**コーディングエージェントに委任する**アクション経由)、pull request はチャットビューにカードとして表示されます。
 
-   ![Screenshot of a coding agent PR card in the Chat view.](images/copilot-coding-agent/pr-card-in-chat.png)
+   ![チャットビューでのコーディングエージェント PR カードのスクリーンショット。](images/copilot-coding-agent/pr-card-in-chat.png)
 
-### Method 3: Fix TODOs with coding agent
+### 方法 3: TODO をコーディングエージェントで修正する
 
-Comments starting with `TODO` in your code now show a Code Action to quickly initiate a coding agent session. This provides a convenient way to delegate specific tasks directly from your code.
+コード内の`TODO`で始まるコメントには、コーディングエージェントセッションを迅速に開始するコードアクションが表示されます。これにより、コードから特定のタスクを直接委任する便利な方法が提供されます。
 
 > [!TIP]
-> The `TODO` keyword is configurable via the `setting(githubIssues.createIssueTriggers)` setting. You can customize which comment keywords trigger the coding agent code action.
+> `TODO`キーワードは、`setting(githubIssues.createIssueTriggers)`設定を介して構成可能です。コーディングエージェントコードアクションをトリガーするコメントキーワードをカスタマイズできます。
 
-1. Navigate to a `TODO` comment in your code
+1. コード内の`TODO`コメントに移動します
 
-1. Look for the light bulb icon or use `kb(editor.action.quickFix)` to open the Quick Fix menu
+1. 電球アイコンを探すか、`kb(editor.action.quickFix)`を使用してクイックフィックメニューを開きます
 
-1. Select **Delegate to coding agent** from the available code actions
+1. 利用可能なコードアクションから**コーディングエージェントに委任する**を選択します
 
-   ![Screenshot of a code action above a 'TODO' comment called 'Delegate to coding agent'](images/copilot-coding-agent/coding-agent-todo.png)
+   ![「TODO」コメントの上のコードアクションのスクリーンショット。「コーディングエージェントに委任する」と呼ばれています。](images/copilot-coding-agent/coding-agent-todo.png)
 
-1. The coding agent will analyze the TODO comment and implement the requested changes in a new pull request
+1. コーディングエージェントが TODO コメントを分析し、新しい pull request でリクエストされた変更を実装します
 
-## Track agent progress
+## エージェントの進行状況を追跡する
 
-### Understanding the coding agent workflow
+### コーディングエージェントワークフローを理解する
 
-When you assign work to Copilot coding agent, it follows a specific workflow that may differ from your expectations:
+作業を Copilot コーディングエージェントに割り当てると、期待と異なる場合がある特定のワークフローに従います:
 
-1. **Initial pull request creation**: The agent immediately creates a pull request with an initial empty commit. This establishes the workspace and branch where all changes will be made.
+1. **初期 pull request 作成**: エージェントは、pull request とワーキングブランチを確立する初期空コミットを直ちに作成します。これは、すべての変更が行われるワークスペースとブランチを確立します。
 
-2. **Background processing**: The coding agent works in GitHub's cloud infrastructure (GitHub Actions environment), not on your local machine. This means:
-   * All development happens remotely on GitHub's servers
-   * The agent has access to the full repository context
-   * Work continues even when you close VS Code
+2. **バックグラウンド処理**: コーディングエージェントは、ローカルマシンではなく GitHub のクラウドインフラストラクチャ(GitHub Actions 環境)で機能します。これは以下を意味します:
+   * すべての開発は GitHub のサーバーでリモートで行われます
+   * エージェントは完全なリポジトリコンテキストにアクセスできます
+   * VS Code を閉じている場合でも作業が継続されます
 
-3. **Incremental updates**: After the initial commit, the agent will push additional commits with the actual code changes as it develops the solution.
+3. **段階的な更新**: 初期コミットの後、エージェントはソリューションを開発する際に、実際のコード変更を含む追加コミットをプッシュします。
 
 > [!NOTE]
-> If you see an initial commit with no changes, this is expected behavior. The agent will continue to push actual code changes in subsequent commits as it works on your task.
+> 変更のない初期コミットが表示される場合、これは予期された動作です。エージェントは、タスクに対して作業を続ける際に、後続のコミットで実際のコード変更をプッシュし続けます。
 
-### Monitor work in VS Code
+### VS Code で作業を監視する
 
-The GitHub Pull Requests extension provides a dedicated **Copilot on My Behalf** section that shows:
+GitHub Pull Requests 拡張機能は、以下を表示する専用の**Copilot on My Behalf**セクションを提供します:
 
-* All active Copilot coding agent sessions
-* Pull requests created by the agent
-* Progress status for each task
-* Numeric badges indicating new changes or updates
+* すべてのアクティブな Copilot コーディングエージェントセッション
+* エージェントによって作成された pull request
+* 各タスクの進行状況
+* 新しい変更または更新を示す数値バッジ
 
-![Screenshot showing status of multiple coding agent pull requests](images/copilot-coding-agent/coding-agent-status.png)
-
-> [!TIP]
-> You can also monitor work that you assigned to `@copilot` through GitHub.com - all active sessions and pull requests will appear in this section regardless of where you initiated them.
-
-### View detailed session logs
-
-1. In the Pull Requests view, find your agent's work under **Copilot on My Behalf**
-
-1. Select **View Session** to see a detailed log of everything the agent did:
-   * Commands executed
-   * Files modified
-   * Tests run
-   * Decision-making process
-
-   ![Screenshot showing the session log of a coding agent session.](images/copilot-coding-agent/coding-agent-session-log.png)
-
-### Manage sessions with dedicated chat editor (Experimental)
-
-You can manage coding agent sessions from a dedicated chat editor that enables you to:
-
-* Follow the progress of the coding agent in real-time
-* Provide follow-up instructions directly from chat
-* See the agent's responses in a dedicated environment
-* View or apply code changes and check out pull requests directly from the chat editor
-* Experience seamless transitions from local chats to GitHub agent tasks with improved continuity
-* Benefit from better session rendering with improved visual clarity
-* Enjoy faster session loading for a more responsive experience
-
-Enable the experimental setting `setting(chat.agentSessionsViewLocation)` to try this feature:
-
-* When set to `view`, you'll see a **Chat Sessions** view in the VS Code Side Bar for managing local and coding agent sessions. The view now includes rich descriptions with detailed context to help you quickly find relevant information.
-
-   ![Screenshot showing the Coding Agents view.](images/copilot-coding-agent/coding-agent-sessions-view.png)
-
-* When set to `showChatsMenu`, coding agent sessions appear alongside local chat history
-
-   ![Screenshot showing the Coding Agent Sessions Quick Pick.](images/copilot-coding-agent/coding-agent-sessions-quick-pick.png)
-
-Pull requests created by the coding agent are also rendered as cards in the Chat view when you start a session, providing better visual integration.
-
-<!-- <video src="images/copilot-coding-agent/chat-sessions-view.mp4" title="Video showing Chat Sessions view and integration with GitHub coding agents." autoplay loop controls muted></video> -->
-
-### Improved delegation experience
-
-The delegation experience from VS Code to GitHub coding agent has been significantly enhanced in recent updates:
-
-* **Better context forwarding**: When you delegate a task from chat, additional context including file references are automatically forwarded to the GitHub coding agent
-* **Real-time progress**: New chat editor opens showing the coding agent's progress in real-time
-* **Seamless transitions**: Improved continuity when moving from local chats to GitHub agent tasks
-* **Enhanced visual integration**: Pull requests are rendered as interactive cards in the Chat view for better navigation
-
-These improvements make it easier to precisely plan out tasks for the coding agent and monitor their progress without leaving VS Code.
-
-### Cancel a running session
-
-If you need to stop the agent, you can stay in VS Code and use the **Cancel coding agent** button on the PR overview page.
-
-You can also cancel a session from GitHub.com:
-
-1. Go to your GitHub repository on GitHub.com
-1. Navigate to the **Actions** tab
-1. Find the running Copilot Coding Agent workflow
-1. Select **Cancel workflow**
-
-## Review and iterate
-
-### Work completion
-
-After the Copilot coding agent has analyzed your code and determined the changes that are needed to accomplish the task, it performs the following steps:
-
-* Create a pull request with all changes
-* Assign the PR to you for review
-* Request you as a reviewer
-* Include a detailed description explaining the implementation
-* Add screenshots when applicable (for UI changes)
-
-![Screenshot showing a pull request from Copilot coding agent displayed in VS Code with an included screenshot of the implemented feature.](images/copilot-coding-agent/draft-with-screenshot.png)
-
-### Provide feedback
-
-You can guide the agent's work through pull request comments. Make sure to tag `@copilot` in your comments so the agent will respond:
-
-1. **Request changes**: Leave specific feedback about what needs to be modified
-
-   ```text
-   @copilot Please update the login form to include password strength validation
-   ```
-
-1. **Request improvements**: Ask for additional features or refinements
-
-   ```text
-   @copilot Can you add error handling for network timeouts?
-   ```
-
-The agent will respond to your feedback, make the requested changes, and update the pull request.
+![複数のコーディングエージェント pull request のステータスを表示するスクリーンショット](images/copilot-coding-agent/coding-agent-status.png)
 
 > [!TIP]
-> When working with pull requests created by the coding agent, the `#activePullRequest` tool is automatically enabled for your chat session. This gives chat context about your PR, including what files were changed, who's assigned, and the state (draft or ready for review). You can then ask about this PR and iterate further on it in chat.
+> GitHub.com を通じて`@copilot`に割り当てた作業を監視することもできます。すべてのアクティブなセッションと pull request は、それらをどこで開始したかに関わらず、このセクションに表示されます。
 
-## Frequently asked questions
+### 詳細なセッションログを表示する
 
-### What's the difference between Copilot coding agent and using agents?
+1. Pull Requests ビューで、**Copilot on My Behalf**の下のエージェントの作業を探します
 
-VS Code offers two autonomous coding experiences. While using agents in VS Code provides interactive development directly within the editor, the Copilot coding agent works independently on GitHub to implement features in the background.
+1. **View Session**を選択して、エージェントが行ったすべての詳細ログを表示します:
+   * 実行されたコマンド
+   * 変更されたファイル
+   * 実行されたテスト
+   * 意思決定プロセス
 
-| Feature | Copilot coding agent | Using agents |
+   ![コーディングエージェントセッションのセッションログを表示するスクリーンショット。](images/copilot-coding-agent/coding-agent-session-log.png)
+
+### 専用チャットエディターでセッションを管理する (実験的)
+
+専用のチャットエディターからコーディングエージェントセッションを管理して、以下を行うことができます:
+
+* コーディングエージェントの進行状況をリアルタイムで追跡
+* チャットから直接フォローアップ指示を提供
+* 専用環境でエージェントの応答を表示
+* チャットエディターからコード変更を表示または適用し、pull request をチェックアウト
+* ローカルチャットから GitHub エージェントタスクへのシームレスな移行により、継続性を改善
+* 改善されたビジュアルの明確性により、より良い セッションレンダリング
+* より応答の速い経験のために高速なセッション読み込みをお楽しみください
+
+実験的設定`setting(chat.agentSessionsViewLocation)`を有効にしてこの機能を試してください:
+
+* `view`に設定されているときは、VS Code サイドバーの**Chat Sessions**ビューが表示され、ローカルおよびコーディングエージェントセッションを管理できます。ビューには、関連情報をすばやく見つけやすくするための詳細なコンテキストを含む豊富な説明が含まれています。
+
+   ![コーディングエージェントビューを表示するスクリーンショット。](images/copilot-coding-agent/coding-agent-sessions-view.png)
+
+* `showChatsMenu`に設定すると、コーディングエージェントセッションがローカルチャット履歴と一緒に表示されます
+
+   ![「コーディングエージェントセッション」クイックピックを表示するスクリーンショット。](images/copilot-coding-agent/coding-agent-sessions-quick-pick.png)
+
+コーディングエージェントが作成した pull request は、セッションを開始すると、チャットビューにカードとしても表示され、より良いビジュアル統合を提供します。
+
+<!-- <video src="images/copilot-coding-agent/chat-sessions-view.mp4" title="Chat Sessions ビューと GitHub コーディングエージェントとの統合を示すビデオ。" autoplay loop controls muted></video> -->
+
+### 委任エクスペリエンスの改善
+
+VS Code から GitHub コーディングエージェントへの委任エクスペリエンスは、最近の更新で大幅に改善されています:
+
+* **より良いコンテキスト転送**: チャットからタスクを委任すると、ファイル参照を含む追加コンテキストが自動的に GitHub コーディングエージェントに転送されます
+* **リアルタイムの進行状況**: コーディングエージェントの進行状況を示す新しいチャットエディターが開きます
+* **シームレスな移行**: ローカルチャットから GitHub エージェントタスクに移動するときの継続性を改善
+* **強化されたビジュアル統合**: pull request がチャットビューでインタラクティブカードとしてレンダリングされ、より良いナビゲーションが実現します
+
+これらの改善により、VS Code を離れることなく、コーディングエージェント用のタスクを正確に計画して進行状況を監視できるようになります。
+
+### 実行中のセッションをキャンセルする
+
+エージェントを停止する必要がある場合は、VS Code に留まって、PR 概要ページの**コーディングエージェントをキャンセル**ボタンを使用できます。
+
+GitHub.com からセッションをキャンセルすることもできます:
+
+1. GitHub.com で GitHub リポジトリに移動します
+1. **Actions**タブに移動します
+1. 実行中の Copilot Coding Agent ワークフローを探します
+1. **ワークフローをキャンセル**を選択します
+
+## レビューとイテレーション
+
+### 作業完了
+
+Copilot コーディングエージェントがコードを分析し、タスクを完了するために必要な変更を決定した後、次の手順を実行します:
+
+* すべての変更を含む pull request を作成
+* PR をレビュー用にあなたに割り当てます
+* レビュー担当者としてリクエスト
+* 実装説明の詳細な説明を含める
+* 適用可能な場合は、スクリーンショットを追加します(UI の変更の場合)
+
+![Copilot コーディングエージェントから VS Code に表示される pull request のスクリーンショット。実装された機能のスクリーンショットが含まれています。](images/copilot-coding-agent/draft-with-screenshot.png)
+
+### フィードバックを提供する
+
+pull request コメントを通じてエージェントの作業をガイドできます。エージェントが応答するようにコメントで`@copilot`をタグ付けしてください:
+
+1. **リクエストの変更**: 変更する必要があるもの についての具体的なフィードバックを残します
+
+   ```text
+   @copilot ログインフォームを更新して、パスワード強度検証を含めてください
+   ```
+
+1. **改善をリクエスト**: 追加機能または改善をリクエスト
+
+   ```text
+   @copilot ネットワークタイムアウトのエラーハンドリングを追加できますか?
+   ```
+
+エージェントがフィードバックに応答し、リクエストされた変更を行い、pull request を更新します。
+
+> [!TIP]
+> コーディングエージェントによって作成された pull request で作業する場合、`#activePullRequest`ツールはチャットセッションで自動的に有効になります。これにより、チャットは PR についてのコンテキストを取得します。変更されたファイル、割り当てられたユーザー、状態(ドラフトまたはレビュー準備完了)を含みます。その後、この PR についてチャットで質問でき、チャットで詳細に反復処理できます。
+
+## よくある質問
+
+### Copilot コーディングエージェントとエージェントの使用の違いは何ですか?
+
+VS Code は 2 つの自律的なコーディングエクスペリエンスを提供します。VS Code でのエージェントの使用はエディター内で対話的な開発を提供しますが、Copilot コーディングエージェントは GitHub で独立して、バックグラウンドで機能を実装します。
+
+| 機能 | Copilot コーディングエージェント | エージェントの使用 |
 |---------|---------------------|------------------|
-| **Where it runs** | GitHub cloud | Your VS Code editor |
-| **Independence** | Fully autonomous | Involves user interaction and iteration |
-| **Output** | Creates pull requests | Edits files directly |
-| **Best for** | Well-defined tasks, background work | Interactive development, immediate feedback |
+| **実行場所** | GitHub クラウド | VS Code エディター |
+| **独立性** | 完全に自律 | ユーザー の相互作用と反復を含む |
+| **出力** | pull request を作成 | ファイルを直接編集 |
+| **最適な用途** | よく定義されたタスク、バックグラウンド作業 | 対話的な開発、即座のフィードバック |
 
-Learn more about [using agents in VS Code](/docs/copilot/agents/local-agents.md).
+[VS Code でエージェントを使用する](/docs/copilot/agents/local-agents.md)について詳しく学びます。
 
-### Why isn't the agent starting?
+### エージェントが開始しないのはなぜですか?
 
-* Verify Copilot access on your GitHub account
-* Ensure you have write permissions to the repository
-* Check that Copilot coding agent is enabled for your organization
+* GitHub アカウントで Copilot アクセスを確認します
+* リポジトリへの書き込み権限があることを確認します
+* Copilot コーディングエージェントが組織に対して有効になっていることを確認します
 
-### Why does the initial commit appear empty?
+### 初期コミットが空に見えるのはなぜですか?
 
-When Copilot coding agent starts working, it creates an initial empty commit to establish the pull request and working branch. This is expected behavior - the agent will push subsequent commits with actual code changes as it works in GitHub's cloud environment.
+Copilot コーディングエージェントが動作を開始すると、pull request とワーキングブランチを確立するための初期空コミットを作成します。これは予期された動作です。エージェントは GitHub のクラウド環境で機能する際に、実際のコード変更を含む後続のコミットをプッシュします。
 
-You can monitor progress through the session logs accessible from the pull request, the GitHub Pull Request extension's **Copilot on My Behalf** section, or the Chat Sessions view.
+pull request からアクセス可能なセッションログ、GitHub Pull Request 拡張機能の**Copilot on My Behalf**セクション、またはチャットセッションビューを通じて進行状況を監視できます。
 
-### Why are implementations incomplete?
+### 実装が不完全なのはなぜですか?
 
-* Review the session logs for any errors encountered
-* Check if tests failed during the agent's work
-* Provide more detailed requirements in your issue description
+* エラーについてセッションログをレビュー
+* エージェントの作業中にテストが失敗したかどうかを確認
+* Issue の説明で、より詳細な要件を提供
 
-### What security protections does Copilot coding agent have?
+### Copilot コーディングエージェントにはどのようなセキュリティ保護がありますか?
 
-Copilot coding agent includes built-in security protections and operates within GitHub's security framework. For detailed information about security measures, permissions, and branch protection compatibility, see the [GitHub Copilot coding agent security documentation](https://docs.github.com/en/copilot/concepts/about-copilot-coding-agent#built-in-security-protections).
+Copilot コーディングエージェントには組み込みのセキュリティ保護が含まれており、GitHub のセキュリティフレームワーク内で動作します。セキュリティ対策、権限、およびブランチ保護の互換性に関する詳細情報については、[GitHub Copilot コーディングエージェントのセキュリティドキュメント](https://docs.github.com/en/copilot/concepts/about-copilot-coding-agent#built-in-security-protections)を参照してください。
 
-### Can I extend Copilot coding agent with external tools?
+### Copilot コーディングエージェントを外部ツールで拡張できますか?
 
-For advanced scenarios, you can extend Copilot coding agent with Model Context Protocol (MCP) servers to give it access to:
+高度なシナリオでは、Model Context Protocol(MCP)サーバーを使用して Copilot コーディングエージェントを拡張して、以下へのアクセス権を付与できます:
 
-* External databases
-* Cloud services
-* APIs and third-party integrations
-* Custom development tools
+* 外部データベース
+* クラウドサービス
+* API とサードパーティ統合
+* カスタム開発ツール
 
-Learn more about [extending Copilot coding agent with MCP](https://docs.github.com/en/copilot/using-github-copilot/coding-agent/extending-copilot-coding-agent-with-mcp).
+[MCP を使用して Copilot コーディングエージェントを拡張する](https://docs.github.com/en/copilot/using-github-copilot/coding-agent/extending-copilot-coding-agent-with-mcp)について詳しく学びます。
 
-### What are the current limitations?
+### 現在の制限事項は何ですか?
 
-* **Cross-repository changes**: Can only work within the repository where the issue is assigned
-* **Multiple PRs per task**: Opens exactly one pull request per assigned task
-* **Existing PR modifications**: Cannot work on pull requests it didn't create
+* **リポジトリ全体の変更**: Issue が割り当てられているリポジトリ内でのみ機能
+* **タスクごとの複数の PR**: 割り当てられたタスクごとにちょうど 1 つの pull request を開く
+* **既存の PR 修正**: 作成していない pull request で機能できない
 
-For detailed information about limitations, compatibility, and usage costs, see the [GitHub Copilot Coding Agent documentation](https://docs.github.com/en/copilot/using-github-copilot/coding-agent).
+制限事項、互換性、使用コストの詳細情報については、[GitHub Copilot Coding Agent ドキュメント](https://docs.github.com/en/copilot/using-github-copilot/coding-agent)を参照してください。
 
-## Next steps
+## 次のステップ
 
-* Enable Copilot coding agent by following the [GitHub setup guide](https://docs.github.com/en/copilot/using-github-copilot/coding-agent/enabling-copilot-coding-agent)
-* Try [agents in VS Code chat](/docs/copilot/chat/copilot-chat.md) for immediate, interactive coding assistance
+* [GitHub セットアップガイド](https://docs.github.com/en/copilot/using-github-copilot/coding-agent/enabling-copilot-coding-agent)に従って Copilot コーディングエージェントを有効にします
+* [VS Code チャットでエージェント](/docs/copilot/chat/copilot-chat.md)を試して、即座の対話的なコーディング支援を提供します
 
-## Related resources
+## 関連リソース
 
-* [GitHub Copilot coding agent documentation](https://docs.github.com/en/copilot/using-github-copilot/coding-agent)
-* [GitHub Pull Requests extension](https://marketplace.visualstudio.com/items?itemName=GitHub.vscode-pull-request-github)
-* [Manage chat sessions](/docs/copilot/chat/chat-sessions.md)
+* [GitHub Copilot コーディングエージェントドキュメント](https://docs.github.com/en/copilot/using-github-copilot/coding-agent)
+* [GitHub Pull Requests 拡張機能](https://marketplace.visualstudio.com/items?itemName=GitHub.vscode-pull-request-github)
+* [チャットセッションを管理する](/docs/copilot/chat/chat-sessions.md)
+

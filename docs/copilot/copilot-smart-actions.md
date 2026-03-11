@@ -1,172 +1,173 @@
 ---
 ContentId: f0f31de2-a344-4ee6-8d5b-d3ac4e11e149
 DateApproved: 3/9/2026
-MetaDescription: Use smart actions in VS Code to get help from AI for common development tasks, such as generating commit messages, renaming symbols, or fixing coding errors.
+MetaDescription: Visual Studio Codeのスマートアクションを使用して、コミットメッセージの生成、シンボルの名前変更、コーディングエラーの修正など、一般的な開発タスクでAIの支援を受けます。
 MetaSocialImage: images/shared/github-copilot-social.png
 ---
-# AI smart actions in Visual Studio Code
+# Visual Studio Codeのaiスマートアクション
 
-For several common scenarios, you can use _smart actions_ to get help from AI without having to write a prompt. Examples of these smart actions are generating commit messages, generating documentation, explaining or fixing code, or performing a code review. These smart actions are available throughout the VS Code UI.
+いくつかの一般的なシナリオでは、_スマートアクション_を使用して、プロンプトを記述することなくaiの支援を受けることができます。これらのスマートアクションの例には、コミットメッセージの生成、ドキュメントの生成、コードの説明または修正、またはコードレビューの実行が含まれます。これらのスマートアクションはVS Code ui全体で利用できます。
 
-<div class="docs-action" data-show-in-doc="false" data-show-in-sidebar="true" title="Get started with AI">
-Follow a hands-on tutorial to build your first app with AI in VS Code.
+<div class="docs-action" data-show-in-doc="false" data-show-in-sidebar="true" title="aiの概要">
+Visual Studio Codeでaiを使用して最初のアプリケーションを構築するためのハンズオンチュートリアルに従ってください。
 
-* [Start tutorial](/docs/copilot/getting-started.md)
+* [チュートリアルを開始](/docs/copilot/getting-started.md)
 
 </div>
 
-## Generate a commit message and PR information
+## コミットメッセージとpr情報を生成する
 
-Get help generating commit messages and pull request (PR) titles and descriptions based on your code changes. Use the _sparkle_ icon in the Source Control view or GitHub PR extension to generate a title and description that summarizes your changes.
+コード変更に基づいてコミットメッセージおよびpull request(pr)タイトルと説明の生成を支援します。ソース管理ビューまたはgithub pr拡張機能の_スパークル_アイコンを使用して、変更を要約するタイトルと説明を生成します。
 
-![Hover over Source Control input box sparkle buttons shows Generate Commit Message](images/copilot-smart-actions/generate-commit-message.png)
+![ソース管理入力ボックススパークルボタンの上にマウスを置くと、コミットメッセージの生成が表示される](images/copilot-smart-actions/generate-commit-message.png)
 
-## Resolve merge conflicts with AI (Experimental)
+## aiでマージコンフリクトを解決する（実験的）
 
-Use AI to help you resolve Git merge conflicts. Select the **Resolve Merge Conflict with AI** button in the editor to open the Chat view and start an agentic flow to help you resolve the merge conflict. The merge base and changes from each branch are provided as context for the AI.
+aiを使用してgitマージコンフリクトの解決を支援します。エディターの**aiでマージコンフリクトを解決**ボタンを選択して、チャットビューを開き、マージコンフリクトの解決を支援するエージェントフローを開始します。マージベースと各ブランチからの変更は、aiのコンテキストとして提供されます。
 
-![Screenshot of the proposed merge conflict resolution in the editor.](images/copilot-smart-actions/ai-merge-conflict-resolution.png)
+![エディターで提案されたマージコンフリクト解決のスクリーンショット。](images/copilot-smart-actions/ai-merge-conflict-resolution.png)
 
-## Implement todo comments
+## todoコメントを実装する
 
-If you have the [GitHub Pull Requests](https://marketplace.visualstudio.com/items?itemName=GitHub.vscode-pull-request-github) extension installed, you can use AI to implement `TODO` comments in your code with [Copilot coding agent](/docs/copilot/agents/cloud-agents.md#github-copilot-coding-agent).
+[github pull requests](https://marketplace.visualstudio.com/items?itemName=GitHub.vscode-pull-request-github)拡張機能がインストールされている場合は、aiを使用してコード内の`TODO`コメントを[copilotコーディングエージェント](/docs/copilot/agents/cloud-agents.md#github-copilot-coding-agent)で実装できます。
 
-1. Make sure you have the [GitHub Pull Requests](https://marketplace.visualstudio.com/items?itemName=GitHub.vscode-pull-request-github) extension installed.
-1. Add a `TODO` comment in your code. A code action (lightbulb) appears next to the comment.
-1. Select the code action and select **Delegate to coding agent**.
+1. [github pull requests](https://marketplace.visualstudio.com/items?itemName=GitHub.vscode-pull-request-github)拡張機能がインストールされていることを確認します。
+1. コード内に`TODO`コメントを追加します。コードアクション（電球）がコメントの横に表示されます。
+1. コードアクションを選択し、**コーディングエージェントに委譲**を選択します。
 
-    ![Screenshot that shows a Code Action menu with Start Coding Agent option for a TODO comment.](images/copilot-smart-actions/start-coding-agent-todo.png)
+    ![todoコメントのコーディングエージェント開始オプションを含むコードアクションメニューを示すスクリーンショット。](images/copilot-smart-actions/start-coding-agent-todo.png)
 
-## Rename symbols
+## シンボルの名前を変更する
 
-When you rename a symbol in your code, get AI-generated suggestions for a new name based on the context of the symbol and the codebase.
+コード内のシンボルの名前を変更すると、シンボルのコンテキストとコードベースに基づいて新しい名前のai生成提案を取得します。
 
-![Inline chat suggesting a new name for a symbol in a Python file](images/copilot-smart-actions/copilot-inline-chat-rename-suggestion.png)
+![python ファイル内のシンボルの新しい名前を提案するインラインチャット](images/copilot-smart-actions/copilot-inline-chat-rename-suggestion.png)
 
-## Generate alt text for images in Markdown
+## マークダウン内の画像のalt テキストを生成する
 
-Use AI to generate or update alt text for images in Markdown files. To generate alt text:
+aiを使用してマークダウンファイル内の画像のalt テキストを生成または更新します。alt テキストを生成するには：
 
-1. Open a Markdown file.
-1. Put the cursor on an image link.
-1. Select the Code Action (lightbulb) icon and select **Generate alt text**.
+1. マークダウンファイルを開きます。
+1. カーソルを画像リンク上に置きます。
+1. コードアクション（電球）アイコンを選択し、**alt テキストを生成**を選択します。
 
-    ![Screenshot that shows a Code Action menu with Generate alt text option for a Markdown image link.](images/copilot-smart-actions/generate-alt-text.png)
+    ![マークダウン画像リンクのalt テキスト生成オプションを含むコードアクションメニューを示すスクリーンショット。](images/copilot-smart-actions/generate-alt-text.png)
 
-1. If you already have an alt text, select the Code Action, and select **Refine alt text**.
+1. すでにalt テキストがある場合は、コードアクションを選択し、**alt テキストを改善**を選択します。
 
-## Generate documentation
+## ドキュメントを生成する
 
-Use AI to generate code documentation for multiple languages.
+aiを使用して複数の言語のコードドキュメントを生成します。
 
-1. Open your application code file.
-1. Optionally, select the code you want to document.
-1. Right-click and select **Generate Code** > **Generate Docs**.
+1. アプリケーションコードファイルを開きます。
+1. オプションで、ドキュメント化するコードを選択します。
+1. 右クリックして、**コードを生成** > **ドキュメントを生成**を選択します。
 
-    ![Inline chat /doc example to generate documentation code comments for a calculator class](images/copilot-smart-actions/inline-chat-doc-example.png)
+    ![計算機クラスのドキュメントコードコメントを生成するためのインラインチャット/docの例](images/copilot-smart-actions/inline-chat-doc-example.png)
 
-## Generate tests
+## テストを生成する
 
-To generate tests for your application code without writing a prompt, you can use the editor smart actions.
+プロンプトを記述せずにアプリケーションコードのテストを生成するには、エディタスマートアクションを使用できます。
 
-1. Open your application code file.
-1. Optionally, select the code you want to test.
-1. Right-click and select **Generate Code** > **Generate Tests**.
+1. アプリケーションコードファイルを開きます。
+1. オプションで、テストするコードを選択します。
+1. 右クリックして、**コードを生成** > **テストを生成**を選択します。
 
-    VS Code generates test code in an existing test file, or creates a new test file if one doesn't exist.
+    vs codeは既存のテストファイルにテストコードを生成するか、テストファイルが存在しない場合は新しいテストファイルを作成します。
 
-1. Optionally, refine the generated tests by providing additional context in the Inline Chat prompt.
+1. オプションで、インラインチャットプロンプトで追加のコンテキストを提供して、生成されたテストを改善します。
 
-## Explain code
+## コードを説明する
 
-Get help with explaining a block of code in the editor.
+エディター内のコードブロックの説明で支援を受けます。
 
-1. Open your application code file.
-1. Select the code you want to fix.
-1. Right-click and select **Explain**.
+1. アプリケーションコードファイルを開きます。
+1. 修正するコードを選択します。
+1. 右クリックして、**説明**を選択します。
 
-    VS Code provides an explanation of the selected block of code.
+    vs codeは選択されたコードブロックの説明を提供します。
 
-## Fix coding errors
+## コーディングエラーを修正する
 
-To fix coding issues for your application code without writing a prompt, you can use the editor smart actions.
+プロンプトを記述せずにアプリケーションコードのコーディング問題を修正するには、エディタスマートアクションを使用できます。
 
-1. Open your application code file.
-1. Select the code you want to fix.
-1. Right-click and select **Generate Code** > **Fix**.
+1. アプリケーションコードファイルを開きます。
+1. 修正するコードを選択します。
+1. 右クリックして、**コードを生成** > **修正**を選択します。
 
-    VS Code provides a code suggestion to fix the code.
+    vs codeはコードを修正するコード提案を提供します。
 
-1. Optionally, refine the generated code by providing additional context in the chat prompt.
+1. オプションで、チャットプロンプトで追加のコンテキストを提供して、生成されたコードを改善します。
 
-Alternatively, if there's a compile or linting problem in a code file, VS Code shows a code action in the editor to help resolve the issue.
+または、コードファイルにコンパイルまたはリンティングの問題がある場合、vs codeはエディターにコードアクションを表示して問題の解決を支援します。
 
-![Screenshot of the editor showing the sparkle icon and Copilot context menu to explain or fix the issue.](images/copilot-smart-actions/copilot-code-action-fix.png)
+![問題を説明または修正するためのスパークルアイコンとcopilotコンテキストメニューを表示するエディターのスクリーンショット。](images/copilot-smart-actions/copilot-code-action-fix.png)
 
-## Fix testing errors
+## テストエラーを修正する
 
-Get help with fixing failing tests in your codebase, directly from the Test Explorer.
+テストエクスプローラーから直接コードベース内の失敗したテストの修正を支援します。
 
-1. In the Test Explorer, hover over a failing test
-1. Select the **Fix Test Failure** button (sparkle icon)
-1. Review and apply Copilot's suggested fix
+1. テストエクスプローラーで失敗したテストの上にマウスを置きます
+1. **テスト失敗を修正**ボタン（スパークルアイコン）を選択します
+1. copilotの提案された修正をレビューして適用します
 
-Alternatively, you can:
+または、以下の操作を実行できます：
 
-1. Open the Chat view
-1. Enter the `/fixTestFailure` command
-1. Follow Copilot's suggestions to fix the test
+1. チャットビューを開きます
+1. `/fixTestFailure`コマンドを入力します
+1. copilotの提案に従ってテストを修正します
 
 > [!TIP]
-> When using [agents](/docs/copilot/agents/local-agents.md), the agent monitors the test output when running tests, and automatically attempts to fix and rerun failing tests.
+> [エージェント](/docs/copilot/agents/local-agents.md)を使用する場合、エージェントはテスト実行時のテスト出力を監視し、失敗したテストを自動的に修正して再実行しようとします。
 
-## Fix terminal errors
+## ターミナルエラーを修正する
 
-When a command fails to run in the terminal, VS Code displays a sparkle in the gutter that offers a Quick Fix to explain what happened.
+コマンドがターミナルで実行に失敗すると、vs codeはガター内にスパークルを表示して、何が起こったかを説明するクイックフィックスを提供します。
 
-![Fix with Copilot option in the terminal after a failed terminal command.](images/copilot-smart-actions/terminal-command-explanation.png)
+![失敗したターミナルコマンド後のターミナルのcopilotオプションで修正します。](images/copilot-smart-actions/terminal-command-explanation.png)
 
-## Review code
+## コードをレビューする
 
-VS Code can help with reviewing your code, either for a code block in the editor or all changes included in a pull request (requires the [GitHub Pull Requests extension](https://marketplace.visualstudio.com/items/?itemName=GitHub.vscode-pull-request-github)).
+vs codeはエディター内のコードブロック、またはpull requestに含まれるすべての変更のいずれかについて、コードのレビューを支援できます（[github pull requests拡張機能](https://marketplace.visualstudio.com/items/?itemName=GitHub.vscode-pull-request-github)が必要）。
 
-To review a code block in the editor:
+エディター内のコードブロックをレビューするには：
 
-1. Open your application code file.
-1. Select the code you want to fix.
-1. Right-click and select **Generate Code** > **Review**.
+1. アプリケーションコードファイルを開きます。
+1. 修正するコードを選択します。
+1. 右クリックして、**コードを生成** > **レビュー**を選択します。
 
-    VS Code creates review comments in the **Comments** panel and also shows them inline in the editor.
+    vs codeは**コメント**パネルにレビューコメントを作成し、エディターと同様にインラインで表示します。
 
-To review all changes in a pull request:
+pull requestのすべての変更をレビューするには：
 
-1. Create a pull request with the GitHub Pull Requests extension
-1. Select the **Code Review** button in the **Files Changed** view.
+1. github pull requests拡張機能でpull requestを作成します
+1. **変更されたファイル**ビューで**コードレビュー**ボタンを選択します。
 
-    VS Code creates review comments in the **Comments** panel and also shows them inline in the editor.
+    vs codeは**コメント**パネルにレビューコメントを作成し、エディターと同様にインラインで表示します。
 
-## Semantic search results (Preview)
+## セマンティック検索結果（プレビュー）
 
-The Search view in VS Code enables you to search for text across your files. Semantic search enables you to find results that are semantically relevant to your search query, even if they don't match the text exactly. This is particularly useful when you're looking for code snippets or documentation that relate to a concept rather than a specific term, or when you don't know the exact terms to search for.
+vs codeの検索ビューを使用すると、ファイル全体のテキストを検索できます。セマンティック検索により、テキストが完全に一致していなくても、検索クエリに意味的に関連する結果を見つけることができます。これは、特定の用語ではなく概念に関連するコードスニペットまたはドキュメントを探している場合、または検索する正確な用語を知らない場合に特に役立ちます。
 
-![Search view showing semantic search results that are not an exact match for the search criteria.](images/copilot-smart-actions/semantic-search-results.png)
+![検索条件の完全一致ではないセマンティック検索結果を表示する検索ビュー。](images/copilot-smart-actions/semantic-search-results.png)
 
-Configure semantic search in the Search view with the `setting(search.searchView.semanticSearchBehavior)` setting. You can choose to run semantic search automatically, or only when you explicitly request it.
+`setting(search.searchView.semanticSearchBehavior)`設定を使用して検索ビューでセマンティック検索を構成します。セマンティック検索を自動的に実行するか、明示的に要求した場合にのみ実行するかを選択できます。
 
-You can also get AI-generated keyword suggestions in the Search view to provide relevant alternative search terms. Enable search keyword suggestions with the `setting(search.searchView.keywordSuggestions)` setting.
+また、検索ビューでaiで生成されたキーワード提案を取得して、関連する代替検索用語を提供することもできます。`setting(search.searchView.keywordSuggestions)`設定で搜索キーワード提案を有効にします。
 
-![Search view showing keyword suggestions based on the search query.](images/copilot-smart-actions/search-keyword-suggestions.png)
+![検索クエリに基づいてキーワード提案を表示する検索ビュー。](images/copilot-smart-actions/search-keyword-suggestions.png)
 
-You can reference search results in your chat prompt by selecting **Get results from the search view** from the **Add Context** Quick Pick. Alternatively, type `#searchResults` in the chat prompt.
+**コンテキストの追加**クイックピックから**検索ビューから結果を取得**を選択することで、チャットプロンプトの検索結果を参照できます。或いは、チャットプロンプトに`#searchResults`と入力します。
 
-## Search settings with AI
+## aiで設定を検索する
 
-If you don't know the exact name of a setting you want to change, you can use AI to help find the relevant settings based on your search query. For example, you can search for "increase text size" to find the setting that controls the editor font size.
+変更したい設定の正確な名前がわからない場合は、aiを使用して検索クエリに基づいて関連する設定を見つけるのに役立てることができます。たとえば、「テキストサイズを大きくする」を検索して、エディターのフォントサイズを制御する設定を見つけることができます。
 
-Enable this functionality with the `setting(workbench.settings.showAISearchToggle)` setting. In the Settings editor, you can then toggle the AI search results on or off with the **Search Settings with AI** button.
+`setting(workbench.settings.showAISearchToggle)`設定でこの機能を有効にします。設定エディターでは、**aiで設定を検索**ボタンを使用してai検索結果のオン/オフを切り替えることができます。
 
-![Screenshot that shows the Settings editor showing AI-generated suggestions for settings.](images/copilot-smart-actions/settings-suggestions.png)
+![ai生成された設定の提案を表示する設定エディターを示すスクリーンショット。](images/copilot-smart-actions/settings-suggestions.png)
 
-## Related resources
+## 関連リソース
 
-* [Get started with the Copilot Quickstart](/docs/copilot/getting-started.md).
+* [copilotクイックスタートで始める](/docs/copilot/getting-started.md)。
+

@@ -1,7 +1,7 @@
 ---
 ContentId: b2c3d4e5-6f7a-8b9c-0d1e-2f3a4b5c6d7e
 DateApproved: 3/9/2026
-MetaDescription: Understand how large language models power AI features in VS Code, including model characteristics, context windows, and model selection.
+MetaDescription: VS Codeの大規模言語モデルの動作方法、モデルの特性、コンテキストウィンドウ、モデル選択について理解したい方向けです。
 MetaSocialImage: ../images/shared/github-copilot-social.png
 Keywords:
 - copilot
@@ -14,39 +14,40 @@ Keywords:
 - BYOK
 ---
 
-# Language models
+# 言語モデル
 
-Visual Studio Code uses large language models (LLMs) to power its AI features. You can choose from multiple models through your GitHub Copilot plan or bring your own models. This article explains how language models work, their characteristics, and how to think about model selection.
+Visual Studio Codeは、その AI機能を強化するために大規模言語モデル(LLM)を使用します。GitHub Copilotプランを通じて複数のモデルから選択することも、独自のモデルを持ち込むこともできます。この記事では、言語モデルの動作方法、その特性、およびモデル選択について考える方法について説明します。
 
-## How language models work
+## 言語モデルの動作方法
 
-A language model processes text input (a "prompt") and generates text output. In VS Code, the prompt is assembled from multiple sources: your message, conversation history, file contents, tool outputs, and custom instructions. The model generates responses that can include explanations, code edits, or requests to call [tools](/docs/copilot/concepts/tools.md).
+言語モデルはテキスト入力(「プロンプト」)を処理し、テキスト出力を生成します。VS Codeでは、プロンプトは複数のソースから組み立てられます。メッセージ、会話履歴、ファイルコンテンツ、ツール出力、カスタム命令です。モデルは説明、コード編集、または[ツール](/docs/copilot/concepts/tools.md)の呼び出しリクエストを含めることができる応答を生成します。
 
-Language models don't execute code or access files directly. Instead, they generate text that the [agent loop](/docs/copilot/concepts/agents.md#agent-loop) interprets as actions. When a model requests a tool call, VS Code executes the tool and feeds the result back to the model for the next iteration.
+言語モデルは、コードを実行したりファイルに直接アクセスしたりはしません。代わりに、テキストを生成します。それを[エージェントループ](/docs/copilot/concepts/agents.md#agent-loop)がアクションとして解釈します。モデルがツール呼び出しをリクエストすると、VS Codeはツールを実行し、次の反復のためにモデルに結果をフィードバックします。
 
-## Key characteristics
+## 主な特性
 
-* **Nondeterministic**: the same prompt can produce different results each time. This is by design and reflects how the model samples from probability distributions.
-* **Context-dependent**: the quality of the response depends on the quality and relevance of the context provided in the prompt.
-* **Knowledge boundaries**: models are trained on data up to a certain date and might produce outdated or incorrect information for topics beyond their training data. VS Code mitigates this with tools and workspace indexing.
+* **非決定的**: 同じプロンプトは毎回異なる結果を生成する場合があります。これは設計によるもので、モデルが確率分布からサンプリングする方法を反映しています。
+* **コンテキスト依存**: 応答の品質は、プロンプトで提供されるコンテキストの品質と関連性に依存します。
+* **知識の境界**: モデルは特定の日付までのデータで訓練されており、トレーニングデータを超えるトピックについては、古い情報または誤った情報を生成する可能性があります。VS Codeはツールとワークスペースインデックスでこれを軽減します。
 
-## Context window
+## コンテキストウィンドウ
 
-The context window is the total amount of information a model can process in a single request. It includes everything: the system prompt, custom instructions, conversation history, file contents, tool outputs, and your current message. Different models have different context window sizes.
+コンテキストウィンドウは、モデルが単一のリクエストで処理できる情報の総量です。すべてが含まれます:システムプロンプト、カスタム命令、会話履歴、ファイルコンテンツ、ツール出力、および現在のメッセージ。異なるモデルは異なるコンテキストウィンドウサイズを持ちます。
 
-When the context window fills up, VS Code automatically summarizes older parts of the conversation to make room. This means important details from early in a long conversation might be compressed or lost. You can also type `/compact` in the chat input to manually trigger compaction at any time. Optionally, add custom instructions after the command to guide the summary, for example `/compact focus on the API design decisions`.
+コンテキストウィンドウがいっぱいになると、VS Codeは会話の古い部分を自動的に要約して、スペースを確保します。つまり、長い会話の初期段階からの重要な詳細が圧縮されるか失われる可能性があります。チャット入力に`/compact`と入力して、いつでも圧縮を手動でトリガーすることもできます。オプションで、例えば`/compact focus on the API design decisions`というコマンドの後にカスタム命令を追加できます。
 
-Learn more about [how VS Code assembles context](/docs/copilot/concepts/context.md) and [context compaction](/docs/copilot/chat/copilot-chat-context.md#context-compaction).
+詳細については、[VS Codeがコンテキストをアセンブルする方法](/docs/copilot/concepts/context.md)および[コンテキスト圧縮](/docs/copilot/chat/copilot-chat-context.md#context-compaction)を参照してください。
 
-## Choose the right model
+## 適切なモデルを選択する
 
-Each model has different strengths. Some are optimized for speed and work well for simple completions. Others have larger context windows or better reasoning capabilities, making them ideal for complex tasks. You can switch models at any time, based on your needs for a particular task.
+各モデルは異なる強みを持ちます。簡単な補完に適した速度に最適化されたものもあります。他のものは、より大きなコンテキストウィンドウまたはより優れた推論機能を備えており、複雑なタスクに理想的です。特定のタスクのニーズに基づいて、いつでもモデルを切り替えることができます。
 
-VS Code also supports **auto model selection**, which automatically selects a model to ensure optimal performance and reduce rate limits. Auto selects from available models and applies a request discount for paid users.
+VS Codeは**自動モデル選択**もサポートしており、最適なパフォーマンスを確保し、レート制限を削減するモデルを自動的に選択します。自動は利用可能なモデルから選択し、有料ユーザーにリクエスト割引を適用します。
 
-Learn more about [choosing and configuring language models](/docs/copilot/customization/language-models.md).
+詳細については、[言語モデルの選択と構成](/docs/copilot/customization/language-models.md)を参照してください。
 
-## Related resources
+## 関連リソース
 
-* [Context](/docs/copilot/concepts/context.md)
-* [AI language models in VS Code](/docs/copilot/customization/language-models.md)
+* [コンテキスト](/docs/copilot/concepts/context.md)
+* [VS Codeの AI言語モデル](/docs/copilot/customization/language-models.md)
+

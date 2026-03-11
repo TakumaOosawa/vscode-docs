@@ -1,7 +1,7 @@
 ---
 ContentId: 8b3c4d5e-6f7a-8b9c-0d1e-2f3a4b5c6d7e
 DateApproved: 3/9/2026
-MetaDescription: Learn how to use third-party agents like Claude Agent and OpenAI Codex for autonomous coding tasks in VS Code, powered by your GitHub Copilot subscription.
+MetaDescription: Visual Studio CodeでClaude AgentやOpenAI Codexなどのサードパーティエージェントを使用して、GitHub Copilot購読で自律的なコーディングタスクを実行する方法を学習します。
 MetaSocialImage: ../images/shared/github-copilot-social.png
 Keywords:
 - ai
@@ -14,144 +14,145 @@ Keywords:
 - copilot
 ---
 
-# Third-party agents in Visual Studio Code
+# Visual Studio Codeのサードパーティエージェント
 
-Third-party agents in Visual Studio Code are AI agents developed by external providers, such as Anthropic and OpenAI. Third-party agents enable you to use the unique capabilities of these AI providers, while still benefiting from the unified agent sessions management in VS Code and the rich editor experience for coding, debugging, testing, and more. In addition, you can use these providers with your existing GitHub Copilot subscription.
+Visual Studio Codeのサードパーティエージェントは、AnthropicやOpenAIなどの外部プロバイダーが開発したAIエージェントです。サードパーティエージェントにより、これらのAIプロバイダーの独自機能を使用しながら、VS Codeの統一されたエージェントセッション管理と、コーディング、デバッグ、テストなどの充実したエディター体験の恩恵を受けることができます。さらに、既存のGitHub Copilot購読でこれらのプロバイダーを使用できます。
 
-VS Code uses the provider's SDK and agent harness to access the agent's unique capabilities. You can use both local and cloud-based third-party agents in VS Code. Integration with cloud-based third-party agents is enabled through your GitHub Copilot plan.
+VS Codeはプロバイダーの SDK とエージェントハーネスを使用して、エージェントの独自機能にアクセスします。VS Codeではローカルおよびクラウドベースの両方のサードパーティエージェントを使用できます。クラウドベースのサードパーティエージェントとの統合は、GitHub Copilot プランを通じてが有効になります。
 
 > [!NOTE]
-> Third-party coding agents in the cloud are currently in preview.
+> クラウド内のサードパーティコーディングエージェントは現在プレビュー段階です。
 
-## Why use third-party agents?
+## サードパーティエージェントを使用する理由
 
-The benefits of using third-party agents in VS Code are:
+VS Codeでサードパーティエージェントを使用する利点は次のとおりです。
 
-* **Use unique capabilities**: Each third-party agent has its own strengths and specialized features. VS Code uses the provider's SDK and agent harness to access these capabilities, letting you choose the best agent for your coding tasks.
-* **Unified experience**: Manage all your agent sessions, including third-party agents, from the same VS Code agent experience.
-* **Rich editor integration**: Use VS Code's coding features, such as rich debugging and testing in combination with the agent's capabilities.
-* **Billing**: Authenticate and manage billing through your existing GitHub Copilot subscription without additional setup.
+* **独自機能の使用**: 各サードパーティエージェントには独自の強みと特殊機能があります。VS Codeはプロバイダーの SDK とエージェントハーネスを使用してこれらの機能にアクセスし、コーディングタスクに最適なエージェントを選択できます。
+* **統一された体験**: サードパーティエージェントを含むすべてのエージェントセッションを、同じVS Code エージェント体験から管理します。
+* **充実したエディター統合**: VS Codeのコーディング機能（リッチデバッグやテストなど）をエージェント機能と組み合わせて使用します。
+* **課金**: 追加のセットアップなしに、既存のGitHub Copilot購読を通じて認証と課金を管理します。
 
-## Enable third-party cloud agents
+## サードパーティクラウドエージェントを有効にする
 
-You need to enable support for third-party agents in the cloud in your Copilot account settings before you can use them in VS Code. Follow the steps in [Enabling or disabling third-party coding agents in your repositories](https://docs.github.com/en/copilot/how-tos/manage-your-account/manage-policies#enabling-or-disabling-third-party-coding-agents-in-your-repositories) in the GitHub documentation.
+VS Codeで使用する前に、Copilotアカウント設定でクラウド内のサードパーティエージェントサポートを有効にする必要があります。GitHub ドキュメントの[リポジトリでのサードパーティコーディングエージェントの有効化または無効化](https://docs.github.com/en/copilot/how-tos/manage-your-account/manage-policies#enabling-or-disabling-third-party-coding-agents-in-your-repositories)の手順に従ってください。
 
-You don't need to install the provider's VS Code extension to use their cloud agent in VS Code.
+VS Codeでクラウドエージェントを使用するために、プロバイダーのVS Code拡張機能をインストールする必要はありません。
 
-## Claude Agent (Preview)
+## Claude Agent（プレビュー）
 
-Claude agent sessions provide agentic coding capabilities powered by Anthropic's Claude Agent SDK directly in VS Code. The Claude agent operates autonomously on your workspace to plan, execute, and iterate on coding tasks with its own set of tools and capabilities.
+Claude エージェントセッションは、Anthropic の Claude Agent SDK によって直接VS Code にもたらされる自律的コーディング機能を提供します。Claude エージェントは、独自のツールと機能のセットを使用して、ワークスペース上で自律的に計画、実行、コーディングタスクの反復処理を行います。
 
-Enable or disable support for Claude agent sessions with the `setting(github.copilot.chat.claudeAgent.enabled)` setting.
+`setting(github.copilot.chat.claudeAgent.enabled)` 設定で Claude エージェントセッションのサポートを有効または無効にします。
 
-### Start a Claude agent session
+### Claude エージェントセッションを開始する
 
-To start a new Claude agent session:
+新しいClaude エージェントセッションを開始するには、以下の操作を行います。
 
-1. Open the Chat view (`kb(workbench.action.chat.open)`) and select **New Chat** (`+`).
+1. Chat ビュー（`kb(workbench.action.chat.open)`）を開き、**新規チャット**（`+`）を選択します。
 
-1. Choose between a local or cloud agent session:
+1. ローカルまたはクラウドエージェントセッションの間で選択します。
 
-    * For a local session, select **Claude** from the **Session Type** dropdown
+    * ローカルセッションの場合、**セッションタイプ**ドロップダウンから**Claude**を選択します。
 
-        ![Screenshot showing session type dropdown with Claude agent option selected.](../images/third-party-agents/claude-agent-new-chat.png)
+        ![セッションタイプドロップダウンにClaude エージェントオプションが選択されている状態のスクリーンショット。](../images/third-party-agents/claude-agent-new-chat.png)
 
-    * For a cloud session, select **Cloud** from the **Session Type** dropdown. Then, select **Claude** from the **Partner Agent** dropdown.
+    * クラウドセッションの場合、**セッションタイプ**ドロップダウンから**クラウド**を選択します。次に、**パートナーエージェント**ドロップダウンから**Claude**を選択します。
 
-        ![Screenshot showing cloud agent partner selection picker in chat input.](../images/third-party-agents/partner-agent-cloud-chat.png)
+        ![チャット入力でクラウドエージェントパートナー選択ピッカーを示すスクリーンショット。](../images/third-party-agents/partner-agent-cloud-chat.png)
 
-1. Enter your prompt and let the agent work on the task
+1. プロンプトを入力し、エージェントにタスクを実行させます。
 
-    The Claude agent autonomously determines which tools to use and makes changes to your workspace.
+    Claude エージェントは、使用するツールを自律的に決定し、ワークスペースに変更を加えます。
 
-### Claude agent slash commands
+### Claude エージェントスラッシュコマンド
 
-The Claude agent provides specialized slash commands for advanced workflows. Type `/` in the chat input box to see the available commands.
+Claude エージェントは、高度なワークフロー用の特殊なスラッシュコマンドを提供します。チャット入力ボックスで`/`を入力して、利用可能なコマンドを確認します。
 
-| Slash command | Description |
+| スラッシュコマンド | 説明 |
 |---------------|-------------|
-| `/agents` | Create and manage specialized Claude agents for specific tasks. Define custom agent behaviors through a wizard. Learn more about [Claude sub-agents](https://code.claude.com/docs/en/sub-agents). |
-| `/hooks` | Configure lifecycle hooks that execute at key points during Claude agent sessions, such as before or after tool execution. Learn more about [Claude hooks](https://code.claude.com/docs/en/hooks). |
-| `/memory` | Open and edit `CLAUDE.md` memory files that provide persistent context to Claude agent across sessions. |
-| `/init` | Initialize a new `CLAUDE.md` memory file for your project. |
-| `/pr-comments` | Get comments from a pull request. |
-| `/review` | Review code changes in a pull request. |
-| `/security-review` | Perform a security review of pending code changes on the current branch. |
+| `/agents` | 特定のタスク用の専門的なClaude エージェントを作成および管理します。ウィザードを通じてカスタムエージェント動作を定義します。[Claude sub-agents](https://code.claude.com/docs/en/sub-agents)について詳しく学びます。 |
+| `/hooks` | Claude エージェントセッション中の主要な時点（ツール実行の前後など）で実行されるライフサイクルフックを設定します。[Claude hooks](https://code.claude.com/docs/en/hooks)について詳しく学びます。 |
+| `/memory` | Claude エージェントセッション全体で永続的なコンテキストを提供する`CLAUDE.md`メモリファイルを開いて編集します。 |
+| `/init` | プロジェクト用の新しい`CLAUDE.md`メモリファイルを初期化します。 |
+| `/pr-comments` | プルリクエストからコメントを取得します。 |
+| `/review` | プルリクエストのコード変更を確認します。 |
+| `/security-review` | 現在のブランチの保留中コード変更のセキュリティレビューを実行します。 |
 
-### Permission modes
+### 権限モード
 
-Claude agent requests permission before performing certain operations. By default, file edits within your workspace are auto-approved, while other operations like running terminal commands might require confirmation.
+Claude エージェントは、特定の操作を実行する前に権限をリクエストします。デフォルトでは、ワークスペース内のファイル編集は自動承認されますが、ターミナルコマンドの実行などの他の操作には確認が必要な場合があります。
 
-You can choose how the agent applies changes to your workspace:
+エージェントがワークスペースに変更を適用する方法を選択できます。
 
-* **Edit automatically**: Claude agent makes changes to your workspace autonomously as it works on the task.
-* **Request approval**: Claude agent asks for your review before making changes to your workspace.
-* **Plan**: Claude agent outlines its intended approach before starting work on the task.
+* **自動的に編集**: Claude エージェントがタスクに取り組む際、ワークスペースに変更を自律的に加えます。
+* **承認をリクエスト**: Claude エージェントがワークスペースに変更を加える前に、レビュー対象になります。
+* **計画**: Claude エージェントがタスクの作業を開始する前に、意図したアプローチの概要を示します。
 
-![Screenshot showing Claude agent permission mode options.](../images/third-party-agents/claude-agent-permission-modes.png)
+![Claude エージェント権限モードオプションを示すスクリーンショット。](../images/third-party-agents/claude-agent-permission-modes.png)
 
 > [!CAUTION]
-> The `setting(github.copilot.chat.claudeAgent.allowDangerouslySkipPermissions)` setting bypasses all permission checks. Only enable this in isolated sandbox environments with no internet access.
+> `setting(github.copilot.chat.claudeAgent.allowDangerouslySkipPermissions)`設定はすべての権限チェックをバイパスします。インターネットアクセスのない隔離されたサンドボックス環境でのみこれを有効にしてください。
 
 ## OpenAI Codex
 
-The OpenAI Codex agent uses OpenAI's Codex to perform coding tasks autonomously. Codex runs can run interactively in VS Code or unattended in the background.
+OpenAI Codex エージェントは、OpenAI の Codex を使用してコーディングタスクを自律的に実行します。Codex は VS Code で対話的に実行することも、バックグラウンドで無人実行することもできます。
 
-To disable the OpenAI Codex agent, disable or uninstall the [OpenAI Codex](https://marketplace.visualstudio.com/items?itemName=openai.chatgpt) extension in VS Code.
+OpenAI Codex エージェントを無効にするには、VS Code で[OpenAI Codex](https://marketplace.visualstudio.com/items?itemName=openai.chatgpt)拡張機能を無効にするかアンインストールします。
 
-### Prerequisites
+### 前提条件
 
-* A Copilot Pro+ subscription for authentication
-* For local sessions, the [OpenAI Codex](https://marketplace.visualstudio.com/items?itemName=openai.chatgpt) extension
+* 認証用の Copilot Pro+ 購読
+* ローカルセッションの場合、[OpenAI Codex](https://marketplace.visualstudio.com/items?itemName=openai.chatgpt)拡張機能
 
-OpenAI Codex in VS Code enables you to use your Copilot Pro+ subscription to authenticate and access Codex without additional setup. Get more information about [GitHub Copilot billing and premium requests](https://docs.github.com/en/copilot/concepts/billing/copilot-requests) in the GitHub documentation.
+VS Code の OpenAI Codex では、Copilot Pro+ 購読を使用して、追加のセットアップなしで Codex に認証してアクセスできます。GitHub ドキュメントの[GitHub Copilot の課金と premium リクエスト](https://docs.github.com/en/copilot/concepts/billing/copilot-requests)について詳しく知ります。
 
-### Start a Codex session
+### Codex セッションを開始する
 
-To start a new OpenAI Codex agent session:
+新しい OpenAI Codex エージェントセッションを開始するには、以下の操作を行います。
 
-1. Open the Chat view (`kb(workbench.action.chat.open)`) and select **New Chat** (`+`).
+1. Chat ビュー（`kb(workbench.action.chat.open)`）を開き、**新規チャット**（`+`）を選択します。
 
-1. Choose between a local or cloud agent session:
+1. ローカルまたはクラウドエージェントセッションの間で選択します。
 
-    * For a local session, select **Codex** from the **Session Type** dropdown
+    * ローカルセッションの場合、**セッションタイプ**ドロップダウンから**Codex**を選択します。
 
-        ![Screenshot showing session type dropdown with Codex agent option selected.](../images/third-party-agents/codex-agent-new-chat.png)
+        ![セッションタイプドロップダウンに Codex エージェントオプションが選択されている状態のスクリーンショット。](../images/third-party-agents/codex-agent-new-chat.png)
 
-    * For a cloud session, select **Cloud** from the **Session Type** dropdown. Then, select **Codex** from the **Partner Agent** dropdown.
+    * クラウドセッションの場合、**セッションタイプ**ドロップダウンから**クラウド**を選択します。次に、**パートナーエージェント**ドロップダウンから**Codex**を選択します。
 
-        ![Screenshot showing cloud agent partner selection picker in chat input.](../images/third-party-agents/partner-agent-cloud-chat.png)
+        ![チャット入力でクラウドエージェントパートナー選択ピッカーを示すスクリーンショット。](../images/third-party-agents/partner-agent-cloud-chat.png)
 
-1. Enter your prompt in the chat editor input and let the agent work on the task
+1. チャットエディター入力にプロンプトを入力し、エージェントにタスクを実行させます。
 
-## Frequently asked questions
+## よくある質問
 
 <details>
-<summary>Can I use third-party agents with my existing Copilot subscription?</summary>
+<summary>既存の Copilot 購読でサードパーティエージェントを使用できますか?</summary>
 
-Yes, third-party agents in VS Code authenticate and manage billing through your existing GitHub Copilot subscription. For cloud-based third-party agents, follow the steps to enable the agent.
+はい、VS Code のサードパーティエージェントは、既存のGitHub Copilot 購読を通じて認証と課金を管理します。クラウドベースのサードパーティエージェントの場合、エージェントを有効にする手順に従ってください。
 
-For cloud-based third-party agents, availability might be limited based on your Copilot subscription plan. Check [About Third-party agents](https://docs.github.com/en/copilot/concepts/agents/about-third-party-agents) in the GitHub documentation for more information.
+クラウドベースのサードパーティエージェントの場合、Copilot 購読プランに基づいて可用性が制限される場合があります。GitHub ドキュメントの[サードパーティエージェントについて](https://docs.github.com/en/copilot/concepts/agents/about-third-party-agents)で詳しく確認してください。
 
 </details>
 
 <details>
-<summary>How are third-party agents different from using the provider's VS Code extension?</summary>
+<summary>サードパーティエージェントとプロバイダーの VS Code 拡張機能の使用に違いはありますか?</summary>
 
-Both the provider's VS Code extension and the third-party agent integration in VS Code let you use the provider's AI capabilities and agent harness. The difference is in billing: when you use third-party agents in VS Code, GitHub bills you through your Copilot subscription. When you use the provider's extension, you are billed through the provider's subscription.
+プロバイダーの VS Code 拡張機能と VS Code のサードパーティエージェント統合の両方により、プロバイダーのAI機能とエージェントハーネスを使用できます。違いは課金です。VS Code でサードパーティエージェントを使用する場合、GitHub は Copilot 購読を通じて課金します。プロバイダーの拡張機能を使用する場合は、プロバイダーの購読を通じて課金されます。
 
 </details>
 
 <details>
-<summary>Why are there two Claude/Codex agents?</summary>
+<summary>なぜ 2 つのClaude/Codex エージェントがあるのですか?</summary>
 
-VS Code lets you choose between local and cloud-based third-party agents, depending on the provider's availability. When you select the third-party agent from the **Session Type** dropdown, a local agent session is created for that provider.
+VS Code では、プロバイダーの可用性に応じて、ローカルまたはクラウドベースのサードパーティエージェントのいずれかを選択できます。**セッションタイプ**ドロップダウンからサードパーティエージェントを選択すると、そのプロバイダーのローカルエージェントセッションが作成されます。
 
-To choose a cloud-based third-party agent, first select the **Cloud** option from the **Session Type** dropdown, and then select the provider from the **Partner Agent** dropdown.
+クラウドベースのサードパーティエージェントを選択するには、まず**セッションタイプ**ドロップダウンから**クラウド**オプションを選択し、次に**パートナーエージェント**ドロップダウンからプロバイダーを選択します。
 
 </details>
 
-## Related resources
+## 関連するリソース
 
-* [Agents overview](/docs/copilot/agents/overview.md): Understand different agent types and how to hand off tasks between agents
-* [About Third-party agents](https://docs.github.com/en/copilot/concepts/agents/about-third-party-agents): Learn more about third-party agents in the GitHub documentation
+* [エージェント概要](/docs/copilot/agents/overview.md): さまざまなエージェントタイプを理解し、エージェント間でのタスクのハンドオフ方法を学びます。
+* [サードパーティエージェントについて](https://docs.github.com/en/copilot/concepts/agents/about-third-party-agents): GitHub ドキュメントでサードパーティエージェントについて詳しく知ります。
+

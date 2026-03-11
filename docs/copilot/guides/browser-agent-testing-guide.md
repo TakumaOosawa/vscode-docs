@@ -1,7 +1,7 @@
 ---
 ContentId: 3f9e2b7d-6a8c-4d1e-9f2a-8c4b5d7e9f1a
 DateApproved: 3/9/2026
-MetaDescription: Learn how to use browser agent tools in VS Code to build and automatically test web applications with AI.
+MetaDescription: VS Codeのブラウザーエージェントツールを使用して、AIでWebアプリケーションを構築し、自動的にテストする方法を学習します。
 MetaSocialImage: ../images/shared/github-copilot-social.png
 Keywords:
 - ai
@@ -14,89 +14,89 @@ Keywords:
 - guide
 - tutorial
 ---
-# Build and test web apps with browser agent tools
+# ブラウザーエージェントツールでWebアプリを構築およびテストする
 
-Browser agent tools enable AI to autonomously build and verify web applications in a closed development loop. The agent can create HTML, CSS, and JavaScript, open the app in the integrated browser, interact with it to validate functionality, identify issues through console errors and visual inspection, and fix problems without manual intervention.
+ブラウザーエージェントツールを使用すると、AIはクローズドな開発ループ内でWebアプリケーションを自律的に構築および検証できます。エージェントはHTML、CSS、JavaScriptを作成し、統合ブラウザーでアプリを開き、機能を検証するために操作し、コンソールエラーと視覚的検査を通じて問題を特定し、手動操作なしで問題を修正できます。
 
-This guide walks you through using browser agent tools to build a calculator app and watch as the agent discovers and fixes bugs through automated testing.
+このガイドでは、ブラウザーエージェントツールを使用して計算機アプリを構築し、エージェントが自動テストを通じてバグを発見および修正する様子を確認します。
 
 > [!NOTE]
-> Browser agent tools are currently experimental and may change in future releases.
+>ブラウザーエージェントツールは現在実験的であり、今後のリリースで変更される可能性があります。
 
-## Prerequisites
+## 前提条件
 
-To complete this guide, you need:
+このガイドを完了するには、次が必要です:
 
-* [Visual Studio Code installed on your computer](/download)
-* [A GitHub Copilot subscription](/docs/copilot/setup.md)
-* Browser agent tools enabled with the `setting(workbench.browser.enableChatTools)` setting
+* [コンピューターにVisual Studio Codeをインストール](/download)
+* [GitHub Copilotサブスクリプション](/docs/copilot/setup.md)
+* `setting(workbench.browser.enableChatTools)`設定を有効にしたブラウザーエージェントツール
 
-## How browser agent tools work
+## ブラウザーエージェントツールの仕組み
 
-When you enable browser agent tools, agents gain access to tools that let them read and interact with pages in the integrated browser. These tools include:
+ブラウザーエージェントツールを有効にすると、エージェントは統合ブラウザー内のページを読み取り、操作できるツールにアクセスできます。これらのツールには次が含まれます:
 
-* **Page navigation:** `openBrowserPage`, `navigatePage`
-* **Page content and appearance:** `readPage`, `screenshotPage`
-* **User interaction:** `clickElement`, `hoverElement`, `dragElement`, `typeInPage`, `handleDialog`
-* **Custom browser automation:** `runPlaywrightCode`
+* **ページナビゲーション:** `openBrowserPage`、`navigatePage`
+* **ページコンテンツと外観:** `readPage`、`screenshotPage`
+* **ユーザー操作:** `clickElement`、`hoverElement`、`dragElement`、`typeInPage`、`handleDialog`
+* **カスタムブラウザー自動化:** `runPlaywrightCode`
 
-By default, pages opened by the agent run in private, in-memory sessions that don't share cookies or storage with your other browser tabs. This gives you control over what browsing data the agent can access.
+デフォルトでは、エージェントによって開かれるページはプライベートなメモリ内セッションで実行され、他のブラウザータブとCookieやストレージを共有しません。これにより、エージェントがアクセスできるブラウジングデータを制御できます。
 
-Learn more about the [integrated browser in VS Code](/docs/debugtest/integrated-browser.md).
+[VS Codeの統合ブラウザー](/docs/debugtest/integrated-browser.md)の詳細をご覧ください。
 
-## Step 1: Enable browser tools for the agent
+## ステップ1: エージェント用のブラウザーツールを有効にする
 
-Before an agent can use browser tools, you must explicitly enable them in the chat tools picker.
+エージェントがブラウザーツールを使用する前に、チャットツールピッカーで明示的に有効にする必要があります。
 
-1. Open the Chat view (`kb(workbench.action.chat.open)`) and select **Agent** from the Agents dropdown.
+1. チャットビュー(`kb(workbench.action.chat.open)`)を開き、[エージェント]ドロップダウンから**エージェント**を選択します。
 
-1. Select the **Tools** button in the chat input area to open the tools picker.
+1. チャット入力領域の**ツール**ボタンを選択して、ツールピッカーを開きます。
 
-1. Verify that all the browser tools are enabled (they are grouped under **Built-in** > **Browser**).
+1. すべてのブラウザーツールが有効になっていることを確認します(これらは**組み込み** > **ブラウザー**の下にグループ化されています)。
 
-    ![Screenshot showing the chat tools picker with browser tools enabled.](../images/browser-agent-testing-guide/enable-browser-tools.png)
+    ![ブラウザーツールが有効になっているチャットツールピッカーを示すスクリーンショット。](../images/browser-agent-testing-guide/enable-browser-tools.png)
 
-The agent can now use these tools to interact with web pages.
+エージェントはこれらのツールを使用してWebページと対話できるようになりました。
 
-## Step 2: Ask the agent to build a calculator
+## ステップ2: エージェントに計算機を構築するよう依頼する
 
-With browser tools enabled, ask the agent to create a simple calculator application.
+ブラウザーツールを有効にしたら、エージェントに単純な計算機アプリケーションの作成を依頼します。
 
-1. Create a new project folder and open it in VS Code.
+1. 新しいプロジェクトフォルダーを作成し、VS Codeで開きます。
 
-1. In the Chat view, enter the following prompt:
+1. チャットビューで、次のプロンプトを入力します:
 
     ```prompt
     Create a calculator with buttons for digits 0-9, operations (add, subtract, multiply, divide), clear, and equals. Use HTML, CSS, and JavaScript. Style it with a clean, modern design.
     ```
 
-1. Review the generated files as the agent creates `index.html`, `styles.css`, and `script.js`.
+1. エージェントが`index.html`、`styles.css`、`script.js`を作成するときに、生成されたファイルを確認します。
 
-1. Select **Keep** to save the files to your workspace.
+1. **保持**を選択してファイルをワークスペースに保存します。
 
-The agent has built the basic structure of the calculator application.
+エージェントは計算機アプリケーションの基本構造を構築しました。
 
-## Step 3: Let the agent test the calculator
+## ステップ3: エージェントに計算機をテストさせる
 
-Now ask the agent to open the calculator in the integrated browser and verify it works correctly.
+次に、エージェントに統合ブラウザーで計算機を開き、正しく動作することを確認するよう依頼します。
 
-1. In the Chat view, enter the following prompt:
+1. チャットビューで、次のプロンプトを入力します:
 
     ```prompt
     Open the calculator in the browser and test if all the operations work correctly.
     ```
 
-1. Watch as the agent opens `index.html` in the integrated browser, parses the page content to understand the structure, and systematically tests each button and operation by simulating clicks and checking the results.
+1. エージェントが統合ブラウザーで`index.html`を開き、ページコンテンツを解析して構造を理解し、クリックを模擬してボタンと演算を体系的にテストし、結果を確認する様子を見ます。
 
-    <video src="../images/browser-agent-testing-guide/agent-testing-calculator.mp4" title="Video showing the agent testing the calculator in the integrated browser." autoplay loop controls muted></video>
+    <video src="../images/browser-agent-testing-guide/agent-testing-calculator.mp4" title="統合ブラウザーで計算機をテストするエージェントを示すビデオ。" autoplay loop controls muted></video>
 
-The agent reports which operations work correctly and identifies any issues it discovers.
+エージェントは、正しく動作する演算と発見した問題を報告します。
 
-## Step 4: Watch the agent debug and fix issues
+## ステップ4: エージェントがデバッグおよび修正するのを見る
 
-If the agent discovers bugs during testing, it automatically analyzes the problem and implements a fix.
+エージェントがテスト中にバグを発見した場合、問題を自動的に分析し、修正を実装します。
 
-1. Let's introduce a bug by removing the division by zero check:
+1. ゼロ除算チェックを削除してバグを導入しましょう:
 
     ```javascript
     function calculate() {
@@ -114,56 +114,57 @@ If the agent discovers bugs during testing, it automatically analyzes the proble
     }
     ```
 
-1. Ask the agent to test the division operation and fix any issues it finds:
+1. エージェントに除算演算をテストし、見つかった問題を修正するよう依頼します:
 
     ```prompt
     Verify the division operation works correctly. If you find any issues, fix them.
     ```
 
-1. Watch as the agent encounters an error when dividing by zero, then analyzes and fixes the code, and finally validates the bug fix.
+1. エージェントがゼロによる除算でエラーが発生し、コードを分析および修正し、最後にバグ修正を検証する様子を見ます。
 
-The agent has completed a full development cycle: build, test, debug, and fix by using browser automation.
+エージェントは完全な開発サイクルを完了しました: ブラウザー自動化を使用して構築、テスト、デバッグ、修正します。
 
-## Step 5: Share a browser page with the agent (optional)
+## ステップ5: ブラウザーページをエージェントと共有する(オプション)
 
-You can also manually open web pages and explicitly share them with the agent for analysis or interaction. By default, the agent can only interact with web pages it opened itself.
+また、Webページを手動で開き、明示的にエージェントと共有して分析または操作することもできます。デフォルトでは、エージェントは自身が開いたWebページでのみ操作できます。
 
-1. Open the integrated browser by running the **Browser: Open Integrated Browser** command from the Command Palette (`kb(workbench.action.showCommands)`).
+1. コマンドパレット(`kb(workbench.action.showCommands)`)から**ブラウザー: 統合ブラウザーを開く**コマンドを実行して統合ブラウザーを開きます。
 
-1. Navigate to a web page you want the agent to analyze or interact with.
+1. エージェントに分析または操作したいWebページに移動します。
 
-1. Select the **Share with Agent** button in the browser toolbar.
+1. ブラウザーツールバーの**エージェントと共有**ボタンを選択します。
 
-    A visual indicator on the browser tab shows that the page is actively shared with the agent.
+    ブラウザータブの視覚的インジケーターがページがアクティブにエージェントと共有されていることを示します。
 
-1. Ask the agent to perform actions on the shared page:
+1. エージェントに共有ページで操作を実行するよう依頼します:
 
     ```prompt
     What is the main heading on this page? Click the first link and tell me where it goes.
     ```
 
-The agent can now access the shared page and perform interactions on your behalf. When you're done, select the **Share with Agent** button again to revoke access.
+エージェントは共有ページにアクセスでき、あなたに代わって操作を実行できます。完了したら、**エージェントと共有**ボタンを再度選択してアクセスを取り消します。
 
 > [!TIP]
-> Shared pages use your existing browser session, including cookies and login state. Pages opened by the agent use isolated ephemeral sessions, so they don't share cookies or storage with your other browser tabs.
+>共有ページはCookieとログイン状態を含む既存のブラウザーセッションを使用します。エージェントが開くページは分離された一時的なセッションを使用するため、他のブラウザータブとCookieやストレージを共有しません。
 
-## Try these scenarios
+## これらのシナリオを試す
 
-Now that you understand how browser agent tools work, try these scenarios to explore different use cases:
+ブラウザーエージェントツールの仕組みを理解したら、さまざまなユースケースを探索するためにこれらのシナリオを試してください:
 
-* **Form validation testing**: have the agent verify validation rules, error messages, and successful submission by building and testing a contact form
+* **フォーム検証テスト**: エージェントに検証ルール、エラーメッセージ、および正常な送信を確認するために、問い合わせフォームを構築してテストさせる
 
-* **Responsive layout verification**: ask the agent to screenshot a page at different viewport sizes and verify responsive behavior (for example, a landing page with navigation menus)
+* **レスポンシブレイアウト検証**: エージェントに異なるビューポートサイズでページのスクリーンショットを撮ってもらい、レスポンシブ動作を確認する(例: ナビゲーションメニュー付きのランディングページ)
 
-* **Authentication flow testing**: let the agent test credential validation, error handling, and successful redirects in a login page
+* **認証フロー分析テスト**: エージェントに認証情報検証、エラー処理、ログインページでの正常なリダイレクトをテストさせる
 
-* **Interactive functionality testing**: have the agent verify user interactions and state management
+* **インタラクティブ機能テスト**: エージェントにユーザー操作と状態管理を検証させる
 
-* **Accessibility audits**: ask the agent to check any web page for missing alt text, heading hierarchy, keyboard navigation, and color contrast issues
+* **アクセシビリティ監査**: エージェントにAltテキストの欠落、見出し階層、キーボード操作、色対比の問題についてWebページをチェックするよう依頼する
 
-## Related resources
+## 関連リソース
 
-* [Integrated browser](/docs/debugtest/integrated-browser.md)
-* [Core concepts of AI in VS Code](/docs/copilot/concepts/overview.md)
-* [Agents overview](/docs/copilot/agents/overview.md)
-* [Test with Copilot](/docs/copilot/guides/test-with-copilot.md)
+* [統合ブラウザー](/docs/debugtest/integrated-browser.md)
+* [VS Codeの AI の核となる概念](/docs/copilot/concepts/overview.md)
+* [エージェントの概要](/docs/copilot/agents/overview.md)
+* [Copilotでテストする](/docs/copilot/guides/test-with-copilot.md)
+

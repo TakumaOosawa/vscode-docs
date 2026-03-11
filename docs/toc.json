@@ -98,6 +98,7 @@
     "area": "copilot",
     "topics": [
       ["Overview", "/docs/copilot/overview"],
+      ["Outline", "/docs/copilot/outline"],
       ["Setup", "/docs/copilot/setup"],
       ["Quickstart", "/docs/copilot/getting-started"],
       ["", "", {

@@ -1,7 +1,7 @@
 ---
 ContentId: 8b4f3c21-4e02-4a89-9f15-7a8d6b5c2e91
 DateApproved: 3/9/2026
-MetaDescription: Learn how to create custom instructions for GitHub Copilot Chat in VS Code to ensure AI responses match your coding practices, project requirements, and development standards.
+MetaDescription: VS CodeでGitHub Copilot Chatのカスタム命令を作成し、AI応答があなたのコーディング実践、プロジェクト要件、開発標準に合致することを確認する方法を学びます。
 MetaSocialImage: ../images/shared/github-copilot-social.png
 Keywords:
 - customize
@@ -14,131 +14,131 @@ Keywords:
 - ai
 - copilot
 ---
-# Use custom instructions in VS Code
+# VS Codeでカスタム命令を使用する
 
-Custom instructions enable you to define common guidelines and rules that automatically influence how AI generates code and handles other development tasks. Instead of manually including context in every chat prompt, specify custom instructions in a Markdown file to ensure consistent AI responses that align with your coding practices and project requirements.
+カスタム命令を使用すると、AIがコードを生成し、その他の開発タスクを処理する方法に自動的に影響を与える共通のガイドラインとルールを定義できます。すべてのチャットプロンプトに手動でコンテキストを含める代わりに、カスタム命令をMarkdownファイルで指定して、コーディング実践とプロジェクト要件に合致した一貫性のあるAI応答を確保します。
 
-You can configure custom instructions to apply automatically to all chat requests or to specific files only. Alternatively, you can manually attach custom instructions to a specific chat prompt.
+カスタム命令を設定して、すべてのチャットリクエストまたは特定のファイルのみに自動的に適用することも、特定のチャットプロンプトに手動で添付することもできます。
 
 <div class="docs-action" data-show-in-doc="false" data-show-in-sidebar="true" title="Generate instructions">
-Set up your project for AI with `/init` to generate custom instructions tailored to your project.
+`/init`でプロジェクトをAI向けに設定し、プロジェクトに合わせたカスタム命令を生成します。
 
-* [Open in VS Code](vscode://GitHub.Copilot-Chat/chat?prompt=%2Finit)
+* [VS Codeで開く](vscode://GitHub.Copilot-Chat/chat?prompt=%2Finit)
 
 </div>
 
 > [!TIP]
-> Use the [Chat Customizations editor](/docs/copilot/customization/overview.md#chat-customizations-editor) (Preview) to discover, create, and manage all your chat customizations in one place. Run **Chat: Open Chat Customizations** from the Command Palette.
+> [チャットカスタマイゼーションエディタ](/docs/copilot/customization/overview.md#chat-customizations-editor)（プレビュー）を使用して、すべてのチャットカスタマイズを1つの場所で検出、作成、管理します。コマンドパレットから**Chat: Open Chat Customizations**を実行します。
 
 > [!NOTE]
-> Custom instructions are not taken into account for [inline suggestions](/docs/copilot/ai-powered-suggestions.md) as you type in the editor.
+> カスタム命令は、エディタで入力時に[インライン提案](/docs/copilot/ai-powered-suggestions.md)には適用されません。
 
-## Types of instruction files
+## 命令ファイルの種類
 
-VS Code supports two categories of custom instructions. If you have multiple instruction files in your project, VS Code combines and adds them to the chat context, no specific order is guaranteed.
+VS Codeは2つのカテゴリのカスタム命令をサポートしています。プロジェクトに複数の命令ファイルがある場合、VS Codeはそれらを結合してチャットコンテキストに追加します。特定の順序は保証されません。
 
-### Always-on instructions
+### 常時有効な命令
 
-Always-on instructions are automatically included in every chat request. Use them for project-wide coding standards, architecture decisions, and conventions that apply to all code.
+常時有効な命令はすべてのチャットリクエストに自動的に含まれます。プロジェクト全体のコーディング標準、アーキテクチャの決定、すべてのコードに適用される規約に使用します。
 
-* A single [`.github/copilot-instructions.md`](#use-a-githubcopilot-instructionsmd-file) file
-    * Automatically applies to all chat requests in the workspace
-    * Stored within the workspace
+* 単一の[`.github/copilot-instructions.md`](#use-a-githubcopilot-instructionsmd-file)ファイル
+    * ワークスペース内のすべてのチャットリクエストに自動的に適用されます
+    * ワークスペース内に保存されます
 
-* One or more [`AGENTS.md`](#use-an-agentsmd-file) files
-    * Useful if you work with multiple AI agents in your workspace
-    * Automatically applies to all chat requests in the workspace or to specific subfolders (experimental)
-    * Stored in the root of the workspace or in subfolders (experimental)
+* 1つ以上の[`AGENTS.md`](#use-an-agentsmd-file)ファイル
+    * ワークスペースで複数のAIエージェントと連携する場合に便利です
+    * ワークスペースまたは特定のサブフォルダ内のすべてのチャットリクエストに自動的に適用されます（実験的）
+    * ワークスペースのルートまたはサブフォルダに保存されます（実験的）
 
-* [Organization-level instructions](#share-custom-instructions-across-teams)
-    * Share instructions across multiple workspaces and repositories within a GitHub organization
-    * Defined at the GitHub organization level
+* [組織レベルの命令](#share-custom-instructions-across-teams)
+    * GitHub組織内の複数のワークスペースとリポジトリ全体で命令を共有します
+    * GitHub組織レベルで定義されます
 
-* [`CLAUDE.md`](#use-a-claudemd-file) file
-    * For compatibility with Claude Code and other Claude-based tools
-    * Stored in the workspace root, `.claude` folder, or user home directory
+* [`CLAUDE.md`](#use-a-claudemd-file)ファイル
+    * Claude CodeおよびClaude構築のその他のツールとの互換性のため
+    * ワークスペースルート、`.claude`フォルダ、またはユーザーホームディレクトリに保存されます
 
-### File-based instructions
+### ファイルベースの命令
 
-File-based instructions are applied when files that the agent is working on match a specified pattern or if the description matches the current task. Use file-based instructions for language-specific conventions, framework patterns, or rules that only apply to certain parts of your codebase.
+ファイルベースの命令は、エージェントが作業しているファイルが指定されたパターンに一致する場合、または説明が現在のタスクに一致する場合に適用されます。言語固有の規約、フレームワークパターン、またはコードベースの特定の部分にのみ適用されるルールに使用します。
 
-* One or more [`.instructions.md`](#use-instructionsmd-files) files
-    * Conditionally apply instructions based on file type or location by using glob patterns
-    * Stored in the workspace or user profile
+* 1つ以上の[`.instructions.md`](#use-instructionsmd-files)ファイル
+    * globパターンを使用してファイルタイプまたは場所に基づいて命令を条件付きで適用します
+    * ワークスペースまたはユーザープロフィール内に保存されます
 
-To reference specific context in your instructions, such as files or URLs, you can use Markdown links.
+命令内の特定のコンテキスト（ファイルやURLなど）を参照するには、Markdownリンクを使用できます。
 
 > [!TIP]
-> **Which approach should you use?** Start with a single `.github/copilot-instructions.md` file for project-wide coding standards. Add `.instructions.md` files when you need different rules for different file types or frameworks. Use `AGENTS.md` if you work with multiple AI agents in your workspace.
+> **どのアプローチを使用すべきですか？** プロジェクト全体のコーディング標準に対して、単一の`.github/copilot-instructions.md`ファイルで始めます。異なるファイルタイプまたはフレームワークに異なるルールが必要な場合は、`.instructions.md`ファイルを追加します。ワークスペースで複数のAIエージェントと連携する場合は、`AGENTS.md`を使用します。
 
-## Use a `.github/copilot-instructions.md` file
+## `.github/copilot-instructions.md`ファイルを使用する
 
-VS Code automatically detects a `.github/copilot-instructions.md` Markdown file in the root of your workspace and applies the instructions in this file to all chat requests within this workspace.
+VS Codeはワークスペースのルートに`.github/copilot-instructions.md` Markdownファイルを自動的に検出し、このファイルの命令をこのワークスペース内のすべてのチャットリクエストに適用します。
 
-Use `copilot-instructions.md` for:
+`copilot-instructions.md`を以下に使用します：
 
-* Coding style and naming conventions that apply across the project
-* Technology stack declarations and preferred libraries
-* Architectural patterns to follow or avoid
-* Security requirements and error handling approaches
-* Documentation standards
+* プロジェクト全体に適用されるコーディングスタイルと命名規約
+* テクノロジスタック宣言と推奨ライブラリ
+* 従うべき、または避けるべきアーキテクチャパターン
+* セキュリティ要件とエラー処理アプローチ
+* ドキュメント標準
 
-Follow these steps to create a `.github/copilot-instructions.md` file in your workspace:
+ワークスペースで`.github/copilot-instructions.md`ファイルを作成するには、以下の手順に従います：
 
-1. Create a `.github/copilot-instructions.md` file at the root of your workspace. If needed, create a `.github` directory first.
+1. ワークスペースのルートに`.github/copilot-instructions.md`ファイルを作成します。必要に応じて、最初に`.github`ディレクトリを作成します。
 
-1. Describe your instructions in Markdown format. Keep them concise and focused for optimal results.
+1. 命令をMarkdown形式で説明します。最適な結果のために、簡潔で焦点を絞った内容にしてください。
 
 > [!NOTE]
-> VS Code also supports the use of an [`AGENTS.md` file](#use-an-agentsmd-file) for always-on instructions.
+> VS Codeは常時有効な命令用に[`AGENTS.md`ファイル](#use-an-agentsmd-file)の使用もサポートしています。
 
 <details>
-<summary>Example: General coding guidelines</summary>
+<summary>例：一般的なコーディングガイドライン</summary>
 
 ```markdown
 ---
 applyTo: "**"
 ---
-# Project general coding standards
+# プロジェクト一般的なコーディング標準
 
-## Naming Conventions
-- Use PascalCase for component names, interfaces, and type aliases
-- Use camelCase for variables, functions, and methods
-- Prefix private class members with underscore (_)
-- Use ALL_CAPS for constants
+## 命名規約
+- コンポーネント名、インターフェース、型の別名にはPascalCaseを使用します
+- 変数、関数、メソッドにはcamelCaseを使用します
+- プライベートクラスメンバーの前にアンダースコア(_)を付けます
+- 定数にはALL_CAPSを使用します
 
-## Error Handling
-- Use try/catch blocks for async operations
-- Implement proper error boundaries in React components
-- Always log errors with contextual information
+## エラー処理
+- 非同期操作にはtry/catchブロックを使用します
+- ReactコンポーネントにはエラーバウンダリをImplementします
+- 常にコンテキスト情報でエラーをログします
 ```
 
 </details>
 
-## Use `.instructions.md` files
+## `.instructions.md`ファイルを使用する
 
-You can create file-based instructions with `*.instructions.md` Markdown files that are applied dynamically based on the files or tasks the agent is working on.
+エージェントが作業しているファイルまたはタスクに基づいて動的に適用される`*.instructions.md` Markdownファイルでファイルベースの命令を作成できます。
 
-The agent determines which instructions files to apply based on the file patterns specified in the `applyTo` property in the instructions file header or semantic matching of the instruction description to the current task.
+エージェントは、命令ファイルヘッダーの`applyTo`プロパティで指定されたファイルパターン、または命令説明と現在のタスクのセマンティックマッチングに基づいて、どの命令ファイルを適用するかを決定します。
 
-Use `.instructions.md` files for:
+`.instructions.md`ファイルを以下に使用します：
 
-* Different conventions for frontend vs. backend code
-* Language-specific guidelines in a monorepo
-* Framework-specific patterns for specific modules
-* Specialized rules for test files or documentation
+* フロントエンドコードとバックエンドコードの異なる規約
+* モノレポの言語固有のガイドライン
+* 特定のモジュールのフレームワーク固有のパターン
+* テストファイルまたはドキュメントの特殊なルール
 
-### Instructions file locations
+### 命令ファイルの場所
 
-You can define instructions for a specific workspace or at the user level, where they are applied across all your workspaces.
+特定のワークスペースまたはすべてのワークスペースに適用されるユーザーレベルで命令を定義できます。
 
-| Scope | Default file location |
+| スコープ | デフォルトファイル場所 |
 |-------|-----------------------|
-| Workspace | `.github/instructions` folder |
-| Workspace (Claude format) | `.claude/rules` folder |
-| User profile | `~/.copilot/instructions`, `~/.claude/rules`, `instructions` folder of the current [VS Code profile](/docs/configure/profiles.md) |
+| ワークスペース | `.github/instructions`フォルダ |
+| ワークスペース（Claude形式） | `.claude/rules`フォルダ |
+| ユーザープロフィール | `~/.copilot/instructions`、`~/.claude/rules`、現在の[VS Codeプロフィール](/docs/configure/profiles.md)の`instructions`フォルダ |
 
-VS Code searches these folders recursively, so you can organize instructions files in subdirectories. For example, you can group instructions by team, language, or module:
+VS Codeはこれらのフォルダを再帰的に検索するため、命令ファイルをサブディレクトリに編成できます。例えば、チーム、言語、またはモジュール別に命令をグループ化できます：
 
 ```text
 .github/instructions/
@@ -151,11 +151,11 @@ VS Code searches these folders recursively, so you can organize instructions fil
     unit-tests.instructions.md
 ```
 
-You can configure additional file locations for workspace instructions files with the `setting(chat.instructionsFilesLocations)` setting. This is useful if you want to keep instructions files in a different folder or have multiple folders for better organization. Custom locations are also searched recursively.
+`setting(chat.instructionsFilesLocations)`設定を使用して、ワークスペース命令ファイルの追加ファイルの場所を設定できます。これは、命令ファイルを異なるフォルダに保管したい場合や、より良く整理するために複数のフォルダを持ちたい場合に便利です。カスタム場所も再帰的に検索されます。
 
-For compatibility with Claude Code and other Claude-based tools, VS Code also detects instructions files in the `.claude/rules` workspace folder and the `~/.claude/rules` user folder.
+Claude CodeおよびClaude構築のその他のツールとの互換性のため、VS Codeは`.claude/rules`ワークスペースフォルダと`~/.claude/rules`ユーザーフォルダの命令ファイルも検出します。
 
-The following code snippet shows how to configure instructions file locations, where only workspace-level instructions are enabled and user-level instructions are disabled:
+以下のコードスニペットは、ワークスペースレベルのみの命令が有効で、ユーザーレベルの命令が無効な場合の命令ファイルの場所を設定する方法を示しています：
 
 ```json
 "chat.instructionsFilesLocations": {
@@ -166,278 +166,279 @@ The following code snippet shows how to configure instructions file locations, w
 }
 ```
 
-### Instructions file format
+### 命令ファイル形式
 
-Instructions files are Markdown files with the `.instructions.md` extension. The optional YAML frontmatter header controls when the instructions are applied:
+命令ファイルは`.instructions.md`拡張子を持つMarkdownファイルです。オプションのYAML前付けヘッダは命令がいつ適用されるかを制御します：
 
-| Field | Required | Description |
+| フィールド | 必須 | 説明 |
 |-------|----------|-------------|
-| `name` | No | Display name shown in the UI. Defaults to the file name. |
-| `description` | No | Short description shown on hover in the Chat view. |
-| `applyTo` | No | Glob pattern that defines which files the instructions apply to automatically, relative to the workspace root. Use `**` to apply to all files. If not specified, the instructions are not applied automatically, but you can still add them manually to a chat request. |
+| `name` | いいえ | UI に表示される表示名。デフォルトはファイル名です。 |
+| `description` | いいえ | チャットビューでホバータイムに表示される短い説明。 |
+| `applyTo` | いいえ | ワークスペースルートを基準とした相対的に命令を自動的に適用するファイルを定義するglobパターン。すべてのファイルに適用するには`**`を使用します。指定されていない場合、命令は自動的に適用されませんが、チャットリクエストに手動で追加できます。 |
 
-The body contains the instructions in Markdown format. To reference agent tools, use the `#tool:<tool-name>` syntax (for example, `#tool:githubRepo`).
+本文にはMarkdown形式の命令が含まれます。エージェントツールを参照するには、`#tool:<tool-name>`構文を使用します（例：`#tool:githubRepo`）。
 
 ```markdown
 ---
 name: 'Python Standards'
-description: 'Coding conventions for Python files'
+description: 'Pythonファイルのコーディング規約'
 applyTo: '**/*.py'
 ---
-# Python coding standards
-- Follow the PEP 8 style guide.
-- Use type hints for all function signatures.
-- Write docstrings for public functions.
-- Use 4 spaces for indentation.
+# Python コーディング標準
+- PEP 8 スタイルガイドに従います。
+- すべての関数署名に型ヒントを使用します。
+- パブリック関数用にdocstringsを記述します。
+- インデントに4つのスペースを使用します。
 ```
 
-### Create an instructions file
+### 命令ファイルを作成する
 
-When you create an instructions file, choose whether to store it in your workspace or user profile. Workspace instructions files apply only to that workspace, while user instructions files are available across multiple workspaces.
+命令ファイルを作成する際に、ワークスペースまたはユーザープロフィール内に保存するかどうかを選択します。ワークスペース命令ファイルはそのワークスペースのみに適用され、ユーザー命令ファイルは複数のワークスペースで利用可能です。
 
-To create an instructions file:
+命令ファイルを作成するには：
 
 > [!TIP]
-> Type `/instructions` in the chat input to quickly open the **Configure Instructions and Rules** menu.
+> チャット入力に`/instructions`と入力して、**命令とルールの設定**メニューをすばやく開きます。
 
-1. In the Chat view, select **Configure Chat** (gear icon) > **Instructions & Rules**, and then select **New instruction file**.
+1. チャットビューで、**チャットを設定**(ギアアイコン) > **命令とルール**を選択し、**新しい命令ファイル**を選択します。
 
-    ![Screenshot showing the Chat view, and Configure Chat menu, highlighting the Configure Chat button.](../images/customization/configure-chat-instructions.png)
+    ![チャットビューとチャット設定メニューを示すスクリーンショット、チャット設定ボタンを強調表示します。](../images/customization/configure-chat-instructions.png)
 
-    Alternatively, use the **Chat: New Instructions File** command from the Command Palette (`kb(workbench.action.showCommands)`).
+    または、コマンドパレット(`kb(workbench.action.showCommands)`)から**Chat: New Instructions File**コマンドを使用します。
 
-1. Choose the location where to create the instructions file.
+1. 命令ファイルを作成する場所を選択します。
 
-1. Enter a file name for your instructions file. This is the default name that is used in the UI.
+1. 命令ファイルのファイル名を入力します。これはUIで使用されるデフォルト名です。
 
-1. Author the custom instructions by using Markdown formatting.
+1. Markdown形式を使用してカスタム命令を作成します。
 
-    * Fill in the YAML frontmatter at the top of the file to configure the instructions' description, name, and when they apply.
-    * Add instructions in the body of the file.
+    * ファイルの上部のYAML前付けを入力して、命令の説明、名前、いつ適用されるかを設定します。
+    * ファイルの本文に命令を追加します。
 
-To modify an existing instructions file, in the Chat view, select **Configure Chat** (gear icon) > **Chat Instructions**, and then select an instructions file from the list. Alternatively, use the **Chat: Configure Instructions** command from the Command Palette (`kb(workbench.action.showCommands)`) and select the instructions file from the Quick Pick.
+既存の命令ファイルを変更するには、チャットビューで**チャット設定**(ギアアイコン) > **チャット命令**を選択し、リストから命令ファイルを選択します。または、コマンドパレット(`kb(workbench.action.showCommands)`)から**Chat: Configure Instructions**コマンドを使用し、クイックピックから命令ファイルを選択します。
 
-### Generate an instructions file with AI
+### AIで命令ファイルを生成する
 
-You can use AI to generate a targeted instructions file. Type `/create-instruction` in chat and describe the convention or guideline you want to enforce (for example, "always use tabs and single quotes in this project"). The agent asks clarifying questions and generates an `.instructions.md` file with the appropriate `applyTo` pattern and content.
+AIを使用してターゲット命令ファイルを生成できます。チャットに`/create-instruction`と入力し、適用する規約またはガイドラインを説明してください（例：「このプロジェクトで常にタブとシングルクォートを使用します」）。エージェントは明確化を求め、適切な`applyTo`パターンと内容を含む`.instructions.md`ファイルを生成します。
 
-You can also extract instructions from an ongoing conversation. For example, if you corrected the agent's import style during a chat session, ask "extract an instruction from this" to capture that correction as a project convention.
+進行中の会話から命令を抽出することもできます。例えば、チャットセッション中にエージェントのインポートスタイルを修正した場合、「これから命令を抽出します」と要求して、その修正をプロジェクト規約として取得します。
 
 > [!NOTE]
-> `/create-instruction` generates targeted, on-demand instruction files. To generate workspace-wide always-on instructions, use the [`/init` command](#generate-custom-instructions-for-your-workspace) instead.
+> `/create-instruction`はターゲット化された、オンデマンドの命令ファイルを生成します。ワークスペース全体の常時有効な命令を生成するには、代わりに[`/init`コマンド](#generate-custom-instructions-for-your-workspace)を使用してください。
 
 <details>
-<summary>Example: Language-specific coding guidelines</summary>
+<summary>例：言語固有のコーディングガイドライン</summary>
 
-Notice how these instructions reference the general coding guidelines file. You can separate the instructions into multiple files to keep them organized and focused on specific topics.
+これらの命令が一般的なコーディングガイドラインファイルを参照する方法に注意してください。命令を複数のファイルに分離して、特定のトピックに焦点を当てて整理できます。
 
 ```markdown
 ---
 applyTo: "**/*.ts,**/*.tsx"
 ---
-# Project coding standards for TypeScript and React
+# TypeScriptとReactのプロジェクトコーディング標準
 
-Apply the [general coding guidelines](./general-coding.instructions.md) to all code.
+すべてのコードに[一般的なコーディングガイドライン](./general-coding.instructions.md)を適用します。
 
-## TypeScript Guidelines
-- Use TypeScript for all new code
-- Follow functional programming principles where possible
-- Use interfaces for data structures and type definitions
-- Prefer immutable data (const, readonly)
-- Use optional chaining (?.) and nullish coalescing (??) operators
+## TypeScript ガイドライン
+- すべての新しいコードにTypeScriptを使用します
+- 可能な限り関数型プログラミング原理に従います
+- データ構造と型定義にインターフェースを使用します
+- 不変データを優先します（const、readonly）
+- オプショナルチェーニング(?.)とnullish合体(??)演算子を使用します
 
-## React Guidelines
-- Use functional components with hooks
-- Follow the React hooks rules (no conditional hooks)
-- Use React.FC type for components with children
-- Keep components small and focused
-- Use CSS modules for component styling
+## React ガイドライン
+- フックを持つ関数コンポーネントを使用します
+- Reactフックのルール（条件付きフックなし）に従います
+- 子供を持つコンポーネント用にReact.FC型を使用します
+- コンポーネントを小さく焦点を絞った状態に保ちます
+- コンポーネントスタイリングにCSSモジュールを使用します
 ```
 
 </details>
 
 <details>
-<summary>Example: Documentation writing guidelines</summary>
+<summary>例：ドキュメント作成ガイドライン</summary>
 
-You can create instructions files for different types of tasks, including non-development activities like writing documentation.
+ドキュメント作成などの開発以外のアクティビティを含む、異なるタイプのタスク用命令ファイルを作成できます。
 
 ```markdown
 ---
 applyTo: "docs/**/*.md"
 ---
-# Project documentation writing guidelines
+# プロジェクトドキュメント作成ガイドライン
 
-## General Guidelines
-- Write clear and concise documentation.
-- Use consistent terminology and style.
-- Include code examples where applicable.
+## 一般的なガイドライン
+- 明確で簡潔なドキュメントを作成します。
+- 一貫性のある用語とスタイルを使用します。
+- 該当する場合はコード例を含めます。
 
-## Grammar
-* Use present tense verbs (is, open) instead of past tense (was, opened).
-* Write factual statements and direct commands. Avoid hypotheticals like "could" or "would".
-* Use active voice where the subject performs the action.
-* Write in second person (you) to speak directly to readers.
+## 文法
+* 過去形（was、opened）の代わりに現在形動詞（is、open）を使用してください。
+* 事実の陳述と直接コマンドを作成します。「could」や「would」のような仮定は避けてください。
+* 主語がアクションを実行するアクティブボイスを使用します。
+* 二人称（you）で読者に直接話しかけるために書きます。
 
-## Markdown Guidelines
-- Use headings to organize content.
-- Use bullet points for lists.
-- Include links to related resources.
-- Use code blocks for code snippets.
+## Markdownガイドライン
+- 見出しを使用してコンテンツを整理します。
+- リストに箇条書きを使用します。
+- 関連リソースへのリンクを含めます。
+- コードスニペットにコードブロックを使用します。
 ```
 
 </details>
 
-For more community-contributed examples, see the [Awesome Copilot repository](https://github.com/github/awesome-copilot/tree/main).
+より多くのコミュニティ提供の例については、[Awesome Copilotリポジトリ](https://github.com/github/awesome-copilot/tree/main)を参照してください。
 
-## Use an `AGENTS.md` file
+## `AGENTS.md`ファイルを使用する
 
-VS Code automatically detects an `AGENTS.md` Markdown file in the root of your workspace and applies the instructions in this file to all chat requests within this workspace. This is useful if you work with multiple AI agents in your workspace and want a single set of instructions recognized by all of them, or if you want subfolder-level instructions that apply to specific parts of a monorepo.
+VS Codeはワークスペースのルートに`AGENTS.md` Markdownファイルを自動的に検出し、このファイルの命令をこのワークスペース内のすべてのチャットリクエストに適用します。これはワークスペースで複数のAIエージェントと連携する場合、またはモノレポの特定の部分に適用されるサブフォルダレベルの命令をしたい場合に便利です。
 
-Use `AGENTS.md` when:
+`AGENTS.md`を以下の場合に使用します：
 
-* You work with multiple AI coding agents and want a single set of instructions recognized by all of them
-* You want subfolder-level instructions that apply to specific parts of a monorepo
+* 複数のAIコーディングエージェントと連携し、すべてのエージェントが認識する単一の命令セットが必要な場合
+* モノレポの特定の部分に適用されるサブフォルダレベルの命令が必要な場合
 
-To enable or disable support for `AGENTS.md` files, configure the `setting(chat.useAgentsMdFile)` setting.
+`AGENTS.md`ファイルのサポートを有効または無効にするには、`setting(chat.useAgentsMdFile)`設定を構成します。
 
-### Use multiple `AGENTS.md` files (experimental)
+### 複数の`AGENTS.md`ファイルを使用する（実験的）
 
-Using multiple `AGENTS.md` files in subfolders is useful if you want to apply different instructions to different parts of your project. For example, you can have one `AGENTS.md` file for the frontend code and another for the backend code.
+サブフォルダ内で複数の`AGENTS.md`ファイルを使用すると、プロジェクトの異なる部分に異なる命令を適用する場合に便利です。例えば、フロントエンドコード用に1つの`AGENTS.md`ファイルとバックエンドコード用に別の`AGENTS.md`ファイルを持つことができます。
 
-Use the experimental `setting(chat.useNestedAgentsMdFiles)` setting to enable or disable support for nested `AGENTS.md` files in your workspace.
+実験的な`setting(chat.useNestedAgentsMdFiles)`設定を使用して、ワークスペース内のネストされた`AGENTS.md`ファイルのサポートを有効または無効にします。
 
-When enabled, VS Code searches recursively in all subfolders of your workspace for `AGENTS.md` files and adds their relative path to the chat context. The agent can then decide which instructions to use based on the files being edited.
+有効にすると、VS Codeはワークスペースのすべてのサブフォルダで`AGENTS.md`ファイルを再帰的に検索し、相対パスをチャットコンテキストに追加します。その後、エージェントは編集されているファイルに基づいて、どの命令を使用するかを決定できます。
 
 > [!TIP]
-> For folder-specific instructions, you can also use multiple [`.instructions.md`](#use-instructionsmd-files) files with different `applyTo` patterns that match the folder structure.
+> フォルダ固有の命令の場合は、フォルダ構造と一致する異なるの`applyTo`パターンを持つ複数の[`.instructions.md`](#use-instructionsmd-files)ファイルを使用することもできます。
 
-## Use a `CLAUDE.md` file
+## `CLAUDE.md`ファイルを使用する
 
-VS Code automatically detects a `CLAUDE.md` file and applies it as always-on instructions, similar to `AGENTS.md`. This is useful if you use Claude Code or other Claude-based tools alongside VS Code and want a single set of instructions recognized by all of them.
+VS Codeは`CLAUDE.md`ファイルを自動的に検出し、`AGENTS.md`と同様に常時有効な命令として適用します。これはVS CodeとともにClaude CodeまたはClaude構築のその他のツールを使用し、すべてのツールが認識する単一の命令セットを希望する場合に便利です。
 
-VS Code searches for `CLAUDE.md` files in these locations:
+VS Codeはこれらの場所で`CLAUDE.md`ファイルを検索します：
 
-| Location | Description |
+| 場所 | 説明 |
 |----------|-------------|
-| Workspace root | `CLAUDE.md` in the root of your workspace |
-| `.claude` folder | `.claude/CLAUDE.md` in your workspace |
-| User home | `~/.claude/CLAUDE.md` for personal instructions across all projects |
-| Local variant | `CLAUDE.local.md` for local-only instructions (not committed to version control) |
+| ワークスペースルート | ワークスペースのルートの`CLAUDE.md` |
+| `.claude`フォルダ | ワークスペース内の`.claude/CLAUDE.md` |
+| ユーザーホーム | すべてのプロジェクト全体の個人命令用`~/.claude/CLAUDE.md` |
+| ローカル変種 | ローカルのみの命令用`CLAUDE.local.md`（バージョン管理にコミットされていません） |
 
-To enable or disable support for `CLAUDE.md` files, configure the `setting(chat.useClaudeMdFile)` setting.
-
-> [!NOTE]
-> For `.claude/rules` instructions files, VS Code uses a `paths` property instead of `applyTo` for glob patterns, following the [Claude Rules format](https://code.claude.com/docs/en/memory#basic-structure). The `paths` property accepts an array of glob patterns and defaults to `**` (all files) when omitted.
-
-## Generate custom instructions for your workspace
-
-VS Code can analyze your workspace and generate always-on custom instructions that match your coding practices and project structure. These instructions then apply automatically to all chat requests in the workspace.
-
-When you generate instructions, VS Code performs the following steps:
-
-1. It discovers existing AI conventions in your workspace, such as `copilot-instructions.md` or `AGENTS.md` files.
-1. It analyzes your project structure and coding patterns.
-1. It generates comprehensive workspace instructions tailored to your project.
-
-### Use the `/init` slash command
-
-The quickest way to prime your workspace with custom instructions is to type the `/init` slash command in the chat input box.
-
-The `/init` command is implemented as a contributed [prompt file](/docs/copilot/customization/prompt-files.md), so you can customize its behavior by modifying the underlying prompt.
-
-### Use a command to generate instructions
-
-To generate custom instructions for your workspace with a command:
-
-1. In the Chat view, select **Configure Chat** (gear icon) > **Generate Chat Instructions**.
-
-1. Review the generated instructions file and make any necessary edits.
-
-## Share custom instructions across teams
-
-To share custom instructions across multiple workspaces and repositories within your GitHub organization, you can define them at the GitHub organization level.
-
-VS Code automatically detects custom instructions defined at the organization level to which your account has access. These instructions are shown in the **Chat Instructions** menu alongside your personal and workspace instructions, and are automatically applied to all chat requests.
-
-To enable discovery of organization-level custom instructions, set `setting(github.copilot.chat.organizationInstructions.enabled)` to `true`.
-
-Learn how you can [add custom instructions for your organization](https://docs.github.com/en/copilot/how-tos/configure-custom-instructions/add-organization-instructions) in the GitHub documentation.
-
-## Sync user instructions files across devices
-
-VS Code can sync your user instructions files across multiple devices by using [Settings Sync](/docs/configure/settings-sync.md).
-
-To sync your user instructions files, enable Settings Sync and run **Settings Sync: Configure** from the Command Palette (`kb(workbench.action.showCommands)`). Select **Prompts and Instructions** from the list of settings to sync.
-
-## Specify custom instructions in settings
+`CLAUDE.md`ファイルのサポートを有効または無効にするには、`setting(chat.useClaudeMdFile)`設定を構成します。
 
 > [!NOTE]
-> Settings-based code generation and test generation instructions are deprecated as of VS Code 1.102. Use [file-based instructions](#types-of-instruction-files) instead.
+> `.claude/rules`命令ファイルの場合、VS Codeはglobパターンの`applyTo`の代わりに`paths`プロパティを使用します。[Claude Rules形式](https://code.claude.com/docs/en/memory#basic-structure)に従います。`paths`プロパティはglobパターンの配列を受け入れ、デフォルトは省略時に`**`(すべてのファイル)です。
 
-For code review, commit messages, and pull request descriptions, you can still use VS Code settings to define custom instructions. These settings accept an array of objects with either a `text` property (inline instruction) or a `file` property (path to a Markdown file).
+## ワークスペース用のカスタム命令を生成する
 
-| Scenario | Setting |
+VS Codeはワークスペースを分析し、コーディング実践とプロジェクト構造と一致する常時有効なカスタム命令を生成できます。これらの命令はワークスペース内のすべてのチャットリクエストに自動的に適用されます。
+
+命令を生成する場合、VS Codeは以下の手順を実行します：
+
+1. `copilot-instructions.md`または`AGENTS.md`ファイルなど、ワークスペース内の既存のAI規約を検出します。
+1. プロジェクト構造とコーディングパターンを分析します。
+1. プロジェクト向けのカスタマイズされた包括的なワークスペース命令を生成します。
+
+### `/init`スラッシュコマンドを使用する
+
+ワークスペースをカスタム命令でプライムする最速の方法は、チャット入力ボックスに`/init`スラッシュコマンドを入力することです。
+
+`/init`コマンドは寄与された[プロンプトファイル](/docs/copilot/customization/prompt-files.md)として実装されるため、基礎となるプロンプトを変更してその動作をカスタマイズできます。
+
+### コマンドを使用して命令を生成する
+
+コマンドでワークスペース用のカスタム命令を生成するには：
+
+1. チャットビューで、**チャット設定**(ギアアイコン) > **チャット命令を生成**を選択します。
+
+1. 生成された命令ファイルを確認し、必要な編集を行なってください。
+
+## チーム全体でカスタム命令を共有する
+
+GitHub組織内の複数のワークスペースとリポジトリ全体でカスタム命令を共有するには、GitHub組織レベルで定義できます。
+
+VS Codeは自動的に、アカウントがアクセスできるアカウントで定義されたカスタム命令を検出します。これらの命令は、個人およびワークスペース命令と同様に**チャット命令**メニューに表示され、すべてのチャットリクエストに自動的に適用されます。
+
+組織レベルのカスタム命令の検出を有効にするには、`setting(github.copilot.chat.organizationInstructions.enabled)`を`true`に設定します。
+
+GitHub documentation で[組織用にカスタム命令を追加](https://docs.github.com/en/copilot/how-tos/configure-custom-instructions/add-organization-instructions)する方法を学習してください。
+
+## デバイス全体でユーザー命令ファイルを同期する
+
+VS Codeは[設定同期](/docs/configure/settings-sync.md)を使用して、複数のデバイス全体でユーザー命令ファイルを同期できます。
+
+ユーザー命令ファイルを同期するには、設定同期を有効にし、コマンドパレット(`kb(workbench.action.showCommands)`)から**Settings Sync: Configure**を実行します。同期する設定のリストから**プロンプトと命令**を選択します。
+
+## 設定でカスタム命令を指定する
+
+> [!NOTE]
+> VS Code 1.102の時点では、設定ベースのコード生成およびテスト生成命令は非推奨です。代わりに[ファイルベースの命令](#types-of-instruction-files)を使用してください。
+
+コード確認、コミットメッセージ、プルリクエスト説明の場合、引き続きVS Code設定を使用してカスタム命令を定義できます。これらの設定は、`text`プロパティ(インライン命令)または`file`プロパティ(Markdownファイルへのパス)を持つオブジェクトの配列を受け入れます。
+
+| シナリオ | 設定 |
 |----------|---------|
-| Code review | `setting(github.copilot.chat.reviewSelection.instructions)` |
-| Commit messages | `setting(github.copilot.chat.commitMessageGeneration.instructions)` |
-| Pull request descriptions | `setting(github.copilot.chat.pullRequestDescriptionGeneration.instructions)` |
+| コード確認 | `setting(github.copilot.chat.reviewSelection.instructions)` |
+| コミットメッセージ | `setting(github.copilot.chat.commitMessageGeneration.instructions)` |
+| プルリクエスト説明 | `setting(github.copilot.chat.pullRequestDescriptionGeneration.instructions)` |
 
-## Instruction priority
+## 命令の優先度
 
-When multiple types of custom instructions exist, they are all provided to the AI. Higher-priority instructions take precedence when conflicts occur:
+複数の種類のカスタム命令が存在する場合、すべてがAIに提供されます。競合が発生した場合、より高い優先度の命令が優先されます：
 
-1. Personal instructions (user-level, highest priority)
-1. Repository instructions (`.github/copilot-instructions.md` or `AGENTS.md`)
-1. Organization instructions (lowest priority)
+1. 個人命令（ユーザーレベル、最高優先度）
+1. リポジトリ命令（`.github/copilot-instructions.md`または`AGENTS.md`）
+1. 組織命令（最低優先度）
 
-## Tips for writing effective instructions
+## 効果的な命令を作成するためのヒント
 
-* Keep your instructions short and self-contained. Each instruction should be a single, simple statement. If you need to provide multiple pieces of information, use multiple instructions.
+* 命令を簡潔で自己完結させてください。各命令は単一のシンプルな陳述であるべきです。複数の情報を提供する必要がある場合は、複数の命令を使用してください。
 
-* Include the reasoning behind rules. When instructions explain _why_ a convention exists, the AI makes better decisions in edge cases. For example: "Use `date-fns` instead of `moment.js` because moment.js is deprecated and increases bundle size."
+* ルールの推理を含めてください。命令が規約が存在する_理由_を説明すると、エッジケースでAIはより良い決定を下します。例えば：「moment.jsはdeprecatedで、バンドルサイズを増やすため、`date-fns`の代わりに`moment.js`を使用します。」
 
-* Show preferred and avoided patterns with concrete code examples. The AI responds more effectively to examples than to abstract rules.
+* 推奨パターンと避けるべきパターンを具体的なコード例で表示します。AIは抽象的なルールよりも例に効果的に反応します。
 
-* Focus on non-obvious rules. Skip conventions that standard linters or formatters already enforce.
+* 非自明なはルールに焦点を当ててください。標準的なlintersまたはフォーマッタが既に適用する規約をスキップします。
 
-* For task or language-specific instructions, use multiple `*.instructions.md` files per topic and apply them selectively by using the `applyTo` property.
+* タスク固有または言語固有の命令の場合、トピックごとに複数の`*.instructions.md`ファイルを使用し、`applyTo`プロパティを使用して選択的に適用します。
 
-* Store project-specific instructions in your workspace to share them with other team members and include them in your version control.
+* プロジェクト固有の命令をワークスペースに保存して、他のチームメンバーと共有し、バージョン管理に含めます。
 
-* Reuse and reference instructions files in your [prompt files](/docs/copilot/customization/prompt-files.md) and [custom agents](/docs/copilot/customization/custom-agents.md) to keep them clean and focused, and to avoid duplicating instructions.
+* 命令ファイルを[プロンプトファイル](/docs/copilot/customization/prompt-files.md)と[カスタムエージェント](/docs/copilot/customization/custom-agents.md)で再利用および参照して、クリーン焦点を当てたままにし、命令の重複を避けます。
 
-* Whitespace between instructions is ignored, so you can format instructions as a single paragraph, on separate lines, or separated by blank lines for legibility.
+* 命令間の空白は無視されるため、命令を単一段落、別々の行、または読みやすさのための空白行で分離してフォーマットできます。
 
-## Frequently asked questions
+## よくある質問
 
-### Why is my instructions file not being applied?
+### 命令ファイルが適用されないのはなぜですか？
 
 > [!TIP]
-> Use the chat customization diagnostics view to see all loaded instruction files and any errors. Right-click in the Chat view and select **Diagnostics**. Learn more about [troubleshooting AI in VS Code](/docs/copilot/troubleshooting.md).
+> チャットカスタマイゼーション診断ビューを使用して、読み込まれたすべての命令ファイルとエラーを確認します。チャットビューで右クリックして**診断**を選択します。[VS Codeでトラブルシューティングから詳細をご覧ください](/docs/copilot/troubleshooting.md)。
 
-If your instructions file is not being applied, check the following:
+命令ファイルが適用されない場合は、以下を確認してください：
 
-* Verify that your instructions file is in the correct location. A `.github/copilot-instructions.md` file must be in the `.github` folder at the root of your workspace. A `*.instructions.md` file must be in one of the folders (or their subdirectories) specified in the `setting(chat.instructionsFilesLocations)` setting (default: `.github/instructions`) or in your user profile.
+* 命令ファイルが正しい場所にあることを確認します。`.github/copilot-instructions.md`ファイルはワークスペースのルートの`.github`フォルダにある必要があります。`*.instructions.md`ファイルは、`setting(chat.instructionsFilesLocations)`設定（デフォルト：`.github/instructions`）またはユーザープロフィールで指定されたフォルダ（またはそれらのサブディレクトリ）のいずれかにあります。
 
-* For `*.instructions.md` files, check that the `applyTo` glob pattern matches the file you are working on. If no `applyTo` property is specified, the instructions file is not applied automatically. Verify the **References** section in the chat response to see which instructions files were used.
+* `*.instructions.md`ファイルの場合、`applyTo`globパターンがこを使用しているファイルと一致することを確認します。`applyTo`プロパティが指定されていない場合、命令ファイルは自動的に適用されません。チャット応答の**参考資料**セクションで、どの命令ファイルが使用されているかを確認します。
 
-* Check that the relevant settings are enabled: `setting(chat.includeApplyingInstructions)` for pattern-based instructions, `setting(chat.includeReferencedInstructions)` for instructions referenced via Markdown links, `setting(chat.useAgentsMdFile)` for `AGENTS.md` files.
+* 関連する設定が有効になっていることを確認します：パターンベースの命令用の`setting(chat.includeApplyingInstructions)`、Markdownリンク経由で参照される命令用の`setting(chat.includeReferencedInstructions)`、`AGENTS.md`ファイル用の`setting(chat.useAgentsMdFile)`。
 
-For advanced diagnostics, [check language model requests in the Chat Debug view](https://github.com/microsoft/vscode/wiki/Copilot-Issues#language-model-requests-and-responses) or [debug the `applyTo` matching logic](https://github.com/microsoft/vscode/wiki/Copilot-Issues#custom-instructions-logs).
+高度な診断については、[チャットデバッグビューで言語モデルリクエストをチェック](https://github.com/microsoft/vscode/wiki/Copilot-Issues#language-model-requests-and-responses)するか、[`applyTo`マッチングロジックをデバッグ](https://github.com/microsoft/vscode/wiki/Copilot-Issues#custom-instructions-logs)してください。
 
-### How do I know where a custom instruction file comes from?
+### カスタム命令ファイルの出所はどこですか？
 
-Custom instruction files can come from different sources: built-in, user-defined in your profile, workspace-defined instructions in your current workspace, organization-level instructions, or extension-contributed instructions.
+カスタム命令ファイルの出所は異なります：ビルトイン、プロフィール内でユーザーが定義、現在のワークスペースでワークスペースが定義、組織レベルの命令、またはエクステンション提供の命令。
 
-To identify the source of a custom instruction file:
+カスタム命令ファイルの出元を識別するには：
 
-1. Select **Chat: Configure Instructions** from the Command Palette (`kb(workbench.action.showCommands)`).
-1. Hover over the instruction file in the list. The source location is displayed in a tooltip.
+1. コマンドパレット(`kb(workbench.action.showCommands)`)から**Chat: Configure Instructions**を選択します。
+1. リスト内の命令ファイルの上にマウスを導きます。ソース場所がツールチップに表示されます。
 
-Use the chat customization diagnostics view to see all loaded instruction files and any errors. Right-click in the Chat view and select **Diagnostics**. Learn more about [troubleshooting AI in VS Code](/docs/copilot/troubleshooting.md).
+チャットカスタマイゼーション診断ビューを使用して、すべての読み込まれた命令ファイルとエラーを確認します。チャットビューで右クリックして**診断**を選択します。[VS Codeでトラブルシューティング](/docs/copilot/troubleshooting.md)の詳細をご覧ください。
 
-## Related resources
+## 関連リソース
 
-* [Use Agent Skills](/docs/copilot/customization/agent-skills.md)
-* [Create custom agents](/docs/copilot/customization/custom-agents.md)
-* [Community contributed instructions, prompts, and custom agents](https://github.com/github/awesome-copilot)
+* [エージェントスキルを使用する](/docs/copilot/customization/agent-skills.md)
+* [カスタムエージェントを作成する](/docs/copilot/customization/custom-agents.md)
+* [コミュニティが提供する命令、プロンプト、カスタムエージェント](https://github.com/github/awesome-copilot)
+

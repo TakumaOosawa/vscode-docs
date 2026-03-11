@@ -1,7 +1,7 @@
 ---
 ContentId: c3d4e5f6-7a8b-9c0d-1e2f-3a4b5c6d7e8f
 DateApproved: 3/9/2026
-MetaDescription: Learn how VS Code assembles context for AI prompts, including workspace indexing, implicit context, explicit references, and context window management.
+MetaDescription: VS Codeが AI プロンプト用のコンテキストを組み立てる方法を学ぶ、ワークスペースインデックス作成、暗黙的コンテキスト、明示的参照、コンテキストウィンドウ管理を含みます。
 MetaSocialImage: ../images/shared/github-copilot-social.png
 Keywords:
 - copilot
@@ -14,90 +14,91 @@ Keywords:
 - implicit context
 ---
 
-# Context
+# コンテキスト
 
-Context is everything the model can see when generating a response. It includes the conversation history, file contents from your workspace, tool outputs, custom instructions, and any references you add explicitly. The model can only reason about what it can see, so providing relevant context is one of the most effective ways to improve AI responses.
+コンテキストは、モデルが応答を生成する際に見ることができるすべてのものです。会話履歴、ワークスペースのファイル内容、ツール出力、カスタム命令、および明示的に追加した参照が含まれます。モデルは見ることができるものについてのみ推論できるため、関連するコンテキストを提供することは、AI応答を改善する最も効果的な方法の1つです。
 
-This article explains how VS Code assembles context, what types of context are available, and how to work effectively with context window limits.
+この記事では、VS Codeがコンテキストをどのように組み立てるか、利用可能なコンテキストのタイプ、およびコンテキストウィンドウの制限内で効果的に作業する方法について説明します。
 
-## Why context matters
+## コンテキストが重要である理由
 
-A prompt with relevant files, clear instructions, and focused history produces better results than a vague prompt with no context. The model has no memory of previous sessions and no access to files it hasn't been given. Everything it knows about your task comes from the context assembled for the current request.
+関連ファイル、明確な命令、焦点を絞った履歴を含むプロンプトは、コンテキストのない曖昧なプロンプトよりも優れた結果をもたらします。モデルは以前のセッションのメモリを持たず、与えられていないファイルにはアクセスできません。タスクについて知っていることはすべて、現在のリクエスト用に組み立てられたコンテキストから来ています。
 
-## How VS Code assembles context
+## VS Codeがコンテキストを組み立てる方法
 
-When you send a message, VS Code builds a language model prompt from multiple sources:
+メッセージを送信すると、VS Codeは複数のソースからモデルプロンプトを構築します：
 
-![Diagram showing the context window as a container with seven layers: system instructions, customizations, user message, conversation history, implicit context, explicit references, and tool outputs, with an arrow sending the assembled prompt to the language model.](../images/concepts/context-assembly.png)
+![コンテキストウィンドウをシステム命令、カスタマイズ、ユーザーメッセージ、会話履歴、暗黙的コンテキスト、明示的参照、ツール出力の7つのレイヤーを持つコンテナとして示す図。組み立てられたプロンプトを言語モデルに送信する矢印があります。](../images/concepts/context-assembly.png)
 
-* **System instructions**: built-in guidelines that define the agent's behavior.
-* **Customizations**: AI customizations you set up, including custom agents, skills, and custom instructions.
-* **User message**: the current message you're sending to the agent.
-* **Conversation history**: the messages exchanged so far in the current session.
-* **Implicit context**: the file you're editing, your current selection, visible errors, and git state.
-* **Explicit references**: files, editor context, web content, and other sources you reference with `#`-mentions.
-* **Tool outputs**: results from file reads, terminal commands, codebase search results, and other tool calls during agent sessions.
+* **システム命令**: エージェントの動作を定義する組み込みガイドライン。
+* **カスタマイズ**: カスタムエージェント、スキル、カスタム命令を含む設定した AI カスタマイズ。
+* **ユーザーメッセージ**: エージェントに送信しているメッセージ。
+* **会話履歴**: 現在のセッション内で交換されたメッセージ。
+* **暗黙的コンテキスト**: 編集中のファイル、現在の選択、表示されたエラー、git状態。
+* **明示的参照**: ファイル、エディターコンテキスト、ウェブコンテンツ、および`#`メンションで参照されるその他のソース。
+* **ツール出力**: ファイル読み取り、ターミナルコマンド、コードベース検索結果、およびエージェントセッション中の他のツール呼び出しの結果。
 
-This assembled prompt is what the model sees. Everything outside of it is invisible to the model. This is why referencing specific files with `#file` produces better results than asking about code the model hasn't seen.
+この組み立てられたプロンプトはモデルが見るものです。その外側のものはすべてモデルに見えません。これが`#file`で特定のファイルを参照することがモデルが見ていないコードについて尋ねるよりも優れた結果をもたらす理由です。
 
-## Workspace indexing
+## ワークスペースインデックス作成
 
-VS Code uses an index to quickly and accurately search your codebase for relevant code snippets. This index can either be maintained by GitHub or stored locally on your machine.
+VS Codeはインデックスを使用して、関連するコードスニペットについてコードベースを迅速かつ正確に検索します。このインデックスはGitHubによって維持されるか、マシンにローカルに保存されるかのいずれかです。
 
-* **Remote index**: if your code is hosted in a GitHub repository, you can build a remote index to search your codebase quickly, even for large codebases.
-* **Local index**: use an advanced semantic index stored on your local machine for fast and accurate search results.
-* **Basic index**: if local indexing is not available, simpler algorithms work locally for larger codebases.
+* **リモートインデックス**: コードが GitHub リポジトリにホストされている場合、大規模なコードベースでも、コードベースを迅速に検索するためのリモートインデックスを構築できます。
+* **ローカルインデックス**: マシン上のローカルに保存された高度なセマンティックインデックスを使用して、高速で正確な検索結果を得ます。
+* **基本インデックス**: ローカルインデックスが利用できない場合、より単純なアルゴリズムがより大きなコードベース用にローカルで機能します。
 
-Learn more about [workspace indexing](/docs/copilot/reference/workspace-context.md).
+[ワークスペースインデックス作成](/docs/copilot/reference/workspace-context.md)について詳しく知る。
 
-## Implicit context
+## 暗黙的コンテキスト
 
-VS Code automatically provides context to the prompt based on your current activity:
+VS Codeは現在のアクティビティに基づいてプロンプトに自動的にコンテキストを提供します：
 
-* The currently selected text in the active editor.
-* The file name or notebook name of the active editor.
-* If you're using the **Ask** agent, the active file is automatically included as context.
-* When using **Agent**, it decides autonomously if the active file needs to be added based on your prompt.
+* アクティブなエディターで現在選択されているテキスト。
+* アクティブなエディターのファイル名またはノートブック名。
+* **Ask** エージェントを使用している場合、アクティブなファイルは自動的にコンテキストに含まれます。
+* **Agent**を使用する場合、プロンプトに基づいてアクティブなファイルを追加する必要があるかどうかを自動的に決定します。
 
-## Working effectively with context
+## コンテキストを効果的に使用する
 
-* **Start new sessions for new tasks.** A [session](/docs/copilot/chat/chat-sessions.md) is an independent conversation with its own context window and history. Each session starts fresh, so don't reuse a single conversation for unrelated tasks.
-* **Be selective with context.** Adding your entire codebase isn't always helpful. Reference specific files that are relevant to the task.
-* **Use custom instructions for persistent rules.** Rules you add in [custom instructions](/docs/copilot/customization/custom-instructions.md) are included in every request, so you don't lose them when the conversation is summarized.
+* **新しいタスクの場合は新しいセッションを開始します。** [セッション](/docs/copilot/chat/chat-sessions.md)は独立した会話で、独自のコンテキストウィンドウと履歴があります。各セッションは新しく開始されるため、関連のない複数のタスクに単一の会話を再利用しないでください。
+* **コンテキストを選別してください。** コードベース全体を追加することが常に役立つとは限りません。タスクに関連する特定のファイルを参照します。
+* **永続的なルールにはカスタム命令を使用します。** [カスタム命令](/docs/copilot/customization/custom-instructions.md)に追加したルールはすべてのリクエストに含まれるため、会話が要約されても失われません。
 
-### Examples
+### 例
 
-The following examples show how adding context improves results:
+次の例は、コンテキストを追加することで結果がどのように改善されるかを示しています：
 
-**Vague prompt (no context)**:
-
-```prompt
-How does authentication work?
-```
-
-The model has no way to know which project you mean and gives a generic answer about authentication patterns.
-
-**Prompt with explicit context**:
+**曖昧なプロンプト（コンテキストなし）**:
 
 ```prompt
-How does authentication work for this project?
+認証はどのように機能しますか？
 ```
 
-The model reads your actual authentication files and explains how *your* implementation works, referencing specific functions and configuration values.
+モデルはあなたがどのプロジェクトを意味しているかを知る方法がなく、認証パターンに関する一般的な回答を提供します。
 
-**Prompt with web context**:
+**明示的なコンテキストを含むプロンプト**:
 
 ```prompt
-Migrate the auth module to the latest passport.js API #fetch https://www.passportjs.org/concepts/authentication/
+このプロジェクトの認証はどのように機能しますか？
 ```
 
-The model uses the current documentation from the web to guide the migration, avoiding outdated API patterns from its training data.
+モデルは実際の認証ファイルを読み取り、実装の動作方法を説明し、特定の関数と設定値を参照します。
 
-Learn more about [adding context to chat](/docs/copilot/chat/copilot-chat-context.md).
+**ウェブコンテキストを含むプロンプト**:
 
-## Related resources
+```prompt
+認証モジュールを最新のpassport.js API に移行する #fetch https://www.passportjs.org/concepts/authentication/
+```
 
-* [Language models](/docs/copilot/concepts/language-models.md)
-* [Manage context for AI](/docs/copilot/chat/copilot-chat-context.md)
-* [Context engineering guide](/docs/copilot/guides/context-engineering-guide.md)
-* [Workspace indexing](/docs/copilot/reference/workspace-context.md)
+モデルはウェブから現在の文書を使用して移行をガイドし、トレーニングデータからの廃止されたAPIパターンを回避します。
+
+[チャットにコンテキストを追加する](/docs/copilot/chat/copilot-chat-context.md)方法の詳細を学ぶ。
+
+## 関連リソース
+
+* [言語モデル](/docs/copilot/concepts/language-models.md)
+* [AI のコンテキストを管理する](/docs/copilot/chat/copilot-chat-context.md)
+* [コンテキストエンジニアリングガイド](/docs/copilot/guides/context-engineering-guide.md)
+* [ワークスペースインデックス作成](/docs/copilot/reference/workspace-context.md)
+

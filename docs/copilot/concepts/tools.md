@@ -1,7 +1,7 @@
 ---
 ContentId: d4e5f6a7-8b9c-0d1e-2f3a-4b5c6d7e8f9a
 DateApproved: 3/9/2026
-MetaDescription: Learn about the different types of tools that extend AI agents in VS Code, including built-in tools, MCP servers, and extension tools.
+MetaDescription: VS Codeでは、組み込みツール、MCPサーバー、拡張機能ツールなど、AIエージェントを拡張するさまざまなタイプのツールについて学習します。
 MetaSocialImage: ../images/shared/github-copilot-social.png
 Keywords:
 - copilot
@@ -14,54 +14,55 @@ Keywords:
 - tool approval
 ---
 
-# Tools
+# ツール
 
-Tools are the mechanism that lets the model act on your development environment. Without tools, a [language model](/docs/copilot/concepts/language-models.md) can only generate text. With tools, an [agent](/docs/copilot/concepts/agents.md) can read files, write code, run terminal commands, search your codebase, and connect to external services.
+ツールは、モデルが開発環境上で動作するメカニズムです。ツールがなければ、[言語モデル](/docs/copilot/concepts/language-models.md)はテキストを生成することしかできません。ツールがあると、[エージェント](/docs/copilot/concepts/agents.md)はファイルの読み取り、コードの記述、ターミナルコマンドの実行、コードベースの検索、外部サービスへの接続ができます。
 
-During the [agent loop](/docs/copilot/concepts/agents.md#agent-loop), the model decides which tools to call based on the task. Each tool call produces output that becomes part of the [context](/docs/copilot/concepts/context.md) for the next iteration.
+[エージェントループ](/docs/copilot/concepts/agents.md#agent-loop)中に、モデルはタスクに基づいてどのツールを呼び出すかを決定します。各ツール呼び出しは출力を生成し、それが次のイテレーションの[コンテキスト](/docs/copilot/concepts/context.md)の一部になります。
 
-This article explains the types of tools available, how the agent selects and uses them, and how you can control which tools are enabled.
+この記事では、利用可能なツールのタイプ、エージェントがそれらを選択して使用する方法、およびどのツールを有効にするかを制御する方法について説明します。
 
-## Types of tools
+## ツールのタイプ
 
-VS Code supports three types of tools:
+VS Codeは3つのタイプのツールをサポートしています:
 
-* **Built-in tools**: tools that ship with VS Code for common development tasks, like reading and writing files, running terminal commands, searching your codebase, and navigating the editor. These are available immediately without any setup.
-* **MCP tools**: tools provided by [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) servers, an open standard for connecting AI models to external tools and data sources. MCP servers can run locally on your machine or be hosted remotely. Use MCP tools to connect to databases, APIs, and other external services.
-* **Extension tools**: tools contributed by VS Code extensions through the Language Model Tools API. Extension tools integrate deeply with the editor and are available when you install the extension.
+* **組み込みツール**: ファイルの読み取りと書き込み、ターミナルコマンドの実行、コードベースの検索、エディターのナビゲーションなど、一般的な開発タスク用にVS Codeに付属するツール。セットアップなしですぐに利用できます。
+* **MCPツール**: [Model Context Protocol(MCP)](https://modelcontextprotocol.io/)サーバーによって提供されるツール。AIモデルを外部ツールとデータソースに接続するためのオープンスタンダードです。MCPサーバーはマシンでローカルに実行することも、リモートでホストすることもできます。MCPツールを使用して、データベース、API、その他の外部サービスに接続できます。
+* **拡張機能ツール**: Language Model Tools APIを通じてVS Code拡張機能によって提供されるツール。拡張機能ツールはエディターと深く統合され、拡張機能をインストールするときに利用可能です。
 
-## How tools work
+## ツールの仕組み
 
-When an agent processes a task, the model examines the available tools and decides which ones to call. This happens autonomously: you give the agent a high-level task, and it determines the right tools to use at each step.
+エージェントがタスクを処理するとき、モデルは利用可能なツールを調べ、どのツールを呼び出すかを決定します。これは自動的に行われます: エージェントに高レベルのタスクを与えると、各ステップで使用する適切なツールを決定します。
 
-You can also explicitly reference tools in your prompts by typing `#` followed by the tool name. This is useful when you want to ensure a specific tool is used.
+プロンプトで`#`の後にツール名を入力することで、ツールを明示的に参照することもできます。特定のツールが確実に使用されるようにしたい場合に便利です。
 
-## Control which tools are available
+## 利用可能なツールの制御
 
-Use the **Configure Tools** button in the chat input field to enable or disable individual tools for the current request. This gives you direct control over which tools the agent can use.
+チャット入力フィールドの**ツールの設定**ボタンを使用して、現在のリクエストに対して個別のツールを有効または無効にします。これにより、エージェントが使用できるツールを直接制御できます。
 
-Limiting the available tools can help in several ways:
+利用可能なツールを制限することは、いくつかの方法で役立ちます:
 
-* **Preserve context**: every tool call produces output that consumes space in the [context window](/docs/copilot/concepts/language-models.md#context-window). Fewer tools means the agent is less likely to make unnecessary calls that fill up the context.
-* **Get more relevant results**: when fewer tools are available, the agent focuses on the most appropriate ones rather than choosing from a large set.
-* **Improve performance**: a smaller tool set reduces the decision space for the model, which can speed up responses.
+* **コンテキストを保持する**: すべてのツール呼び出しはコンテキストウィンドウの空間を消費する出力を生成します](/docs/copilot/concepts/language-models.md#context-window)。ここで指します。ツールが少ないほど、エージェントはコンテキストを埋める不要な呼び出しをする可能性が低くなります。
+* **より関連性の高い結果を取得する**: 利用可能なツールが少ないほど、エージェントは大規模なセットから選択するのではなく、最も適切なツールに焦点を当てます。
+* **パフォーマンスを改善する**: ツールセットが小さいほど、モデルの決定スペースが減少し、レスポンスが高速化される可能性があります。
 
-You can also control tool availability through [prompt files](/docs/copilot/customization/prompt-files.md) and [custom agents](/docs/copilot/customization/custom-agents.md), which let you define a fixed set of tools for specific tasks or workflows.
+[プロンプトファイル](/docs/copilot/customization/prompt-files.md)と[カスタムエージェント](/docs/copilot/customization/custom-agents.md)を通じてツールの可用性を制御することもできます。これらにより、特定のタスクまたはワークフロー用に固定のツールセットを定義できます。
 
-Learn more about [enabling tools for chat](/docs/copilot/agents/agent-tools.md#enable-tools-for-chat).
+[チャットのツールを有効にする](/docs/copilot/agents/agent-tools.md#enable-tools-for-chat)の詳細をご覧ください。
 
-## Tool approval and trust
+## ツールの承認と信頼
 
-Tools can perform actions that modify files, your environment, or access external services. VS Code includes security controls to keep you in charge:
+ツールはファイルを変更し、環境に影響を与える、または外部サービスにアクセスするアクションを実行できます。VS Codeには、あなたを管理し続けるためのセキュリティ管理が含まれています:
 
-* **Approval prompts**: tools with side effects show a confirmation dialog before running. You can approve for a single use, the current session, or all future invocations.
-* **URL approval**: when a tool accesses a URL, a two-step process verifies both the request and the response content.
-* **Permission levels**: the permissions picker controls how much autonomy the agent has, from requiring manual approval to fully autonomous operation.
+* **承認プロンプト**: 副作用のあるツールは実行前に確認ダイアログを表示します。単一の使用、現在のセッション、またはすべての将来の呼び出しに対して承認できます。
+* **URL承認**: ツールがURLにアクセスするとき、2段階のプロセスがリクエストとレスポンスコンテンツの両方を検証します。
+* **権限レベル**: 権限ピッカーは、手動承認を必須とすることから完全自律操作まで、エージェントがどれだけ自律性を持つかを制御します。
 
-Learn more about [trust and safety](/docs/copilot/concepts/trust-and-safety.md).
+[信頼とセキュリティ](/docs/copilot/concepts/trust-and-safety.md)の詳細をご覧ください。
 
-## Related resources
+## 関連リソース
 
-* [Use tools with agents](/docs/copilot/agents/agent-tools.md)
-* [Add and manage MCP servers](/docs/copilot/customization/mcp-servers.md)
-* [Agents](/docs/copilot/concepts/agents.md)
+* [エージェントでツールを使用する](/docs/copilot/agents/agent-tools.md)
+* [MCPサーバーを追加および管理する](/docs/copilot/customization/mcp-servers.md)
+* [エージェント](/docs/copilot/concepts/agents.md)
+

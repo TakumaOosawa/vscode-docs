@@ -1,197 +1,198 @@
 ---
 ContentId: 7a2e5f8d-4c9b-41e6-b3a8-9d7f2e4c1b8a
 DateApproved: 3/9/2026
-MetaDescription: Learn how to create and manage chat sessions in Visual Studio Code, including opening chat in editor tabs, separate windows, and using chat session history.
+MetaDescription: Visual Studio Codeでチャットセッションを作成および管理する方法について説明します。エディタータブでのチャットのオープン、別ウィンドウでのオープン、チャットセッション履歴の使用を含みます。
 MetaSocialImage: ../images/shared/github-copilot-social.png
 ---
-# Manage chat sessions
+# チャットセッションを管理する
 
-Use chat in Visual Studio Code to have conversation-based AI interactions. A chat session consists of the sequence of prompts and responses between you and the AI, along with any relevant context from your code or files. This article describes how to create and manage chat sessions, export chat sessions, and how to view the chat session history.
+Visual Studio Codeでチャットを使用して、会話ベースのAIインタラクションを実行します。チャットセッションは、ユーザーとAI間のプロンプトと応答のシーケンス、およびコードまたはファイルからの関連コンテキストで構成されます。この記事では、チャットセッションの作成と管理、チャットセッションのエクスポート、およびチャットセッション履歴の表示方法について説明します。
 
-<div class="docs-action" data-show-in-doc="false" data-show-in-sidebar="true" title="Get started with agents">
-Follow a hands-on tutorial to experience local, background, and cloud agents in VS Code.
+<div class="docs-action" data-show-in-doc="false" data-show-in-sidebar="true" title="エージェントの概要">
+VS Codeでローカル、バックグラウンド、クラウドエージェントを体験するハンズオンチュートリアルに従ってください。
 
-* [Start tutorial](/docs/copilot/agents/agents-tutorial.md)
+* [チュートリアルを開始](/docs/copilot/agents/agents-tutorial.md)
 
 </div>
 
-## What is a chat session?
+## チャットセッションとは
 
-A chat session is a single conversation with the AI, including all prompts, responses, and context. Each session is independent, so context from one session does not carry over to another.
+チャットセッションは、AIとの単一の会話であり、すべてのプロンプト、応答、およびコンテキストを含みます。各セッションは独立しているため、1つのセッションのコンテキストは別のセッションに引き継がれません。
 
-Key things to know about chat sessions:
+チャットセッションについて知っておくべき重要な事項：
 
-* **Context window**: as you chat, the session accumulates context. Creating a new session clears the history and starts a fresh context window. You can [monitor context window usage](/docs/copilot/chat/copilot-chat-context.md#monitor-context-window-usage) in the chat input box.
-* **Checkpoints**: at any time, you can roll back to a previous state or edit a previous prompt to change direction. Learn more about [checkpoints](/docs/copilot/chat/chat-checkpoints.md).
-* **Session types**: sessions can run locally, in the background, or in the cloud. Learn more about [agents](/docs/copilot/agents/overview.md).
-* **Multiple sessions**: regardless of the session type, you can run multiple sessions in parallel, each focused on a different task. With the agent sessions view, you can monitor and switch between sessions. Learn more about [managing agent sessions](/docs/copilot/agents/overview.md#agent-sessions-list).
-
-> [!TIP]
-> Start a new chat session when you want to change topics to help the AI provide more relevant responses.
-
-## Start a new chat session
-
-You can open chat sessions in different views, depending on how you prefer to work. At any time, you can run multiple sessions in parallel, each focused on a different task.
-
-To start a new chat session, use the **New Chat (+)** button in the Chat view, or use the keyboard shortcut `kb(workbench.action.chat.newChat)`.
-
-![Screenshot of the New Chat button in the Chat view.](../images/chat-sessions/new-chat-button.png)
-
-Choose where to open the session:
-
-* **Side bar** (default): select **New Chat (+)** > **New Chat**, or run the **Chat: New Chat** command. Best for keeping chat visible alongside your code.
-
-    ![Screenshot of opening a new chat session in the Chat view in VS Code.](../images/chat-sessions/new-chat-session-chat-view.png)
-
-* **Editor tab**: select **New Chat (+)** > **New Chat Editor**, or run the **Chat: New Chat Editor** command. Best for giving chat more space or comparing sessions side by side.
-
-    ![Screenshot of opening a new chat session in an editor tab in VS Code.](../images/chat-sessions/new-chat-session-editor-tab.png)
-
-* **Separate window**: select **New Chat (+)** > **New Chat Window**, or run the **Chat: New Chat Window** command. Best for multi-monitor setups.
-
-    ![Screenshot of opening a new chat session in a separate window in VS Code.](../images/chat-sessions/new-chat-session-separate-window.png)
-
-VS Code also supports different session types (local, background, cloud, and third-party) that determine where the AI runs. Learn more about [agent types and session management](/docs/copilot/agents/overview.md).
-
-## Move a chat session to a different view
-
-You can move an existing chat session between views at any time. The full conversation history and context are preserved.
-
-Select the `...` menu in the Chat view, editor tab, or chat window and choose one of the **Move Chat into...** options.
-
-Alternatively, choose any of the following commands from the Command Palette:
-
-* **Chat: Move Chat into Editor Area**
-* **Chat: Move Chat into New Window**
-* **Chat: Move Chat into Side Bar**
-
-## Fork a chat session
-
-Forking a chat session creates a new, independent session that inherits the conversation history from the original session. The forked session is fully separate from the original, so changes in one session do not affect the other. The new session title is prefixed with "Forked:" to help you identify it.
-
-Forking is useful when you want to explore an alternative approach, ask a side question, or branch a long conversation in a different direction without losing the original context.
-
-There are two ways to fork a chat session:
-
-* **Fork the entire session**: type `/fork` in the chat input box and press `kbstyle(Enter)`. A new session opens with the full conversation history copied from the current session.
-
-* **Fork from a checkpoint**: hover over a chat request in the conversation and select the **Fork Conversation** button. A new session opens that includes only the requests up to and including that checkpoint.
-
-    ![Screenshot of the Fork Conversation button in the checkpoint toolbar in the Chat view.](../images/chat-checkpoints/chat-fork-conversation.png)
-
-## Session history
-
-The Chat view shows your recent and active chat sessions, regardless of where they run. When you select a session from the list, you can see the full conversation history and context for that session. Send new prompts in that session to continue the conversation.
-
-You can have multiple sessions active at once and switch between them to compare different conversations or work on multiple tasks in parallel.
-
-![Screenshot of an agent session in VS Code showing code changes and chat interaction.](../images/agents-overview/chat-sessions-view-v3.png)
-
-The session list is scoped to your current workspace. If you don't have a workspace open, the list shows all sessions across your workspaces.
-
-Learn more about [viewing and managing sessions](/docs/copilot/agents/overview.md#agent-sessions-list).
-
-### VS Code welcome page
-
-The VS Code welcome page can act as your startup experience for working with chat sessions. It provides quick access to your recent chat sessions, an embedded chat widget for starting new tasks, and quick actions for common tasks.
-
-![Screenshot of the VS Code welcome page showing recent chat sessions and embedded chat.](../images/chat-sessions/agent-sessions-welcome-page.png)
-
-To configure the VS Code welcome page as your startup experience, set `setting(workbench.startupEditor)` to `agentSessionsWelcomePage`.
-
-## Send messages while a request is running
-
-You don't have to wait for a response to finish before sending your next message. While a request is in progress, the **Send** button changes to a dropdown that gives you three options for how to handle the new message.
-
-![Screenshot of the Send button dropdown menu showing options to queue, steer, or stop and send a new message.](../images/chat-sessions/send-dropdown.png)
-
-* **Add to Queue**: your message waits and sends automatically after the current response completes. The current response finishes uninterrupted.
-* **Steer with Message**: signals the current request to yield after finishing the current tool execution. The current response stops and your new message processes immediately. Use this to redirect the agent when it's heading in the wrong direction.
-* **Stop and Send**: cancels the current request entirely and sends your new message right away.
-
-The default action for the **Send** button is configurable. Use `setting(chat.requestQueuing.defaultAction)` to set it to `steer` (default) or `queue`.
-
-### Reorder pending messages
-
-When you have multiple pending messages (queued or steering), you can drag and drop them to change the order in which they are processed. A drag handle appears on hover when more than one message of the same type is pending.
-
-![Screenshot of pending messages in the chat input box with drag handles to reorder them.](../images/chat-sessions/pending-messages.png)
-
-## Get notified about chat responses
-
-When you're working in another window or application, VS Code can send you OS notifications to let you know about important chat events, so you don't have to keep checking back.
-
-Use `setting(chat.notifyWindowOnResponseReceived)` to configure when you receive an OS notification when a chat response is received. The notification includes a preview of the response, and selecting it brings focus to the chat session.
-
-Use `setting(chat.notifyWindowOnConfirmation)` to configure when you receive an OS notification when the agent needs your input or confirmation to continue.
-
-Both settings have three possible values:
-
-* `off`: never show notifications
-* `windowNotFocused` (default): show notifications only when the VS Code window is not focused
-* `always`: show notifications even when the VS Code window is in focus
+* **コンテキストウィンドウ**: チャットするにつれて、セッションはコンテキストを蓄積します。新しいセッションを作成すると、履歴がクリアされ、新しいコンテキストウィンドウが開始されます。チャット入力ボックスで[コンテキストウィンドウの使用状況を監視](/docs/copilot/chat/copilot-chat-context.md#monitor-context-window-usage)できます。
+* **チェックポイント**: いつでも前の状態にロールバックするか、前のプロンプトを編集して方向を変更できます。[チェックポイント](/docs/copilot/chat/chat-checkpoints.md)の詳細をご覧ください。
+* **セッションタイプ**: セッションはローカル、バックグラウンド、またはクラウドで実行できます。[エージェント](/docs/copilot/agents/overview.md)の詳細をご覧ください。
+* **複数セッション**: セッションタイプに関係なく、各セッションが異なるタスクに焦点を当てた複数のセッションを並行して実行できます。エージェントセッションビューでは、セッションを監視して切り替えることができます。[エージェントセッションの管理](/docs/copilot/agents/overview.md#agent-sessions-list)の詳細をご覧ください。
 
 > [!TIP]
-> Set the value to `always` if you want to stay aware of chat activity while working in other parts of VS Code, such as when running long agent tasks in the background.
+> トピックを変更する場合は、新しいチャットセッションを開始して、AIがより関連性の高い応答を提供するようにしてください。
 
-## Navigate between prompts in a chat session
+## 新しいチャットセッションを開始する
 
-Use the following keyboard shortcuts to navigate between prompts in a chat session:
+どのように作業するかによって、異なるビューでチャットセッションを開くことができます。いつでも、各セッションが異なるタスクに焦点を当てた複数のセッションを並行して実行できます。
 
-* `kb(workbench.action.chat.previousUserPrompt)`: Go to the previous prompt in the chat session.
-* `kb(workbench.action.chat.nextUserPrompt)`: Go to the next prompt in the chat session.
-* `kb(workbench.action.chat.previousCodeBlock)`: Go to the previous code block in the chat session.
-* `kb(workbench.action.chat.nextCodeBlock)`: Go to the next code block in the chat session.
+新しいチャットセッションを開始するには、チャットビューの**新しいチャット(+)**ボタンを使用するか、キーボードショートカット`kb(workbench.action.chat.newChat)`を使用します。
 
-## Save and export chat sessions
+![チャットビューの新しいチャットボタンのスクリーンショット。](../images/chat-sessions/new-chat-button.png)
 
-You can save chat sessions to preserve important conversations or reuse them later for similar tasks.
+セッションを開く場所を選択します：
 
-### Export a chat session as a JSON file
+* **サイドバー**(デフォルト)：**新しいチャット(+)** > **新しいチャット**を選択するか、**チャット：新しいチャット**コマンドを実行します。チャットをコードの隣に表示し続けるのに最適です。
 
-You can export a chat session to save it for later reference or share it with others. Exporting a chat session creates a JSON file that contains all prompts and responses from the session.
+    ![VS Codeのチャットビューで新しいチャットセッションを開く場合のスクリーンショット。](../images/chat-sessions/new-chat-session-chat-view.png)
 
-To export a chat session:
+* **エディタータブ**：**新しいチャット(+)** > **新しいチャットエディター**を選択するか、**チャット：新しいチャットエディター**コマンドを実行します。チャットにより多くのスペースを与えるか、セッションを並べて比較するのに最適です。
 
-1. Open the chat session you want to export in the Chat view.
+    ![VS Codeのエディタータブで新しいチャットセッションを開く場合のスクリーンショット。](../images/chat-sessions/new-chat-session-editor-tab.png)
 
-1. Run the **Chat: Export Chat...** command from the Command Palette (`kb(workbench.action.showCommands)`).
+* **別ウィンドウ**：**新しいチャット(+)** > **新しいチャットウィンドウ**を選択するか、**チャット：新しいチャットウィンドウ**コマンドを実行します。マルチモニター設定に最適です。
 
-1. Choose a location to save the JSON file.
+    ![VS Codeの別ウィンドウで新しいチャットセッションを開く場合のスクリーンショット。](../images/chat-sessions/new-chat-session-separate-window.png)
 
-Alternatively, you can copy individual prompts or responses to the clipboard by right-clicking the message and selecting **Copy**. To copy the entire chat session in Markdown format, right-click the Chat view and select **Copy All**.
+VS Codeは、AIが実行される場所を決定するさまざまなセッションタイプ(ローカル、バックグラウンド、クラウド、サードパーティ)もサポートしています。[エージェントタイプとセッション管理](/docs/copilot/agents/overview.md)の詳細をご覧ください。
 
-### Save a chat session as a reusable prompt
+## チャットセッションを別のビューに移動する
 
-You can save a chat session as a [reusable prompt](/docs/copilot/customization/prompt-files.md) to reuse for similar tasks.
+既存のチャットセッションをいつでもビュー間で移動できます。完全な会話履歴とコンテキストは保持されます。
 
-To save a chat session as a reusable prompt:
+チャットビュー、エディタータブ、またはチャットウィンドウの`...`メニューを選択し、**チャットを移動...**オプションのいずれかを選択します。
 
-1. Open the chat session you want to save in the Chat view.
+または、コマンドパレットから次のコマンドのいずれかを選択します：
 
-1. Type `/savePrompt` in the chat input box and press `Enter`.
+* **チャット：チャットをエディター領域に移動**
+* **チャット：チャットを新しいウィンドウに移動**
+* **チャット：チャットをサイドバーに移動**
 
-    The command creates a `.prompt.md` file, which is a reusable [prompt file](/docs/copilot/customization/prompt-files.md) that generalizes your current chat conversation into a template with placeholders. You can use prompt files to run the same type of task across different projects or codebases.
+## チャットセッションをフォークする
 
-1. Review and edit the generated prompt file as needed, then save it to your workspace.
+チャットセッションをフォークすると、元のセッションから会話履歴を継承する新しい独立したセッションが作成されます。フォークされたセッションは元のセッションから完全に分離されているため、1つのセッションの変更は他のセッションに影響しません。新しいセッションタイトルには「フォーク済み：」というプレフィックスが付き、それを識別するのに役立ちます。
 
-## Tips for managing chat sessions
+フォークは、別のアプローチを探索したい場合、副質問をしたい場合、または元のコンテキストを失わずに長い会話を別の方向に分岐させたい場合に便利です。
 
-Consider the following tips to help you work effectively with chat sessions:
+チャットセッションをフォークする方法は2つあります：
 
-* **Start a new session for different topics**: start a new chat session to avoid carrying over context from unrelated conversations. This helps you get more relevant responses.
+* **セッション全体をフォークする**：チャット入力ボックスに`/fork`を入力して`kbstyle(Enter)`を押します。現在のセッションから完全な会話履歴がコピーされた新しいセッションが開きます。
 
-* **Use editor tabs for side-by-side comparisons**: open multiple chat sessions as editor tabs to compare different approaches or solutions side-by-side.
+* **チェックポイントからフォークする**：会話のチャットリクエストにマウスを置いて、**会話をフォーク**ボタンを選択します。そのチェックポイントまでおよびそのチェックポイントを含むリクエストのみを含む新しいセッションが開きます。
 
-* **Use separate windows for multi-monitor setups**: open chat in a separate window on a secondary monitor to keep it visible while you work on code in the main window.
+    ![チャットビューのチェックポイントツールバーの「会話をフォーク」ボタンのスクリーンショット。](../images/chat-checkpoints/chat-fork-conversation.png)
 
-* **Background tasks with remote agents**: use remote coding agents to perform AI tasks in the background while you continue working in VS Code.
+## セッション履歴
 
-* **Interactive agent sessions**: use local agent sessions for interactive tasks that require real-time input and feedback.
+チャットビューは、実行場所に関係なく、最近のアクティブなチャットセッションを表示します。リストからセッションを選択すると、そのセッションの完全な会話履歴とコンテキストを表示できます。そのセッションで新しいプロンプトを送信して、会話を続けます。
 
-## Related resources
+複数のセッションを同時にアクティブにして、異なる会話を比較するか、複数のタスクを並行して処理するために、セッション間で切り替えることができます。
 
-* [Chat overview](/docs/copilot/chat/copilot-chat.md)
-* [Manage context for AI](/docs/copilot/chat/copilot-chat-context.md)
-* [Revert changes with checkpoints](/docs/copilot/chat/chat-checkpoints.md)
-* [Review AI-generated code edits](/docs/copilot/chat/review-code-edits.md)
+![VS Codeでコード変更とチャットインタラクションを示すエージェントセッションのスクリーンショット。](../images/agents-overview/chat-sessions-view-v3.png)
+
+セッションリストは現在のワークスペースに対応しています。ワークスペースを開いていない場合、リストはワークスペース全体のすべてのセッションを表示します。
+
+[セッションの表示と管理](/docs/copilot/agents/overview.md#agent-sessions-list)の詳細をご覧ください。
+
+### VS Codeウェルカムページ
+
+VS Codeウェルカムページは、チャットセッションを使用して作業するための起動エクスペリエンスとして機能できます。最近のチャットセッションへのクイックアクセス、新しいタスクを開始するための埋め込みチャットウィジェット、および一般的なタスク用のクイックアクションを提供します。
+
+![最近のチャットセッションと埋め込みチャットを示すVS Codeウェルカムページのスクリーンショット。](../images/chat-sessions/agent-sessions-welcome-page.png)
+
+VS Codeウェルカムページを起動エクスペリエンスとして設定するには、`setting(workbench.startupEditor)`を`agentSessionsWelcomePage`に設定します。
+
+## リクエスト実行中にメッセージを送信する
+
+応答が終了するのを待ってから、次のメッセージを送信する必要はありません。リクエストが実行中の場合、**送信**ボタンはドロップダウンに変わり、新しいメッセージを処理する方法に関する3つのオプションが提供されます。
+
+![キュー、ステアリング、または停止して新しいメッセージを送信するオプションを示す「送信」ボタンドロップダウンメニューのスクリーンショット。](../images/chat-sessions/send-dropdown.png)
+
+* **キューに追加**：メッセージは待機し、現在の応答が完了した後に自動的に送信されます。現在の応答は中断されずに完了します。
+* **メッセージでステアリング**：現在のツール実行完了後の生成を続行するよう現在のリクエストに信号を送ります。現在の応答が停止し、新しいメッセージが直ちに処理されます。エージェントが間違った方向に向かっている場合は、これを使用してエージェントをリダイレクトします。
+* **停止して送信**：現在のリクエストを完全にキャンセルし、新しいメッセージをすぐに送信します。
+
+**送信**ボタンのデフォルトアクションは設定可能です。`setting(chat.requestQueuing.defaultAction)`を使用して、`steer`(デフォルト)または`queue`に設定します。
+
+### 保留中のメッセージを並べ替える
+
+複数の保留中のメッセージがある場合(キューまたはステアリング)、ドラッグアンドドロップして、処理される順序を変更できます。同じタイプの保留中のメッセージが複数ある場合、ドラッグハンドルはホバー時に表示されます。
+
+![ドラッグハンドルを使用してリオーダーするためのチャット入力ボックス内の保留中のメッセージのスクリーンショット。](../images/chat-sessions/pending-messages.png)
+
+## チャット応答について通知を受け取る
+
+別のウィンドウまたはアプリケーションで作業している場合、VS Codeは重要なチャットイベントについて通知するためにOS通知を送信できるため、頻繁に確認する必要はありません。
+
+`setting(chat.notifyWindowOnResponseReceived)`を使用して、チャット応答が受信されたときにOS通知を受け取るタイミングを設定します。通知には応答のプレビューが含まれ、それを選択するとチャットセッションに焦点が当たります。
+
+`setting(chat.notifyWindowOnConfirmation)`を使用して、エージェントが続行するための入力または確認が必要な場合にOS通知を受け取るタイミングを設定します。
+
+両方の設定に3つの可能な値があります：
+
+* `off`：通知を表示しない
+* `windowNotFocused`(デフォルト)：VS Codeウィンドウがフォーカスされていない場合のみ通知を表示します
+* `always`：VS Codeウィンドウがフォーカスされている場合でも通知を表示します
+
+> [!TIP]
+> バックグラウンドで長いエージェントタスクを実行する場合など、VS Codeの他の部分で作業中にチャットアクティビティを認識したままにしたい場合は、値を`always`に設定します。
+
+## チャットセッション内のプロンプト間をナビゲートする
+
+次のキーボードショートカットを使用してチャットセッション内のプロンプト間をナビゲートします：
+
+* `kb(workbench.action.chat.previousUserPrompt)`：チャットセッションの前のプロンプトに移動します。
+* `kb(workbench.action.chat.nextUserPrompt)`：チャットセッションの次のプロンプトに移動します。
+* `kb(workbench.action.chat.previousCodeBlock)`：チャットセッションの前のコードブロックに移動します。
+* `kb(workbench.action.chat.nextCodeBlock)`：チャットセッションの次のコードブロックに移動します。
+
+## チャットセッションを保存およびエクスポートする
+
+重要な会話を保存したり、同様のタスクで後で再利用したりするために、チャットセッションを保存できます。
+
+### チャットセッションをJSONファイルとしてエクスポートする
+
+チャットセッションをエクスポートして、後で参照用に保存したり、他のユーザーと共有したりできます。チャットセッションをエクスポートすると、セッションからのすべてのプロンプトと応答を含むJSONファイルが作成されます。
+
+チャットセッションをエクスポートするには：
+
+1. チャットビューでエクスポートするチャットセッションを開きます。
+
+1. コマンドパレット(`kb(workbench.action.showCommands)`)から**チャット：チャットをエクスポート...**コマンドを実行します。
+
+1. JSONファイルを保存する場所を選択します。
+
+または、メッセージを右クリックして**コピー**を選択することで、個々のプロンプトまたは応答をクリップボードにコピーできます。チャットセッション全体をMarkdown形式でコピーするには、チャットビューを右クリックして**すべてをコピー**を選択します。
+
+### チャットセッションを再利用可能なプロンプトとして保存する
+
+チャットセッションを[再利用可能なプロンプト](/docs/copilot/customization/prompt-files.md)として保存して、同様のタスクに再利用できます。
+
+チャットセッションを再利用可能なプロンプトとして保存するには：
+
+1. チャットビューで保存するチャットセッションを開きます。
+
+1. チャット入力ボックスに`/savePrompt`を入力して`Enter`を押します。
+
+    このコマンドは`.prompt.md`ファイルを作成します。これは、現在のチャット会話を、プレースホルダーを含むテンプレートに一般化する再利用可能な[プロンプトファイル](/docs/copilot/customization/prompt-files.md)です。プロンプトファイルを使用して、異なるプロジェクトまたはコードベース全体で同じタイプのタスクを実行できます。
+
+1. 必要に応じて生成されたプロンプトファイルを確認および編集してから、ワークスペースに保存します。
+
+## チャットセッション管理のヒント
+
+チャットセッションで効果的に作業するには、次のヒントを検討してください：
+
+* **異なるトピックの新しいセッションを開始する**：関連のない会話からコンテキストが引き継がれるのを避けるために、新しいチャットセッションを開始します。これにより、より関連性の高い応答が得られます。
+
+* **エディタータブを使用して並べて比較する**：複数のチャットセッションをエディタータブとして開いて、異なるアプローチまたはソリューションを並べて比較します。
+
+* **マルチモニター設定に別のウィンドウを使用する**：セカンダリモニターの別のウィンドウでチャットを開いて、メインウィンドウでコードを作業しながらそれを表示し続けます。
+
+* **リモートエージェントを使用したバックグラウンドタスク**：リモートコーディングエージェントを使用してAIタスクをバックグラウンドで実行すると、VS Codeで作業を続行できます。
+
+* **インタラクティブなエージェントセッション**：ローカルエージェントセッションを使用して、リアルタイムの入力とフィードバックが必要なインタラクティブなタスク用に使用します。
+
+## 関連リソース
+
+* [チャット概要](/docs/copilot/chat/copilot-chat.md)
+* [AI用にコンテキストを管理](/docs/copilot/chat/copilot-chat-context.md)
+* [チェックポイントで変更を元に戻す](/docs/copilot/chat/chat-checkpoints.md)
+* [AI生成コード編集を確認](/docs/copilot/chat/review-code-edits.md)
+

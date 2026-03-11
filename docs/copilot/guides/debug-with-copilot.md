@@ -1,92 +1,93 @@
 ---
 ContentId: 2f21c45a-8931-4da2-a921-af23a3b92949
 DateApproved: 3/9/2026
-MetaDescription: Learn how to use GitHub Copilot in Visual Studio Code to set up debugging configurations and fix issues during debugging.
+MetaDescription: Visual Studio CodeでGitHub Copilotを使用してデバッグ構成をセットアップし、デバッグ中の問題を修正する方法を説明します。
 MetaSocialImage: ../images/shared/github-copilot-social.png
 ---
-# Debug with GitHub Copilot
+# GitHub Copilotでデバッグ
 
-GitHub Copilot can help improve your debugging workflow in Visual Studio Code. Copilot can assist with the setup of the debug configuration for your project and provide suggestions for fixing issues discovered during debugging. This article gives an overview of how to use Copilot for debugging applications in VS Code.
+GitHub CopilotはVisual Studio Codeのデバッグワークフローを改善するのに役立ちます。Copilotはプロジェクトのデバッグ構成をセットアップし、デバッグ中に発見された問題を修正するための提案を提供できます。この記事では、VS CodeでCopilotを使用してアプリケーションをデバッグする方法の概要を説明します。
 
-Copilot can help with the following debugging tasks:
+Copilotは以下のデバッグタスクをサポートできます:
 
-* **Configure debug settings**: generate and customize launch configurations for your project.
-* **Start a debugging session**: use `copilot-debug` to start a debugging session from the terminal.
-* **Fix issues**: receive suggestions for fixing issues discovered during debugging.
+* **デバッグ設定の構成**: プロジェクトのlaunch構成を生成およびカスタマイズします。
+* **デバッグセッションの開始**: ターミナルから`copilot-debug`を使用してデバッグセッションを開始します。
+* **問題の修正**: デバッグ中に発見された問題を修正するための提案を受け取ります。
 
 > [!TIP]
-> If you don't yet have a Copilot subscription, you can use Copilot for free by signing up for the [Copilot Free plan](https://github.com/github-copilot/signup) and get a monthly limit of inline suggestions and chat interactions.
+> Copilot購読をまだお持ちでない場合は、[Copilot無料プラン](https://github.com/github-copilot/signup)にサインアップしてCopilotを無料で使用でき、インライン提案とチャット操作の月間制限が付きます。
 
-## Set up debug configuration with Copilot
+## Copilotでデバッグ構成をセットアップ
 
-VS Code uses the `launch.json` file to store [debug configuration](/docs/debugtest/debugging-configuration.md). Copilot can help you create and customize this file to set up debugging for your project.
+VS CodeはDebug構成を保存するために`launch.json`ファイルを使用します。Copilotはこのファイルを作成およびカスタマイズしてプロジェクトのデバッグをセットアップするのに役立ちます。
 
-1. Open the Chat view (`kb(workbench.action.chat.open)`).
-1. Enter the `/startDebugging` command.
-1. Follow Copilot's guidance to set up debugging for your project.
+1. チャットビュー（`kb(workbench.action.chat.open)`）を開きます。
+1. `/startDebugging`コマンドを入力します。
+1. Copilotのガイダンスに従ってプロジェクトのデバッグをセットアップします。
 
-Alternatively, you can use a natural language prompt like:
+または、以下のような自然言語プロンプトを使用できます:
 
-* "Create a debug configuration for a Django app"
-* "Set up debugging for a React Native app"
-* "Configure debugging for a Flask application"
+* 「Djangoアプリのデバッグ構成を作成してください」
+* 「React Nativeアプリのデバッグをセットアップしてください」
+* 「Flaskアプリケーションのデバッグを構成してください」
 
-## Start debugging with Copilot
+## Copilotでデバッグを開始
 
-The `copilot-debug` terminal command simplifies the process of configuring and starting a debugging session. Prefix the command you'd use for starting your application with `copilot-debug` to have Copilot automatically configure and start a debugging session.
+`copilot-debug`ターミナルコマンドは、デバッグセッションの構成と開始プロセスを簡略化します。アプリケーション起動に使用するコマンドの先頭に`copilot-debug`を付けると、Copilotが自動的にデバッグセッションを構成して開始します。
 
-1. Open the integrated terminal (`kb(workbench.action.terminal.toggleTerminal)`).
+1. 統合ターミナル（`kb(workbench.action.terminal.toggleTerminal)`）を開きます。
 
-1. Enter `copilot-debug` followed by your application's start command. For example:
+1. `copilot-debug`の後にアプリケーションの起動コマンドを入力します。例:
 
     ```bash
     copilot-debug node app.js
     ```
 
-    or
+    または
 
     ```bash
     copilot-debug python manage.py
     ```
 
-1. Copilot launches a debugging session for your application. You can now use the built-in debugging features in VS Code.
+1. Copilotはアプリケーションのデバッグセッションを起動します。VS Codeの組み込みデバッグ機能を使用できるようになります。
 
-Learn more about [debugging in VS Code](/docs/debugtest/debugging.md).
+[VS Codeのデバッグ](/docs/debugtest/debugging.md)の詳細をご覧ください。
 
-## Fix coding issues with Copilot
+## Copilotでコーディングの問題を修正
 
-You can use Copilot Chat to help you fix coding issues or improve your code.
+Copilot Chatを使用してコーディングの問題を修正またはコードを改善できます。
 
-### Use chat prompts
+### チャットプロンプトを使用
 
-1. Open your application code file.
+1. アプリケーションコードファイルを開きます。
 
-1. Open one of these views:
-    * Chat view (`kb(workbench.action.chat.open)`)
-    * Inline Chat (`kb(inlineChat.start)`)
+1. 以下のビューのいずれかを開きます:
+    * チャットビュー（`kb(workbench.action.chat.open)`）
+    * インラインチャット（`kb(inlineChat.start)`）
 
-1. Enter a prompt like:
-    * "/fix"
-    * "Fix this #selection"
-    * "Validate input for this function"
-    * "Refactor this code"
-    * "Improve the performance of this code"
+1. 以下のようなプロンプトを入力します:
+    * 「/fix」
+    * 「このセレクション(#selection)を修正してください」
+    * 「この関数の入力を検証してください」
+    * 「このコードをリファクタリングしてください」
+    * 「このコードのパフォーマンスを改善してください」
 
-Learn more about using [Copilot Chat](/docs/copilot/chat/copilot-chat.md) in VS Code.
+[Copilot Chat](/docs/copilot/chat/copilot-chat.md)をVS Codeで使用することについての詳細をご覧ください。
 
-### Use editor smart actions
+### エディタの概略アクション
 
-To fix coding issues for your application code without writing a prompt, you can use the editor smart actions.
+プロンプトを入力せずにアプリケーションコードのコーディング問題を修正するには、エディタの概略アクションを使用できます。
 
-1. Open your application code file.
-1. Select the code you want to fix.
-1. Right-click and select **Generate Code** > **Fix**.
+1. アプリケーションコードファイルを開きます。
+1. 修正するコードを選択します。
+1. 右クリックして**コード生成** > **修正**を選択します。
 
-    VS Code provides a code suggestion to fix the code.
+    VS Codeはコードを修正するためのコード提案を提供します。
 
-1. Optionally, refine the generated code by providing additional context in the chat prompt.
+1. 必要に応じて、チャットプロンプトで追加のコンテキストを提供して生成されたコードを改善します。
 
-## Next steps
+## 次のステップ
 
-* Explore [general debugging features in VS Code](/docs/debugtest/debugging.md).
-* Learn more about [Copilot in VS Code](/docs/copilot/overview.md).
+* [VS Codeの一般的なデバッグ機能](/docs/debugtest/debugging.md)を確認します。
+* [VS CopilotGitHub](/docs/copilot/overview.md)の詳細をご覧ください。
+

@@ -1,7 +1,7 @@
 ---
 ContentId: a7b8c9d0-1e2f-3a4b-5c6d-7e8f9a0b1c2d
 DateApproved: 3/9/2026
-MetaDescription: Learn about the control mechanisms and safety considerations when using AI in VS Code, including review tools, tool approval, and AI limitations.
+MetaDescription: VS Code で AI を使用する際の制御メカニズムとセーフティに関する考慮事項について説明します。レビューツール、ツール承認、AI の制限事項などが含まれます。
 MetaSocialImage: ../images/shared/github-copilot-social.png
 Keywords:
 - copilot
@@ -16,37 +16,38 @@ Keywords:
 - prompt injection
 ---
 
-# Trust and safety
+# 信頼とセーフティ
 
-AI-generated output requires review. Visual Studio Code includes multiple mechanisms to keep you in control of what changes reach your codebase. This article explains the control mechanisms, AI limitations, and security considerations you should be aware of.
+AI生成出力はレビューが必要です。Visual Studio Code には、コードベースに到達する変更内容を制御するための複数のメカニズムが含まれています。この記事では、制御メカニズム、AI の制限事項、および認識しておくべきセキュリティに関する考慮事項について説明します。
 
-## Stay in control
+## 制御を維持する
 
-Agents can read files, edit code, run terminal commands, and call external services. VS Code provides several mechanisms to ensure you remain in charge of what happens in your workspace:
+エージェントはファイルの読み取り、コードの編集、ターミナルコマンドの実行、および外部サービスの呼び出しが可能です。VS Code は、ワークスペースで起こることについて常に管理できるようにするためのいくつかのメカニズムを提供します。
 
-* **Review edits before applying.** Agents show file changes in a diff view. You can review each change, accept or reject individual edits, and modify the code before saving. Learn more about [reviewing code edits](/docs/copilot/chat/review-code-edits.md).
+* **適用前に編集内容をレビューする。** エージェントはファイルの変更を差分ビューに表示します。各変更をレビューし、個別の編集を承認または拒否し、保存する前にコードを変更できます。[コード編集のレビュー](/docs/copilot/chat/review-code-edits.md)について詳しく学びます。
 
-* **Use checkpoints to revert.** Agent sessions create checkpoints as work progresses. If the agent takes a wrong turn, return to a previous checkpoint and try a different approach. Learn more about [checkpoints](/docs/copilot/chat/chat-checkpoints.md).
+* **チェックポイントを使用して復元する。** エージェントセッションは作業の進行に従ってチェックポイントを作成します。エージェントが間違った方向に進んだ場合は、前のチェックポイントに戻り、別のアプローチを試してください。[チェックポイント](/docs/copilot/chat/chat-checkpoints.md)について詳しく学びます。
 
-* **Approve tool calls.** VS Code asks for your approval before running terminal commands or using tools with side effects. You control which tools can run automatically and which require confirmation.
+* **ツール呼び出しを承認する。** VS Code はターミナルコマンドを実行したり、副作用のあるツールを使用したりする前に承認を求めます。どのツールを自動的に実行できるか、どのツールが確認を必要とするかを制御できます。
 
-* **Choose a permission level.** Control how much autonomy the agent has: **Default Approvals** requires confirmation for sensitive tools, **Bypass Approvals** auto-approves all tool calls, and **Autopilot** (Preview) also auto-responds to questions and continues autonomously. For higher autonomy levels, pair with [terminal sandboxing](/docs/copilot/agents/agent-tools.md#sandbox-terminal-commands) or a container.
+* **権限レベルを選択する。** エージェントの自律性を制御します: **デフォルト承認**では機密ツールの確認が必要、**承認をバイパス**ではすべてのツール呼び出しを自動承認、**オートパイロット**(プレビュー)は質問への自動応答と自律的な継続も行います。より高い自律性レベルの場合、[ターミナルサンドボックス](/docs/copilot/agents/agent-tools.md#sandbox-terminal-commands)またはコンテナと組み合わせて使用してください。
 
-* **Trust boundaries.** VS Code enforces security boundaries around file access, URL access, terminal sandboxing, and MCP server interactions. Learn more about [AI security](/docs/copilot/security.md).
+* **信頼境界。** VS Code はファイルアクセス、URL アクセス、ターミナルサンドボックス、MCP サーバーインタラクション周囲のセキュリティ境界を強制します。[AI セキュリティ](/docs/copilot/security.md)について詳しく学びます。
 
-Always review AI-generated code before committing. Verify that it handles edge cases, follows your project's conventions, and doesn't introduce security issues.
+常に AI 生成コードをコミットする前にレビューしてください。エッジケースを処理し、プロジェクトの規約に従い、セキュリティの問題を導入しないことを確認してください。
 
-## AI limitations to watch for
+## 注意すべき AI の制限事項
 
-**Incorrect output.** Models can generate code that looks correct but contains bugs, uses deprecated APIs, or doesn't handle edge cases. Always test AI-generated code, especially for logic that affects security, data integrity, or critical flows.
+**不正確な出力。** モデルは正しく見えるが、バグを含む、廃止された API を使用、またはエッジケースを処理しないコードを生成できます。特に、セキュリティ、データ整合性、または重要なフローに影響するロジックについては、常に AI 生成コードをテストしてください。
 
-**Prompt injection.** Malicious content in files, tool outputs, or web pages can attempt to redirect the agent's behavior. This is why VS Code includes tool approval gates and trust boundaries. Learn more about [AI security](/docs/copilot/security.md).
+**プロンプトインジェクション。** ファイル、ツール出力、または Web ページ内の悪意のあるコンテンツは、エージェントの動作をリダイレクトしようとする可能性があります。これが VS Code がツール承認ゲートと信頼境界を含む理由です。[AI セキュリティ](/docs/copilot/security.md)について詳しく学びます。
 
-Treat AI-generated output as a first draft: useful as a starting point, but always requiring your review and judgment. For more on how models work, including nondeterminism, knowledge boundaries, and context limits, see [Language models](/docs/copilot/concepts/language-models.md).
+AI 生成出力を最初のドラフトとして扱ってください: 開始点として有用ですが、常にレビューと判断が必要です。非決定性、知識の境界、コンテキスト制限を含むモデルの動作方法の詳細は、[言語モデル](/docs/copilot/concepts/language-models.md)を参照してください。
 
-## Related resources
+## 関連リソース
 
-* [AI security considerations](/docs/copilot/security.md)
-* [Reviewing code edits](/docs/copilot/chat/review-code-edits.md)
-* [Checkpoints](/docs/copilot/chat/chat-checkpoints.md)
-* [Tool approval](/docs/copilot/agents/agent-tools.md#tool-approval)
+* [AI セキュリティに関する考慮事項](/docs/copilot/security.md)
+* [コード編集のレビュー](/docs/copilot/chat/review-code-edits.md)
+* [チェックポイント](/docs/copilot/chat/chat-checkpoints.md)
+* [ツール承認](/docs/copilot/agents/agent-tools.md#tool-approval)
+

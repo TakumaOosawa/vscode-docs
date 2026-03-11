@@ -1,7 +1,7 @@
 ---
 ContentId: 33e63aa1-1d8f-4d23-9733-1475f8c9f502
 DateApproved: 3/9/2026
-MetaDescription: Learn how to choose between different AI language models and how to use your own language model API key in Visual Studio Code.
+MetaDescription: VS Code で異なるAI言語モデルを選択する方法と、独自の言語モデルAPIキーを使用する方法を学びます。
 MetaSocialImage: ../images/shared/github-copilot-social.png
 Keywords:
 - language models
@@ -12,196 +12,197 @@ Keywords:
 - local models
 - customize
 ---
-# AI language models in VS Code
+# VS Code のAI言語モデル
 
-Visual Studio Code offers different built-in language models that are optimized for different tasks. You can also bring your own language model API key to use models from other providers.
+Visual Studio Code は、異なるタスク向けに最適化された複数の組み込み言語モデルを提供しています。また、独自の言語モデルAPIキーを持ち込んで、他のプロバイダーのモデルを使用することもできます。
 
-For background on how language models work and their key characteristics, see [Language models concepts](/docs/copilot/concepts/language-models.md).
+言語モデルの仕組みと主な特性に関する背景については、「[言語モデルの概念](/docs/copilot/concepts/language-models.md)」を参照してください。
 
-This article describes how to change the language model for chat or inline suggestions and how to use your own API key.
+この記事では、チャットまたはインラインサジェスション用の言語モデルを変更する方法と、独自のAPIキーを使用する方法について説明します。
 
-## Choose the right model for your task
+## タスクに適したモデルを選択する
 
-By default, chat uses a base model to provide fast, capable responses for a wide range of tasks, such as coding, summarization, knowledge-based questions, reasoning, and more.
+デフォルトでは、チャットは基盤モデルを使用して、コーディング、要約、知識ベースの質問、推論など、幅広いタスク向けの高速で有能な応答を提供します。
 
-However, you are not limited to using only this model. You can choose from a [selection of language models](https://docs.github.com/en/copilot/using-github-copilot/ai-models/changing-the-ai-model-for-copilot-chat#ai-models-for-copilot-chat-1), each with its own particular strengths. As a general guideline, use a fast model (like GPT-5 Mini) for quick edits and simple questions, and a reasoning model (like Claude Opus) for complex refactoring, architectural decisions, or multi-step tasks. For a detailed comparison, see [Choosing the right AI model for your task](https://docs.github.com/en/copilot/using-github-copilot/ai-models/choosing-the-right-ai-model-for-your-task) in the GitHub Copilot documentation.
+ただし、このモデルのみの使用に限定されません。それぞれ独自の強みを持つ[言語モデルの選択](https://docs.github.com/en/copilot/using-github-copilot/ai-models/changing-the-ai-model-for-copilot-chat#ai-models-for-copilot-chat-1)から選択できます。一般的なガイドラインとして、高速モデル（GPT-5 Mini など）を使用して迅速な編集と簡単な質問に対応し、推論モデル（Claude Opus など）を使用して複雑なリファクタリング、アーキテクチャ決定、または複数ステップのタスクに対応します。詳細な比較については、GitHub Copilot ドキュメントの「[タスクに適したAI モデルの選択](https://docs.github.com/en/copilot/using-github-copilot/ai-models/choosing-the-right-ai-model-for-your-task)」を参照してください。
 
-Depending on the [agent](/docs/copilot/customization/custom-agents.md) you are using, the list of available models might be different. For example, in agent mode, the list of models is limited to those that have good support for tool calling.
+使用している[エージェント](/docs/copilot/customization/custom-agents.md)に応じて、利用可能なモデルのリストが異なる場合があります。たとえば、エージェントモードでは、モデルのリストはツール呼び出しに適切にサポートされているモデルに限定されます。
 
 > [!NOTE]
-> If you are a Copilot Business or Enterprise user, your administrator needs to enable certain models for your organization by opting in to `Editor Preview Features` in the [Copilot policy settings](https://docs.github.com/en/enterprise-cloud@latest/copilot/managing-copilot/managing-github-copilot-in-your-organization/managing-policies-for-copilot-in-your-organization#enabling-copilot-features-in-your-organization) on GitHub.com.
+> Copilot Business または Enterprise ユーザーの場合、管理者は GitHub.com の[Copilot ポリシー設定](https://docs.github.com/en/enterprise-cloud@latest/copilot/managing-copilot/managing-github-copilot-in-your-organization/managing-policies-for-copilot-in-your-organization#enabling-copilot-features-in-your-organization)で「Editor Preview Features」をオプトインして、組織向けに特定のモデルを有効にする必要があります。
 
-## Change the model for chat conversations
+## チャット会話用のモデルを変更する
 
-Use the language model picker in the chat input field to change the model that is used for chat conversations and code editing.
+チャット入力フィールドの言語モデルピッカーを使用して、チャット会話とコード編集に使用するモデルを変更します。
 
-![Screenshot that shows the model picker in the Chat view.](../images/language-models/model-dropdown-change-model.png)
+![Chat ビューでモデルピッカーを表示しているスクリーンショット。](../images/language-models/model-dropdown-change-model.png)
 
 > [!TIP]
-> Install the AI Toolkit extension to add more language models to enhance GitHub Copilot capabilities.
+> AI Toolkit 拡張機能をインストールして、GitHub Copilot の機能を強化するために、より多くの言語モデルを追加します。
 >
-> For more information, see [Change the chat model](https://docs.github.com/en/copilot/how-tos/use-ai-models/change-the-chat-model#adding-more-models).
+> 詳細については、「[チャットモデルを変更](https://docs.github.com/en/copilot/how-tos/use-ai-models/change-the-chat-model#adding-more-models)」を参照してください。
 
-You can further extend the list of available models by [using your own language model API key](#bring-your-own-language-model-key).
+[独自の言語モデルAPIキーを使用して](#独自の言語モデルキーを持ち込む)、利用可能なモデルのリストをさらに拡張できます。
 
-If you have a paid Copilot plan, the model picker shows the premium request multiplier for premium models. Learn more about [premium requests](https://docs.github.com/en/copilot/managing-copilot/monitoring-usage-and-entitlements/about-premium-requests#premium-requests) in the GitHub Copilot documentation.
+有料の Copilot プランを使用している場合、モデルピッカーはプレミアムモデルのプレミアムリクエスト乗数を表示します。GitHub Copilot ドキュメントの「[プレミアムリクエスト](https://docs.github.com/en/copilot/managing-copilot/monitoring-usage-and-entitlements/about-premium-requests#premium-requests)」について詳しく了解します。
 
-## Auto model selection
+## 自動モデル選択
 
 > [!NOTE]
-> Auto model selection is available as of VS Code release 1.104.
+> 自動モデル選択は VS Code リリース 1.104 以降で利用可能です。
 
-With auto model selection, VS Code automatically selects a model to ensure that you get the optimal performance and reduce rate limits due to excessive usage of particular language models. It detects degraded model performance and uses the best model at that point in time. We continue to improve this feature to pick the most suitable model for your needs.
+自動モデル選択を使用すると、VS Code は最適なパフォーマンスを確保し、特定の言語モデルの過度な使用によるレート制限を削減するモデルを自動的に選択します。モデルのパフォーマンスの低下を検出し、その時点で最適なモデルを使用します。このフィーチャーを継続的に改善して、ニーズに最も適したモデルを選択します。
 
-To use auto model selection, select **Auto** from the model picker in chat.
+自動モデル選択を使用するには、チャットのモデルピッカーから「Auto」を選択します。
 
-Currently, auto chooses between Claude Sonnet 4, GPT-5, GPT-5 mini and other models. If your organization has [opted out of certain models](https://docs.github.com/en/copilot/how-tos/use-ai-models/configure-access-to-ai-models), auto will not select those models. If none of these models are available or you run out of premium requests, auto will fall back to a model at 0x multiplier.
+現在、自動は Claude Sonnet 4、GPT-5、GPT-5 mini、およびその他のモデルの間で選択されます。組織が[特定のモデルをオプトアウト](https://docs.github.com/en/copilot/how-tos/use-ai-models/configure-access-to-ai-models)している場合、自動はそれらのモデルを選択しません。これらのモデルが利用できない場合、またはプレミアムリクエストが使い果たされた場合、自動は 0x 乗数のモデルにフォールバックします。
 
-### Multiplier discounts
+### 乗数割引
 
-When using auto model selection, VS Code uses a variable [model multiplier](https://docs.github.com/en/copilot/concepts/billing/copilot-requests#model-multipliers), based on the selected model. If you are a paid user, auto will apply a request discount.
+自動モデル選択を使用する場合、VS Code は選択されたモデルに基づいて、変数[モデル乗数](https://docs.github.com/en/copilot/concepts/billing/copilot-requests#model-multipliers)を使用します。有料ユーザーの場合、自動はリクエスト割引を適用します。
 
-At any time, you can see which model and model multiplier are used by hovering over the chat response.
+チャット応答をホバーすることで、いつでも使用されているモデルとモデル乗数を確認できます。
 
-![Screenshot of a chat response, showing the selected model on hover.](../images/language-models/chat-response-selected-model.png)
+![チャット応答のスクリーンショット。ホバーで選択されたモデルを表示しています。](../images/language-models/chat-response-selected-model.png)
 
-## Manage language models
+## 言語モデルを管理する
 
-You can use the language models editor to view all avalable models, choose which models are shown in the model picker, and add more models by adding from built-in providers or from extension-provided model providers.
+言語モデルエディターを使用して、すべての利用可能なモデルを表示し、モデルピッカーに表示されるモデルを選択し、組み込みプロバイダーから追加するか、拡張機能提供のモデルプロバイダーから追加することで、より多くのモデルを追加できます。
 
-To open the Language Models editor, open the model picker in the Chat view and select **Manage Models** or run the **Chat: Manage Language Models** command from the Command Palette. The Language Models editor opens by default in a [modal overlay](/docs/getstarted/userinterface.md#modal-editors) on top of the editor area.
+言語モデルエディターを開くには、チャットビューでモデルピッカーを開いて「Manage Models」を選択するか、コマンドパレットから「Chat: Manage Language Models」コマンドを実行します。言語モデルエディターは、デフォルトでエディター領域の最上位の[モーダルオーバーレイ](/docs/getstarted/userinterface.md#modal-editors)で開きます。
 
-![Screenshot that shows the Language Models editor.](../images/language-models/language-models-editor.png)
+![言語モデルエディターを表示しているスクリーンショット。](../images/language-models/language-models-editor.png)
 
-The editor lists all models available to you, showing key information such as the model capabilities, context size, billing details, and visibility status. By default, models are grouped by provider, but you can also group them by visibility.
+エディターには利用可能なすべてのモデルが列挙され、モデル機能、コンテキストサイズ、請求詳細、表示ステータスなどの重要な情報が表示されます。デフォルトでは、モデルはプロバイダーでグループ化されていますが、可視性でグループ化することもできます。
 
-You can search and filter models by using the following options:
+次のオプションを使用してモデルを検索およびフィルタリングできます。
 
-* Text search with the search box
-* Provider: `@provider:"OpenAI"`
-* Capability: `@capability:tools`, `@capability:vision`, `@capability:agent`
-* Visibility: `@visible:true/false`
+* 検索ボックスを使用したテキスト検索
+* プロバイダー: `@provider:"OpenAI"`
+* 機能: `@capability:tools`、`@capability:vision`、`@capability:agent`
+* 可視性: `@visible:true/false`
 
-### Customize the model picker
+### モデルピッカーをカスタマイズする
 
-You can customize which models are shown in the model picker by changing the visibility status of models in the Language Models editor. You can show or hide models from any provider.
+言語モデルエディターでモデルの表示ステータスを変更することで、モデルピッカーに表示されるモデルをカスタマイズできます。任意のプロバイダーからモデルを表示または非表示にできます。
 
-Hover over a model in the list and select the eye icon to show or hide the model in the model picker.
+リスト内のモデルをホバーして、アイコンをクリックして、モデルピッカーでモデルを表示または非表示にします。
 
-![Screenshot that shows the Language Models editor with the eye icon to show or hide models in the model picker.](../images/language-models/language-models-hide.png)
+![モデルピッカーでモデルを表示または非表示にするアイコンを示す言語モデルエディターのスクリーンショット。](../images/language-models/language-models-hide.png)
 
-## Bring your own language model key
+## 独自の言語モデルキーを持ち込む
 
 > [!IMPORTANT]
-> Bring your own model key is not currently available to Copilot Business or Copilot Enterprise users. It is intended for individual experimentation with the newest models. Support for Business and Enterprise plans is planned for later this year.
+> 独自のモデルキーの持ち込みは、現在 Copilot Business または Copilot Enterprise ユーザーは利用できません。これは、個別の最新のモデル実験用です。Business および Enterprise プランで必要な機能は、今年後半に予定されています。
 
-GitHub Copilot in VS Code comes with a variety of built-in language models that are optimized for different tasks. If you want to use a model that is not available as a built-in model, you can bring your own language model API key (BYOK) to use models from other providers.
+VS Code の GitHub Copilot には、異なるタスク向けに最適化された、さまざまな組み込み言語モデルが備わっています。組み込みモデルとして利用できないモデルを使用する場合は、独自の言語モデルAPIキー（BYOK）を持ち込んで、他のプロバイダーのモデルを使用できます。
 
-Using your own language model API key in VS Code has several benefits:
+VS Code で独自の言語モデルAPIキーを使用すると、いくつかの利点があります。
 
-* **Model choice**: access hundreds of models from different providers, beyond the built-in models.
-* **Experimentation**: experiment with new models or features that are not yet available in the built-in models.
-* **Local compute**: use your own compute for one of the models already supported in GitHub Copilot or to run models not yet available.
-* **Greater control**: by using your own key, you can bypass the standard rate limits and restrictions imposed on the built-in models.
+* **モデルの選択**: 組み込みモデルを超えて、異なるプロバイダーから何百ものモデルにアクセスします。
+* **実験**: 組み込みモデルではまだ利用できない新しいモデルまたは新しい機能を実験します。
+* **ローカルコンピューティング**: GitHub Copilot でサポート済みのいずれかのモデル用に独自のコンピューティングを使用するか、まだ利用できないモデルを実行します。
+* **より大きな制御**: 独自のキーを使用することで、組み込みモデルに課せられた標準的なレート制限と制限を回避できます。
 
-VS Code provides different options to add more models:
+VS Code は、より多くのモデルを追加するための異なるオプションを提供します。
 
-* Use one of the [built-in model providers](#add-a-model-from-a-built-in-provider)
+* [組み込みモデルプロバイダー](#組み込みプロバイダーからモデルを追加)の 1 つを使用します
 
-* Install a [language model provider extension](https://marketplace.visualstudio.com/search?term=tag%3Alanguage-models&target=VSCode&category=All%20categories&sortBy=Relevance) from the Visual Studio Marketplace, for example, [AI Toolkit for VS Code with Foundry Local](https://aka.ms/AIToolkit)
+* Visual Studio Marketplace から[言語モデルプロバイダー拡張機能](https://marketplace.visualstudio.com/search?term=tag%3Alanguage-models&target=VSCode&category=All%20categories&sortBy=Relevance)をインストールします（例：[AI Toolkit for VS Code with Foundry Local](https://aka.ms/AIToolkit)）
 
-### Considerations when using bring your own model key
+### 独自のモデルキーを持ち込む場合の考慮事項
 
-* Only applies to the chat experience and doesn't affect inline suggestions or other AI-powered features in VS Code.
-* Capabilities are model-dependent and might differ from the built-in models, for example, support for tool calling, vision, or thinking.
-* The Copilot service API is still used for some tasks, such as sending embeddings, repository indexing, query refinement, intent detection, and side queries.
-* There is no guarantee that responsible AI filtering is applied to the model's output when using BYOK.
+* チャットエクスペリエンスにのみ適用され、インラインサジェスションまたは VS Code の他のAI搭載機能には影響しません。
+* 機能はモデル依存であり、組み込みモデルと異なる場合があります。たとえば、ツール呼び出し、ビジョン、思考のサポート。
+* Copilot service API は、エンベディングの送信、リポジトリインデックス、クエリ精密化、意図検出、サイドクエリなどの一部のタスクにまだ使用されています。
+* BYOK を使用する場合、モデルの出力に責任あるAI を使用しでフィルタ処理が適用されるという保証はありません。
 
-### Add a model from a built in provider
+### 組み込みプロバイダーからモデルを追加
 
-VS Code supports several built-in model providers that you can use to add more models to the model picker in chat.
+VS Code は、チャットのモデルピッカーにより多くのモデルを追加するために使用できるいくつかの組み込みモデルプロバイダーをサポートしています。
 
-To configure a language model from a built-in provider:
+組み込みプロバイダーから言語モデルを設定するには、次のようにします。
 
-1. Select **Manage Models** from the language model picker in the Chat view or run the **Chat: Manage Language Models** command from the Command Palette.
+1. チャットビューの言語モデルピッカーから「Manage Models」を選択するか、コマンドパレットから「Chat: Manage Language Models」コマンドを実行します。
 
-1. In the Language Models editor, select **Add Models**, and then select a model provider from the list.
+1. 言語モデルエディターで「Add Models」を選択してから、リストからモデルプロバイダーを選択します。
 
-    ![Screenshot that shows the model provider Quick Pick.](../images/language-models/model-provider-quick-pick.png)
+    ![モデルプロバイダーのクイックピック表示するスクリーンショット。](../images/language-models/model-provider-quick-pick.png)
 
-1. Enter the provider-specific details, such as the API key or endpoint URL.
+1. API キーやエンドポイント URL などのプロバイダー固有の詳細を入力します。
 
-1. Depending on the provider, enter the model details or select a model from the list.
+1. プロバイダーに応じて、モデルの詳細を入力するか、リストからモデルを選択します。
 
-    The following screenshot shows the model picker for Ollama running locally, with the Phi-4 model deployed.
+    次のスクリーンショットは、Phi-4 モデルをデプロイした状態でローカルで実行されている Ollama のモデルピッカーを示しています。
 
-    ![Screenshot that shows the model picker of Ollama running locally, allowing you to select a model from the list of available models.](../images/language-models/ollama-installed-models-quick-pick.png)
+    ![Ollama がローカルで実行されているモデルピッカーを表示しているスクリーンショット。利用可能なモデルのリストから模型を選択できます。](../images/language-models/ollama-installed-models-quick-pick.png)
 
-1. You can now select the model from the model picker in chat.
+1. これで、チャットのモデルピッカーからモデルを選択できます。
 
-    For a model to be available when using [agents](/docs/copilot/agents/overview.md), it must support tool calling. If the model doesn't support tool calling, it won't be shown in the model picker.
-
-> [!NOTE]
-> Configuring a custom OpenAI-compatible model is currently only available in [VS Code Insiders](https://code.visualstudio.com/insiders/) as of release 1.104. You can also manually add your OpenAI-compatible model configuration in the `setting(github.copilot.chat.customOAIModels)` setting.
-
-## Update model provider details
-
-To update the details of a model provider you have configured previously:
-
-1. Select **Manage Models** from the language model picker in the Chat view or run the **Chat: Manage Language Models** command from the Command Palette.
-
-1. In the Language Models editor, select the gear icon for the model provider you want to update.
-
-   ![Screenshot that shows the model provider Quick Pick, with a gear icon next to the provider name.](../images/language-models/reconfigure-model-provider.png)
-
-1. Update the provider details, such as the API key or endpoint URL.
-
-## Change the model for inline chat
-
-You can configure a default language model for editor inline chat. This enables you to use a different model for inline chat than for chat conversations.
-
-To configure the default model for inline chat, use the `setting(inlineChat.defaultModel)` setting. The setting lists all available models from the model picker.
-
-If you change the model during an inline chat session, the selection persists for the remainder of the session. After you reload VS Code, the model resets to the value specified in the `setting(inlineChat.defaultModel)` setting.
-
-## Change the model for inline suggestions
-
-To change the language model that is used for generating inline suggestions in the editor:
-
-1. Select **Configure Inline Suggestions...** from the Chat menu in the VS Code title bar.
-
-1. Select **Change Completions Model...**, and then select one of the models from the list.
+    モデルを[エージェント](/docs/copilot/agents/overview.md)を使用するときに利用可能にするには、ツール呼び出しをサポートする必要があります。モデルがツール呼び出しをサポートしていない場合、モデルピッカーに表示されません。
 
 > [!NOTE]
-> The models that are available for inline suggestions might evolve over time as we add support for more models.
+> カスタム OpenAI 互換モデルの設定は、現在 [VS Code Insiders](https://code.visualstudio.com/insiders/) のリリース 1.104 以降でのみ利用可能です。`setting(github.copilot.chat.customOAIModels)` 設定に OpenAI 互換モデル設定を手動で追加することもできます。
 
-## Frequently asked questions
+## モデルプロバイダーの詳細を更新する
 
-### Why is bring your own model key not available for Copilot Business or Copilot Enterprise?
+以前に設定したモデルプロバイダーの詳細を更新するには、次のようにします。
 
-Bringing your own model key is mainly intended for individual experimentation with the newest models, and is not yet available for Business or Enterprise plans. Support for these plans is planned for later this year. Copilot Business and Enterprise users can still use the built-in, managed models.
+1. チャットビューの言語モデルピッカーから「Manage Models」を選択するか、コマンドパレットから「Chat: Manage Language Models」コマンドを実行します。
 
-### Can I use locally hosted models with Copilot in VS Code?
+1. 言語モデルエディターで、更新するモデルプロバイダーの歯車アイコンを選択します。
 
-You can use locally hosted models in chat by using [bring your own model key](#bring-your-own-language-model-key) (BYOK) and using a model provider that supports connecting to a local model. You have different options to connect to a local model:
+   ![プロバイダー名の横に歯車アイコン付きのモデルプロバイダーのクイックピックを表示しているスクリーンショット。](../images/language-models/reconfigure-model-provider.png)
 
-* Use a built-in model provider that supports local models
-* Install an extension from the [Visual Studio Marketplace](https://marketplace.visualstudio.com/search?term=tag%3Alanguage-models&target=VSCode&category=All%20categories&sortBy=Relevance), for example, [AI Toolkit for VS Code with Foundry Local](https://aka.ms/AIToolkit)
+1. API キーやエンドポイント URL などのプロバイダーの詳細を更新します。
 
-Currently, you cannot connect to a local model for inline suggestions. VS Code provides an extension API [`InlineCompletionItemProvider`](/api/references/vscode-api.md#InlineCompletionItemProvider) that enables extensions to contribute a custom completion provider. You can get started with our [Inline Completions sample](https://github.com/microsoft/vscode-extension-samples/blob/main/inline-completions).
+## インラインチャット用のモデルを変更する
+
+エディターのインラインチャット用にデフォルトの言語モデルを設定できます。これにより、チャット会話とは異なるモデルをインラインチャットに使用できます。
+
+インラインチャット用のデフォルトモデルを設定するには、`setting(inlineChat.defaultModel)` 設定を使用します。設定は、モデルピッカーから利用可能なすべてのモデルをリストしています。
+
+インラインチャットセッション中にモデルを変更する場合、選択はセッションの残りの期間、保持されます。VS Code を再度読み込むうえで、モデルは `setting(inlineChat.defaultModel)` 設定で指定された値にリセットされます。
+
+## インラインサジェスション用のモデルを変更する
+
+エディターでインラインサジェスション生成に使用される言語モデルを変更するには、次のようにします。
+
+1. VS Code のタイトルバーにあるチャットメニューから「Configure Inline Suggestions...」を選択します。
+
+1. 「Change Completions Model...」を選択してから、リストからいずれかのモデルを選択します。
 
 > [!NOTE]
-> Currently, using a locally hosted models still requires the Copilot service for some tasks. Therefore, your GitHub account needs to have access to a Copilot plan (for example, Copilot Free) and you need to be online. This requirement might change in a future release.
+> インラインサジェスションで利用可能なモデルは、より多くのモデルにサポートを追加する際に時系列で進化する場合があります。
 
-### Can I use a local model without an internet connection?
+## よくある質問
 
-Currently, using a local model requires access to the Copilot service and therefore requires you to be online. This requirement might change in a future release.
+### Copilot Business または Copilot Enterprise で独自のモデルキーの持ち込みが利用できないのはなぜですか？
 
-### Can I use a local model without a Copilot plan?
+独自のモデルキーの持ち込みは、主に個別の最新のモデル実験用です。Business または Enterprise プランではまだ利用できません。これらのプランで必要なサポートは、今年後半に予定されています。Copilot Business および Enterprise ユーザーは、組み込みの、マネージド モデルを使用できます。
 
-No, currently you need to have access to a Copilot plan (for example, Copilot Free) to use a local model. This requirement might change in a future release.
+### VS Code の Copilot でローカルホストモデルを使用できますか？
 
-## Related resources
+[独自のモデルキーの持ち込み](#独自の言語モデルキーを持ち込む)（BYOK）とローカルモデルへの接続をサポートするモデルプロバイダーを使用して、チャットでローカルホストされたモデルを使用できます。ローカルモデルに接続するためのさまざまなオプションがあります。
 
-* [Available language models in GitHub Copilot](https://docs.github.com/en/copilot/using-github-copilot/ai-models/changing-the-ai-model-for-copilot-chat?tool=vscode)
-* [Security considerations for AI in VS Code](/docs/copilot/security.md)
+* ローカルモデルをサポートする組み込みモデルプロバイダーを使用する
+* [Visual Studio Marketplace](https://marketplace.visualstudio.com/search?term=tag%3Alanguage-models&target=VSCode&category=All%20categories&sortBy=Relevance)から拡張機能をインストールします（例：[AI Toolkit for VS Code with Foundry Local](https://aka.ms/AIToolkit)）
+
+現在、インラインサジェスション用のローカルモデルに接続することはできません。VS Code は、拡張機能がカスタム完了プロバイダーを提供できるようにする`InlineCompletionItemProvider`][/api/references/vscode-api.md#InlineCompletionItemProvider]拡張API を提供しています。[インライン完了サンプル](https://github.com/microsoft/vscode-extension-samples/blob/main/inline-completions)で始めることができます。
+
+> [!NOTE]
+> 現在、ローカルホストされたモデルを使用する場合でも、Copilot サービスの一部のタスク向けが必要です。したがって、GitHub アカウントが Copilot プラン（例：Copilot Free）にアクセスしていて、オンラインである必要があります。この要件は将来のリリースで変更される場合があります。
+
+### インターネット接続なしでローカルモデルを使用できますか？
+
+現在、ローカルモデルを使用する場合、Copilot サービスへのアクセスが必要であり、オンラインである必要があります。この要件は将来のリリースで変更される場合があります。
+
+### Copilot プランなしでローカルモデルを使用できますか？
+
+いいえ。現在、ローカルモデルを使用するには、Copilot プラン（例：Copilot Free）にアクセスしていることが必要です。この要件は将来のリリースで変更される場合があります。
+
+## 関連リソース
+
+* [GitHub Copilot で利用可能な言語モデル](https://docs.github.com/en/copilot/using-github-copilot/ai-models/changing-the-ai-model-for-copilot-chat?tool=vscode)
+* [VS Code のAIセキュリティの考慮事項](/docs/copilot/security.md)
+

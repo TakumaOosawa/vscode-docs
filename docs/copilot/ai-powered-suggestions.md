@@ -1,193 +1,198 @@
 ---
 ContentId: 7ab2cd6c-45fd-4278-a6e8-1c9e060593ea
 DateApproved: 3/9/2026
-MetaDescription: Get AI-powered inline suggestions from GitHub Copilot in VS Code, including ghost text completions and next edit suggestions.
+MetaDescription: VS CodeのGitHub Copilotから、ghost text補完や次の編集提案を含む AI を活用したインライン提案を取得します。
 MetaSocialImage: images/shared/github-copilot-social.png
-Keywords: [nes, suggestions, inline completions, ghost text, next edit suggestions]
+Keywords:
+    - nes
+    - 提案
+    - インライン補完
+    - ghost text
+    - 次の編集提案
 ---
-# Inline suggestions from GitHub Copilot in VS Code
+# VS CodeのGitHub Copilotによるインライン提案
 
-GitHub Copilot in VS Code provides AI-powered inline suggestions that complete your code, comments, tests, and more as you type. Inline suggestions work with a broad range of programming languages and frameworks. They are one of several AI surfaces in VS Code, alongside [agents](/docs/copilot/agents/overview.md) for autonomous multi-file tasks, [chat](/docs/copilot/chat/copilot-chat.md), and [smart actions](/docs/copilot/copilot-smart-actions.md).
+VS CodeのGitHub Copilotは、入力に合わせてコード、コメント、テストなどを補完する、AI を活用したインライン提案を提供します。インライン提案は幅広いプログラミング言語やフレームワークで機能します。これは VS Codeにおける複数の AI サーフェスの 1 つであり、自律的なマルチファイルタスク向けの[エージェント](/docs/copilot/agents/overview.md)、[チャット](/docs/copilot/chat/copilot-chat.md)、[スマート アクション](/docs/copilot/copilot-smart-actions.md)と並ぶものです。
 
-You might experience two kinds of inline suggestions from Copilot, both of which match your coding style and take your existing code into account:
+Copilotからは 2 種類のインライン提案を利用できます。どちらもあなたのコーディング スタイルに合わせ、既存のコードを考慮します。
 
-* **Ghost text suggestions** - Start typing in the editor, and Copilot provides dimmed *ghost text* suggestions at your current cursor location.
+* **Ghost text suggestions** - エディターで入力を始めると、Copilotが現在のカーソル位置に薄く表示された*ghost text*提案を表示します。
 
-* **Next edit suggestions** - Predict your next code edit with Copilot next edit suggestions, aka Copilot NES. Based on the edits you're making, NES both predicts the location of the next edit you'll want to make and what that edit should be.
+* **Next edit suggestions** - Copilotの次の編集提案、別名 Copilot NES で、次に行うコード編集を予測します。NES は、あなたが行っている編集に基づいて、次に行いたい編集の場所と、その編集内容の両方を予測します。
 
-<div class="docs-action" data-show-in-doc="false" data-show-in-sidebar="true" title="Get started with AI">
-Follow a hands-on tutorial to build your first app with AI in VS Code.
+<div class="docs-action" data-show-in-doc="false" data-show-in-sidebar="true" title="AI を使って始める">
+VS CodeでAIを使って最初のアプリを作成するハンズオン チュートリアルに沿って進めます。
 
-* [Start tutorial](/docs/copilot/getting-started.md)
+* [チュートリアルを開始する](/docs/copilot/getting-started.md)
 
 </div>
 
-## Getting started
+## はじめに
 
-1. Install the GitHub Copilot extensions.
+1. GitHub Copilot拡張機能をインストールします。
 
     > <a class="install-extension-btn" href="vscode:extension/GitHub.copilot?referrer=docs-copilot-ai-powered-suggestions">Install the GitHub Copilot extensions</a>
 
-1. Sign in with your GitHub account to use Copilot.
+1. GitHubアカウントでサインインして Copilot を使用します。
 
     > [!TIP]
-    > If you don't yet have a Copilot subscription, you can use Copilot for free by signing up for the [Copilot Free plan](https://github.com/github-copilot/signup) and get a monthly limit of inline suggestions and chat interactions.
+    > まだ Copilot のサブスクリプションがない場合は、[Copilot Free プラン](https://github.com/github-copilot/signup)にサインアップして Copilot を無料で利用でき、インライン提案とチャット操作の月間上限が提供されます。
 
-1. Discover the key features of Copilot in VS Code with our [Copilot Quickstart](/docs/copilot/getting-started.md).
+1. [Copilot クイックスタート](/docs/copilot/getting-started.md)で、VS Codeにおける Copilot の主な機能を確認します。
 
-## Getting your first suggestions
+## 最初の提案を取得する
 
-Copilot offers dimmed *ghost text* suggestions as you type: sometimes the completion of the current line, sometimes a whole new block of code. You can accept all, or part of a suggestion, or you can keep typing and ignore the suggestions.
+Copilotは、入力に合わせて薄く表示された*ghost text*提案を表示します。現在の行の補完である場合もあれば、まったく新しいコード ブロックである場合もあります。提案全体を受け入れることも、一部だけを受け入れることも、入力を続けて提案を無視することもできます。
 
-Notice in the following example how Copilot suggests an implementation of the `calculateDaysBetweenDates` JavaScript function by using dimmed *ghost text*:
+次の例では、Copilotが薄く表示された*ghost text*を使って、`calculateDaysBetweenDates` JavaScript 関数の実装を提案していることに注目してください。
 
-![JavaScript ghost text suggestion.](images/inline-suggestions/js-suggest.png)
+![JavaScriptの ghost text 提案。](images/inline-suggestions/js-suggest.png)
 
-When you're presented with an inline suggestion, you can accept it with the `kbstyle(Tab)` key.
+インライン提案が表示されたら、`kbstyle(Tab)`キーで受け入れることができます。
 
-Copilot tries to apply the same coding style that you already have in your code. Notice in the following example that Copilot applies the same input parameter naming scheme from the `add` method for the suggested `subtract` method.
+Copilotは、すでにコードで使われているコーディング スタイルをできるだけ適用しようとします。次の例では、提案された`subtract`メソッドに対して、Copilotが`add`メソッドと同じ入力パラメーターの命名規則を適用していることに注目してください。
 
-![JavaScript ghost text suggestion.](images/inline-suggestions/ts-suggest-parameter-names.png)
+![JavaScriptの ghost text 提案。](images/inline-suggestions/ts-suggest-parameter-names.png)
 
-### Partially accepting suggestions
+### 提案を部分的に受け入れる
 
-You might not want to accept an entire suggestion from GitHub Copilot. You can use the `kb(editor.action.inlineSuggest.acceptNextWord)` keyboard shortcut to accept either the next word of a suggestion, or the next line.
+GitHub Copilotからの提案全体を受け入れたくない場合もあります。`kb(editor.action.inlineSuggest.acceptNextWord)`キーボード ショートカットを使用すると、提案の次の単語、または次の行だけを受け入れることができます。
 
-### Alternative suggestions
+### 代替の提案
 
-For any given input, Copilot might offer multiple, alternative suggestions. You can hover over the suggestion to any of the other suggestions.
+同じ入力に対して、Copilotが複数の代替提案を提示することがあります。提案の上にカーソルを合わせると、ほかの提案に切り替えることができます。
 
-![Hovering over inline suggestions enables you to select from multiple suggestions](images/inline-suggestions/copilot-hover-highlight.png)
+![インライン提案にカーソルを合わせると、複数の提案から選択できます](images/inline-suggestions/copilot-hover-highlight.png)
 
-### Generate suggestions from code comments
+### コード コメントから提案を生成する
 
-Instead of relying on Copilot to provide suggestions, you can provide hints about what code you expect by using code comments. For example, you could specify a type of algorithm or concept to use (for example, "use recursion" or "use a singleton pattern"), or which methods and properties to add to a class.
+Copilotに提案を任せるだけでなく、コード コメントを使って期待するコードのヒントを与えることもできます。たとえば、使用するアルゴリズムや概念の種類を指定したり（たとえば、"use recursion"や"use a singleton pattern"）、クラスに追加するメソッドやプロパティを指定したりできます。
 
-The following example shows how to instruct Copilot to create a class in TypeScript to represent a student, providing information about methods and properties:
+次の例は、メソッドやプロパティに関する情報を与えながら、学生を表すクラスを TypeScriptで作成するよう Copilotに指示する方法を示しています。
 
-![Use code comments to let Copilot generate a Student class in TypeScript with properties and methods.](images/inline-suggestions/ts-suggest-code-comment.png)
+![コード コメントを使って、プロパティとメソッドを持つ Student クラスを TypeScriptで Copilotに生成させます。](images/inline-suggestions/ts-suggest-code-comment.png)
 
-## Next edit suggestions
+## 次の編集提案
 
-Ghost text suggestions are great at autocompleting a section of code. But since most coding activity is editing existing code, it's a natural evolution of inline suggestions to also help with edits, both at the cursor and further away. Edits are often not made in isolation - there's a logical flow of what edits need to be made in different scenarios. Next edit suggestions (Copilot NES) is this evolution.
+Ghost text提案は、コードの一部を自動補完するのに適しています。しかし、コーディング作業の多くは既存コードの編集であるため、インライン提案がカーソル位置だけでなく離れた場所の編集も支援するよう進化するのは自然な流れです。編集は単独で行われることは少なく、状況ごとに必要な編集には論理的な流れがあります。次の編集提案（Copilot NES）は、その進化形です。
 
-<video src="./images/inline-suggestions/nes-video.mp4" title="Video showing next edit suggestions in action on a Point typescript class." loop controls muted poster="./images/inline-suggestions/point3d.png"></video>
+<video src="./images/inline-suggestions/nes-video.mp4" title="Point typescript クラスで次の編集提案が動作している様子を示す動画。" loop controls muted poster="./images/inline-suggestions/point3d.png"></video>
 
-Based on the edits you're making, next edit suggestions predict both the location of the next edit you'll want to make and what that edit should be. Copilot NES helps you stay in the flow, suggesting future changes relevant to your current work, and you can `kbstyle(Tab)` to quickly navigate and accept Copilot's suggestions. Suggestions might span a single symbol, an entire line, or multiple lines, depending on the scope of the potential change.
+次の編集提案は、あなたが行っている編集に基づいて、次に行いたい編集の場所と、その編集内容の両方を予測します。Copilot NES は、現在の作業に関連する今後の変更を提案することで、作業の流れを維持できるよう支援します。`kbstyle(Tab)`を使うと、Copilot の提案にすばやく移動して受け入れることができます。提案は、変更の想定範囲に応じて、単一のシンボル、行全体、または複数行にまたがることがあります。
 
-To get started with Copilot NES, enable the VS Code setting `setting(github.copilot.nextEditSuggestions.enabled)`.
+Copilot NES を使い始めるには、VS Codeの設定`setting(github.copilot.nextEditSuggestions.enabled)`を有効にします。
 
-### Navigate and accept edit suggestions
+### 編集提案に移動して受け入れる
 
-You can quickly navigate to suggested code changes with the `kbstyle(Tab)` key, saving you time to find the next relevant edit (no manual searching through files or references required). You can then accept a suggestion with the `kbstyle(Tab)` key again.
+`kbstyle(Tab)`キーを使うと、提案されたコード変更にすばやく移動できるため、次に関連する編集を見つける時間を節約できます（ファイルや参照を手動で探す必要はありません）。その後、`kbstyle(Tab)`キーをもう一度押して提案を受け入れることができます。
 
-An arrow in the gutter indicates if there is an edit suggestion available. The arrow indicates where the next edit suggestion is located, relative to your current cursor position.
+ガター内の矢印は、利用可能な編集提案があるかどうかを示します。この矢印は、現在のカーソル位置を基準として、次の編集提案がどこにあるかを示します。
 
-You can hover over the arrow to explore the edit suggestion menu, which includes keyboard shortcuts and settings configuration:
+矢印にカーソルを合わせると、キーボード ショートカットや設定構成を含む編集提案メニューを表示できます。
 
-![Copilot NES gutter menu expanded](./images/inline-suggestions/gutter-menu-highlighted-updated.png)
+![展開された Copilot NES のガター メニュー](./images/inline-suggestions/gutter-menu-highlighted-updated.png)
 
 > [!IMPORTANT]
-> If you are a [VS Code vim extension](https://marketplace.visualstudio.com/items?itemName=vscodevim.vim) user, please use the latest version of the extension to avoid any conflicts in keybindings with NES.
+> [VS Code vim extension](https://marketplace.visualstudio.com/items?itemName=vscodevim.vim)を使用している場合は、NES とのキー バインド競合を避けるため、拡張機能の最新バージョンを使用してください。
 
-### Reduce distractions by edit suggestions
+### 編集提案による気の散りを減らす
 
-By default, edit suggestions are indicated by the gutter arrow and the code changes are shown in the editor. Enable the `setting(editor.inlineSuggest.edits.showCollapsed)` setting to show the code changes in the editor only until you press the `kbstyle(Tab)` key to navigate to the suggestion or until you hover over the gutter arrow. Alternatively, hover over the gutter arrow and select the **Show Collapsed** option from the menu.
+既定では、編集提案はガターの矢印で示され、コード変更はエディター内に表示されます。設定`setting(editor.inlineSuggest.edits.showCollapsed)`を有効にすると、提案に移動するために`kbstyle(Tab)`キーを押すか、ガターの矢印にカーソルを合わせるまで、エディター内では折りたたまれた状態でコード変更を表示できます。別の方法として、ガターの矢印にカーソルを合わせて、メニューから**Show Collapsed**オプションを選択することもできます。
 
-### Use cases for next edit suggestions
+### 次の編集提案の使用例
 
-**Catching and correcting mistakes**
+**ミスを見つけて修正する**
 
-* **Copilot helps with simple mistakes like typos.** It'll suggest fixes where letters are missing or swapped, like `cont x = 5` or `conts x = 5`, which should've been `const x = 5`.
+* **Copilotは、タイプミスのような単純なミスに役立ちます。** `const x = 5`であるべきところが、`cont x = 5`や`conts x = 5`のように文字が欠けたり入れ替わったりしている場合に、修正を提案します。
 
-    ![NES fixing a typo from "conts" to "const"](./images/inline-suggestions/nes-typo.png)
+    ![NES が "conts" から "const" へのタイプミスを修正している様子](./images/inline-suggestions/nes-typo.png)
 
-* **Copilot can also help with more challenging mistakes in logic**, like an inverted ternary expression:
+* **Copilotは、反転した三項演算子のような、より難しいロジックのミスにも役立ちます**。
 
-    ![NES fixing a ternary logic mistake](./images/inline-suggestions/nes-ternary-logic.png)
+    ![NES が三項演算子のロジック ミスを修正している様子](./images/inline-suggestions/nes-ternary-logic.png)
 
-    Or a comparison that should've used `&&` instead of `||`:
+    または、`||`ではなく`&&`を使うべき比較にも対応します。
 
-    ![NES fixing an if statement mistake](./images/inline-suggestions/nes-de-morgan.png)
+    ![NES が if ステートメントのミスを修正している様子](./images/inline-suggestions/nes-de-morgan.png)
 
-**Changing intent**
+**意図を変更する**
 
-* **Copilot suggests changes to the rest of your code that match a new change in intent.** For example, when changing a class from `Point` to `Point3D`, Copilot will suggest to add a `z` variable to the class definition. After accepting the change, Copilot NES next recommends adding `z` to the distance calculation:
+* **Copilotは、新しい意図の変更に合わせて、コードの残りの部分に対する変更を提案します。** たとえば、クラスを`Point`から`Point3D`に変更するとき、Copilotはクラス定義に`z`変数を追加することを提案します。その変更を受け入れた後、Copilot NES は次に距離計算へ`z`を追加することを推奨します。
 
-    ![NES gif for updating Point to Point3D](./images/inline-suggestions/nes-point.png)
+    ![Point を Point3D に更新する NES の gif](./images/inline-suggestions/nes-point.png)
 
-**Refactoring**
+**リファクタリング**
 
-* **Rename a variable once in a file, and Copilot will suggest to update it everywhere else.** If you use a new name or naming pattern, Copilot suggests to update subsequent code similarly.
+* **ファイル内で一度変数名を変更すると、Copilotはそれ以外の箇所も更新するよう提案します。** 新しい名前や命名パターンを使うと、Copilotは後続のコードも同様に更新するよう提案します。
 
-    ![Copilot NES suggesting change after updating function name](./images/inline-suggestions/nes-rename.png)
+    ![関数名の更新後に変更を提案する Copilot NES](./images/inline-suggestions/nes-rename.png)
 
-* **Matching code style**. After copy-pasting some code, Copilot will suggest how to adjust it to match the current code where the paste happened.
+* **コード スタイルを合わせる**。コードをコピー アンド ペーストした後、Copilotは、貼り付け先の現在のコードに合わせてどのように調整すべきかを提案します。
 
-## Enable or disable inline suggestions
+## インライン提案を有効または無効にする
 
-You can enable or disable inline suggestions either for all languages or for specific languages only. To enable or disable inline suggestions, select the Copilot menu in the Status Bar, and then check or uncheck the options to enable or disable inline suggestions. The option to disable inline suggestions for a specific language is dependent on the language of the active editor.
+インライン提案は、すべての言語に対して、または特定の言語に対してのみ、有効または無効にできます。インライン提案を有効または無効にするには、ステータス バーの Copilot メニューを選択し、インライン提案を有効または無効にするオプションをオンまたはオフにします。特定の言語に対してインライン提案を無効にするオプションは、アクティブなエディターの言語に応じて表示されます。
 
-![Screenshot of the Copilot menu in the Status Bar with Snooze and Cancel Snooze buttons.](images/inline-suggestions/snooze-code-completions.png)
+![Snooze ボタンと Cancel Snooze ボタンがあるステータス バーの Copilot メニューのスクリーンショット。](images/inline-suggestions/snooze-code-completions.png)
 
-Alternatively, modify the `setting(github.copilot.enable)` setting in the Settings editor. Add an entry for each language you want to enable or disable inline suggestions for. To enable or disable inline suggestions for all languages, set the value for `*` to `true` or `false`.
+または、設定エディターで`setting(github.copilot.enable)`設定を変更します。インライン提案を有効または無効にしたい各言語のエントリを追加します。すべての言語に対してインライン提案を有効または無効にするには、`*`の値を`true`または`false`に設定します。
 
-To temporarily disable all inline suggestions in the editor, select the Copilot menu in the Status Bar, and then select the **Snooze** button to increment the snooze time by five minutes. To resume inline suggestions, select the **Cancel Snooze** button in the Copilot menu.
+エディター内のすべてのインライン提案を一時的に無効にするには、ステータス バーの Copilot メニューを選択し、**Snooze**ボタンを選択してスヌーズ時間を 5 分ずつ増やします。インライン提案を再開するには、Copilot メニューで**Cancel Snooze**ボタンを選択します。
 
-Alternatively, use the **Snooze Inline Suggestions** and **Cancel Snooze Inline Suggestions** commands in the Command Palette.
+または、コマンド パレットで**Snooze Inline Suggestions**コマンドと**Cancel Snooze Inline Suggestions**コマンドを使用します。
 
-## Change the AI model for suggestions
+## 提案に使う AI モデルを変更する
 
-Different Large Language Models (LLMs) are trained on different types of data and might have different capabilities and strengths. Learn more about how to [choose between different AI language models](/docs/copilot/customization/language-models.md) in VS Code.
+異なる Large Language Models（LLMs）は、異なる種類のデータで学習されており、機能や強みが異なることがあります。VS Codeで[さまざまな AI 言語モデルを選択する方法](/docs/copilot/customization/language-models.md)の詳細を確認してください。
 
-To change the language model that is used for generating ghost text suggestions in the editor:
+エディターで ghost text 提案を生成するために使用する言語モデルを変更するには、次の手順を実行します。
 
-1. Open the Command Palette (`kbstyle(F1)`).
+1. コマンド パレットを開きます（`kbstyle(F1)`）。
 
-1. Type **change completions model** and select the **GitHub Copilot: Change Completions Model** command.
+1. **change completions model**と入力し、**GitHub Copilot: Change Completions Model**コマンドを選択します。
 
-1. In the dropdown menu, select the model you want to use.
+1. ドロップダウン メニューで、使用するモデルを選択します。
 
 > [!NOTE]
-> The list of available models might vary and change over time. The model picker may not always show more than one model, and preview models and additional inline suggestion models will become available there if/when we release them. If you are a Copilot Business or Enterprise user, your Administrator needs to enable certain models for your organization by opting in to `Editor Preview Features` in the [Copilot policy settings](https://docs.github.com/en/enterprise-cloud@latest/copilot/managing-copilot/managing-github-copilot-in-your-organization/managing-policies-for-copilot-in-your-organization#enabling-copilot-features-in-your-organization) on GitHub.com.
+> 利用可能なモデルの一覧は、時間の経過とともに異なったり変化したりすることがあります。モデル ピッカーに常に複数のモデルが表示されるとは限らず、プレビュー モデルや追加のインライン提案モデルは、公開された場合にそこから利用できるようになります。Copilot Business または Enterprise のユーザーである場合は、管理者が GitHub.com の[Copilot ポリシー設定](https://docs.github.com/en/enterprise-cloud@latest/copilot/managing-copilot/managing-github-copilot-in-your-organization/managing-policies-for-copilot-in-your-organization#enabling-copilot-features-in-your-organization)で`Editor Preview Features`にオプトインし、組織向けに特定のモデルを有効にする必要があります。
 
-## Tips & tricks
+## ヒントとコツ
 
-### Context
+### コンテキスト
 
-To give you relevant inline suggestions, Copilot looks at the current and open files in your editor to analyze the context and create appropriate suggestions. Having related files open in VS Code while using Copilot helps set this context and lets Copilot get a bigger picture of your project.
+Copilotは、関連性の高いインライン提案を提供するために、エディター内の現在のファイルと開いているファイルを見てコンテキストを分析し、適切な提案を作成します。Copilotを使うときに関連ファイルを VS Codeで開いておくと、このコンテキストの設定に役立ち、Copilotがプロジェクト全体像をより把握しやすくなります。
 
-## Settings
+## 設定
 
-### Ghost text suggestions settings
+### Ghost text 提案の設定
 
-* `setting(github.copilot.enable)` - enable or disable inline completions for all or specific languages.
+* `setting(github.copilot.enable)` - すべてまたは特定の言語に対してインライン補完を有効または無効にします。
 
-* `setting(editor.inlineSuggest.fontFamily)` - configure the font for the inline completions.
+* `setting(editor.inlineSuggest.fontFamily)` - インライン補完のフォントを構成します。
 
-* `setting(editor.inlineSuggest.showToolbar)` - enable or disable the toolbar that appears for inline completions.
+* `setting(editor.inlineSuggest.showToolbar)` - インライン補完に表示されるツール バーを有効または無効にします。
 
-* `setting(editor.inlineSuggest.syntaxHighlightingEnabled)` - enable or disable syntax highlighting for inline completions.
+* `setting(editor.inlineSuggest.syntaxHighlightingEnabled)` - インライン補完のシンタックス ハイライトを有効または無効にします。
 
-### Next edit suggestions settings
+### 次の編集提案の設定
 
-* `setting(github.copilot.nextEditSuggestions.enabled)` - enable Copilot next edit suggestions (Copilot NES).
+* `setting(github.copilot.nextEditSuggestions.enabled)` - Copilot の次の編集提案（Copilot NES）を有効にします。
 
-* `setting(editor.inlineSuggest.edits.allowCodeShifting)` - configure if Copilot NES is able to shift your code to show a suggestion.
+* `setting(editor.inlineSuggest.edits.allowCodeShifting)` - Copilot NES が提案を表示するためにコードをシフトできるかどうかを構成します。
 
-* `setting(editor.inlineSuggest.edits.renderSideBySide)` - configure if Copilot NES can show larger suggestions side-by-side if possible, or if Copilot NES should always show larger suggestions below the relevant code.
+* `setting(editor.inlineSuggest.edits.renderSideBySide)` - Copilot NES が可能な場合に大きな提案を横並びで表示するか、それとも常に関連コードの下に表示するかを構成します。
 
-     * **auto (default)**: show larger edit suggestions side-by-side if there is enough space in the viewport, otherwise the suggestions are shown below the relevant code.
-     * **never**: never show suggestions side-by-side, always show suggestions below the relevant code.
+     * **auto (default)**: ビューポートに十分な空きがある場合は大きな編集提案を横並びで表示し、それ以外の場合は関連コードの下に表示します。
+     * **never**: 提案を横並びで表示せず、常に関連コードの下に表示します。
 
-* `setting(github.copilot.nextEditSuggestions.fixes)` - enable next edit suggestions based on diagnostics (squiggles). For example, missing imports.
+* `setting(github.copilot.nextEditSuggestions.fixes)` - 診断結果（波線）に基づく次の編集提案を有効にします。たとえば、不足しているインポートです。
 
-* `setting(editor.inlineSuggest.minShowDelay)` - Time in milliseconds to wait before showing inline suggestions. Default is `0`.
+* `setting(editor.inlineSuggest.minShowDelay)` - インライン提案を表示する前に待機する時間をミリ秒で指定します。既定値は`0`です。
 
-## Next steps
+## 次のステップ
 
-* Discover the key features in the [Quickstart](/docs/copilot/getting-started.md).
+* [クイックスタート](/docs/copilot/getting-started.md)で主な機能を確認します。
 
-* Use AI chat conversations with [chat in VS Code](/docs/copilot/chat/copilot-chat.md).
+* [VS Codeでのチャット](/docs/copilot/chat/copilot-chat.md)で AI とのチャット会話を利用します。
 
-* Watch the videos in our [VS Code Copilot Series](https://www.youtube.com/playlist?list=PLj6YeMhvp2S5_hvBl2SE-7YCHYlLQ0bPt) on YouTube.
+* YouTubeで[VS Code Copilot Series](https://www.youtube.com/playlist?list=PLj6YeMhvp2S5_hvBl2SE-7YCHYlLQ0bPt)の動画を視聴します。
