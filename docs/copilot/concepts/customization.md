@@ -1,7 +1,7 @@
 ---
 ContentId: f6a7b8c9-0d1e-2f3a-4b5c-6d7e8f9a0b1c
 DateApproved: 3/9/2026
-MetaDescription: Learn about the AI customization options in VS Code, including instructions, prompt files, custom agents, skills, hooks, and plugins.
+MetaDescription: VS Code の AI カスタマイズオプション（手順書、プロンプトファイル、カスタムエージェント、スキル、フック、プラグイン）について説明します。
 MetaSocialImage: ../images/shared/github-copilot-social.png
 Keywords:
 - copilot
@@ -16,87 +16,88 @@ Keywords:
 - MCP
 ---
 
-# Customization
+# カスタマイズ
 
-AI models have broad general knowledge but don't know your codebase or team practices. Think of the AI as a skilled new team member: it writes great code, but doesn't know your conventions, architecture decisions, or preferred libraries. Customization is how you share that context, so responses match your coding standards, project structure, and workflows.
+AI モデルは幅広い一般知識を持っていますが、あなたのコードベースやチームの慣行については知りません。AI をスキルのある新しいチームメンバーと考えてください。優れたコードを書きますが、あなたの規約、アーキテクチャの決定、または推奨ライブラリについては知りません。カスタマイズは、その文脈を AI と共有する方法であり、返答がコーディング基準、プロジェクト構造、ワークフローと一致するようにします。
 
-This article explains the different customization options and when to use each one. For step-by-step configuration, see the individual guides linked from each section.
+この記事では、異なるカスタマイズオプションと、各オプションを使用する時期について説明します。段階的な設定については、各セクションからリンクされている個別ガイドを参照してください。
 
-## Customization options at a glance
+## カスタマイズオプション一覧
 
-| Goal | Use | Example | When it activates |
-|------|-----|---------|-------------------|
-| Apply coding standards everywhere | [Always-on instructions](#custom-instructions) | Enforce ESLint rules, require JSDoc comments | Automatically included in every request |
-| Different rules for different file types | [File-based instructions](#custom-instructions) | React patterns for `.tsx` files | When files match a pattern or description |
-| Reusable task I run repeatedly | [Prompt files](#prompt-files) | Scaffold a React component | When you invoke a slash command |
-| Package multi-step workflow with scripts | [Agent skills](#agent-skills) | Test, lint, and deploy pipeline | When the task matches the skill description |
-| Specialized AI persona with tool restrictions | [Custom agents](#custom-agents) | Security reviewer, database admin | When you select it or another agent delegates to it |
-| Connect to external APIs or databases | [MCP](#mcp) | Query a PostgreSQL database | When the task matches a tool description |
-| Automate tasks at agent lifecycle points | [Hooks](#hooks) | Run formatter after every file edit | When the agent reaches a matching lifecycle event |
-| Install pre-packaged customizations | [Agent plugins](#agent-plugins) | Install a community testing plugin | When you install a plugin |
+| 目的 | 使用 | 例 | 起動時機 |
+|------|-----|---------|---------|
+| 全体にコーディング基準を適用 | [常時有効な手順書](#カスタム手順書) | ESLint ルールを実行、JSDoc コメントを要求 | すべてのリクエストに自動的に含まれる |
+| ファイルタイプ別に異なるルール | [ファイルベースの手順書](#カスタム手順書) | `.tsx` ファイルの React パターン | ファイルがパターンまたは説明と一致した場合 |
+| 繰り返し実行する再利用可能なタスク | [プロンプトファイル](#プロンプトファイル) | React コンポーネントのスキャフォルド | スラッシュコマンドを呼び出したとき |
+| スクリプトで複数ステップのワークフローをパッケージ化 | [エージェントスキル](#エージェントスキル) | テスト、リント、デプロイパイプライン | タスクがスキル説明と一致したとき |
+| ツール制限のある特化した AI ペルソナ | [カスタムエージェント](#カスタムエージェント) | セキュリティレビュアー、データベース管理者 | 選択したとき、または別のエージェントが委譲したとき |
+| 外部 API またはデータベースに接続 | [MCP](#mcp) | PostgreSQL データベースをクエリ | タスクがツール説明と一致したとき |
+| エージェントライフサイクルポイントでタスクを自動化 | [フック](#フック) | 各ファイル編集後にフォーマッターを実行 | エージェントが一致するライフサイクルイベントに到達したとき |
+| プリパッケージされたカスタマイズをインストール | [エージェントプラグイン](#エージェントプラグイン) | コミュニティテストプラグインをインストール | プラグインをインストールしたとき |
 
-Start with custom instructions for project-wide standards. Add prompt files when you have repeatable tasks. Use MCP when you need external data. Create custom agents for specialized personas. You can combine multiple customization types as your needs grow.
+プロジェクト全体の基準調整のためのカスタム手順書から始めます。繰り返し可能なタスクがある場合はプロンプトファイルを追加します。外部データが必要な場合は MCP を使用します。特化したペルソナのためにカスタムエージェントを作成します。ニーズが拡大するにつれて、複数のカスタマイズタイプを組み合わせることができます。
 
-## Custom instructions
+## カスタム手順書
 
-Custom instructions are Markdown files that define coding standards and project context. The AI includes them automatically in chat requests, so you don't need to repeat rules in every prompt. Instructions are the simplest customization to set up and the best place to start.
+カスタム手順書は、コーディング基準とプロジェクトの文脈を定義する Markdown ファイルです。AI はすべてのチャットリクエストに自動的にそれらを含めるため、すべてのプロンプトでルールを繰り返す必要がありません。手順書は最も簡単にセットアップできるカスタマイズであり、始めるのに最適な場所です。
 
-There are two types:
+2 つのタイプがあります。
 
-* **Always-on instructions**: project-wide rules defined in `.github/copilot-instructions.md` that apply to every request. Use these for conventions the whole team follows, like code style, naming patterns, or preferred libraries.
-* **File-based instructions**: guidelines in `.instructions.md` files that apply based on file path patterns or task descriptions. Use these when different parts of your codebase need different rules, such as React patterns for `.tsx` files or API conventions for your backend.
+* **常時有効な手順書**：`.github/copilot-instructions.md` で定義されたプロジェクト全体のルール。すべてのリクエストに適用されます。チーム全体が従う規約（コードスタイル、命名パターン、推奨ライブラリなど）に使用します。
+* **ファイルベースの手順書**：ファイルパターンまたはタスク説明に基づいて適用される `.instructions.md` ファイルのガイドラインです。`.tsx` ファイルの React パターンやバックエンドの API 規約など、コードベースの別々の部分に異なるルールが必要な場合に使用します。
 
-Learn more about [creating custom instructions](/docs/copilot/customization/custom-instructions.md).
+[カスタム手順書の作成](/docs/copilot/customization/custom-instructions.md)の詳細をご覧ください。
 
-## Prompt files
+## プロンプトファイル
 
-Prompt files are reusable Markdown files that encode a specific task and appear as slash commands in chat. When you find yourself typing the same kind of prompt repeatedly, a prompt file turns it into a one-step command. Each prompt file can reference specific files, tools, and context to give the AI everything it needs for that task.
+プロンプトファイルは、特定のタスクをエンコードし、チャットでスラッシュコマンドとして表示される再利用可能な Markdown ファイルです。同じ種類のプロンプトを繰り返して入力していることに気化したら、プロンプトファイルはそれをワンステップコマンドに変えます。各プロンプトファイルは、特定のファイル、ツール、文脈を参照して、そのタスク用に AI が必要なすべてのものを与えることができます。
 
-Prompt files are useful for tasks like scaffolding a new component, generating test cases for a module, or preparing a pull request description.
+プロンプトファイルは、新しいコンポーネントのスキャフォルド、モジュールのテストケース生成、またはプルリクエスト説明の準備などのタスクに有用です。
 
-Learn more about [creating prompt files](/docs/copilot/customization/prompt-files.md).
+[プロンプトファイルの作成](/docs/copilot/customization/prompt-files.md)の詳細をご覧ください。
 
-## Agent skills
+## エージェントスキル
 
-Agent skills package multi-step capabilities as folders containing instructions, scripts, and resources. Unlike prompt files, which provide a single prompt, skills give the AI a complete toolkit for a domain-specific task such as generating API documentation, running security audits, or performing database migrations.
+エージェントスキルは、手順書、スクリプト、リソースを含むフォルダとして複数ステップの機能をパッケージ化します。単一のプロンプトを提供するプロンプトファイルとは異なり、スキルは AI にAPI ドキュメント生成、セキュリティ監査の実行、またはデータベースマイグレーションの実行などのドメイン固有タスク用の完全なツールキットを与えます。
 
-Skills load on demand when the task matches their description. They are built on an [open standard](https://agentskills.io), so the same skill works across different agent types.
+スキルはタスクがそれらの説明と一致するときにオンデマンドで読み込まれます。それらは[オープン標準](https://agentskills.io)に基づいているため、同じスキルが異なるエージェントタイプ全体で機能します。
 
-Learn more about [creating agent skills](/docs/copilot/customization/agent-skills.md).
+[エージェントスキルの作成](/docs/copilot/customization/agent-skills.md)の詳細をご覧ください。
 
-## Custom agents
+## カスタムエージェント
 
-Custom agents give the AI a specific persona and constrained set of tools for a particular role. For example, a security reviewer agent only has access to code analysis tools and follows security-focused instructions, while a database admin agent connects to your database through MCP and follows your schema conventions.
+カスタムエージェントは、AI に特定のペルソナと特定の役割のための制約されたツールセットを与えます。たとえば、セキュリティレビュアーエージェントはコード分析ツールにのみアクセス可能でセキュリティ重視の手順書に従いますが、データベース管理者エージェントは MCP を通じてデータベースに接続し、スキーマ規約に従います。
 
-Each agent is defined in a `.agent.md` file that specifies its behavior, available tools, and language model preferences. Agents can also delegate to other agents, which enables multi-step workflows where different specialists handle different parts of a task.
+各エージェントは、その動作、利用可能なツール、言語モデルの設定を指定する `.agent.md` ファイルで定義されます。エージェントは他のエージェントに委譲することもでき、異なるスペシャリストがタスクの別々の部分を処理する複数ステップのワークフローが可能になります。
 
-Learn more about [creating custom agents](/docs/copilot/customization/custom-agents.md).
+[カスタムエージェントの作成](/docs/copilot/customization/custom-agents.md)の詳細をご覧ください。
 
 ## MCP
 
-[Model Context Protocol (MCP)](https://modelcontextprotocol.io/) is an open standard for connecting the AI to external tools and data sources. Without MCP, the AI can only work with code and the terminal. MCP servers extend its reach by providing [tools](/docs/copilot/concepts/tools.md) that query databases, call APIs, interact with cloud services, or access any other external system.
+[Model Context Protocol（MCP）](https://modelcontextprotocol.io/)は、AI を外部ツールおよびデータソースに接続するためのオープン標準です。MCP がない場合、AI はコードとターミナルのみで作業できます。MCP サーバーは[ツール](/docs/copilot/concepts/tools.md)を提供することでその到達範囲を拡張し、データベースをクエリ、API を呼び出し、クラウドサービスと相互作用、または他の外部システムにアクセスします。
 
-MCP servers run locally or remotely and can also provide resources, prompts, and interactive apps.
+MCP サーバーはローカルまたはリモートで実行でき、リソース、プロンプト、インタラクティブアプリも提供できます。
 
-Learn more about [adding and managing MCP servers](/docs/copilot/customization/mcp-servers.md).
+[MCP サーバーの追加と管理](/docs/copilot/customization/mcp-servers.md)の詳細をご覧ください。
 
-## Hooks
+## フック
 
-Hooks run custom shell commands at specific points during an agent session. While instructions and prompts guide what the AI does, hooks guarantee that your code runs at defined lifecycle points. This makes hooks the right choice when you need deterministic outcomes, such as running a formatter after every file edit, blocking commits that fail a lint check, or logging every tool invocation for an audit trail.
+フックはエージェントセッション中の特定のポイントでカスタムシェルコマンドを実行します。手順書とプロンプトが AI が何をするかをガイドしている間、フックは定義されたライフサイクルポイントでコードを実行することを保証します。これにより、すべてのファイル編集後にフォーマッターを実行する、リント検査に失敗するコミットをブロックする、監査証跡のためにすべてのツール呼び出しをログに記録するなど、決定論的な結果が必要な場合はフックが適切な選択肢になります。
 
-Learn more about [configuring hooks](/docs/copilot/customization/hooks.md).
+[フックの設定](/docs/copilot/customization/hooks.md)の詳細をご覧ください。
 
-## Agent plugins
+## エージェントプラグイン
 
-Agent plugins are pre-packaged bundles of customizations you discover and install from plugin marketplaces. Instead of building everything yourself, you can install a plugin that provides a ready-made combination of slash commands, skills, custom agents, hooks, and MCP servers. Plugins are useful for adopting community best practices or sharing internal tooling across teams.
+エージェントプラグインは、プラグインマーケットプレイスで発見およびインストールできるカスタマイズの事前パッケージおよびバンドルです。すべて自分で構築する代わりに、スラッシュコマンド、スキル、カスタムエージェント、フック、MCP サーバーの事前構成、結合した統合されたプラグインをインストールできます。プラグインはコミュニティのベストプラクティスを採用したり、チーム全体で内部ツールを共有したりする際に役立ちます。
 
 > [!NOTE]
-> Agent plugins are currently in preview.
+> エージェントプラグインは現在プレビュー中です。
 
-Learn more about [agent plugins](/docs/copilot/customization/agent-plugins.md).
+[エージェントプラグイン](/docs/copilot/customization/agent-plugins.md)の詳細をご覧ください。
 
-## Related resources
+## 関連資料
 
-* [Get started with customization](/docs/copilot/customization/overview.md)
-* [Agents](/docs/copilot/concepts/agents.md)
-* [Tools](/docs/copilot/concepts/tools.md)
+* [カスタマイズの開始](/docs/copilot/customization/overview.md)
+* [エージェント](/docs/copilot/concepts/agents.md)
+* [ツール](/docs/copilot/concepts/tools.md)
+

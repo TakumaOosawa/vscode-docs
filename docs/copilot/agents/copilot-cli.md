@@ -1,7 +1,7 @@
 ---
 ContentId: 9f1a2b3c-4e5f-6d7c-8a9b-1c2d3e4f5a6b
 DateApproved: 3/9/2026
-MetaDescription: Learn how to use Copilot CLI within VS Code for autonomous coding tasks, terminal integration, and isolated development workflows in VS Code.
+MetaDescription: VS Code内でGitHub Copilot CLIを使用して、自律的なコーディングタスク、ターミナル統合、分離された開発ワークフローを学びます。
 MetaSocialImage: ../images/shared/github-copilot-social.png
 Keywords:
 - ai
@@ -13,170 +13,171 @@ Keywords:
 - parallel
 ---
 
-# Copilot CLI sessions in Visual Studio Code
+# Visual Studio CodeのCopilot CLIセッション
 
-Visual Studio Code supports running agent sessions in the background by using GitHub Copilot CLI. You can start, monitor, and manage your Copilot CLI sessions from the unified Chat view in VS Code, while the agents run autonomously on your local machine while you continue other work in the editor. Run multiple Copilot CLI sessions in parallel to tackle independent tasks simultaneously.
+Visual Studio CodeではGitHub Copilot CLIを使用してバックグラウンドでエージェントセッションを実行できます。VS Code内の統合Chat表示からCopilot CLIセッションを開始、監視、管理できます。エージェントはあなたのローカルマシン上で自律的に実行され、エディタで他の作業を継続できます。複数のCopilot CLIセッションを並行実行して、独立したタスクに同時に対応できます。
 
-To start a Copilot CLI session, you can either [create a new session](#create-a-copilot-cli-session) or [hand off a local agent session](#hand-off-a-local-session-to-copilot-cli) to Copilot CLI, passing on existing context.
+Copilot CLIセッションを開始するには、[新しいセッションを作成](#create-a-copilot-cli-session)するか、[ローカルエージェントセッションをCopilot CLIに引き継ぐ](#hand-off-a-local-session-to-copilot-cli)ことで、既存のコンテキストを渡せます。
 
-This article covers the key features of Copilot CLI agents, and how to start and manage background sessions from Copilot CLI.
+この記事ではCopilot CLIエージェントの主な機能と、Copilot CLIからバックグラウンドセッションを開始・管理する方法について説明します。
 
-![Screenshot of Copilot CLI session as a chat editor in VS Code.](../images/background-agents/copilot-cli-session.png)
+![VS Code内のCopilot CLIセッションをチャットエディタで表示したスクリーンショット](../images/background-agents/copilot-cli-session.png)
 
 > [!TIP]
-> Third-party providers like OpenAI Codex also offer background capabilities. Learn more about [third-party agents](/docs/copilot/agents/third-party-agents.md).
+> OpenAI Codexなどのサードパーティプロバイダーもバックグラウンド機能を提供しています。[サードパーティエージェント](/docs/copilot/agents/third-party-agents.md)について詳しく学びます。
 
-<div class="docs-action" data-show-in-doc="false" data-show-in-sidebar="true" title="Get started with agents">
-Follow a hands-on tutorial to experience local, background, and cloud agents in VS Code.
+<div class="docs-action" data-show-in-doc="false" data-show-in-sidebar="true" title="エージェントを始める">
+ローカル、バックグラウンド、クラウドエージェントをVS Code内で体験するためのハンズオンチュートリアルに従ってください。
 
-* [Start tutorial](/docs/copilot/agents/agents-tutorial.md)
+* [チュートリアルを開始](/docs/copilot/agents/agents-tutorial.md)
 
 </div>
 
-## What are Copilot CLI sessions?
+## Copilot CLIセッションとは
 
-Copilot CLI sessions run independently in the background on your local machine and use the Copilot CLI agent harness. VS Code integrates with these agents by using the Copilot SDK to start, stop, and monitor progress of your background sessions. VS Code automatically installs and configures the Copilot CLI for you.
+Copilot CLIセッションはローカルマシン上のバックグラウンドで独立して実行され、Copilot CLIエージェントハーネスを使用します。VS CodeはCopilot SDKを使用してこれらのエージェントと統合し、バックグラウンドセッションの開始、停止、進行状況の監視ができます。VS CodeはCopilot CLIを自動的にインストールして設定します。
 
-Copilot SDK sessions run outside of VS Code and continue to run in the background when you close your VS Code window. This behavior is unlike local agents that use the VS Code agent harness inside the editor and stop running when VS Code stops.
+Copilot SDKセッションはVS Code外で実行さ続け、VS Codeウィンドウを閉じた後もバックグラウンドで実行を続けます。これはエディタ内のVS Codeエージェントハーネスを使用するローカルエージェントと異なり、VS Codeが停止すると実行も停止します。
 
-You can interact with Copilot CLI sessions from the unified Chat view. When a background session requires your input or needs permissions to perform an action, you can do so from within chat. The agent status indicator also provides hints when a session needs input.
+統合Chat表示からCopilot CLIセッションとやり取りできます。バックグラウンドセッションがあなたの入力を必要とするか、アクションを実行する権限が必要な場合、チャット内から実行できます。エージェントステータスインジケータはセッションが入力を必要とするときにもヒントを表示します。
 
-Because Copilot CLI sessions run in the background, they are well-suited for tasks that have a well-defined scope, have all necessary context, and don't require frequent user interaction. Examples include implementing a feature from a plan, creating multiple variants of a proof of concept, or implementing clearly defined fixes or features.
+Copilot CLIセッションはバックグラウンドで実行されるため、明確なスコープを持ち、必要なコンテキストがすべて揃っており、頻繁なユーザー操作を必要としないタスクに適しています。例としては、計画から機能を実装する、概念実証の複数のバリエーションを作成する、明確に定義された修正または機能を実装することが挙げられます。
 
-Copilot CLI supports slash commands in chat, including [reusable prompts](/docs/copilot/customization/prompt-files.md), [agent skills](/docs/copilot/customization/agent-skills.md), [hooks](/docs/copilot/customization/hooks.md), and `/compact` to manage long conversations. Type `/` in the chat input of a Copilot CLI session to see available commands.
+Copilot CLIはチャット内のスラッシュコマンドをサポートしており、[再利用可能なプロンプト](/docs/copilot/customization/prompt-files.md)、[エージェントスキル](/docs/copilot/customization/agent-skills.md)、[フック](/docs/copilot/customization/hooks.md)、および長い会話を管理するための`/compact`が含まれています。Copilot CLIセッションのチャット入力で`/`と入力して、利用可能なコマンドを確認してください。
 
-### Isolation modes
+### 分離モード
 
-Copilot CLI supports two types of isolation modes to manage how changes from the agent are applied to your codebase: **Worktree** and **Workspace** isolation. You can choose the isolation mode when you create a new Copilot CLI session.
+Copilot CLIはエージェントの変更をコードベースに適用する方法を管理するための2種類の分離モードをサポートしています：**Worktree**と**Workspace**の分離です。新しいCopilot CLIセッションを作成するときに分離モードを選択できます。
 
-To isolate changes from the Copilot CLI agent and prevent interference with your active work, use **Worktree** isolation. In this mode, VS Code creates a [Git worktree](/docs/sourcecontrol/branches-worktrees.md#understanding-worktrees) in a separate folder for the Copilot CLI session. All changes made by the agent are applied to the worktree, keeping them separate from your main workspace until you're ready to review and apply them.
+Copilot CLIエージェントからの変更を分離し、アクティブな作業への干渉を防ぐには、**Worktree**の分離を使用してください。このモード内で、VS CodeはCopilot CLIセッション用に別のフォルダーに[Gitワークツリー](/docs/sourcecontrol/branches-worktrees.md#understanding-worktrees)を作成します。エージェントが行ったすべての変更はワークツリーに適用され、レビューして適用する準備ができるまでメインワークスペースから分離されたままになります。
 
-If you want the changes from the Copilot CLI session to be applied directly to your current workspace, you can choose **Workspace** isolation. In this mode, the agent operates directly in your current workspace, and changes are applied in place.
+Copilot CLIセッションからの変更を現在のワークスペースに直接適用する場合は、**Workspace**の分離を選択できます。このモード内では、エージェントは現在のワークスペースで直接動作し、変更がその場で適用されます。
 
 > [!NOTE]
-> To use Git worktrees and worktree isolation, your workspace needs to be a Git repository.
+> Gitワークツリーとワークツリー分離を使用するには、ワークスペースがGitリポジトリである必要があります。
 
-### Limitations of Copilot CLI sessions
+### Copilot CLIセッションの制限事項
 
-* Copilot CLI sessions can't access all VS Code built-in tools. You can explicitly [add context](/docs/copilot/chat/copilot-chat-context.md) in the chat input.
+* Copilot CLIセッションはすべてのVS Code組み込みツールにアクセスできません。チャット入力で明示的に[コンテキストを追加](/docs/copilot/chat/copilot-chat-context.md)できます。
 
-* Don't have access to extension-provided tools and are limited to the models available via the CLI tool.
+* 拡張機能が提供するツールにアクセスできず、CLIツール経由で利用可能なモデルに限定されます。
 
-* Can currently only access local MCP servers that don't require authentication.
+* 現在、認証を必要としないローカルMCPサーバーのみにアクセスできます。
 
-## Create a Copilot CLI session
+## Copilot CLIセッションを作成する
 
-To create a new Copilot CLI session in VS Code:
+VS Code内で新しいCopilot CLIセッションを作成するには：
 
-1. Create a new session using either of these options
+1. 以下のいずれかのオプションを使用して新しいセッションを作成します
 
-    * Open the Chat view (`kb(workbench.action.chat.open)`) and select **Copilot CLI** from the Session Target dropdown
+    * Chat表示を開く（`kb(workbench.action.chat.open)`）し、セッションターゲットドロップダウンから**Copilot CLI**を選択します
 
-    * Select the **New Chat** icon at the top, and select **New Copilot CLI Session**
+    * 上部の**新規チャット**アイコンを選択し、**新規Copilot CLIセッション**を選択します
 
-    * Run the **Chat: New Copilot CLI** command from the Command Palette (`kb(workbench.action.showCommands)`)
+    * コマンドパレット（`kb(workbench.action.showCommands)`）から**Chat: New Copilot CLI**コマンドを実行します
 
-1. Choose between workspace or worktree [isolation mode](#isolation-modes)
+1. ワークスペースまたはワークツリーの[分離モード](#isolation-modes)を選択します
 
-    If you use worktree isolation, the agent automatically commits changes to the worktree at the end of each turn, so the session history stays aligned with the commit history.
+    ワークツリー分離を使用する場合、エージェントは各ターンの終了時に変更をワークツリーに自動的にコミットするため、セッション履歴はコミット履歴と一致したままになります。
 
     > [!TIP]
-    > You can open the worktree of a session by right-clicking it in the session list and selecting **Open Worktree in New Window**. You can also view the worktree in the Source Control view repository explorer (`scm.repositories.explorer`).
+    > セッション一覧でセッションを右クリックし、**ワークツリーを新しいウィンドウで開く**を選択して、セッションのワークツリーを開くことができます。ソース管理表示リポジトリエクスプローラー（`scm.repositories.explorer`）でワークツリーを表示することもできます。
 
-1. Submit your prompt to start the agent. Optionally, add extra context or choose a specific language model and custom agent.
+1. プロンプトを送信してエージェントを開始します。必要に応じて、追加のコンテキストを追加するか、特定の言語モデルとカスタムエージェントを選択してください。
 
-1. Track the session status in the Chat view.
-
-> [!TIP]
-> You can create multiple Copilot CLI sessions to work on different tasks in parallel.
-
-## Hand off a local session to Copilot CLI
-
-For complex tasks, it can be helpful to first interact with a local agent in VS Code to clarify requirements, and then hand off the task to Copilot CLI for autonomous execution in the background. This can be useful when using the [Plan agent](/docs/copilot/agents/planning.md) to create a plan and then hand off the implementation of that plan to Copilot CLI.
-
-When you hand off a local agent conversation to a Copilot CLI session, the full conversation history and context is passed to the background session.
-
-To hand off a local agent session to Copilot CLI:
-
-1. Open the Chat view (`kb(workbench.action.chat.open)`)
-
-1. Interact with a local agent until you're ready to hand off the task
-
-1. To hand off to Copilot CLI, you have the following options:
-
-    * Open the **Session Target** dropdown and then select **Copilot CLI**
-
-        ![Screenshot showing the Session Target dropdown in VS Code chat interface.](../images/background-agents/continue-in-cli.png)
-
-    * If you're using the [Plan agent](/docs/copilot/agents/planning.md), select the **Start Implementation** dropdown and the select **Continue in Copilot CLI** to run the implementation in a Copilot CLI session
-
-        ![Screenshot showing the "Start Implementation" button in VS Code chat interface.](../images/background-agents/plan-agent-start-implementation-cli.png)
-
-The Copilot CLI session starts automatically, carrying over the full conversation history and context.
-
-## Use Copilot CLI from the terminal
-
-In addition to starting Copilot CLI sessions from the Chat view, you can use Copilot CLI directly from the VS Code terminal.
-
-![Screenshot showing the Copilot CLI session inside VS Code.](../images/background-agents/copilot-cli-in-terminal.png)
-
-### Open a Copilot CLI terminal
-
-VS Code registers a **GitHub Copilot CLI** terminal profile that you can use to open a dedicated Copilot CLI terminal. You can open a Copilot CLI terminal in several ways:
-
-* Select the dropdown next to the **+** button in the Terminal panel and select **GitHub Copilot CLI**
-
-* Run the **Chat: New Copilot CLI Session** command from the Command Palette to open a Copilot CLI terminal in the panel, or run **Chat: New CLI Session to the Side** to open it in an editor tab beside your current editor
-
-* Run the **Terminal: Create New Terminal (With Profile)** command from the Command Palette (`kb(workbench.action.showCommands)`) and select **GitHub Copilot CLI**
-
-* Type `copilot` in any VS Code integrated terminal to start the Copilot CLI directly
-
-The Copilot CLI terminal supports the following shells:
-
-* **bash** and **zsh** on macOS and Linux
-* **PowerShell** and **Command Prompt** on Windows
-
-### Start and resume sessions from the terminal
-
-When you start a new session from the Copilot CLI terminal, VS Code automatically detects the session and displays it in the Chat view sessions list. You can then track progress, send follow-up prompts, or review changes from either the terminal or the Chat view.
-
-To resume an existing Copilot CLI session in the terminal, right-click the session in the sessions list and select **Resume in Terminal**.
-
-VS Code automatically handles authentication for the Copilot CLI terminal, so you don't need to sign in separately.
-
-## Multi-repository workspaces
-
-If your workspace contains multiple Git repositories, VS Code displays a repository picker in the chat input when you start a Copilot CLI session. Use this picker to select which repository the worktree should be created in.
-
-After the session starts, the repository picker becomes disabled for that session. The worktree appears under the selected repository in the **Worktrees** node in the Source Control Repositories view.
+1. Chat表示でセッションステータスを追跡します。
 
 > [!TIP]
-> To view all repositories in your workspace, enable the `setting(scm.repositories.explorer)` setting and open the Source Control view.
+> 複数のCopilot CLIセッションを作成して、異なるタスクに並行して取り組むことができます。
 
-## Use custom agents with Copilot CLI (Experimental)
+## ローカルセッションをCopilot CLIに引き継ぐ
 
-[Custom agents](/docs/copilot/customization/custom-agents.md) let you define custom personas and roles for agents in VS Code. For example, you might create a custom agent for performing code reviews. Custom agents can define specific instructions and behaviors.
+複雑なタスクの場合、まずVS Code内のローカルエージェントと対話して要件を明確にしてから、タスクをCopilot CLIに引き継いでバックグラウンドで自律的に実行したほうが役立つ場合があります。これは[計画エージェント](/docs/copilot/agents/planning.md)を使用して計画を作成してから、その計画の実装をCopilot CLIに引き継ぐ場合に役立ちます。
 
-When you create a Copilot CLI session, you can select a custom agent to handle the task. The custom agent operates according to the defined behavior.
+ローカルエージェント会話をCopilot CLIセッションに引き継ぐと、完全な会話履歴とコンテキストがバックグラウンドセッションに渡されます。
 
-To use custom agents with Copilot CLI:
+ローカルエージェントセッションをCopilot CLIに引き継ぐには：
 
-1. Enable custom agents for Copilot CLI with the `setting(github.copilot.chat.cli.customAgents.enabled)` setting
+1. Chat表示を開く（`kb(workbench.action.chat.open)`）
 
-1. Create a custom agent in your workspace with the **Chat: New Custom Agent** command from the Command Palette (`kb(workbench.action.showCommands)`)
+1. タスクを引き継ぐ準備ができるまでローカルエージェントと対話します
 
-1. Create a new Copilot CLI session and select the custom agent from the Agents dropdown
+1. Copilot CLIに引き継ぐには、以下のオプションがあります：
 
-    ![Screenshot showing custom agent selection in VS Code chat interface.](../images/background-agents/custom-agent-selection-v2.png)
+    * **セッションターゲット**ドロップダウンを開き、**Copilot CLI**を選択します
 
-1. Enter a prompt and notice that the custom agent is used to handle the task
+        ![VS Codeのチャットインターフェースのセッションターゲットドロップダウンを表示したスクリーンショット](../images/background-agents/continue-in-cli.png)
+
+    * [計画エージェント](/docs/copilot/agents/planning.md)を使用している場合は、**実装を開始**ドロップダウンを選択して、**Copilot CLIで続行**を選択し、Copilot CLIセッション内で実装を実行します
+
+        ![VS Codeのチャットインターフェースの「実装を開始」ボタンを表示したスクリーンショット](../images/background-agents/plan-agent-start-implementation-cli.png)
+
+Copilot CLIセッションが自動的に開始され、完全な会話履歴とコンテキストが引き継がれます。
+
+## ターミナルからCopilot CLIを使用する
+
+Chat表示からCopilot CLIセッションを開始するのに加えて、VS Codeターミナルから直接Copilot CLIを使用できます。
+
+![VS Code内のCopilot CLIセッションを表示したスクリーンショット](../images/background-agents/copilot-cli-in-terminal.png)
+
+### Copilot CLIターミナルを開く
+
+VS CodeはCopilot CLIターミナルの専用ターミナルプロファイルを登録しており、これを使用できます。Copilot CLIターミナルを開く方法は複数あります：
+
+* ターミナルパネルの**+**ボタンの横のドロップダウンを選択し、**GitHub Copilot CLI**を選択します
+
+* コマンドパレットから**Chat: New Copilot CLI Session**コマンドを実行してパネル内にCopilot CLIターミナルを開くか、**Chat: New CLI Session to the Side**を実行して現在のエディタの横のエディタタブで開きます
+
+* コマンドパレット（`kb(workbench.action.showCommands)`）から**Terminal: Create New Terminal (With Profile)**コマンドを実行し、**GitHub Copilot CLI**を選択します
+
+* VS Code統合ターミナルで`copilot`と入力してCopilot CLIを直接開始します
+
+Copilot CLIターミナルは以下のシェルをサポートしています：
+
+* macOSとLinuxでは**bash**と**zsh**
+* Windowsでは**PowerShell**と**Command Prompt**
+
+### ターミナルからセッションを開始・再開する
+
+Copilot CLIターミナルから新しいセッションを開始すると、VS Codeはセッションを自動的に検出し、Chat表示のセッション一覧に表示します。その後、ターミナルまたはChat表示のいずれからでも進行状況を追跡し、フォローアップのプロンプトを送信したり、変更を確認できます。
+
+ターミナルで既存のCopilot CLIセッションを再開するには、セッション一覧内のセッションを右クリックし、**ターミナルで再開**を選択します。
+
+VS CodeはCopilot CLIターミナルの認証を自動的に処理するため、別途サインインする必要はありません。
+
+## マルチリポジトリワークスペース
+
+ワークスペースに複数のGitリポジトリが含まれている場合、Copilot CLIセッションを開始するとVS Codeはチャット入力にリポジトリピッカーを表示します。このピッカーを使用して、ワークツリーを作成するリポジトリを選択してください。
+
+セッションが開始された後、そのセッションではリポジトリピッカーは無効になります。ワークツリーはソース管理リポジトリ表示の選択したリポジトリの下の**ワークツリー**ノードの下に表示されます。
+
+> [!TIP]
+> ワークスペース内のすべてのリポジトリを表示するには、`setting(scm.repositories.explorer)`設定を有効にしてソース管理表示を開いてください。
+
+## Copilot CLIでカスタムエージェントを使用する（実験的）
+
+[カスタムエージェント](/docs/copilot/customization/custom-agents.md)を使用して、VS Code内のエージェントのカスタムペルソナとロールを定義できます。例えば、コードレビューを実行するカスタムエージェントを作成できます。カスタムエージェントは特定の指示と動作を定義できます。
+
+Copilot CLIセッションを作成するときに、タスクを処理するカスタムエージェントを選択できます。カスタムエージェントは定義された動作に従って動作します。
+
+Copilot CLIでカスタムエージェントを使用するには：
+
+1. `setting(github.copilot.chat.cli.customAgents.enabled)`設定でCopilot CLIのカスタムエージェントを有効にします
+
+1. コマンドパレット（`kb(workbench.action.showCommands)`）から**Chat: New Custom Agent**コマンドでワークスペース内にカスタムエージェントを作成します
+
+1. 新しいCopilot CLIセッションを作成し、エージェントドロップダウンからカスタムエージェントを選択します
+
+    ![VS Codeのチャットインターフェースのカスタムエージェント選択を表示したスクリーンショット](../images/background-agents/custom-agent-selection-v2.png)
+
+1. プロンプトを入力して、カスタムエージェントがタスクを処理することを確認してください
 
 > [!NOTE]
-> Currently, only custom agents defined in the workspace are available for Copilot CLI sessions. Learn more about [creating a custom agent](/docs/copilot/customization/custom-agents.md#create-a-custom-agent).
+> 現在、ワークスペース内で定義されたカスタムエージェントのみがCopilot CLIセッションで利用可能です。[カスタムエージェントの作成](/docs/copilot/customization/custom-agents.md#create-a-custom-agent)について詳しく学びます。
 
-## Related resources
+## 関連リソース
 
-* [Agents overview](/docs/copilot/agents/overview.md): Understand different agent types and how to hand off tasks between agents
-* [Custom agents](/docs/copilot/customization/custom-agents.md): Create custom agent roles and personas
-* [GitHub Copilot CLI documentation](https://cli.github.com/manual/gh_copilot)
+* [エージェント概要](/docs/copilot/agents/overview.md)：異なるエージェントタイプを理解し、エージェント間でタスクを引き継ぐ方法を学ぶ
+* [カスタムエージェント](/docs/copilot/customization/custom-agents.md)：カスタムエージェントのロールとペルソナを作成する
+* [GitHub Copilot CLIドキュメント](https://cli.github.com/manual/gh_copilot)
+

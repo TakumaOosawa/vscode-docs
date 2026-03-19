@@ -1,7 +1,7 @@
 ---
 ContentId: 3a6e8c1d-5f2b-4d9a-b7e1-9c4f2a8d6b3e
 DateApproved: 3/9/2026
-MetaDescription: Learn how to use local agents in VS Code for interactive coding tasks with full access to your workspace, tools, and models.
+MetaDescription: VS Codeのローカルエージェントを使用して、ワークスペース、ツール、モデルへのフルアクセスを持つインタラクティブなコーディングタスクを実行する方法を学びます。
 MetaSocialImage: ../images/shared/github-copilot-social.png
 Keywords:
 - ai
@@ -11,129 +11,130 @@ Keywords:
 - copilot
 ---
 
-# Local agents in Visual Studio Code
+# Visual Studio Codeのローカルエージェント
 
-Local agents run interactively within Visual Studio Code on your machine. They work on your current workspace and have access to the full range of tools and models available in VS Code, including extension-provided tools and MCP servers. By [creating custom agents](/docs/copilot/customization/custom-agents.md), you can let the agent assume a specific role or persona for a task, such as a code reviewer, tester, or documentation writer.
+ローカルエージェントはVisual Studio Code内のマシン上でインタラクティブに実行されます。現在のワークスペースで動作し、VS Code内で利用可能なツールとモデルの全範囲（拡張機能で提供されるツールとMCPサーバーを含む）にアクセスできます。[カスタムエージェントを作成](/docs/copilot/customization/custom-agents.md)することで、エージェントにコードレビュー担当者、テスター、ドキュメント作成者など、特定のロールやペルソナを引き受けさせることができます。
 
-Local agents operate in the chat interface in VS Code. When you close a chat session, the local agent remains active and you can track it in the sessions view.
+ローカルエージェントはVS Code内のチャットインターフェイスで動作します。チャットセッションを閉じたとき、ローカルエージェントは引き続き実行されており、セッションビューで追跡できます。
 
-<div class="docs-action" data-show-in-doc="false" data-show-in-sidebar="true" title="Get started with agents">
-Follow a hands-on tutorial to experience local, background, and cloud agents in VS Code.
+<div class="docs-action" data-show-in-doc="false" data-show-in-sidebar="true" title="エージェントの使用を開始する">
+ハンズオンチュートリアルを実行して、VS Code内のローカルエージェント、バックグラウンドエージェント、クラウドエージェントを体験します。
 
-* [Start tutorial](/docs/copilot/agents/agents-tutorial.md)
+* [チュートリアルを開始](/docs/copilot/agents/agents-tutorial.md)
 
 </div>
 
-## Why use local agents?
+## ローカルエージェントを使用する理由
 
-* Interactive conversations that require immediate feedback, such as brainstorming, planning, or tasks that aren't yet fully defined
-* Tasks that require context from your developer environment, such as linting errors, stack traces, unit test results
-* Tasks that require access to specific tools from VS Code extensions or MCP servers or need to use specific models like BYOK models
-* Tasks that don't require collaboration from other team members
+* ブレインストーミング、計画、またはまだ完全に定義されていないタスクなど、迅速なフィードバックが必要なインタラクティブな会話
+* リンターエラー、スタックトレース、ユニットテスト結果など、開発環境からのコンテキストが必要なタスク
+* VS Code拡張機能またはMCPサーバーからの特定のツールへのアクセスが必要であるか、BYOK モデルなどの特定のモデルを使用する必要があるタスク
+* チームの他のメンバーからのコラボレーションが不要なタスク
 
-## Key characteristics
+## 主な特性
 
-* Runs within VS Code on your local machine and works on your current workspace
-* Interactive chat-based interface for real-time feedback and iteration
-* Full access to your workspace, files, and context
-* Can access all agent tools configured in VS Code, such as built-in tools, MCP tools, and extension-provided tools
-* Can use all models available to you in VS Code, including BYOK models and models from other providers
+* VS Code内のローカルマシン上で実行され、現在のワークスペースで動作する
+* リアルタイムのフィードバックと反復処理のためのインタラクティブなチャットベースのインターフェイス
+* ワークスペース、ファイル、コンテキストへのフルアクセス
+* 組み込みツール、MCPツール、拡張機能で提供されるツールなど、VS Code内で構成されたすべてのエージェントツールにアクセスできる
+* BYOKモデルと他のプロバイダーからのモデルを含む、VS Code内で利用可能なすべてのモデルを使用できる
 
-## Built-in agents
+## 組み込みエージェント
 
-Local agent sessions use one of three built-in agents, each optimized for different types of tasks. You can switch between agents at any time during a chat session by selecting a different agent from the agent picker in the Chat view. For more specialized workflows, you can create your own [custom agents](/docs/copilot/customization/custom-agents.md).
+ローカルエージェントセッションは、3つの組み込みエージェントのいずれかを使用します。各エージェントは異なるタイプのタスクに最適化されています。チャットセッション中いつでも、チャットビュー内のエージェントピッカーから別のエージェントを選択して、エージェント間を切り替えることができます。より特殊なワークフローについては、独自の[カスタムエージェント](/docs/copilot/customization/custom-agents.md)を作成できます。
 
 ### Agent
 
-Agent is optimized for complex coding tasks based on high-level requirements that might require running terminal commands and tools. The AI operates autonomously, determining the relevant context and files to edit, planning the work needed, and iterating to resolve problems as they arise.
+Agentは、ターミナルコマンドとツールの実行が必要になる可能性のある高レベルの要件に基づいた複雑なコーディングタスクに最適化されています。AIは自律的に動作し、関連するコンテキストとファイルを決定し、必要な作業を計画し、発生した問題を解決するために反復処理します。
 
-VS Code directly applies code changes in the editor, and the editor overlay controls enable you to navigate between the suggested edits and review them. The agent might invoke multiple [tools](/docs/copilot/agents/agent-tools.md) to accomplish different tasks.
+VS Code は直接コード変更をエディターに適用し、エディターオーバーレイコントローラーで提案された編集内容を移動してレビューできます。エージェントは異なるタスクを実行するために複数の[ツール](/docs/copilot/agents/agent-tools.md)を呼び出す可能性があります。
 
-You can [customize chat with extra tools](/docs/copilot/agents/agent-tools.md) by adding MCP servers or installing extensions that contribute tools.
+[ツールを追加](/docs/copilot/agents/agent-tools.md)してMCPサーバーを追加するか、ツールに貢献する拡張機能をインストールすることで、チャットをカスタマイズできます。
 
-Open chat with Agent: [Stable](vscode://GitHub.Copilot-Chat/chat?mode=agent) | [Insiders](vscode-insiders://GitHub.Copilot-Chat/chat?mode=agent)
+Agentでチャットを開く: [Stable](vscode://GitHub.Copilot-Chat/chat?mode=agent) | [Insiders](vscode-insiders://GitHub.Copilot-Chat/chat?mode=agent)
 
 > [!IMPORTANT]
-> If you don't see the agent option, make sure agents are enabled in your VS Code settings (`setting(chat.agent.enabled)`). Your organization might also disable agents. Contact your admin to enable this functionality.
+> エージェントオプションが表示されない場合は、VS Code設定でエージェントが有効になっていることを確認してください(`setting(chat.agent.enabled)`)。お客様の組織がエージェントを無効にしている可能性もあります。この機能を有効にするには管理者に問い合わせてください。
 
 ### Plan
 
-The plan agent is optimized for creating a structured implementation plan for a coding task. Use the plan agent when you want to break down a complex feature or change into smaller, manageable steps before implementation.
+Planエージェントはコーディングタスクの構造化された実装計画を作成するために最適化されています。複雑な機能または変更をより小さく、管理可能なステップに分割したい場合は、Planエージェントを使用します。
 
-The plan agent generates a detailed plan outlining the steps needed and asks clarifying questions to ensure a comprehensive understanding of the task. You can then hand off the plan to an implementation agent or use it as a guide.
+Planエージェントは必要なステップの詳細な計画を生成し、タスクを包括的に理解するための明確な質問をします。その後、計画を実装エージェントに渡すか、ガイドとして使用できます。
 
-Open chat with Plan: [Stable](vscode://GitHub.Copilot-Chat/chat?mode=plan) | [Insiders](vscode-insiders://GitHub.Copilot-Chat/chat?mode=plan)
+Planでチャットを開く: [Stable](vscode://GitHub.Copilot-Chat/chat?mode=plan) | [Insiders](vscode-insiders://GitHub.Copilot-Chat/chat?mode=plan)
 
-Learn more about [planning with agents](/docs/copilot/agents/planning.md).
+[エージェントでの計画](/docs/copilot/agents/planning.md)の詳細をご覧ください。
 
 ### Ask
 
-The Ask feature works best for answering questions about your codebase, coding, and general technology concepts. Use Ask when you want to understand how something works, explore ideas, or get help with coding tasks.
+Askは、コードベース、コーディング、一般的なテクノロジーの概念に関する質問に答えるのに最適です。何かの動作方法を理解したい、アイデアを検討したい、またはコーディングタスクのサポートが必要な場合は、Askを使用します。
 
-Ask uses agentic capabilities to research your codebase and gather relevant context. Responses can contain code blocks that you apply individually to your codebase. To apply a code block, hover over the code block and select the **Apply in Editor** button.
+Ask はエージェント機能を使用してコードベースを調査し、関連するコンテキストを収集します。応答にはコードブロックが含まれる場合があり、これをコードベースに個別に適用できます。コードブロックを適用するには、コードブロック上にマウスポインターを置き、**エディターで適用**ボタンを選択します。
 
-Open chat by using Ask: [Stable](vscode://GitHub.Copilot-Chat/chat?mode=ask) | [Insiders](vscode-insiders://GitHub.Copilot-Chat/chat?mode=ask)
+Askを使用してチャットを開く: [Stable](vscode://GitHub.Copilot-Chat/chat?mode=ask) | [Insiders](vscode-insiders://GitHub.Copilot-Chat/chat?mode=ask)
 
-### Edit mode (deprecated)
+### Editmode(廃止予定)
 
-Edit mode is deprecated. Use Agent mode for multi-file code edits instead. You can restore Edit mode by enabling the `setting(chat.editMode.hidden)` setting.
+Editmode は廃止予定です。複数ファイルのコード編集には Agent mode を使用してください。`setting(chat.editMode.hidden)` 設定を有効にすることで、Editmode を復元できます。
 
-## Get started
+## 使用を開始する
 
 > [!TIP]
-> For a hands-on tutorial that demonstrates working with different agent types including background and cloud agents, see the [agents tutorial](/docs/copilot/agents/agents-tutorial.md).
+> バックグラウンドエージェントとクラウドエージェントを含むさまざまなエージェントタイプの操作を実演するハンズオンチュートリアルについては、[エージェントチュートリアル](/docs/copilot/agents/agents-tutorial.md)を参照してください。
 
-To start a local agent session:
+ローカルエージェントセッションを開始する:
 
-1. Select **Agent** from the agent picker in the Chat view.
+1. チャットビュー内のエージェントピッカーから**Agent**を選択します。
 
-1. Type a high-level prompt in the chat input field. For example, you might ask:
-
-    ```prompt-agent
-    Implement a user authentication system with OAuth2 and JWT.
-    ```
-
-    or
+1. チャット入力フィールドに高レベルのプロンプトを入力します。たとえば、以下のように入力できます:
 
     ```prompt-agent
-    Set up a CI/CD pipeline for this project.
+    OAuth2とJWTを使用したユーザー認証システムを実装します。
     ```
 
-1. Use the tools picker to [enable tools](/docs/copilot/agents/agent-tools.md) and give the agent more capabilities.
+    または
 
-1. Select **Send** or press `kb(workbench.action.chat.submit)` to submit your prompt.
+    ```prompt-agent
+    このプロジェクト用にCI/CDパイプラインをセットアップします。
+    ```
 
-1. Review and confirm code changes and tool invocations as the agent works through your request.
+1. ツールピッカーを使用して[ツールを有効化](/docs/copilot/agents/agent-tools.md)し、エージェントにより多くの機能を提供します。
 
-    You can send follow-up prompts while the agent is working. Queue messages for later, steer the agent in a new direction, or stop and send immediately. Learn more about [sending messages while a request is running](/docs/copilot/chat/chat-sessions.md#send-messages-while-a-request-is-running).
+1. **送信**を選択するか、`kb(workbench.action.chat.submit)` キーを押してプロンプトを送信します。
+
+1. エージェントがリクエストを処理する際に、コード変更とツール呼び出しをレビューして確認します。
+
+    エージェントがリクエストを処理している間にフォローアップのプロンプトを送信できます。後で送信するようにメッセージをキューイングし、エージェントを新しい方向に導くか、停止して直ちに送信します。[リクエスト実行中のメッセージ送信](/docs/copilot/chat/chat-sessions.md#send-messages-while-a-request-is-running)の詳細をご覧ください。
 
     > [!TIP]
-    > VS Code helps you protect against inadvertent edits to sensitive files, such as workspace configuration settings or environment settings. Learn more about [editing sensitive files](/docs/copilot/chat/review-code-edits.md#edit-sensitive-files).
+    > VS Code は、ワークスペース構成設定や環境設定などの機密ファイルへの意図しない編集を防ぐのに役立ちます。[機密ファイルの編集](/docs/copilot/chat/review-code-edits.md#edit-sensitive-files)の詳細をご覧ください。
 
-To start with Ask:
+Ask で開始する:
 
-1. Type your prompt in the chat input field. For example, you might ask:
-
-    ```prompt-ask
-    Provide 3 ways to implement a search feature in React.
-    ```
-
-    or
+1. チャット入力フィールドにプロンプトを入力します。たとえば、以下のように入力できます:
 
     ```prompt-ask
-    Where is the db connection configured in this project? #codebase
+    Reactで検索機能を実装する3つの方法を提供します。
     ```
 
-1. Select **Ask** from the agent picker in the Chat view.
+    または
 
-1. Optionally, [add context to your prompt](/docs/copilot/chat/copilot-chat-context.md) to get more accurate responses.
+    ```prompt-ask
+    このプロジェクトのdb接続はどこで構成されていますか?#codebase
+    ```
 
-1. Select **Send** or press `kb(workbench.action.chat.submit)` to submit your prompt.
+1. チャットビュー内のエージェントピッカーから**Ask**を選択します。
 
-## Related resources
+1. オプションで、[プロンプトにコンテキストを追加](/docs/copilot/chat/copilot-chat-context.md)して、より正確な応答を取得します。
 
-* [Agents overview](/docs/copilot/agents/overview.md): Overview of agent types and session management.
-* [Agents tutorial](/docs/copilot/agents/agents-tutorial.md): Hands-on tutorial for working with different agent types.
-* [Tools](/docs/copilot/agents/agent-tools.md): Extend agents with built-in, MCP, and extension tools.
-* [Custom agents](/docs/copilot/customization/custom-agents.md): Create your own AI agents and extensions.
-* [Chat](/docs/copilot/chat/copilot-chat.md): Learn about the chat interface and interaction features.
+1. **送信**を選択するか、`kb(workbench.action.chat.submit)` キーを押してプロンプトを送信します。
+
+## 関連リソース
+
+* [エージェント概要](/docs/copilot/agents/overview.md): エージェントタイプとセッション管理の概要。
+* [エージェントチュートリアル](/docs/copilot/agents/agents-tutorial.md): さまざまなエージェントタイプの操作に関するハンズオンチュートリアル。
+* [ツール](/docs/copilot/agents/agent-tools.md): 組み込みツール、MCPツール、拡張機能ツールでエージェントを拡張します。
+* [カスタムエージェント](/docs/copilot/customization/custom-agents.md): 独自のAIエージェントと拡張機能を作成します。
+* [チャット](/docs/copilot/chat/copilot-chat.md): チャットインターフェイスとインタラクション機能について学習します。
+

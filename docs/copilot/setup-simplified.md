@@ -1,43 +1,44 @@
 ---
 ContentId: a18e245e-af72-4d0f-b322-fa1030af5284
 DateApproved: 3/9/2026
-MetaDescription: Set up Copilot in VS Code
+MetaDescription: VS CodeでCopilotをセットアップする
 MetaSocialImage: images/shared/github-copilot-social.png
 ---
-# Set up Visual Studio Code with Copilot
+# Visual Studio CodeをCopilotでセットアップする
 
-Welcome to AI-powered development with Visual Studio Code! Follow the steps in this guide to get started in minutes.
+AI搭載開発をVisual Studio Codeで始めましょう。このガイドの手順に従って、数分で始められます。
 
-<div class="docs-action" data-show-in-doc="false" data-show-in-sidebar="true" title="Get started with AI">
-Follow a hands-on tutorial to build your first app with AI in VS Code.
+<div class="docs-action" data-show-in-doc="false" data-show-in-sidebar="true" title="AIを使って始める">
+VS CodeでAIを使って最初のアプリを構築するためのハンズオンチュートリアルに従います。
 
-* [Start tutorial](/docs/copilot/getting-started.md)
+* [チュートリアルを開始](/docs/copilot/getting-started.md)
 
 </div>
 
-## Set up Copilot in VS Code
+## VS CodeでCopilotをセットアップする
 
-To use Copilot in VS Code, you need access to a GitHub Copilot subscription. You can set up Copilot directly from within VS Code.
+VS CodeでCopilotを使用するには、GitHub Copilotのサブスクリプションへのアクセスが必要です。VS Code内からCopilotを直接セットアップできます。
 
-1. [Download and install Visual Studio Code](https://code.visualstudio.com/Download) for your platform
+1. [Visual Studio Codeをダウンロードしてインストール](https://code.visualstudio.com/Download)する
 
-1. Start VS Code
+1. VS Codeを起動する
 
-1. Hover over the Copilot icon in the Status Bar and select **Set up Copilot**.
+1. ステータスバーのCopilotアイコンにマウスを置いて**Copilotをセットアップ**することを選択します。
 
-    ![Hover over the Copilot icon in the Status Bar and select Set up Copilot.](images/setup/setup-copilot-status-bar.png)
+    ![ステータスバーのCopilotアイコンにマウスを置いて、Copilotをセットアップすることを選択します。](images/setup/setup-copilot-status-bar.png)
 
-1. Select **Sign in** to sign in to your GitHub account or **Use Copilot** if you're already signed in.
+1. **サインイン**を選択してGitHubアカウントにサインインするか、既にサインインしている場合は**Copilotを使用**を選択します。
 
-    If you don't have a Copilot subscription yet, you'll be signed up for the [Copilot Free plan](https://docs.github.com/en/copilot/managing-copilot/managing-copilot-as-an-individual-subscriber/managing-copilot-free/about-github-copilot-free).
+    Copilotのサブスクリプションをまだ持っていない場合は、[Copilot Free プラン](https://docs.github.com/en/copilot/managing-copilot/managing-copilot-as-an-individual-subscriber/managing-copilot-free/about-github-copilot-free)にサインアップされます。
 
     > [!IMPORTANT]
-    > Telemetry in your free version of GitHub Copilot is currently enabled. By default, code suggestions that match public code, including code references in the VS Code and <github.com> experience, are allowed. You can opt out of telemetry data collection by disabling telemetry in VS Code by setting `setting(telemetry.telemetryLevel)` to `off`, or you can adjust both telemetry and code suggestion settings in [Copilot Settings](https://github.com/settings/copilot).
+    > GitHub Copilotの無料版のテレメトリは現在有効になっています。デフォルトでは、VS CodeおよびGitHub.comのエクスペリエンスを含む公開コードと一致するコード提案は許可されています。`setting(telemetry.telemetryLevel)`を`off`に設定することでVS Codeのテレメトリを無効にしてテレメトリデータ収集をオプトアウトするか、[Copilot設定](https://github.com/settings/copilot)でテレメトリとコード提案の設定を調整できます。
 
-1. You can now start using Copilot in VS Code. Learn the basics with the [Copilot Quickstart](/docs/copilot/getting-started.md).
+1. これでVS CodeでCopilotを使い始められます。[Copilot クイックスタート](/docs/copilot/getting-started.md)で基本を学びましょう。
 
-## Next steps
+## 次のステップ
 
-- Discover AI-powered development in VS Code with our [Copilot Quickstart](/docs/copilot/getting-started.md)
-- Get an [overview of Copilot in VS Code](/docs/copilot/overview.md)
-- Get more info about the [Copilot Free plan details and conditions](https://docs.github.com/en/copilot/about-github-copilot/subscription-plans-for-github-copilot)
+- [Copilot クイックスタート](/docs/copilot/getting-started.md)でVS CodeのAI搭載開発を発見する
+- [VS CodeのCopilot概要](/docs/copilot/overview.md)を確認する
+- [Copilot Free プランの詳細と条件](https://docs.github.com/en/copilot/about-github-copilot/subscription-plans-for-github-copilot)について詳しく知る
+

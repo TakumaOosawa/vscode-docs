@@ -1,220 +1,221 @@
 ---
 ContentId: 7b232695-cbbe-4f3f-a625-abc7a5e6496c
 DateApproved: 3/9/2026
-MetaDescription: Overview of the configuration settings for GitHub Copilot in Visual Studio Code.
+MetaDescription: Visual Studio CodeのGitHub Copilotの設定リファレンスです。
 MetaSocialImage: ../images/shared/github-copilot-social.png
 ---
-# GitHub Copilot in VS Code settings reference
+# VS CodeのGitHub Copilot設定リファレンス
 
-This article lists the configuration settings for GitHub Copilot in Visual Studio Code. For general information about working with settings in VS Code, refer to [User and workspace settings](/docs/configure/settings.md).
+このページではVisual Studio CodeのGitHub Copilotの設定オプションについて説明します。VS Codeでの設定全般については、[ユーザーとワークスペースの設定](/docs/configure/settings.md)を参照してください。
 
-The team is continuously working on improving Copilot in VS Code and adding new features. Some features are still experimental. Try them out and share your feedback in [our issues](https://github.com/microsoft/vscode/issues). Get more info about the [feature lifecycle in VS Code](/docs/configure/settings.md#feature-lifecycle).
+チームはCopilot in VS Codeの改善と新機能の追加に継続的に取り組んでいます。一部の機能はまだ実験段階です。ぜひ試してみて、[GitHubのIssue](https://github.com/microsoft/vscode/issues)でフィードバックをお聞かせください。[VS Codeの機能ライフサイクル](/docs/configure/settings.md#feature-lifecycle)の詳細をご覧ください。
 
 > [!TIP]
-> If you don't yet have a Copilot subscription, you can use Copilot for free by signing up for the [Copilot Free plan](https://github.com/github-copilot/signup) and get a monthly limit of inline suggestions and chat interactions.
+> まだCopilotサブスクリプションを持っていない場合は、[Copilot Free プラン](https://github.com/github-copilot/signup)にサインアップして、無料でCopilotを使用できます。月間のインラインサジェストとチャット操作に制限があります。
 
-## General settings
+## 一般的な設定
 
-| Setting and Description | Default |
+| 設定と説明 | 既定値 |
 |------------------------|---------------|
-| `setting(chat.commandCenter.enabled)`<br/>Controls whether to show the Chat menu in the VS Code title bar. | `true` |
-| `setting(workbench.settings.showAISearchToggle)`<br/>Enable searching settings with AI in the Settings editor. | `true` |
-| `setting(workbench.commandPalette.experimental.askChatLocation)` _(Experimental)_<br/>Controls where the Command Palette should ask chat questions. | `"chatView"` |
-| `setting(search.searchView.semanticSearchBehavior)` _(Preview)_<br/>Configure when to run semantic search in the Search view: manually (default), when no text search results are found, or always. | `"manual"` |
-| `setting(search.searchView.keywordSuggestions)` _(Preview)_<br/>Controls whether to show keyword suggestions in the Search view. | `false` |
+| `setting(chat.commandCenter.enabled)`<br/>VS Codeのタイトルバーにチャットメニューを表示するかどうかを制御します。 | `true` |
+| `setting(workbench.settings.showAISearchToggle)`<br/>設定エディターでAIを使用した設定検索を有効にします。 | `true` |
+| `setting(workbench.commandPalette.experimental.askChatLocation)` _(実験段階)_<br/>コマンドパレットがチャット質問をどこに表示するかを制御します。 | `"chatView"` |
+| `setting(search.searchView.semanticSearchBehavior)` _(プレビュー)_<br/>検索ビューでセマンティック検索を実行するタイミングを設定します。手動(既定)、テキスト検索が結果を返さない場合、常になど。 | `"manual"` |
+| `setting(search.searchView.keywordSuggestions)` _(プレビュー)_<br/>検索ビューにキーワード提案を表示するかどうかを制御します。 | `false` |
 
-## Code editing settings
+## コード編集設定
 
-| Setting and Description | Default |
+| 設定と説明 | 既定値 |
 |------------------------|---------------|
-| `setting(github.copilot.editor.enableCodeActions)`<br/>Controls if Copilot commands are shown as Code Actions when available. | `true` |
-| `setting(github.copilot.renameSuggestions.triggerAutomatically)`<br/>Generate symbol renaming suggestions. | `true` |
-| `setting(github.copilot.enable)`<br/>Enable or disable inline suggestions for specified [languages](/docs/languages/identifiers.md). | `{ "*": true, "plaintext": false, "markdown": false, "scminput": false }` |
-| `setting(github.copilot.nextEditSuggestions.enabled)`<br/>Enables [next edit suggestions](/docs/copilot/ai-powered-suggestions.md#next-edit-suggestions) (NES). | `true` |
-| `setting(editor.inlineSuggest.edits.allowCodeShifting)`<br/>Configure if NES is able to shift your code to show a suggestion. | `"always"` |
-| `setting(editor.inlineSuggest.edits.renderSideBySide)`<br/>Configure if NES can show larger suggestions side-by-side if possible, or if Copilot NES should always show larger suggestions below the relevant code. | `"auto"` |
-| `setting(github.copilot.nextEditSuggestions.fixes)`<br/>Enable next edit suggestions based on diagnostics (squiggles). For example, missing imports. | `true` |
-| `setting(editor.inlineSuggest.minShowDelay)`<br/>Time in milliseconds to wait before showing inline suggestions. | `0` |
+| `setting(github.copilot.editor.enableCodeActions)`<br/>利用可能な場合、Copilotコマンドをコードアクションとして表示するかどうかを制御します。 | `true` |
+| `setting(github.copilot.renameSuggestions.triggerAutomatically)`<br/>シンボルの名前変更の提案を生成します。 | `true` |
+| `setting(github.copilot.enable)`<br/>指定された[言語](/docs/languages/identifiers.md)のインラインサジェストを有効または無効にします。 | `{ "*": true, "plaintext": false, "markdown": false, "scminput": false }` |
+| `setting(github.copilot.nextEditSuggestions.enabled)`<br/>[次の編集タスク](/docs/copilot/ai-powered-suggestions.md#next-edit-suggestions)(NES)を有効にします。 | `true` |
+| `setting(editor.inlineSuggest.edits.allowCodeShifting)`<br/>NESがサジェストを表示するためにコードをシフトできるかどうかを設定します。 | `"always"` |
+| `setting(editor.inlineSuggest.edits.renderSideBySide)`<br/>NESがより大きなサジェストを側に並べて表示できるか、またはCopilot NESが常により大きなサジェストを関連するコードの下に表示するかを設定します。 | `"auto"` |
+| `setting(github.copilot.nextEditSuggestions.fixes)`<br/>診断(波線)に基づいて次の編集タスクを有効にします。例えば、不足しているインポートなど。 | `true` |
+| `setting(editor.inlineSuggest.minShowDelay)`<br/>インラインサジェストを表示する前に待機する時間(ミリ秒単位)。 | `0` |
 
-## Chat settings
+## チャット設定
 
-| Setting and Description | Default |
+| 設定と説明 | 既定値 |
 |------------------------|---------------|
-| `setting(github.copilot.chat.localeOverride)`<br/>Specify a locale for chat responses, such as `en` or `fr`. | `"auto"` |
-| `setting(github.copilot.chat.useProjectTemplates)`<br/>Use relevant GitHub projects as starter projects when using `/new`. | `true` |
-| `setting(github.copilot.chat.scopeSelection)`<br/>Whether to prompt for a specific symbol scope if you use `/explain` and the active editor has no selection. | `false` |
-| `setting(github.copilot.chat.terminalChatLocation)`<br/>Controls where chat queries from the terminal should be opened. | `"chatView"` |
-| `setting(chat.detectParticipant.enabled)`<br/>Enable chat participant detection in the Chat view. | `true` |
-| `setting(chat.checkpoints.enabled)` <br/>Enable or disable [checkpoints](/docs/copilot/chat/chat-checkpoints.md) in the chat. | `true` |
-| `setting(chat.checkpoints.showFileChanges)` <br/>Show a summary of file changes at the end of each chat request. | `false` |
-| `setting(chat.editRequests)`<br/>Enable or disable [editing previous chat requests](/docs/copilot/chat/chat-checkpoints.md#edit-a-previous-chat-request). | `"inline"` |
-| `setting(chat.editor.fontFamily)`<br/>Font family in chat codeblocks. | `"default"` |
-| `setting(chat.editor.fontSize)`<br/>Font size in pixels in chat codeblocks. | `14` |
-| `setting(chat.editor.fontWeight)`<br/>Font weight in chat codeblocks. | `"default"` |
-| `setting(chat.editor.lineHeight)`<br/>Line height in pixels in chat codeblocks. | `0` |
-| `setting(chat.editor.wordWrap)`<br/>Toggle line wrapping in chat codeblocks. | `"off"` |
-| `setting(chat.editing.confirmEditRequestRemoval)`<br/>Ask for confirmation before undoing an edit. | `true` |
-| `setting(chat.editing.confirmEditRequestRetry)`<br/>Ask for confirmation before performing a redo of the last edit. | `true` |
-| `setting(chat.editing.autoAcceptDelay)`<br/>Configure a delay after which suggested edits are automatically accepted, use zero to disable auto-accept. | `0` |
-| `setting(chat.fontFamily)`<br/>Font family for Markdown content in chat. | `"default"` |
-| `setting(chat.fontSize)`<br/>Font size in pixels for Markdown content in chat. | `13` |
-| `setting(chat.notifyWindowOnConfirmation)`<br/>Configure when to show an OS notification when user input is needed in a chat session: `off` to never show notifications, `windowNotFocused` (default) to show notifications only when the VS Code window is not focused, `always` to always show notifications. | `"windowNotFocused"` |
-| `setting(chat.notifyWindowOnResponseReceived)`<br/>Configure when to show an OS notification when a chat response is received: `off` to never show notifications, `windowNotFocused` (default) to show notifications only when the VS Code window is not focused, `always` to always show notifications. | `"windowNotFocused"` |
-| `setting(chat.requestQueuing.defaultAction)`<br/>Configure the default action for the **Send** button while a request is in progress: `queue` adds the message to the queue, `steer` signals the current request to yield. | `"queue"` |
-| `setting(chat.tools.terminal.autoReplyToPrompts)` <br/>Automatically reply to terminal prompts with a default answer. | `false` |
-| `setting(chat.tools.terminal.terminalProfile.<platform>)`<br/>Configure which terminal profile to use for chat terminal commands on each platform. | `""` |
-| `setting(chat.hookFilesLocations)` _(Preview)_ <br/>Configure additional [hook file locations](/docs/copilot/customization/hooks.md#hook-file-locations). Specify paths to folders (loads all `*.json` files) or direct paths to `.json` files. Only relative paths and tilde paths are supported. | `{}` |
-| `setting(chat.useCustomAgentHooks)` _(Preview)_ <br/>Enable [agent-scoped hooks](/docs/copilot/customization/hooks.md#agentscoped-hooks) defined in custom agent frontmatter. When enabled, hooks in `.agent.md` files run only when that agent is active. | `false` |
-| `setting(chat.useAgentsMdFile)` <br/>Enable or disable using `AGENTS.md` files as context for chat requests. | `true` |
-| `setting(chat.math.enabled)` <br/>Enable or disable math rendering with [KaTeX](https://katex.org) in chat. | `false` |
-| `setting(chat.viewTitle.enabled)` _(Preview)_<br/>Show the title of the current chat session in the chat header. | `true` |
-| `setting(github.copilot.chat.codesearch.enabled)` _(Preview)_<br/>When using `#codebase` in the prompt, Copilot automatically discovers relevant files to be edited. | `false` |
-| `setting(chat.emptyState.history.enabled)` _(Experimental)_<br/>Show recent chat history in the empty state of the Chat view. | `false` |
-| `setting(chat.sendElementsToChat.enabled)` _(Experimental)_<br/>Enable sending elements from the [integrated browser](/docs/debugtest/integrated-browser.md) to the chat view as context. | `true` |
-| `setting(workbench.browser.enableChatTools)` _(Experimental)_<br/>Enable [browser tools](/docs/debugtest/integrated-browser.md#browser-tools-for-agents) that let agents interact with pages in the integrated browser. | `false` |
-| `setting(chat.useNestedAgentsMdFiles)` _(Experimental)_<br/>Enable or disable using `AGENTS.md` files in subfolders of your workspace as context for chat requests. | `false` |
-| `setting(github.copilot.chat.customOAIModels)` _(Experimental)_<br/>Configure custom OpenAI-compatible models for chat. | `[]` |
-| `setting(github.copilot.chat.edits.suggestRelatedFilesFromGitHistory)` _(Experimental)_<br/>Suggest related files from git history in chat context. | `true` |
+| `setting(github.copilot.chat.localeOverride)`<br/>チャット応答のロケールを指定します。例えば`en`または`fr`。 | `"auto"` |
+| `setting(github.copilot.chat.useProjectTemplates)`<br/>`/new`を使用する際に、関連するGitHubプロジェクトをスタータープロジェクトとして使用します。 | `true` |
+| `setting(github.copilot.chat.scopeSelection)`<br/>`/explain`を使用して、アクティブなエディターに選択がない場合に特定のシンボルスコープを提示するかどうかを指定します。 | `false` |
+| `setting(github.copilot.chat.terminalChatLocation)`<br/>ターミナルからのチャットクエリをどこで開くかを制御します。 | `"chatView"` |
+| `setting(chat.detectParticipant.enabled)`<br/>チャットビューでチャット参加者の検出を有効にします。 | `true` |
+| `setting(chat.checkpoints.enabled)` <br/>チャットで[チェックポイント](/docs/copilot/chat/chat-checkpoints.md)を有効または無効にします。 | `true` |
+| `setting(chat.checkpoints.showFileChanges)` <br/>各チャットリクエストの最後にファイル変更のサマリーを表示します。 | `false` |
+| `setting(chat.editRequests)`<br/>[前のチャットリクエストの編集](/docs/copilot/chat/chat-checkpoints.md#edit-a-previous-chat-request)を有効または無効にします。 | `"inline"` |
+| `setting(chat.editor.fontFamily)`<br/>チャットコードブロックのフォント族。 | `"default"` |
+| `setting(chat.editor.fontSize)`<br/>チャットコードブロックのフォントサイズ(ピクセル)。 | `14` |
+| `setting(chat.editor.fontWeight)`<br/>チャットコードブロックのフォントウェイト。 | `"default"` |
+| `setting(chat.editor.lineHeight)`<br/>チャットコードブロックの行の高さ(ピクセル)。 | `0` |
+| `setting(chat.editor.wordWrap)`<br/>チャットコードブロックの空行を切り替えます。 | `"off"` |
+| `setting(chat.editing.confirmEditRequestRemoval)`<br/>編集を取り消す前に確認を求めます。 | `true` |
+| `setting(chat.editing.confirmEditRequestRetry)`<br/>最後の編集のやり直しを実行する前に確認を求めます。 | `true` |
+| `setting(chat.editing.autoAcceptDelay)`<br/>提案された編集が自動的に受け入れられる遅延を設定します。自動受け入れを無効にするには0を使用します。 | `0` |
+| `setting(chat.fontFamily)`<br/>チャットのMarkdownコンテンツのフォント族。 | `"default"` |
+| `setting(chat.fontSize)`<br/>チャットのMarkdownコンテンツのフォントサイズ(ピクセル)。 | `13` |
+| `setting(chat.notifyWindowOnConfirmation)`<br/>ユーザー入力が必要な場合のOS通知表示タイミングを設定します。`off`は通知を表示しません。`windowNotFocused`(既定)はVS Codeウィンドウがフォーカスされていない場合にのみ通知を表示します。`always`は常に通知を表示します。 | `"windowNotFocused"` |
+| `setting(chat.notifyWindowOnResponseReceived)`<br/>チャット応答を受け取った場合のOS通知表示タイミングを設定します。`off`は通知を表示しません。`windowNotFocused`(既定)はVS Codeウィンドウがフォーカスされていない場合にのみ通知を表示します。`always`は常に通知を表示します。 | `"windowNotFocused"` |
+| `setting(chat.requestQueuing.defaultAction)`<br/>リクエストが進行中の**送信**ボタンのデフォルトアクションを設定します。`queue`はメッセージをキューに追加します。`steer`は現在のリクエストをイールドするよう通知します。 | `"queue"` |
+| `setting(chat.tools.terminal.autoReplyToPrompts)` <br/>ターミナルプロンプトにデフォルトの答えで自動的に返信します。 | `false` |
+| `setting(chat.tools.terminal.terminalProfile.<platform>)`<br/>各プラットフォームでチャットターミナルコマンドに使用するターミナルプロフィールを設定します。 | `""` |
+| `setting(chat.hookFilesLocations)` _(プレビュー)_ <br/>追加の[フックファイルの場所](/docs/copilot/customization/hooks.md#hook-file-locations)を設定します。フォルダへのパス(すべての`*.json`ファイルを読み込みます)または`.json`ファイルへの直接パスを指定します。相対パスと~記号付きパスのみがサポートされています。 | `{}` |
+| `setting(chat.useCustomAgentHooks)` _(プレビュー)_ <br/>カスタムエージェントのフロントマターに定義された[エージェント スコープ フック](/docs/copilot/customization/hooks.md#agentscoped-hooks)を有効にします。有効にすると、`.agent.md`ファイル内のフックはそのエージェントがアクティブなときのみ実行されます。 | `false` |
+| `setting(chat.useAgentsMdFile)` <br/>`AGENTS.md`ファイルをチャットリクエストのコンテキストとして使用するかどうかを有効または無効にします。 | `true` |
+| `setting(chat.math.enabled)` <br/>チャットの[KaTeX](https://katex.org)での数式レンダリングを有効または無効にします。 | `false` |
+| `setting(chat.viewTitle.enabled)` _(プレビュー)_<br/>現在のチャットセッションのタイトルをチャットヘッダーに表示します。 | `true` |
+| `setting(github.copilot.chat.codesearch.enabled)` _(プレビュー)_<br/>プロンプトで`#codebase`を使用する場合、Copilotは編集するための関連ファイルを自動的に検出します。 | `false` |
+| `setting(chat.emptyState.history.enabled)` _(実験段階)_<br/>チャットビューの空の状態で最近のチャット履歴を表示します。 | `false` |
+| `setting(chat.sendElementsToChat.enabled)` _(実験段階)_<br/>[統合ブラウザー](/docs/debugtest/integrated-browser.md)からチャットビューにコンテキストとして要素を送信できるようにします。 | `true` |
+| `setting(workbench.browser.enableChatTools)` _(実験段階)_<br/>エージェントが統合ブラウザー内のページと相互作用できるようにする[ブラウザーツール](/docs/debugtest/integrated-browser.md#browser-tools-for-agents)を有効にします。 | `false` |
+| `setting(chat.useNestedAgentsMdFiles)` _(実験段階)_<br/>ワークスペースのサブフォルダ内の`AGENTS.md`ファイルをチャットリクエストのコンテキストとして使用するかどうかを有効または無効にします。 | `false` |
+| `setting(github.copilot.chat.customOAIModels)` _(実験段階)_<br/>チャット用にカスタムOpenAI互換モデルを設定します。 | `[]` |
+| `setting(github.copilot.chat.edits.suggestRelatedFilesFromGitHistory)` _(実験段階)_<br/>チャットコンテキストでgit履歴から関連ファイルを提案します。 | `true` |
 
-## Agent settings
+## エージェント設定
 
-| Setting and Description | Default |
+| 設定と説明 | 既定値 |
 |------------------------|---------------|
-| `setting(chat.agent.enabled:true)`<br/>Enable or disable using agents (requires VS Code 1.99 or later). | `true` |
-| `setting(chat.agent.maxRequests)`<br/>Maximum number of requests that Copilot can make using agents. | `25` |
-| `setting(github.copilot.chat.agent.autoFix)`<br/>Automatically diagnose and fix issues in the generated code changes. | `true` |
-| `setting(chat.mcp.access)`<br/>Manage which Model Context Protocol (MCP) servers can be used in VS Code. | `true` |
-| `setting(chat.mcp.discovery.enabled)`<br/>Configure automatic discovery of MCP server configuration from other applications. | `false` |
-| `setting(chat.mcp.serverSampling)`<br/>Configure which models are exposed to MCP servers for sampling. | `{}` |
-| `setting(chat.mcp.apps.enabled)` _(Experimental)_<br/>Enable or disable MCP Apps, which are rich user interfaces provided by MCP servers. | `true` |
-| `setting(chat.tools.terminal.autoApprove)` <br/>Control which terminal commands are [auto-approved when using agents](/docs/copilot/agents/agent-tools.md#automatically-approve-terminal-commands). Commands can be set to `true` (auto-approve) or `false` (require approval). Regular expressions can be used by wrapping patterns in `/` characters. | `{ "rm": false, "rmdir": false, "del": false, "kill": false, "curl": false, "wget": false, "eval": false, "chmod": false, "chown": false, "/^Remove-Item\\b/i": false }` |
-| `setting(chat.tools.terminal.enableAutoApprove)` <br/>Enable or disable automatic approval of terminal commands. | `true` |
-| `setting(chat.tools.terminal.enforceTimeoutFromModel)` _(Experimental)_<br/>Control whether to enforce the timeout value that the agent specifies for terminal commands. When enabled, the agent stops tracking the command after the specified duration and returns the output collected so far. | `true` |
-| `setting(chat.tools.terminal.ignoreDefaultAutoApproveRules)` <br/>Ignore the default auto-approve rules for terminal commands. | `false` |
-| `setting(chat.tools.global.autoApprove)`<br/>Automatically approve all tools - this setting [disables critical security protections](/docs/copilot/security.md). | `false` |
-| `setting(chat.autopilot.enabled)` _(Experimental)_<br/>Controls whether the [Autopilot permission level](/docs/copilot/agents/agent-tools.md#permission-levels) is available in the permissions picker. When enabled, Autopilot auto-approves all tool calls and continues until the task is done. | `true` |
-| `setting(chat.tools.urls.autoApprove)` <br/>Control which [URL requests and responses are auto-approved](/docs/copilot/agents/agent-tools.md#url-approval). | `[]` |
-| `setting(chat.agent.thinking.collapsedTools)` _(Experimental)_<br/>Configure whether tool call details are collapsed or expanded by default in the chat conversation. | `always` |
-| `setting(chat.agent.thinkingStyle)` _(Experimental)_<br/>Configure how thinking tokens are presented in chat. | `fixedScrolling` |
-| `setting(chat.mcp.autoStart)` _(Experimental)_<br/>Automatically start MCP servers when MCP configuration changes are detected. | `newAndOutdated` |
-| `setting(chat.tools.eligibleForAutoApproval)` _(Experimental)_<br/>Configure which tools require manual approval before they can be used by agents. | `[]` |
-| `setting(chat.tools.terminal.blockDetectedFileWrites)` _(Experimental)_<br/>Require user approval for terminal commands that perform file writes. | `outsideWorkspace` |
-| `setting(chat.tools.terminal.sandbox.enabled)` _(Experimental)_<br/>Enable [sandboxing for terminal commands](/docs/copilot/agents/agent-tools.md#sandbox-terminal-commands-experimental) executed by the agent (macOS and Linux only). When enabled, commands are auto-approved and have restricted file system and network access. | `false` |
-| `setting(chat.tools.terminal.sandbox.linuxFileSystem)` _(Experimental)_<br/>Configure file system access rules for sandboxed terminal commands on Linux. Supports `allowWrite`, `denyWrite`, and `denyRead` properties. | `{}` |
-| `setting(chat.tools.terminal.sandbox.macFileSystem)` _(Experimental)_<br/>Configure file system access rules for sandboxed terminal commands on macOS. Supports `allowWrite`, `denyWrite`, and `denyRead` properties. | `{}` |
-| `setting(chat.tools.terminal.sandbox.network)` _(Experimental)_<br/>Configure network access rules for sandboxed terminal commands. Supports `allowedDomains` to specify permitted domains and `allowTrustedDomains` to include domains from the [Trusted Domains](/docs/editing/editingevolved.md#outgoing-link-protection) list. | `{}` |
-| `setting(github.copilot.chat.newWorkspaceCreation.enabled)` _(Experimental)_<br/>Enable the tool for scaffolding a new workspace in chat. | `true` |
-| `setting(github.copilot.chat.agent.thinkingTool:true)` _(Experimental)_<br/>Enable the thinking tool when using agents. | `false` |
-| `setting(github.copilot.chat.summarizeAgentConversationHistory.enabled)` _(Experimental)_<br/>Automatically summarize the agent conversation history when the context window is full. | `true` |
-| `setting(github.copilot.chat.virtualTools.threshold)` _(Experimental)_<br/>Tool count over which virtual tools should be used. Virtual tools group similar sets of tools together and enable the model to activate them on-demand. Enables you to go beyond the limit of 128 tools for a chat request. | `128` |
+| `setting(chat.agent.enabled:true)`<br/>エージェントの使用を有効または無効にします(VS Code 1.99以降が必要)。 | `true` |
+| `setting(chat.agent.maxRequests)`<br/>Copilotがエージェントを使用して実行できるリクエストの最大数。 | `25` |
+| `setting(github.copilot.chat.agent.autoFix)`<br/>生成されたコード変更の問題を自動的に診断して修正します。 | `true` |
+| `setting(chat.mcp.access)`<br/>VS Codeでどのモデルコンテキストプロトコル(MCP)サーバーを使用できるかを管理します。 | `true` |
+| `setting(chat.mcp.discovery.enabled)`<br/>他のアプリケーションからのMCPサーバー構成の自動検出を設定します。 | `false` |
+| `setting(chat.mcp.serverSampling)`<br/>MCPサーバーに公開されるモデルを設定します。 | `{}` |
+| `setting(chat.mcp.apps.enabled)` _(実験段階)_<br/>MCPサーバーが提供するリッチユーザーインターフェースであるMCPアプリを有効または無効にします。 | `true` |
+| `setting(chat.tools.terminal.autoApprove)` <br/>[エージェントを使用する場合に自動承認される](/docs/copilot/agents/agent-tools.md#automatically-approve-terminal-commands)ターミナルコマンドを制御します。コマンドは`true`(自動承認)または`false`(承認が必要)に設定できます。正規表現は`/`文字で囲むことで使用できます。 | `{ "rm": false, "rmdir": false, "del": false, "kill": false, "curl": false, "wget": false, "eval": false, "chmod": false, "chown": false, "/^Remove-Item\\b/i": false }` |
+| `setting(chat.tools.terminal.enableAutoApprove)` <br/>ターミナルコマンドの自動承認を有効または無効にします。 | `true` |
+| `setting(chat.tools.terminal.enforceTimeoutFromModel)` _(実験段階)_<br/>エージェントが指定したターミナルコマンドのタイムアウト値を強制するかどうかを制御します。有効にすると、エージェントは指定の期間の後にコマンドの追跡を停止し、それまでに収集した出力を返します。 | `true` |
+| `setting(chat.tools.terminal.ignoreDefaultAutoApproveRules)` <br/>ターミナルコマンドのデフォルト自動承認ルールを無視します。 | `false` |
+| `setting(chat.tools.global.autoApprove)`<br/>すべてのツールを自動的に承認します。この設定では[重要なセキュリティ保護が無効になります](/docs/copilot/security.md)。 | `false` |
+| `setting(chat.autopilot.enabled)` _(実験段階)_<br/>[Autopilot権限レベル](/docs/copilot/agents/agent-tools.md#permission-levels)が権限ピッカーで利用可能かどうかを制御します。有効にすると、Autopilotはすべてのツール呼び出しを自動承認し、タスクが完了するまで継続します。 | `true` |
+| `setting(chat.tools.urls.autoApprove)` <br/>[自動承認されるURLリクエストとレスポンス](/docs/copilot/agents/agent-tools.md#url-approval)を制御します。 | `[]` |
+| `setting(chat.agent.thinking.collapsedTools)` _(実験段階)_<br/>チャット会話でツール呼び出しの詳細がデフォルトで折りたたまれているか展開されているかを設定します。 | `always` |
+| `setting(chat.agent.thinkingStyle)` _(実験段階)_<br/>考えるトークンをチャットで表示する方法を設定します。 | `fixedScrolling` |
+| `setting(chat.mcp.autoStart)` _(実験段階)_<br/>MCP設定の変更が検出されたときにMCPサーバーを自動的に開始します。 | `newAndOutdated` |
+| `setting(chat.tools.eligibleForAutoApproval)` _(実験段階)_<br/>エージェントが使用する前に手動承認が必要なツールを設定します。 | `[]` |
+| `setting(chat.tools.terminal.blockDetectedFileWrites)` _(実験段階)_<br/>ファイル書き込みを実行するターミナルコマンドの場合、ユーザー承認が必要です。 | `outsideWorkspace` |
+| `setting(chat.tools.terminal.sandbox.enabled)` _(実験段階)_<br/>エージェントが実行するターミナルコマンドの[サンドボックス化](/docs/copilot/agents/agent-tools.md#sandbox-terminal-commands-experimental)を有効にします(macOSおよびLinuxのみ)。有効にすると、コマンドは自動承認され、ファイルシステムとネットワークアクセスが制限されます。 | `false` |
+| `setting(chat.tools.terminal.sandbox.linuxFileSystem)` _(実験段階)_<br/>Linuxでのサンドボックス化されたターミナルコマンドのファイルシステムアクセスルールを設定します。`allowWrite`、`denyWrite`、`denyRead`プロパティをサポートしています。 | `{}` |
+| `setting(chat.tools.terminal.sandbox.macFileSystem)` _(実験段階)_<br/>macOSでのサンドボックス化されたターミナルコマンドのファイルシステムアクセスルールを設定します。`allowWrite`、`denyWrite`、`denyRead`プロパティをサポートしています。 | `{}` |
+| `setting(chat.tools.terminal.sandbox.network)` _(実験段階)_<br/>サンドボックス化されたターミナルコマンドのネットワークアクセスルールを設定します。許可されたドメインを指定する`allowedDomains`と、[信頼できるドメイン](/docs/editing/editingevolved.md#outgoing-link-protection)リストのドメインを含める`allowTrustedDomains`をサポートしています。 | `{}` |
+| `setting(github.copilot.chat.newWorkspaceCreation.enabled)` _(実験段階)_<br/>チャットで新しいワークスペースをスキャフォールディングするためのツールを有効にします。 | `true` |
+| `setting(github.copilot.chat.agent.thinkingTool:true)` _(実験段階)_<br/>エージェントを使用する場合に考えるツールを有効にします。 | `false` |
+| `setting(github.copilot.chat.summarizeAgentConversationHistory.enabled)` _(実験段階)_<br/>コンテキストウィンドウがいっぱいになった場合、エージェント会話履歴を自動的に要約します。 | `true` |
+| `setting(github.copilot.chat.virtualTools.threshold)` _(実験段階)_<br/>仮想ツールを使用する必要があるツール数。仮想ツールは同様のツールセットをグループ化し、モデルがオンデマンドで有効にできるようにします。チャットリクエストあたり128ツールの制限を超えて使用できます。 | `128` |
 
-## Agent sessions
+## エージェントセッション
 
-The [Agents view](/docs/copilot/agents/overview.md) provides a centralized location for managing both local chat conversations and remote coding agent sessions. This view enables you to work with multiple AI sessions simultaneously, track their progress, and manage long-running tasks efficiently.
+[エージェントビュー](/docs/copilot/agents/overview.md)は、ローカルチャット会話とリモートコーディングエージェントセッションの両方を管理するための一元的な場所を提供します。このビューを使用して、複数のAIセッションを同時に操作でき、進捗を追跡し、長時間実行されるタスクを効率的に管理できます。
 
-| Setting and Description | Default |
+| 設定と説明 | 既定値 |
 |------------------------|---------------|
-| `setting(workbench.startupEditor)` <br/>Configure the VS Code welcome page to act as your agent sessions entry point. Set to `agentSessionsWelcomePage` to show the [VS Code welcome page](/docs/copilot/chat/chat-sessions.md#vs-code-welcome-page) with recent sessions, embedded chat, and quick actions. | N/A |
-| `setting(chat.viewSessions.enabled)` <br/>Show the agent sessions list in the Chat view. | `true` |
-| `setting(chat.agentsControl.enabled)` _(Experimental)_<br/>Enable the [agent status indicator](/docs/copilot/agents/overview.md#agent-status-indicator-experimental) in the command center. Shows unread and in-progress session badges. | `true` |
-| `setting(chat.agentsControl.clickBehavior)` _(Experimental)_<br/>Configure the behavior when selecting the chat icon in the agent status indicator. | `"cycle"` (Insiders)<br/>`"default"` (Stable) |
-| `setting(chat.unifiedAgentsBar.enabled)` _(Experimental)_<br/>Replace the command center search box with a unified chat and search control. | `false` |
+| `setting(workbench.startupEditor)` <br/>VS Codeのウェルカムページをエージェントセッションのエントリーポイントとして機能するように設定します。`agentSessionsWelcomePage`に設定すると、[VS Codeのウェルカムページ](/docs/copilot/chat/chat-sessions.md#vs-code-welcome-page)が最近のセッション、埋め込みチャット、クイックアクションと共に表示されます。 | N/A |
+| `setting(chat.viewSessions.enabled)` <br/>チャットビューにエージェントセッションリストを表示します。 | `true` |
+| `setting(chat.agentsControl.enabled)` _(実験段階)_<br/>コマンドセンターで[エージェントステータスインジケーター](/docs/copilot/agents/overview.md#agent-status-indicator-experimental)を有効にします。未読および進行中のセッションバッジを表示します。 | `true` |
+| `setting(chat.agentsControl.clickBehavior)` _(実験段階)_<br/>エージェントステータスインジケーターでチャットアイコンをクリックしたときの動作を設定します。 | `"cycle"` (Insiders)<br/>`"default"` (Stable) |
+| `setting(chat.unifiedAgentsBar.enabled)` _(実験段階)_<br/>コマンドセンター検索ボックスを統合チャットと検索コントロールに置き換えます。 | `false` |
 
-## Inline chat settings
+## インラインチャット設定
 
-| Setting and Description | Default |
+| 設定と説明 | 既定値 |
 |------------------------|---------------|
-| `setting(inlineChat.defaultModel)`<br/>Configure the default language model for editor inline chat. The model you select persists during the session, but resets to this configured default after VS Code reloads. | N/A |
-| `setting(inlineChat.renderMode)` _(Experimental)_<br/>Configure how inline chat is displayed. `hover`: shows inline chat in a floating overlay, `zone`: shows inline chat in a dedicated zone in the editor. | `"hover"` |
-| `setting(inlineChat.finishOnType)`<br/>Finish an editor inline chat session when typing outside of changed regions. | `false` |
-| `setting(inlineChat.holdToSpeech)`<br/>Holding the editor inline chat keyboard shortcut (`kb(inlineChat.start)`) automatically enables speech recognition. | `true` |
-| `setting(editor.inlineSuggest.syntaxHighlightingEnabled)`<br/>Show syntax highlighting for inline suggestions. | `true` |
-| `setting(inlineChat.affordance)` _(Experimental)_<br/>Show a visual hint when you select text to help start inline chat. `off`: no hint, `gutter`: shows in line number area, `editor`: shows at cursor position with lightbulb. | `"off"` |
-| `setting(inlineChat.lineEmptyHint)` _(Experimental)_<br/>Show a hint for editor inline chat on an empty line. | `false` |
-| `setting(inlineChat.lineNaturalLanguageHint)` _(Experimental)_<br/>Trigger editor inline chat as soon as a line mostly consists of words. | `true` |
-| `setting(github.copilot.chat.editor.temporalContext.enabled)` _(Experimental)_<br/>Include recently viewed and edited files in the context for editor inline chat. | `false` |
+| `setting(inlineChat.defaultModel)`<br/>エディターインラインチャットのデフォルト言語モデルを設定します。選択したモデルはセッション中は保持されますが、VS Codeを再度読み込むとこの設定されたデフォルトにリセットされます。 | N/A |
+| `setting(inlineChat.renderMode)` _(実験段階)_<br/>インラインチャットの表示方法を設定します。`hover`:フローティングオーバーレイでインラインチャットを表示、`zone`:エディターの専用ゾーンでインラインチャットを表示。 | `"hover"` |
+| `setting(inlineChat.finishOnType)`<br/>変更されたリージョンの外でタイプしたとき、エディターインラインチャットセッションを終了します。 | `false` |
+| `setting(inlineChat.holdToSpeech)`<br/>エディターインラインチャットキーボードショートカット(`kb(inlineChat.start)`)を押し続けると、音声認識が自動的に有効になります。 | `true` |
+| `setting(editor.inlineSuggest.syntaxHighlightingEnabled)`<br/>インラインサジェストに構文強調表示を表示します。 | `true` |
+| `setting(inlineChat.affordance)` _(実験段階)_<br/>テキストを選択するときに視覚的なヒントを表示して、インラインチャットを開始するのに役立ちます。`off`:ヒントなし、`gutter`:行番号領域に表示、`editor`:カーソル位置に電球で表示。 | `"off"` |
+| `setting(inlineChat.lineEmptyHint)` _(実験段階)_<br/>空の行でエディターインラインチャットのヒントを表示します。 | `false` |
+| `setting(inlineChat.lineNaturalLanguageHint)` _(実験段階)_<br/>行がほぼ単語で構成されるとすぐに、エディターインラインチャットをトリガーします。 | `true` |
+| `setting(github.copilot.chat.editor.temporalContext.enabled)` _(実験段階)_<br/>最近表示および編集されたファイルをエディターインラインチャットのコンテキストに含めます。 | `false` |
 
-## Code review settings
+## コードレビュー設定
 
-| Setting and Description | Default |
+| 設定と説明 | 既定値 |
 |------------------------|---------------|
-| `setting(github.copilot.chat.reviewSelection.enabled)` _(Preview)_<br/>Enable code review with AI for an editor text selection. | `true` |
-| `setting(github.copilot.chat.reviewSelection.instructions)` _(Preview)_<br/>Custom instructions that are added to requests for reviewing the current editor selection with AI. | `[]` |
+| `setting(github.copilot.chat.reviewSelection.enabled)` _(プレビュー)_<br/>エディターテキスト選択に対するAIコードレビューを有効にします。 | `true` |
+| `setting(github.copilot.chat.reviewSelection.instructions)` _(プレビュー)_<br/>現在のエディター選択のAIレビューをリクエストするときに追加されるカスタム指示。 | `[]` |
 
-## Custom instructions settings
+## カスタム指示設定
 
-| Setting and Description | Default |
+| 設定と説明 | 既定値 |
 |------------------------|---------------|
-| `setting(chat.instructionsFilesLocations)` <br/>Locations to search for custom instructions files. Each folder is searched recursively, including subdirectories. Relative paths are resolved from the root folder(s) of your workspace. Supports glob patterns for file paths. | `{ ".github/instructions": true, "~/.claude/rules": false" }` |
-| `setting(chat.includeApplyingInstructions)`<br/>Automatically add instruction files with a matching `applyTo` pattern to chat requests. | `true` |
-| `setting(chat.includeReferencedInstructions)`<br/>Automatically add instruction files referenced via Markdown links to chat requests. | `false` |
-| `setting(github.copilot.chat.codeGeneration.useInstructionFiles)`<br/>Automatically add custom instructions from `.github/copilot-instructions.md` to chat requests. | `true` |
-| `setting(github.copilot.chat.commitMessageGeneration.instructions)` _(Experimental)_<br/>Custom instructions for generating commit messages with AI. | `[]` |
-| `setting(github.copilot.chat.pullRequestDescriptionGeneration.instructions)` _(Experimental)_<br/>Custom instructions for generating pull request titles and descriptions with AI. | `[]` |
+| `setting(chat.instructionsFilesLocations)` <br/>カスタム指示ファイルを検索する場所。各フォルダはサブディレクトリを含めて再帰的に検索されます。相対パスはワークスペースのルートフォルダーから解決されます。ファイルパスのグロブパターンをサポートしています。 | `{ ".github/instructions": true, "~/.claude/rules": false" }` |
+| `setting(chat.includeApplyingInstructions)`<br/>マッチングする`applyTo`パターンを持つ指示ファイルをチャットリクエストに自動的に追加します。 | `true` |
+| `setting(chat.includeReferencedInstructions)`<br/>Markdownリンク経由で参照される指示ファイルをチャットリクエストに自動的に追加します。 | `false` |
+| `setting(github.copilot.chat.codeGeneration.useInstructionFiles)`<br/>`.github/copilot-instructions.md`からカスタム指示をチャットリクエストに自動的に追加します。 | `true` |
+| `setting(github.copilot.chat.commitMessageGeneration.instructions)` _(実験段階)_<br/>AIでコミットメッセージを生成するためのカスタム指示。 | `[]` |
+| `setting(github.copilot.chat.pullRequestDescriptionGeneration.instructions)` _(実験段階)_<br/>AIでプルリクエストのタイトルと説明を生成するためのカスタム指示。 | `[]` |
 
-## Reusable prompt files settings
+## 再利用可能なプロンプトファイル設定
 
-| Setting and Description | Default |
+| 設定と説明 | 既定値 |
 |------------------------|---------------|
-| `setting(chat.promptFilesLocations)` <br/>Locations to search for prompt files. Relative paths are resolved from the root folder(s) of your workspace. Supports glob patterns for file paths. | `{ ".github/prompts": true }` |
-| `setting(chat.promptFilesRecommendations)` <br/>Enable or disable prompt file recommendations when opening a new chat session. List of key-value pairs of prompt file name and boolean or when clause. | `[]` |
+| `setting(chat.promptFilesLocations)` <br/>プロンプトファイルを検索する場所。相対パスはワークスペースのルートフォルダーから解決されます。ファイルパスのグロブパターンをサポートしています。 | `{ ".github/prompts": true }` |
+| `setting(chat.promptFilesRecommendations)` <br/>新しいチャットセッションを開くときのプロンプトファイル推奨を有効または無効にします。プロンプトファイル名と論理値またはwhen句のキーと値のペアのリスト。 | `[]` |
 
-## Custom agents settings
+## カスタムエージェント設定
 
-| Setting and Description | Default |
+| 設定と説明 | 既定値 |
 |------------------------|---------------|
-| `setting(chat.agentFilesLocations)` <br/>Locations to search for custom agent files. Relative paths are resolved from the root folder(s) of your workspace. Supports home directory expansion (`~`) for user-specific paths. | `{ ".github/agents": true }` |
-| `setting(chat.customAgentInSubagent.enabled)` _(Experimental)_<br/>Enable using a custom agent with [subagents](/docs/copilot/agents/subagents.md). | `false` |
-| `setting(github.copilot.chat.cli.customAgents.enabled)` _(Experimental)_<br/>Enable using custom agents from GitHub background agent sessions. | `false` |
+| `setting(chat.agentFilesLocations)` <br/>カスタムエージェントファイルを検索する場所。相対パスはワークスペースのルートフォルダーから解決されます。ユーザー固有のパスの場合、ホームディレクトリの拡張(`~`)をサポートしています。 | `{ ".github/agents": true }` |
+| `setting(chat.customAgentInSubagent.enabled)` _(実験段階)_<br/>[サブエージェント](/docs/copilot/agents/subagents.md)でカスタムエージェントの使用を有効にします。 | `false` |
+| `setting(github.copilot.chat.cli.customAgents.enabled)` _(実験段階)_<br/>GitHubバックグラウンドエージェントセッションからカスタムエージェントを使用できるようにします。 | `false` |
 
-## Agent skills settings
+## エージェントスキル設定
 
-| Setting and Description | Default |
+| 設定と説明 | 既定値 |
 |------------------------|---------------|
-| `setting(chat.useAgentSkills)` <br/>Enable support for [agent skills](/docs/copilot/customization/agent-skills.md) in VS Code. | `true` |
-| `setting(chat.agentSkillsLocations)` <br/>Locations to search for agent skills. Relative paths are resolved from the root folder(s) of your workspace. Supports home directory expansion (`~`) for user-specific paths. | `"chat.agentSkillsLocations": { ".github/skills": true,".claude/skills": true,"~/.copilot/skills": true,"~/.claude/skills": true}` |
+| `setting(chat.useAgentSkills)` <br/>VS Codeで[エージェントスキル](/docs/copilot/customization/agent-skills.md)のサポートを有効にします。 | `true` |
+| `setting(chat.agentSkillsLocations)` <br/>エージェントスキルを検索する場所。相対パスはワークスペースのルートフォルダーから解決されます。ユーザー固有のパスの場合、ホームディレクトリの拡張(`~`)をサポートしています。 | `"chat.agentSkillsLocations": { ".github/skills": true,".claude/skills": true,"~/.copilot/skills": true,"~/.claude/skills": true}` |
 
-## Debugging settings
+## デバッグ設定
 
-| Setting and Description | Default |
+| 設定と説明 | 既定値 |
 |------------------------|---------------|
-| `setting(github.copilot.chat.startDebugging.enabled)` _(Preview)_<br/>Enables the experimental `/startDebugging` intent in the Chat view to generate debugging configuration. | `true` |
-| `setting(github.copilot.chat.copilotDebugCommand.enabled)` _(Preview)_<br/>Enables the `copilot-debug` terminal command. | `true` |
+| `setting(github.copilot.chat.startDebugging.enabled)` _(プレビュー)_<br/>チャットビューで実験的な`/startDebugging`インテントを有効にして、デバッグ設定を生成します。 | `true` |
+| `setting(github.copilot.chat.copilotDebugCommand.enabled)` _(プレビュー)_<br/>`copilot-debug`ターミナルコマンドを有効にします。 | `true` |
 
-## Testing settings
+## テスト設定
 
-| Setting and Description | Default |
+| 設定と説明 | 既定値 |
 |------------------------|---------------|
-| `setting(github.copilot.chat.generateTests.codeLens)` _(Experimental)_<br/>Show **Generate tests** code lens for symbols that are not covered by current test coverage information. | `false` |
-| `setting(github.copilot.chat.setupTests.enabled)` _(Experimental)_<br/>Enables the experimental `/setupTests` intent and prompting in `/tests` generation. | `true` |
+| `setting(github.copilot.chat.generateTests.codeLens)` _(実験段階)_<br/>現在のテストカバレッジ情報でカバーされていないシンボルの**テストの生成**コードレンズを表示します。 | `false` |
+| `setting(github.copilot.chat.setupTests.enabled)` _(実験段階)_<br/>実験的な`/setupTests`インテントと`/tests`生成でのプロンプト表示を有効にします。 | `true` |
 
-## Notebook settings
+## ノートブック設定
 
-| Setting and Description | Default |
+| 設定と説明 | 既定値 |
 |------------------------|---------------|
-| `setting(notebook.experimental.generate)` _(Experimental)_<br/>Enable the **Generate** action to create code cells with notebook inline chat. | `true` |
-| `setting(github.copilot.chat.edits.newNotebook.enabled)` _(Experimental)_<br/>Enable the notebook tool in Edit mode (deprecated) to create a new notebook file. | `true` |
-| `setting(github.copilot.chat.notebook.followCellExecution.enabled)` _(Experimental)_<br/>Show the currently executing cell in the editor. | `false` |
+| `setting(notebook.experimental.generate)` _(実験段階)_<br/>ノートブックインラインチャットでコードセルを作成するための**生成**アクションを有効にします。 | `true` |
+| `setting(github.copilot.chat.edits.newNotebook.enabled)` _(実験段階)_<br/>編集モード(非推奨)のノートブックツールを有効にして、新しいノートブックファイルを作成します。 | `true` |
+| `setting(github.copilot.chat.notebook.followCellExecution.enabled)` _(実験段階)_<br/>現在実行中のセルをエディターに表示します。 | `false` |
 
-## Accessibility settings
+## アクセシビリティ設定
 
-| Setting and Description | Default |
+| 設定と説明 | 既定値 |
 |------------------------|---------------|
-| `setting(inlineChat.accessibleDiffView)`<br/>Whether the Inline Chat also renders an accessible diff viewer for its changes. | `"auto"` |
-| `setting(accessibility.signals.chatRequestSent)`<br/>Plays a signal - sound (audio cue) and/or announcement (alert) - when a chat request is made. | `{ "sound": "auto", "announcement": "auto" }` |
-| `setting(accessibility.signals.chatResponseReceived)`<br/>Plays a sound / audio cue when the response has been received. | `{ "sound": "auto" }` |
-| `setting(accessibility.signals.chatEditModifiedFile)`<br/>Plays a sound / audio cue when the file has been modified by chat edits. | `{ "sound": "auto" }` |
-| `setting(accessibility.signals.chatUserActionRequired)`<br/>Plays a sound / audio cue when the user needs to take an action in chat. | `{ "sound": "auto", "announcement": "auto" }` |
-| `setting(accessibility.signals.lineHasInlineSuggestion)`<br/>Plays a sound / audio cue when the cursor is on a line that has an inline suggestion. | `{ "sound": "auto" }` |
-| `setting(accessibility.signals.nextEditSuggestion)`<br/>Plays a sound / audio cue when a next edit suggestion is available. | `{ "sound": "auto", "announcement": "auto" }` |
-| `setting(accessibility.verboseChatProgressUpdates)`<br/>Provide verbose updates about chat activity. | `true` |
-| `setting(accessibility.verbosity.inlineChat)`<br/>Provide information about how to access the inline editor chat accessibility help menu and alert with hints that describe how to use the feature when the input is focused. | `true` |
-| `setting(accessibility.verbosity.inlineCompletions)`<br/>Provide information about how to access the inline suggestions hover and Accessible View. | `true` |
-| `setting(accessibility.verbosity.panelChat)`<br/>Provide information about how to access the chat help menu when the chat input is focused. | `true` |
-| `setting(accessibility.voice.keywordActivation)`<br/>Controls whether the keyword phrase 'Hey Code' is recognized to start a voice chat session. | `"off"` |
-| `setting(accessibility.voice.autoSynthesize)`<br/>Controls whether a textual response should automatically be read out aloud when speech was used as input. | `"off"` |
-| `setting(accessibility.voice.speechTimeout)`<br/>The duration in milliseconds that voice speech recognition remains active after you stop speaking. | `1200` |
+| `setting(inlineChat.accessibleDiffView)`<br/>インラインチャットがその変更のアクセシブルなDiffビューアーもレンダリングするかどうかを指定します。 | `"auto"` |
+| `setting(accessibility.signals.chatRequestSent)`<br/>チャットリクエストが作成されると、シグナル(オーディオキュー)またはアナウンスメント(アラート)を再生します。 | `{ "sound": "auto", "announcement": "auto" }` |
+| `setting(accessibility.signals.chatResponseReceived)`<br/>応答が受け取られると、音またはオーディオキューを再生します。 | `{ "sound": "auto" }` |
+| `setting(accessibility.signals.chatEditModifiedFile)`<br/>ファイルがチャット編集で変更されると、音またはオーディオキューを再生します。 | `{ "sound": "auto" }` |
+| `setting(accessibility.signals.chatUserActionRequired)`<br/>ユーザーがチャットでアクションを実行する必要がある場合、音またはオーディオキューを再生します。 | `{ "sound": "auto", "announcement": "auto" }` |
+| `setting(accessibility.signals.lineHasInlineSuggestion)`<br/>カーソルがインラインサジェストを持つ行にある場合、音またはオーディオキューを再生します。 | `{ "sound": "auto" }` |
+| `setting(accessibility.signals.nextEditSuggestion)`<br/>次の編集タスクが利用可能な場合、音またはオーディオキューを再生します。 | `{ "sound": "auto", "announcement": "auto" }` |
+| `setting(accessibility.verboseChatProgressUpdates)`<br/>チャットアクティビティについて詳細な更新を提供します。 | `true` |
+| `setting(accessibility.verbosity.inlineChat)`<br/>インラインエディターチャットアクセシビリティヘルプメニューにアクセスする方法に関する情報を提供し、入力がフォーカスされたときの機能の使用方法を説明するヒント付きアラートを提供します。 | `true` |
+| `setting(accessibility.verbosity.inlineCompletions)`<br/>インラインサジェストホバーとアクセシブルビューにアクセスする方法に関する情報を提供します。 | `true` |
+| `setting(accessibility.verbosity.panelChat)`<br/>チャット入力がフォーカスされたときにチャットヘルプメニューにアクセスする方法に関する情報を提供します。 | `true` |
+| `setting(accessibility.voice.keywordActivation)`<br/>音声チャットセッションを開始するための'Hey Code'というキーワードフレーズが認識されるかどうかを制御します。 | `"off"` |
+| `setting(accessibility.voice.autoSynthesize)`<br/>音声が入力として使用された場合、テキスト応答を自動的に音声で読み上げるかどうかを制御します。 | `"off"` |
+| `setting(accessibility.voice.speechTimeout)`<br/>音声認識の話し終わった後もアクティブなままの時間(ミリ秒単位)。 | `1200` |
 
-## Related resources
+## 関連リソース
 
-* [Get a quick overview of the Copilot features in VS Code](/docs/copilot/reference/copilot-vscode-features.md)
+* [VS Codeで利用可能なCopilot機能のクイックオーバービュー](/docs/copilot/reference/copilot-vscode-features.md)
+

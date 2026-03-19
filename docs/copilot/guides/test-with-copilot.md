@@ -1,103 +1,104 @@
 ---
 ContentId: 9f84b21e-5b76-4c3a-a5dd-2021ab343f1f
 DateApproved: 3/9/2026
-MetaDescription: Learn how to use GitHub Copilot in Visual Studio Code to write, debug, and fix tests.
+MetaDescription: Visual Studio CodeでGitHub Copilotを使用してテストを作成、デバッグ、修正する方法を学びます。
 MetaSocialImage: ../images/shared/github-copilot-social.png
 ---
-# Test with GitHub Copilot
+# GitHub Copilotでテストする
 
-Writing and maintaining tests is a crucial but often time-consuming part of software development. GitHub Copilot streamlines this process by helping you write, debug, and fix tests more efficiently in Visual Studio Code. This article shows you how to leverage Copilot's testing capabilities to improve your testing workflow and increase test coverage in your projects.
+テストの作成と保守は、ソフトウェア開発の重要ながら時間がかかる部分です。GitHub Copilotはこのプロセスを効率化し、Visual Studio Codeでテストをより効率的に作成、デバッグ、修正するのに役立ちます。この記事では、Copilotのテスト機能を活用してテストワークフローを改善し、プロジェクトのテストカバレッジを向上させる方法を紹介します。
 
-Copilot can help with the following testing tasks:
+Copilotは以下のテストタスクをサポートします:
 
-* **Set up testing frameworks**: get help configuring the right testing framework and VS Code extensions for your project and language.
-* **Generate test code**: create unit tests, integration tests, and end-to-end tests that cover your application code.
-* **Handle edge cases**: generate comprehensive test suites to cover edge cases and error conditions.
-* **Fix failing tests**: receive suggestions for fixing test failures.
-* **Maintain consistency**: personalize Copilot to generate tests that follow your project's coding practices.
-
-> [!TIP]
-> If you don't yet have a Copilot subscription, you can use Copilot for free by signing up for the [Copilot Free plan](https://github.com/github-copilot/signup) and get a monthly limit of inline suggestions and chat interactions.
-
-## Set up your testing framework
-
-To accelerate your testing workflow, Copilot can help set up the testing framework and VS Code extensions for your project. Copilot suggests appropriate testing frameworks based on your project type.
-
-1. Open the Chat view (`kb(workbench.action.chat.open)`).
-1. Enter the `/setupTests` command in the chat input field.
-1. Follow Copilot's guidance to configure your project.
-
-## Write tests with Copilot
-
-Copilot can help you write tests for your application code by generating test code that covers your codebase. This includes unit tests, end-to-end tests, and tests for edge cases.
-
-### Use chat prompts
-
-1. Open your application code file.
-
-1. Open one of these views:
-    * Chat view (`kb(workbench.action.chat.open)`)
-    * Inline Chat (`kb(inlineChat.start)`)
-
-1. Enter a prompt like:
-    * "Generate tests for this code"
-    * "Write unit tests including edge cases"
-    * "Create integration tests for this module"
-
-Get more guidance about [using GitHub Copilot for writing tests](https://docs.github.com/en/copilot/using-github-copilot/guides-on-using-github-copilot/writing-tests-with-github-copilot) in the GitHub documentation.
-
-### Use editor smart actions
-
-To generate tests for your application code without writing a prompt, you can use the editor smart actions.
-
-1. Open your application code file.
-1. Optionally, select the code you want to test.
-1. Right-click and select **Generate Code** > **Generate Tests**.
-
-    Copilot generates test code in an existing test file, or creates a new test file if one doesn't exist.
-
-1. Optionally, refine the generated tests by providing additional context in the Inline Chat prompt.
-
-## Fix failing tests
-
-Copilot integrates with the Test Explorer in VS Code and can help with fixing failing tests.
-
-1. In the Test Explorer, hover over a failing test
-1. Select the **Fix Test Failure** button (sparkle icon)
-1. Review and apply Copilot's suggested fix
-
-Alternatively, you can:
-
-1. Open the Chat view
-1. Enter the `/fixTestFailure` command
-1. Follow Copilot's suggestions to fix the test
+* **テストフレームワークのセットアップ**: プロジェクトと言語に適したテストフレームワークとVS Code拡張機能の設定をサポートします。
+* **テストコードの生成**: ユニットテスト、統合テスト、エンドツーエンドテストを作成して、アプリケーションコードをカバーします。
+* **エッジケースの処理**: エッジケースとエラー条件をカバーする包括的なテストスイートを生成します。
+* **失敗したテストの修正**: テスト失敗の修正提案を受け取ります。
+* **一貫性の維持**: Copilotをカスタマイズして、プロジェクトのコーディング慣例に従うテストを生成します。
 
 > [!TIP]
-> When using [agents](/docs/copilot/agents/local-agents.md), the agent monitors the test output when running tests, and automatically attempts to fix and rerun failing tests.
+> Copilotサブスクリプションをまだお持ちでない場合は、[Copilot Free プラン](https://github.com/github-copilot/signup)にサインアップして、Copilotを無料で使用できます。月ごとのインラインサジェッションとチャットインタラクションの制限があります。
 
-## Personalize test generation
+## テストフレームワークのセットアップ
 
-If your organization has specific testing requirements, you can customize how Copilot generates tests to ensure they meet your standards. You can personalize how Copilot generates tests by providing custom instructions. For example:
+テストワークフローを加速するため、CopilotはプロジェクトのテストフレームワークとVS Code拡張機能のセットアップをサポートします。Copilotはプロジェクトタイプに基づいて適切なテストフレームワークを提案します。
 
-* Specify preferred testing frameworks
-* Define naming conventions for tests
-* Set code structure preferences
-* Request specific test patterns or methodologies
+1. チャットビューを開きます(`kb(workbench.action.chat.open)`)。
+1. チャット入力フィールドに`/setupTests`コマンドを入力します。
+1. Copilotのガイダンスに従ってプロジェクトを設定します。
 
-Get more information about [personalizing Copilot for generating tests](/docs/copilot/customization/overview.md).
+## Copilotでテストを作成する
 
-## Tips for better test generation
+Copilotはアプリケーションコードのテストを作成し、コードベースをカバーするテストコードを生成することで支援できます。これはユニットテスト、エンドツーエンドテスト、エッジケースのテストを含みます。
 
-To get the best results when generating tests with Copilot, follow these tips:
+### チャットプロンプトを使用する
 
-* Provide context in your prompts about the testing framework you prefer
-* Specify if you want particular types of tests (unit, integration, end-to-end)
-* Ask for specific test cases or edge cases
-* Request tests that follow your project's coding standards
+1. アプリケーションコードファイルを開きます。
 
-## Next steps
+1. 以下のいずれかのビューを開きます:
+    * チャットビュー(`kb(workbench.action.chat.open)`)
+    * インラインチャット(`kb(inlineChat.start)`)
 
-* Try [testing web apps with browser agent tools](/docs/copilot/guides/browser-agent-testing-guide.md).
-* Learn more about [Copilot in VS Code](/docs/copilot/overview.md).
-* Explore [general testing features in VS Code](/docs/debugtest/testing.md).
-* Check out example prompts for [generating unit tests](https://docs.github.com/en/copilot/example-prompts-for-github-copilot-chat/testing-code/generate-unit-tests)
+1. 以下のようなプロンプトを入力します:
+    * 「このコードのテストを生成する」
+    * 「エッジケースを含むユニットテストを作成する」
+    * 「このモジュールの統合テストを作成する」
+
+[GitHub Copilotを使用してテストを作成する](https://docs.github.com/en/copilot/using-github-copilot/guides-on-using-github-copilot/writing-tests-with-github-copilot)についてのガイダンスをGitHubドキュメントで確認してください。
+
+### エディタスマートアクションを使用する
+
+プロンプトを作成せずにアプリケーションコードのテストを生成するには、エディタスマートアクションを使用できます。
+
+1. アプリケーションコードファイルを開きます。
+1. 必要に応じて、テストするコードを選択します。
+1. 右クリックして**コードを生成** > **テストを生成**を選択します。
+
+    Copilotは既存のテストファイルにテストコードを生成するか、ファイルが存在しない場合は新しいテストファイルを作成します。
+
+1. 必要に応じて、インラインチャットプロンプトで追加のコンテキストを提供して、生成されたテストを精密にします。
+
+## 失敗したテストを修正する
+
+Copilotはvs Codeのテストエクスプローラーと統合し、失敗したテストの修正をサポートします。
+
+1. テストエクスプローラーで、失敗したテストにマウスホバーします
+1. **テスト失敗を修正**ボタン（スパークルアイコン）を選択します
+1. Copilotの提案された修正を確認して適用します
+
+または、以下も可能です:
+
+1. チャットビューを開きます
+1. `/fixTestFailure`コマンドを入力します
+1. Copilotの提案に従ってテストを修正します
+
+> [!TIP]
+> [エージェント](/docs/copilot/agents/local-agents.md)を使用する場合、エージェントはテスト実行時のテスト出力を監視し、失敗したテストを自動的に修正および再実行しようとします。
+
+## テスト生成をカスタマイズする
+
+組織に特定のテスト要件がある場合は、Copilotがテストを生成する方法をカスタマイズして、要件に合致することを確認できます。カスタム指示を提供することで、Copilotがテストを生成する方法をカスタマイズできます。例:
+
+* 優先するテストフレームワークを指定する
+* テストの命名規則を定義する
+* コード構造の設定を指定する
+* 特定のテストパターンまたは方法論をリクエストする
+
+[テスト生成のためのCopilotのカスタマイズ](/docs/copilot/customization/overview.md)について詳しく説明します。
+
+## テスト生成をより良くするためのヒント
+
+Copilotでテストを生成する際に最良の結果を得るために、これらのヒントに従ってください:
+
+* 優先するテストフレームワークに関するコンテキストをプロンプトで提供してください
+* 特定の種類のテスト（ユニット、統合、エンドツーエンド）が必要かどうかを指定してください
+* 特定のテストケースやエッジケースをリクエストしてください
+* プロジェクトのコーディング標準に従うテストをリクエストしてください
+
+## 次のステップ
+
+* [ブラウザエージェントツールでウェブアプリをテストする](/docs/copilot/guides/browser-agent-testing-guide.md)をお試しください。
+* [VS CodeのCopilot](/docs/copilot/overview.md)についてさらに学習してください。
+* [VS Codeの一般的なテスト機能](/docs/debugtest/testing.md)を確認してください。
+* [ユニットテスト生成](https://docs.github.com/en/copilot/example-prompts-for-github-copilot-chat/testing-code/generate-unit-tests)のプロンプト例を確認してください。
+

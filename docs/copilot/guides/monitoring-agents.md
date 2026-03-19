@@ -1,7 +1,7 @@
 ---
 ContentId: 4e7a2c91-b8d3-4f6e-a1c5-9d0e3f7b2a84
 DateApproved: 03/09/2026
-MetaDescription: Learn how to monitor GitHub Copilot agent interactions in VS Code with OpenTelemetry traces, metrics, and events.
+MetaDescription: VS CodeのOpenTelemetryトレース、メトリクス、イベントを使用してGitHub Copilotエージェントの相互作用を監視する方法を学びます。
 MetaSocialImage: ../images/shared/github-copilot-social.png
 Keywords:
 - monitoring
@@ -13,19 +13,19 @@ Keywords:
 - agents
 ---
 
-# Monitor agent usage with OpenTelemetry
+# OpenTelemetryでエージェント使用状況を監視する
 
-This article describes how to enable and configure OpenTelemetry monitoring for Copilot Chat agent interactions in VS Code.
+このアーティクルでは、VS CodeのCopilot Chatエージェント相互作用に対してOpenTelemetry監視を有効化および構成する方法について説明します。
 
-Copilot Chat can export traces, metrics, and events via [OpenTelemetry](https://opentelemetry.io/) (OTel), giving you visibility into agent interactions, LLM calls, tool executions, and token usage. All signal names and attributes follow the [OTel GenAI Semantic Conventions](https://github.com/open-telemetry/semantic-conventions/blob/main/docs/gen-ai/), so the data works with any OTel-compatible backend.
+Copilot Chatは、[OpenTelemetry](https://opentelemetry.io/)（OTel）を経由してトレース、メトリクス、イベントをエクスポートでき、エージェント相互作用、LLM呼び出し、ツール実行、トークン使用량に対する可視性を提供します。すべてのシグナル名と属性は[OTel GenAI Semantic Conventions](https://github.com/open-telemetry/semantic-conventions/blob/main/docs/gen-ai/)に従うため、データはあらゆるOTel互換バックエンドで機能します。
 
-## What gets collected
+## 収集対象
 
-Copilot Chat emits three types of OTel signals: traces, metrics, and events.
+Copilot Chatは3つのタイプのOTelシグナル（トレース、メトリクス、イベント）をエミットします。
 
-### Traces
+### トレース
 
-Each agent interaction produces a hierarchical span tree that captures the full execution flow:
+各エージェント相互作用は、完全な実行フローをキャプチャする階層スパンツリーを生成します。
 
 ```text
 invoke_agent copilot                           [~15s]
@@ -36,107 +36,107 @@ invoke_agent copilot                           [~15s]
   └── (span ends)
 ```
 
-Three span types make up the trace:
+トレースを構成する3つのスパンタイプがあります。
 
-| Span | Description | Key attributes |
+| スパン | 説明 | キー属性 |
 |---|---|---|
-| `invoke_agent` | Wraps the entire agent orchestration, including all LLM calls and tool executions | Agent name, conversation ID, turn count, total token usage |
-| `chat` | A single LLM API call | Model, token counts, response time, finish reason |
-| `execute_tool` | A single tool invocation | Tool name, tool type, duration, success status |
+| `invoke_agent` | エージェントオーケストレーション全体（すべてのLLM呼び出しとツール実行を含む）をラップします | エージェント名、会話ID、ターン数、合計トークン使用量 |
+| `chat` | 単一のLLM API呼び出し | モデル、トークン数、応答時間、終了理由 |
+| `execute_tool` | 単一のツール呼び出し | ツール名、ツールタイプ、期間、成功ステータス |
 
-When an agent invokes a subagent (for example, through the `runSubagent` tool), the trace context is automatically propagated. The subagent's `invoke_agent` span appears as a child of the parent agent's `execute_tool` span, producing a connected trace tree across async boundaries.
+エージェントがサブエージェントを呼び出す場合（たとえば、`runSubagent`ツール経由）、トレースコンテキストは自動的に伝播されます。サブエージェントの`invoke_agent`スパンは親エージェントの`execute_tool`スパンの子として表示され、非同期境界全体に接続されたトレースツリーが生成されます。
 
-### Metrics
+### メトリクス
 
-| Metric | Type | Description |
+| メトリクス | タイプ | 説明 |
 |---|---|---|
-| `gen_ai.client.operation.duration` | Histogram | LLM API call duration (seconds) |
-| `gen_ai.client.token.usage` | Histogram | Token counts (input and output) |
-| `copilot_chat.tool.call.count` | Counter | Tool invocations by name and success |
-| `copilot_chat.tool.call.duration` | Histogram | Tool execution latency (milliseconds) |
-| `copilot_chat.agent.invocation.duration` | Histogram | Agent end-to-end duration (seconds) |
-| `copilot_chat.agent.turn.count` | Histogram | LLM round-trips per agent invocation |
-| `copilot_chat.session.count` | Counter | Chat sessions started |
-| `copilot_chat.time_to_first_token` | Histogram | Time to first SSE token (seconds) |
+| `gen_ai.client.operation.duration` | ヒストグラム | LLM API呼び出し期間（秒） |
+| `gen_ai.client.token.usage` | ヒストグラム | トークン数（入力と出力） |
+| `copilot_chat.tool.call.count` | カウンター | 名前と成功別のツール呼び出し |
+| `copilot_chat.tool.call.duration` | ヒストグラム | ツール実行レイテンシ（ミリ秒） |
+| `copilot_chat.agent.invocation.duration` | ヒストグラム | エージェントエンドツーエンド期間（秒） |
+| `copilot_chat.agent.turn.count` | ヒストグラム | エージェント呼び出しごとのLLMラウンドトリップ |
+| `copilot_chat.session.count` | カウンター | 開始したチャットセッション |
+| `copilot_chat.time_to_first_token` | ヒストグラム | 最初のSSEトークンまでの時間（秒） |
 
-Metrics include attributes for filtering, such as `gen_ai.request.model`, `gen_ai.provider.name`, `gen_ai.tool.name`, and `error.type`.
+メトリクスには、`gen_ai.request.model`、`gen_ai.provider.name`、`gen_ai.tool.name`、`error.type`など、フィルタリング用の属性が含まれます。
 
-### Events
+### イベント
 
-| Event | Description |
+| イベント | 説明 |
 |---|---|
-| `gen_ai.client.inference.operation.details` | Full LLM call metadata with model, tokens, and finish reason |
-| `copilot_chat.session.start` | Emitted when a new chat session begins |
-| `copilot_chat.tool.call` | Per-tool invocation with timing and error details |
-| `copilot_chat.agent.turn` | Per-turn LLM round-trip with token counts |
+| `gen_ai.client.inference.operation.details` | モデル、トークン、終了理由を含む完全なLLM呼び出しメタデータ |
+| `copilot_chat.session.start` | 新しいチャットセッションが開始されるときにエミットされます |
+| `copilot_chat.tool.call` | タイミングとエラー詳細を含むツール呼び出しごと |
+| `copilot_chat.agent.turn` | トークン数を含むターンごとのLLMラウンドトリップ |
 
-### Resource attributes
+### リソース属性
 
-All signals carry these resource attributes:
+すべてのシグナルは以下のリソース属性を持ちます。
 
-| Attribute | Value |
+| 属性 | 値 |
 |---|---|
-| `service.name` | `copilot-chat` (configurable with `OTEL_SERVICE_NAME`) |
-| `service.version` | Extension version |
-| `session.id` | Unique per VS Code window |
+| `service.name` | `copilot-chat`（`OTEL_SERVICE_NAME`で設定可能） |
+| `service.version` | 拡張機能バージョン |
+| `session.id` | VS Codeウィンドウごとに一意 |
 
-Add custom resource attributes with `OTEL_RESOURCE_ATTRIBUTES` to filter by team, department, or other organizational boundaries:
+カスタムリソース属性を`OTEL_RESOURCE_ATTRIBUTES`で追加して、チーム、部門、その他の組織的な境界でフィルタリングします。
 
 ```bash
 export OTEL_RESOURCE_ATTRIBUTES="team.id=platform,department=engineering"
 ```
 
-### Content capture
+### コンテンツキャプチャ
 
-By default, no prompt content, responses, or tool arguments are captured. Only metadata like model names, token counts, and durations are included.
+デフォルトでは、プロンプトコンテンツ、応答、またはツール引数はキャプチャされません。モデル名、トークン数、期間などのメタデータのみが含まれます。
 
-To capture full content, enable the `setting(github.copilot.chat.otel.captureContent)` setting or set `COPILOT_OTEL_CAPTURE_CONTENT=true`. This populates span attributes with full prompt messages, response messages, system prompts, tool schemas, tool arguments, and tool results.
+完全なコンテンツをキャプチャするには、`setting(github.copilot.chat.otel.captureContent)`設定を有効にするか、`COPILOT_OTEL_CAPTURE_CONTENT=true`を設定してください。これにより、スパン属性に完全なプロンプトメッセージ、応答メッセージ、システムプロンプト、ツールスキーマ、ツール引数、ツール結果が設定されます。
 
 > [!CAUTION]
-> Content capture can include sensitive information such as code, file contents, and user prompts. Only enable this in trusted environments.
+> コンテンツキャプチャには、コード、ファイルコンテンツ、ユーザープロンプトなど、機密情報が含まれる可能性があります。信頼できる環境でのみ有効にしてください。
 
-## Enable OTel monitoring
+## OTel監視を有効化する
 
-OTel activates when any of the following conditions is true:
+次のいずれかの条件が当てはまる場合、OTelがアクティベートされます。
 
-* `setting(github.copilot.chat.otel.enabled)` is `true`
-* `COPILOT_OTEL_ENABLED=true`
-* `OTEL_EXPORTER_OTLP_ENDPOINT` is set
+* `setting(github.copilot.chat.otel.enabled)`が`true`である
+* `COPILOT_OTEL_ENABLED=true`である
+* `OTEL_EXPORTER_OTLP_ENDPOINT`が設定されている
 
-### VS Code settings
+### VS Code設定
 
-Open **Settings** (`kb(workbench.action.openSettings)`) and search for `copilot otel`:
+**設定**（`kb(workbench.action.openSettings)`）を開き、`copilot otel`を検索します。
 
-| Setting | Type | Default | Description |
+| 設定 | タイプ | デフォルト | 説明 |
 |---|---|---|---|
-| `setting(github.copilot.chat.otel.enabled)` | boolean | `false` | Enable OTel emission |
-| `setting(github.copilot.chat.otel.exporterType)` | string | `"otlp-http"` | `otlp-http`, `otlp-grpc`, `console`, or `file` |
-| `setting(github.copilot.chat.otel.otlpEndpoint)` | string | `"http://localhost:4318"` | OTLP collector endpoint |
-| `setting(github.copilot.chat.otel.captureContent)` | boolean | `false` | Capture full prompt and response content |
-| `setting(github.copilot.chat.otel.outfile)` | string | `""` | File path for JSON-lines output |
+| `setting(github.copilot.chat.otel.enabled)` | ブール値 | `false` | OTelエミッションを有効化 |
+| `setting(github.copilot.chat.otel.exporterType)` | 文字列 | `"otlp-http"` | `otlp-http`、`otlp-grpc`、`console`、または`file` |
+| `setting(github.copilot.chat.otel.otlpEndpoint)` | 文字列 | `"http://localhost:4318"` | OTLPコレクターエンドポイント |
+| `setting(github.copilot.chat.otel.captureContent)` | ブール値 | `false` | 完全なプロンプトと応答コンテンツをキャプチャ |
+| `setting(github.copilot.chat.otel.outfile)` | 文字列 | `""` | JSON行出力用ファイルパス |
 
-### Environment variables
+### 環境変数
 
-Environment variables always take precedence over VS Code settings.
+環境変数は常にVS Code設定よりも優先されます。
 
-| Variable | Default | Description |
+| 変数 | デフォルト | 説明 |
 |---|---|---|
-| `COPILOT_OTEL_ENABLED` | `false` | Enable OTel. Also enabled when `OTEL_EXPORTER_OTLP_ENDPOINT` is set. |
-| `COPILOT_OTEL_ENDPOINT` | | OTLP endpoint URL (takes precedence over `OTEL_EXPORTER_OTLP_ENDPOINT`) |
-| `OTEL_EXPORTER_OTLP_ENDPOINT` | | Standard OTel OTLP endpoint URL |
-| `OTEL_EXPORTER_OTLP_PROTOCOL` | `http/protobuf` | OTLP protocol. Only `grpc` changes behavior. |
-| `OTEL_SERVICE_NAME` | `copilot-chat` | Service name in resource attributes |
-| `OTEL_RESOURCE_ATTRIBUTES` | | Extra resource attributes (`key1=val1,key2=val2`) |
-| `COPILOT_OTEL_CAPTURE_CONTENT` | `false` | Capture full prompt and response content |
-| `OTEL_EXPORTER_OTLP_HEADERS` | | Auth headers (for example, `Authorization=Bearer token`) |
+| `COPILOT_OTEL_ENABLED` | `false` | OTelを有効化。`OTEL_EXPORTER_OTLP_ENDPOINT`が設定されている場合も有効化されます。 |
+| `COPILOT_OTEL_ENDPOINT` | | OTLPエンドポイントURL（`OTEL_EXPORTER_OTLP_ENDPOINT`より優先） |
+| `OTEL_EXPORTER_OTLP_ENDPOINT` | | 標準OTel OTLPエンドポイントURL |
+| `OTEL_EXPORTER_OTLP_PROTOCOL` | `http/protobuf` | OTLPプロトコル。`grpc`のみ動作を変更します。 |
+| `OTEL_SERVICE_NAME` | `copilot-chat` | リソース属性のサービス名 |
+| `OTEL_RESOURCE_ATTRIBUTES` | | 追加のリソース属性（`key1=val1,key2=val2`） |
+| `COPILOT_OTEL_CAPTURE_CONTENT` | `false` | 完全なプロンプトと応答コンテンツをキャプチャ |
+| `OTEL_EXPORTER_OTLP_HEADERS` | | 認証ヘッダー（たとえば、`Authorization=Bearer token`） |
 
-## Use with observability backends
+## 可視化バックエンドで使用する
 
-Copilot Chat's OTel output works with any backend that supports the OTLP protocol. Point the `setting(github.copilot.chat.otel.otlpEndpoint)` setting or `OTEL_EXPORTER_OTLP_ENDPOINT` environment variable at the backend's OTLP ingestion URL, and configure the exporter type to match the backend's protocol (`otlp-http` or `otlp-grpc`).
+Copilot ChatのOTel出力は、OTLPプロトコルをサポートするあらゆるバックエンドで機能します。`setting(github.copilot.chat.otel.otlpEndpoint)`設定または`OTEL_EXPORTER_OTLP_ENDPOINT`環境変数をバックエンドのOTLPインジェストURLにポイントし、エクスポーターの種類をバックエンドのプロトコル（`otlp-http`または`otlp-grpc`）に合わせて設定します。
 
 ### Aspire Dashboard
 
-The [Aspire Dashboard](https://aspire.dev/dashboard/standalone/) is the simplest option for local development. It is a single Docker container with a built-in OTLP endpoint and trace viewer, and requires no cloud account.
+[Aspire Dashboard](https://aspire.dev/dashboard/standalone/)はローカル開発に最適なオプションです。これは単一のDockerコンテナで、組み込みのOTLPエンドポイントとトレース表示機能を備えており、クラウドアカウントは不要です。
 
 ```bash
 docker run --rm -d \
@@ -154,11 +154,11 @@ docker run --rm -d \
 }
 ```
 
-Open `http://localhost:18888` and go to **Traces** to view your agent interaction spans.
+`http://localhost:18888`を開き、**トレース**に移動してエージェント相互作用スパンを表示します。
 
 ### Jaeger
 
-[Jaeger](https://www.jaegertracing.io/) is an open-source distributed tracing platform that accepts OTLP directly.
+[Jaeger](https://www.jaegertracing.io/)はOTLPを直接受け入れるオープンソース分散トレースプラットフォームです。
 
 ```bash
 docker run -d --name jaeger -p 16686:16686 -p 4318:4318 jaegertracing/jaeger:latest
@@ -171,15 +171,15 @@ docker run -d --name jaeger -p 16686:16686 -p 4318:4318 jaegertracing/jaeger:lat
 }
 ```
 
-Open `http://localhost:16686`, select service `copilot-chat`, and select **Find Traces**.
+`http://localhost:16686`を開き、サービス`copilot-chat`を選択して、**トレースを検索**を選択します。
 
 ### Azure Application Insights
 
-Use an [OTel Collector](https://opentelemetry.io/docs/collector/) with the [Azure Monitor exporter](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/exporter/azuremonitorexporter) to forward Copilot Chat telemetry to Application Insights. Point the VS Code `setting(github.copilot.chat.otel.otlpEndpoint)` setting at the collector's OTLP endpoint, and configure the collector to export to your Application Insights connection string.
+[OTel Collector](https://opentelemetry.io/docs/collector/)と[Azure Monitor エクスポーター](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/exporter/azuremonitorexporter)を使用して、Copilot ChatテレメトリーをApplication Insightsに転送します。VS Codeの`setting(github.copilot.chat.otel.otlpEndpoint)`設定をコレクターのOTLPエンドポイントにポイントし、コレクターをApplication Insights接続文字列にエクスポートするように設定します。
 
 ### Langfuse
 
-[Langfuse](https://langfuse.com/) is an open-source LLM observability platform with native OTLP ingestion and support for OTel GenAI Semantic Conventions.
+[Langfuse](https://langfuse.com/)はネイティブOTLPインジェストとOTel GenAI Semantic Conventionsサポートを備えたオープンソースLLM可視化プラットフォームです。
 
 ```json
 {
@@ -189,26 +189,27 @@ Use an [OTel Collector](https://opentelemetry.io/docs/collector/) with the [Azur
 }
 ```
 
-Set the auth header with the `OTEL_EXPORTER_OTLP_HEADERS` environment variable. See the [Langfuse OTel docs](https://langfuse.com/docs/opentelemetry/introduction) for details.
+`OTEL_EXPORTER_OTLP_HEADERS`環境変数で認証ヘッダーを設定してください。詳細は[Langfuse OTelドキュメント](https://langfuse.com/docs/opentelemetry/introduction)を参照してください。
 
-### Other backends
+### その他のバックエンド
 
-Any OTLP-compatible backend works, including [Grafana Tempo](https://grafana.com/oss/tempo/), [Honeycomb](https://www.honeycomb.io/), and [Datadog](https://www.datadoghq.com/). Refer to each backend's documentation for OTLP ingestion setup.
+[Grafana Tempo](https://grafana.com/oss/tempo/)、[Honeycomb](https://www.honeycomb.io/)、[Datadog](https://www.datadoghq.com/)など、あらゆるOTLp互換バックエンドが機能します。各バックエンドのドキュメントを参照して、OTLPインジェストの設定を確認してください。
 
-## Security and privacy
+## セキュリティとプライバシー
 
-OTel monitoring is off by default and emits no data until you explicitly enable it. You control what is collected and where it goes.
+OTel監視はデフォルトでオフになっており、明示的に有効化するまでデータはエミットされません。収集対象と送信先を制御できます。
 
-| Aspect | Detail |
+| 側面 | 詳細 |
 |---|---|
-| **Off by default** | No OTel data is emitted unless you explicitly enable it. The OTel SDK is not loaded when disabled, resulting in zero runtime overhead. |
-| **No content by default** | Prompts, responses, and tool arguments require opt-in with `captureContent`. |
-| **No PII in default attributes** | Session IDs, model names, and token counts are not personally identifiable. |
-| **User-configured endpoints** | Data goes only where you point it. There is no phone-home behavior. |
+| **デフォルトでオフ** | 明示的に有効化しない限り、OTelデータはエミットされません。無効化された場合、OTel SDKはロードされず、ランタイムオーバーヘッドはゼロです。 |
+| **デフォルトではコンテンツなし** | プロンプト、応答、ツール引数には`captureContent`でのオプトインが必要です。 |
+| **デフォルト属性にPIIなし** | セッションID、モデル名、トークン数は個人識別情報ではありません。 |
+| **ユーザー設定エンドポイント** | データはポイント先のみに送信されます。フォンホーム動作はありません。 |
 
-## Related content
+## 関連コンテンツ
 
-- [Copilot settings reference](/docs/copilot/reference/copilot-settings.md)
-- [Troubleshoot AI in VS Code](/docs/copilot/troubleshooting.md)
+- [Copilot設定リファレンス](/docs/copilot/reference/copilot-settings.md)
+- [VS CodeのAIをトラブルシューティングする](/docs/copilot/troubleshooting.md)
 - [OTel GenAI Semantic Conventions](https://github.com/open-telemetry/semantic-conventions/blob/main/docs/gen-ai/)
-- [Aspire Dashboard standalone docs](https://aspire.dev/dashboard/standalone/)
+- [Aspire Dashboard スタンドアロンドキュメント](https://aspire.dev/dashboard/standalone/)
+

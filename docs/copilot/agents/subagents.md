@@ -1,7 +1,7 @@
 ---
 ContentId: 8b3c9f5e-4d2a-6f9b-3e1c-7a8d5f2e9b0c
 DateApproved: 3/9/2026
-MetaDescription: Learn how to use context-isolated subagents in VS Code to delegate complex tasks to autonomous agents within your chat session.
+MetaDescription: VS Code でコンテキスト分離されたサブエージェントを使用して、チャットセッション内で複雑なタスクを自律的なエージェントに委任する方法を学びます。
 MetaSocialImage: ../images/shared/github-copilot-social.png
 Keywords:
 - subagents
@@ -13,142 +13,142 @@ Keywords:
 - parallel
 ---
 
-# Subagents in Visual Studio Code
+# Visual Studio Code のサブエージェント
 
-When working on complex tasks, you can delegate subtasks to subagents. A subagent is an independent AI agent that performs focused work, such as researching a topic, analyzing code, or reviewing changes, and reports the results back to the main agent.
+複雑なタスクに取り組む際は、サブタスクをサブエージェントに委任できます。サブエージェントは、トピックの調査、コード分析、変更レビューなどの焦点を絞った作業を実行し、結果をメインエージェントに報告する独立したAIエージェントです。
 
-For background on subagent concepts (context isolation, synchronous and parallel execution), see [Agents concepts](/docs/copilot/concepts/agents.md#subagents).
+サブエージェント概念（コンテキスト分離、同期および並列実行）の背景については、「[エージェント概念](/docs/copilot/concepts/agents.md#subagents)」を参照してください。
 
-This article explains how to use subagents in VS Code, including usage scenarios, invocation patterns, and how to run custom agents as subagents.
+この記事では、VS Code でサブエージェントを使用する方法、使用シナリオ、呼び出しパターン、カスタムエージェントをサブエージェントとして実行する方法について説明します。
 
-### What the user sees
+### ユーザーに表示される内容
 
-When a subagent runs, it appears in the chat as a collapsible tool call. By default, the subagent is collapsed and shows:
+サブエージェントが実行されると、チャットに折りたたみ可能なツール呼び出しとして表示されます。デフォルトでは、サブエージェントは折りたたまれており、以下が表示されます：
 
-* The name of the custom agent (if you specify one)
-* The currently running tool (for example, "Reading file..." or "Searching codebase...")
+* カスタムエージェント（指定した場合）の名前
+* 現在実行中のツール（例：「ファイルを読み込み中...」または「コードベースを検索中...」）
 
-Select the subagent tool call to expand it and view the full details, including all tool calls the subagent made, the prompt passed to the subagent, and the returned result.
+サブエージェントツール呼び出しを選択して展開すると、サブエージェントが実行したすべてのツール呼び出し、サブエージェントに渡されたプロンプト、返されたの結果など、詳細な情報全体を表示できます。
 
-This visibility gives you control over how much detail you see without cluttering your main conversation with intermediate steps.
+この可視性により、メインの会話を中間ステップで散らかすことなく、表示する詳細度をコントロールできます。
 
-## Usage scenarios
+## 使用シナリオ
 
-The following scenarios illustrate when subagents can improve your AI-assisted development workflow.
+以下のシナリオでは、サブエージェントが AI 支援開発ワークフローを向上させる場合について説明しています。
 
 <details>
-<summary>Research before implementation</summary>
+<summary>実装前の調査</summary>
 
-When building a new feature, use a subagent to research best practices, evaluate libraries, or analyze existing patterns in your codebase before the main agent starts implementing:
+新しい機能を構築する場合、サブエージェントを使用して、メインエージェントが実装を開始する前に、ベストプラクティスを調査したり、ライブラリを評価したり、コードベース内の既存パターンを分析したりします：
 
 ```prompt
-Use a subagent to research OAuth 2.0 implementation patterns for Node.js applications.
-Compare passport.js vs auth0 vs custom implementation. Return a recommendation with pros and cons.
+サブエージェントを使用して、Node.js アプリケーション用の OAuth 2.0 実装パターンを調査してください。
+passport.js と auth0 とカスタム実装を比較してください。メリットとデメリット付きの推奨事項を返してください。
 ```
 
-The main agent receives only the final recommendation, keeping its context clean for the actual implementation work.
+メインエージェントは最終的な推奨事項のみを受け取り、実装作業用にコンテキストをクリーンに保ちます。
 
 </details>
 
 <details>
-<summary>Parallel code analysis</summary>
+<summary>並列コード分析</summary>
 
-When refactoring or reviewing code, run multiple subagents in parallel to analyze different aspects:
-
-```prompt
-Analyze this codebase for refactoring opportunities. Use subagents to:
-1. Find duplicate code patterns
-2. Identify unused exports and dead code
-3. Review error handling consistency
-4. Check for security vulnerabilities
-
-Compile the findings into a prioritized action plan.
-```
-
-</details>
-
-<details>
-<summary>Explore multiple solutions</summary>
-
-When you're uncertain about the best approach, use subagents to explore different options without polluting your main context:
+コードをリファクタリングまたはレビューする場合、複数のサブエージェントを並列で実行して、異なる側面を分析します：
 
 ```prompt
-I need to implement caching for this API. Run three subagents in parallel to:
-1. Design a Redis-based caching solution
-2. Design an in-memory caching solution with LRU eviction
-3. Design a hybrid approach with tiered caching
+このコードベースをリファクタリング機会について分析してください。サブエージェントを使用して：
+1. 重複するコードパターンを検出
+2. 未使用のエクスポートと不要なコードを特定
+3. エラーハンドリング一貫性を確認
+4. セキュリティの脆弱性をチェック
 
-Compare the results and recommend the best approach for our use case.
+結果を優先度付きアクションプランにまとめてください。
 ```
 
 </details>
 
 <details>
-<summary>Code review with specialized focus</summary>
+<summary>複数のソリューションの検討</summary>
 
-Use custom agents as subagents to apply different review perspectives:
+最適なアプローチが不確実な場合、サブエージェントを使用して、メインコンテキストを汚すことなく異なるオプションを検討します：
 
 ```prompt
-Review the changes in this PR using subagents:
-- Run the security-reviewer agent to check for vulnerabilities
-- Run the performance-reviewer agent to identify bottlenecks
-- Run the accessibility-reviewer agent to verify a11y compliance
+この API にキャッシングを実装する必要があります。3 つのサブエージェントを並列で実行して：
+1. Redis ベースのキャッシングソリューションを設計
+2. LRU排除を備えたインメモリキャッシングソリューションを設計
+3. 段階的キャッシングを使用したハイブリッドアプローチを設計
 
-Consolidate findings into a single review summary.
+結果を比較し、ユースケースに最適なアプローチを推奨してください。
 ```
 
 </details>
 
-## Invoke a subagent
+<details>
+<summary>特化したフォーカスを備えたコードレビュー</summary>
 
-### Agent-initiated vs. user-invoked
+カスタムエージェントをサブエージェントとして使用して、異なるレビューの視点を適用します：
 
-Subagents are typically **agent-initiated**, not directly invoked by users in chat. To allow the main agent to invoke subagents, make sure the `runSubagent` tool is enabled.
+```prompt
+サブエージェントを使用してこの PR の変更をレビューしてください：
+- セキュリティレビューをいつ実行するかのエージェントを実行して、脆弱性をチェック
+- パフォーマンスレビューエージェントを実行してボトルネックを特定
+- アクセシビリティレビューエージェントを実行して a11y コンプライアンスを確認
 
-The main agent decides when context isolation helps. You don't need to manually type "run a subagent" for every task. The pattern works like this:
+結果を単一のレビュー要約に統合してください。
+```
 
-1. You (or your custom agent's instructions) describe a complex task.
-1. The main agent recognizes the part of the task that benefits from isolated context.
-1. The agent starts a subagent, passing only the relevant subtask.
-1. The subagent works autonomously and returns a summary.
-1. The main agent incorporates the result and continues.
+</details>
 
-You can hint that you want subagent delegation by phrasing your prompt to suggest isolated research or parallel analysis. The main agent will start a subagent, pass the task to it, and receive only the final result.
+## サブエージェントの呼び出し
+
+### エージェント開始対ユーザー呼び出し
+
+サブエージェントは通常、ユーザーがチャットで直接呼び出すのではなく、**エージェント開始**です。メインエージェントがサブエージェントを呼び出せるようにするには、`runSubagent` ツールが有効になっていることを確認してください。
+
+メインエージェントは、コンテキスト分離が役立つタイミングを決定します。タスクごとに「サブエージェントを実行」と手動で入力する必要はありません。パターンは次のように機能します：
+
+1. あなた（またはカスタムエージェントの指示）が複雑なタスクを説明します。
+2. メインエージェントが、分離したコンテキストから利点を得るタスクの一部を認識します。
+3. エージェントはサブエージェントを開始し、関連するサブタスクのみを渡します。
+4. サブエージェントは自律的に動作し、サマリーを返します。
+5. メインエージェントは結果を組み込み、続行します。
+
+分離した研究や並列分析を提案するようにプロンプトを述べることで、サブエージェント委任が必要であることをヒントできます。メインエージェントはサブエージェントを開始し、タスクを渡し、最終結果のみを受け取ります。
 
 > [!TIP]
-> For consistent subagent behavior, define when to use subagents in your custom agent's instructions rather than prompting for them manually each time.
+> 一貫性のあるサブエージェント動作のために、毎回手動でプロンプトするのではなく、カスタムエージェントの指示でサブエージェントを使用する場合を定義してください。
 
-To optimize subagent performance, clearly define the task and expected output. This helps the subagent focus on the specific goal without passing unnecessary context back to the main agent.
+サブエージェントのパフォーマンスを最適化するには、タスクと予想される出力を明確に定義してください。これにより、サブエージェントは不要なコンテキストをメインエージェントに戻すことなく、特定の目標に焦点を当てることができます。
 
-See the [usage scenarios](#usage-scenarios) section for examples of how to structure prompts that invoke subagents.
+使用シナリオを呼び出すサブエージェントの例については、「[使用シナリオ](#usage-scenarios)」セクションを参照してください。
 
-### Invoke a subagent in a prompt file
+### プロンプトファイルでサブエージェントを呼び出す
 
-To invoke a subagent inside a prompt file, ensure that the `runSubagent` or `agent` tool is included in the `tools` frontmatter property:
+プロンプトファイル内でサブエージェントを呼び出すには、`runSubagent` または `agent` ツールが `tools` フロントマター プロパティに含まれていることを確認してください：
 
 ```markdown
 ---
 name: document-feature
 tools: ['agent', 'read', 'search', 'edit']
 ---
-Run a subagent to research the new feature implementation details and return only information relevant for user documentation.
-Then update the docs/ folder with the new documentation.
+サブエージェントを実行して、新機能実装の詳細を調査し、ユーザードキュメントに関連する情報のみ返してください。
+その後、docs/ フォルダで新しいドキュメントを更新してください。
 ```
 
-In the prompt instructions, you can then hint the agent to use subagents by suggesting isolated research or parallel analysis for specific subtasks.
+プロンプト指示では、特定のサブタスク用に分離した調査または並列分析を提案することで、サブエージェントを使用するようにエージェントをヒントできます。
 
-## Run a custom agent as a subagent (Experimental)
+## カスタムエージェントをサブエージェントとして実行する（試験段階）
 
-By default, a subagent inherits the agent from the main chat session and uses the same model and tools. To define specific behavior for a subagent, use a [custom agent](/docs/copilot/customization/custom-agents.md). Custom agents can specify their own model, tools, and instructions. When used as a subagent, these settings override the defaults inherited from the main session.
+デフォルトでは、サブエージェントはメインチャットセッションのエージェントから継承し、同じモデルとツールを使用します。サブエージェント用の特定の動作を定義するには、[カスタムエージェント](/docs/copilot/customization/custom-agents.md)を使用してください。カスタムエージェントは、独自のモデル、ツール、指示を指定できます。サブエージェントとして使用する場合、これらの設定はメインセッションから継承されたデフォルトをオーバーライドします。
 
-### Control subagent invocation
+### サブエージェント呼び出しの制御
 
-You can control how a custom agent can be invoked by using two frontmatter properties:
+2 つのフロントマタープロパティを使用して、カスタムエージェントを呼び出す方法をコントロールできます：
 
-* `user-invocable`: controls whether the agent appears in the agents dropdown in chat (default is `true`). Set to `false` to create agents that are only accessible as subagents.
-* `disable-model-invocation`: prevents the agent from being invoked as a subagent by other agents (default is `false`). Set to `true` when agents should only be triggered explicitly by users.
+* `user-invocable`: エージェントがチャットのエージェントドロップダウンに表示されるかどうかをコントロールします（デフォルトは `true`）。サブエージェントとしてのみアクセス可能なエージェントを作成するには、`false` に設定してください。
+* `disable-model-invocation`: 他のエージェントがサブエージェントとして呼び出されるのを防ぎます（デフォルトは `false`）。エージェントをユーザーが明示的にトリガーする必要がある場合にのみ、`true` に設定してください。
 
-For example, to create an agent that can only be used as a subagent (not visible in the dropdown):
+例えば、サブエージェントとしてのみ使用できるエージェント（ドロップダウンに表示されない）を作成する場合：
 
 ```markdown
 ---
@@ -156,33 +156,33 @@ name: internal-helper
 user-invocable: false
 ---
 
-This agent can only be invoked as a subagent.
+このエージェントはサブエージェントとしてのみ呼び出すことができます。
 ```
 
 > [!NOTE]
-> The `infer` property is deprecated. Use `user-invocable` and `disable-model-invocation` instead for more granular control.
+> `infer` プロパティは非推奨です。より粒度の細かい制御のために `user-invocable` と `disable-model-invocation` を代わりに使用してください。
 
-To run a custom agent as a subagent, prompt the AI to use a custom or built-in agent for the subagent. For example:
+カスタムエージェントをサブエージェントとして実行するには、AI にカスタムまたは組み込みエージェントをサブエージェント用に使用するようにプロンプトしてください。例えば：
 
-* `Run the Research agent as a subagent to research the best auth methods for this project.`
-* `Use the Plan agent in a subagent to create an implementation plan for myfeature. Then save the plan in plans/myfeature.plan.md`
+* `Research エージェントをサブエージェントとして実行して、このプロジェクト用の最適な認証方法を調査してください。`
+* `Plan エージェントをサブエージェントで使用して myfeature 用の実装計画を作成してください。その後、計画を plans/myfeature.plan.md に保存してください`
 
-### Restrict which subagents can be used (Experimental)
+### サブエージェントとして使用できるエージェントを制限する（試験段階）
 
-By default, all custom agents that don't have `disable-model-invocation: true` are available to be used as subagents. If two or more agents have similar names or descriptions, the AI might select an unintended agent.
+デフォルトでは、`disable-model-invocation: true` を持たないすべてのカスタムエージェントは、サブエージェントとして使用できます。2 つ以上のエージェントが同様の名前または説明を持つ場合、AI は意図しないエージェントを選択する可能性があります。
 
-You can restrict which custom agents can be used as subagents by specifying the `agents` property in the main agent's frontmatter, and providing a list of allowed custom agents.
+メインエージェントのフロントマターで `agents` プロパティを指定することでサブエージェントとして使用できるカスタムエージェントを制限し、許可されたカスタムエージェントのリストを提供できます。
 
-The `agents` property accepts:
+`agents` プロパティは以下を受け入れます：
 
-* A list of agent names (for example, `['Edit', 'Search']`) to allow only specific agents
-* `*` to allow all available agents (default behavior)
-* An empty array `[]` to prevent any subagent use
+* 特定のエージェントのみを許可するエージェント名のリスト（例：`['Edit', 'Search']`）
+* すべての利用可能なエージェントを許可する `*`（デフォルト動作）
+* サブエージェント使用を防ぐ空の配列 `[]`
 
 > [!NOTE]
-> Explicitly listing an agent in the `agents` array overrides `disable-model-invocation: true`. This means you can create agents that are protected from general subagent use but still accessible to specific coordinator agents that explicitly allow them.
+> `agents` 配列でエージェントを明示的にリストしることで、`disable-model-invocation: true` をオーバーライドします。つまり、一般的なサブエージェント使用から保護されたエージェントを作成しながら、明示的に許可する特定のコーディネーターエージェントにアクセス可能にできます。
 
-For example, a test-driven development (TDD) agent should only use the `Red`, `Green`, and `Refactor` agents as subagents. If not restricted, the TDD agent might select a more generic coding agent for implementing the tests instead of the specialized TDD agents.
+例えば、テスト駆動開発 (TDD) エージェント は `Red`、`Green`、`Refactor` エージェントのみをサブエージェントとして使用すべきです。制限がない場合、TDD エージェントは専用の TDD エージェントの代わりにより一般的なコーディングエージェントをテスト実装用に選択する可能性があります。
 
 ```markdown
 ---
@@ -190,19 +190,19 @@ name: TDD
 tools: ['agent']
 agents: ['Red', 'Green', 'Refactor']
 ---
-Implement the following feature using test-driven development. Use subagents to guide the following steps:
-1. Use the Red agent to write failing tests
-2. Use the Green agent to implement code to pass the tests
-3. Use the Refactor agent to improve the code quality
+テスト駆動開発を使用して次の機能を実装してください。サブエージェントを使用して以下のステップをガイドしてください：
+1. Red エージェントを使用して失敗するテストを作成
+2. Green エージェントを使用してテストを渡すコードを実装
+3. Refactor エージェントを使用してコード品質を改良
 ```
 
-## Orchestration patterns
+## オーケストレーションパターン
 
-Subagents enable **orchestration patterns** where a coordinator agent delegates work to specialized worker agents. This approach helps you build sophisticated workflows while keeping each agent focused on what it does best.
+サブエージェントは、**オーケストレーションパターン**を有効にします。ここでコーディネーターエージェントが作業を専用ワーカーエージェントに委任します。このアプローチにより、各エージェントが得意な作業に焦点を当てながら、高度なワークフローを構築できます。
 
-### Coordinator and worker pattern
+### コーディネーターとワーカーパターン
 
-A coordinator agent manages the overall task and delegates subtasks to specialized subagents. Each worker agent can have a tailored set of tools. For example, planning and review agents need only read-only access, while the implementer needs edit capabilities.
+コーディネーターエージェントはタスク全体を管理し、サブタスクを専用サブエージェントに委任します。各ワーカーエージェントは、調整されたツールセットを持つことができます。例えば、計画およびレビューエージェントは読み取り専用アクセスのみが必要ですが、実装者は編集権限が必要です。
 
 ```markdown
 ---
@@ -210,19 +210,19 @@ name: Feature Builder
 tools: ['agent', 'edit', 'search', 'read']
 agents: ['Planner', 'Plan Architect', 'Implementer', 'Reviewer']
 ---
-You are a feature development coordinator. For each feature request:
+あなたは機能開発コーディネーターです。各機能リクエストについて：
 
-1. Use the Planner agent to break down the feature into tasks.
-2. Use the Plan Architect agent to validate the plan against codebase patterns.
-3. If the architect identifies reusable patterns or libraries, send feedback to the Planner to update the plan.
-4. Use the Implementer agent to write the code for each task.
-5. Use the Reviewer agent to check the implementation.
-6. If the reviewer identifies issues, use the Implementer agent again to apply fixes.
+1. Planner エージェントを使用して機能をタスクに分割してください。
+2. Plan Architect エージェントを使用してコードベースパターンに対してプランを検証してください。
+3. アーキテクトが再利用可能なパターンまたはライブラリを特定した場合、Planner にフィードバックを送信してプランを更新してください。
+4. Implementer エージェントを使用して各タスク用のコードを記述してください。
+5. Reviewer エージェントを使用して実装をチェックしてください。
+6. レビューがが問題を特定した場合、Implementer エージェントを再度使用して修正を適用してください。
 
-Iterate between planning and architecture, and between review and implementation, until each phase converges.
+各フェーズが収束するまで、計画とアーキテクチャの間、およびレビューと実装の間を繰り返してください。
 ```
 
-The worker agents each define their own tool access and can pick a faster or more cost-effective model since they have a narrower focus:
+ワーカーエージェントはそれぞれ独自のツール アクセスを定義し、より狭い焦点を持つため、より高速またはよりコスト効率の良いモデルを選択できます：
 
 ```markdown
 ---
@@ -230,7 +230,7 @@ name: Planner
 user-invocable: false
 tools: ['read', 'search']
 ---
-Break down feature requests into implementation tasks. Incorporate feedback from the Plan Architect.
+機能リクエストを実装タスクに分割してください。Plan Architect からのフィードバックを組み込んでください。
 ```
 
 ```markdown
@@ -239,7 +239,7 @@ name: Plan Architect
 user-invocable: false
 tools: ['read', 'search']
 ---
-Validate plans against the codebase. Identify existing patterns, utilities, and libraries that should be reused. Flag any plan steps that duplicate existing functionality.
+コードベースに対してプランを検証してください。再利用すべき既存パターン、ユーティリティ、ライブラリを特定してください。既存の機能を複製するプランステップにフラグを立ててください。
 ```
 
 ```markdown
@@ -248,38 +248,39 @@ name: Implementer
 user-invocable: false
 model: ['Claude Haiku 4.5 (copilot)', 'Gemini 3 Flash (Preview) (copilot)']
 ---
-Write code to complete assigned tasks.
+割り当てられたタスクを完了するコードを記述してください。
 ```
 
-This pattern keeps the coordinator's context focused on the high-level workflow while each worker agent has a clean context and appropriate permissions for its specific job.
+このパターンはコーディネーターのコンテキストを高度なワークフローに焦点を当てながら、各ワーカーエージェントが特定のジョブ用のクリーンなコンテキストと適切な権限を持つようにします。
 
-### Multi-perspective code review
+### 複数の視点からのコードレビュー
 
-Code review benefits from multiple perspectives. A single pass often misses problems that become obvious when you look through a different lens. Use subagents to run each review perspective in parallel, then synthesize the findings.
+コードレビューは複数の視点から利点を得ます。単一のパスでは、異なるレンズを通して見ると明らかになる問題が見逃される場合があります。サブエージェントを使用して各レビューの視点を並列で実行してから、結果を統合します。
 
 ```markdown
 ---
 name: Thorough Reviewer
 tools: ['agent', 'read', 'search']
 ---
-You review code through multiple perspectives simultaneously. Run each perspective as a parallel subagent so findings are independent and unbiased.
+複数の視点から同時にコードをレビューします。各視点を並列サブエージェントとして実行して、結果が独立して公平になるようにしてください。
 
-When asked to review code, run these subagents in parallel:
-- Correctness reviewer: logic errors, edge cases, type issues.
-- Code quality reviewer: readability, naming, duplication.
-- Security reviewer: input validation, injection risks, data exposure.
-- Architecture reviewer: codebase patterns, design consistency, structural alignment.
+コードのレビューを依頼されると、これらのサブエージェントを並列で実行してください：
+- 正確性レビューア：ロジックエラー、エッジケース、型の問題。
+- コード品質レビューア：読みやすさ、命名、重複。
+- セキュリティレビューア：入力バリデーション、インジェクションリスク、データ露出。
+- アーキテクチャレビューア：コードベースパターン、設計一貫性、構造的アラインメント。
 
-After all subagents complete, synthesize findings into a prioritized summary. Note which issues are critical versus nice-to-have. Acknowledge what the code does well.
+すべてのサブエージェントが完了した後、結果を優先度付きのサマリーに統合してください。重大な問題と些細な問題を指摘してください。コードが良くしている点を認識してください。
 ```
 
-This pattern works because each subagent approaches the code fresh, without being anchored by what other perspectives found. In this example, the orchestrator shapes each subagent's focus area through its prompt. This is a lightweight approach that requires no additional agent files.
+各サブエージェントが他の視点が検出したもので固定化されることなく、新しいコードにアプローチするため、このパターンが機能します。この例では、オーケストレーター がプロンプトを通じて各サブエージェントのフォーカスエリアを形成します。これは追加のエージェントファイルを必要としない軽量なアプローチです。
 
 > [!TIP]
-> For more control, each review perspective can be its own custom agent with specialized tool access. For example, a security reviewer might use a security-focused MCP server, while a code-quality reviewer might have access to linting CLI tools. This approach lets each perspective use the best tools for its specific focus.
+> より詳細な制御の場合、各レビュー視点は、専用のツールアクセスを備えた独自のカスタムエージェントにすることができます。例えば、セキュリティレビューアはセキュリティ重視の MCP サーバーを使用するかもしれませんが、コード品質レビューアは Linting CLI ツールへのアクセスを持つ場合があります。このアプローチにより、各視点は特定のフォーカス用に最適なツールを使用できます。
 
-## Related resources
+## 関連リソース
 
-* [Agents overview](/docs/copilot/agents/overview.md) - Learn about the different types of agents in VS Code
-* [Custom agents](/docs/copilot/customization/custom-agents.md) - Create your own AI agents
-* [Chat sessions](/docs/copilot/chat/chat-sessions.md) - Manage chat sessions in VS Code
+* [エージェント概要](/docs/copilot/agents/overview.md) - VS Code のさまざまなタイプのエージェントについて学ぶ
+* [カスタムエージェント](/docs/copilot/customization/custom-agents.md) - 独自の AI エージェントを作成する
+* [チャットセッション](/docs/copilot/chat/chat-sessions.md) - VS Code でチャットセッションを管理する
+

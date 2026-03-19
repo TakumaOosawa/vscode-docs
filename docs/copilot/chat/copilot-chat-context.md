@@ -1,189 +1,190 @@
 ---
 ContentId: 5d8a707d-a239-4cc7-92ee-ccc763e8eb9c
 DateApproved: 3/9/2026
-MetaDescription: Learn how to manage context when using AI in VS Code, including workspace indexing, #-mentions for files and symbols, web content references, and custom instructions.
+MetaDescription: VS Codeで AI を使用するときのコンテキスト管理方法を学習します。ワークスペースインデックス、ファイルとシンボルの#-メンション、Web コンテンツ参照、カスタム命令などを含みます。
 MetaSocialImage: ../images/shared/github-copilot-social.png
 ---
-# Manage context for AI
+# AI のコンテキストを管理する
 
-By providing the right context, you can get more relevant and accurate responses from the AI in VS Code. In this article, you learn how to manage context in chat, including how to use #-mentions to reference files, folders, and symbols, how to reference web content, or how you can use custom instructions to guide the AI's responses.
+適切なコンテキストを提供することで、VS Code の AI からより関連性と精度の高い応答を得ることができます。この記事では、チャット内でコンテキストを管理する方法を学習します。ファイル、フォルダ、シンボルを参照するために#-メンションを使用する方法、Web コンテンツを参照する方法、またはカスタム命令を使用して AI の応答をガイドする方法などです。
 
-For background on what context is and how VS Code assembles it, see [Context concepts](/docs/copilot/concepts/context.md).
+コンテキストの詳細と VS Code がそれをどのように組み立てるかについては、「[コンテキストの概念](/docs/copilot/concepts/context.md)」を参照してください。
 
-## #-mentions
+## #-メンション
 
-You can explicitly add context to your prompt by typing `#` followed by the context item you want to mention. VS Code supports different types of context items: files, folders, code symbols, tools, terminal output, source control changes, and more.
+`#`を入力してその後に参照したいコンテキスト項目を続けることで、プロンプトに明示的にコンテキストを追加できます。VS Code は、ファイル、フォルダ、コード シンボル、ツール、ターミナル出力、ソース管理の変更など、異なる種類のコンテキスト項目をサポートしています。
 
-Type the `#` symbol in the chat input field to see a list of available context items, or select **Add Context** in the Chat view to open the context picker.
+チャット入力フィールドで`#`シンボルを入力すると、利用可能なコンテキスト項目のリストが表示されます。または、チャット ビューで「**コンテキストを追加**」を選択してコンテキスト ピッカーを開きます。
 
-![Screenshot of VS Code Chat view, showing the chat variable picker.](./images/copilot-chat/copilot-chat-view-chat-variables.png)
+![VS Code チャット ビューのスクリーンショット。チャット変数ピッカーを表示しています。](./images/copilot-chat/copilot-chat-view-chat-variables.png)
 
-View the full list of [supported context items](/docs/copilot/reference/copilot-vscode-features.md#chat-tools).
+[サポートされているコンテキスト項目](/docs/copilot/reference/copilot-vscode-features.md#chat-tools)の完全なリストを参照してください。
 
-### Add files as context
+### ファイルをコンテキストとして追加する
 
-To provide specific files, folders, or symbols as context, add them to the chat using the following methods:
+特定のファイル、フォルダ、またはシンボルをコンテキストとして提供するには、次の方法を使用してチャットに追加します。
 
-* #-mention the file, folder, or symbol in your chat message by typing `#` followed by the name of the file, folder, or symbol.
-    To reference a symbol, make sure to open the file containing the symbol in the editor first.
+* チャット メッセージで`#`を入力してからファイル、フォルダ、またはシンボルの名前を続けることで、ファイル、フォルダ、またはシンボルを#-メンションします。
+    シンボルを参照するには、まずエディターでそのシンボルを含むファイルを開いてください。
 
-* Drag and drop files or folders from the Explorer view, Search view, or editor tabs onto the Chat view to add them as context.
+* エクスプローラー ビュー、検索ビュー、またはエディター タブから、ファイルまたはフォルダをチャット ビューにドラッグ アンド ドロップしてコンテキストとして追加します。
 
-* Select **Add Context** in the Chat view and select **Files & Folders** or **Symbols** from the Quick Pick.
-
-> [!NOTE]
-> If possible, the full contents of the file will be included when you attach a file. If that is too large to fit into the context window, an outline of the file will be included that includes functions and their descriptions without implementations. If the outline is also too large, then the file won't be part of the prompt.
-
-### Perform a codebase search
-
-Instead of adding individual files manually, you can let VS Code find the right files from your codebase automatically. This can be useful when you don't know which files are relevant to your question.
-
-Add `#codebase` in your prompt or select **Add Context** > **Tools** > **codebase** to enable code search for your workspace.
-
-The following prompt examples show how to use codebase search:
-
-* `"Explain how authentication works in #codebase"`
-* `"Where is the database connection string configured? #codebase"`
-* `"Add a new API route for updating the address #codebase"`
-
-If you use [agents](/docs/copilot/agents/local-agents.md), the agent will automatically use codebase search when it determines that additional context is needed to answer your question. You can still add `#codebase` if your question might be interpreted in different ways and you want to make sure the agent uses codebase search.
-
-### Reference content from the web
-
-You can reference content from the web in your chat prompts, for example to get the latest API reference or code examples.
-
-* `#fetch <URL>`
-
-    Use the `fetch` tool to retrieve content from a specific web page. To use this tool, type `#fetch` followed by the URL of the page you want to reference.
-
-    The `fetch` tool caches the content of the web page for a limited time to improve performance. If the content of the page changes, you can force a refresh by restarting VS Code. If the page cannot be reached, the cache will expire after a short time (approximately five minutes).
-
-    VS Code prompts for confirmation before accessing external URLs to protect your privacy and security. Learn more about [configuring URL auto-approval](/docs/copilot/agents/agent-tools.md#url-approval).
-
-    Example prompts using the `fetch` tool:
-
-    * `"What are the highlights of VS Code 1.100 #fetch https://code.visualstudio.com/updates/v1_100"`
-    * `"Update the asp.net app to .net 9 #fetch https://learn.microsoft.com/en-us/aspnet/core/migration/80-90"`
-
-* `#githubRepo <repo name>`
-
-    Use the `githubRepo` tool to perform a code search within a GitHub repository. Type `#githubRepo` followed by the repository name.
-
-    Example prompts using the `githubRepo` tool:
-
-    * `"How does routing work in next.js #githubRepo vercel/next.js"`
-    * `"Perform a code review to validate it's consistent with #githubRepo microsoft/typescript"`
-
-### Reference tools
-
-When using agents, the agent autonomously decides to use tools for performing specific tasks. If you want to explicitly reference a tool in your chat prompt, you can use #-mentions. Type `#` followed by the tool name and optional parameters:
-
-* `"Summarize #fetch https://code.visualstudio.com/updates"`
-* `"How does routing work? #githubRepo vercel/next.js"`
-* `"what are my open issues #github-mcp"` (use tools from the GitHub MCP server)
-
-If you reference a tool set or MCP server by its name, all tools from that set or server are made available to the agent for the current prompt.
-
-Learn more about [adding and using tools in chat](/docs/copilot/agents/agent-tools.md).
-
-## @-mentions
-
-Chat participants are specialized assistants that enable you to ask domain-specific questions in chat. Imagine a chat participant as a domain expert to whom you hand off your chat request and it takes care of the rest.
-
-Chat participants are different from [tools](#reference-tools) that are invoked as part of an agent flow to contribute and perform specific tasks.
-
-You can invoke a chat participant by @-mentioning it: type `@` followed by the participant name. VS Code has built-in chat participants like `@vscode` or `@terminal`. They are optimized to answer questions about their respective domains.
-
-The following examples show how to use @-mentions in your chat prompts:
-
-* `"@vscode how to enable word wrapping"`
-* `"@terminal what are the top 5 largest files in the current directory"`
-
-Type `@` in the chat input field to see a list of available chat participants.
-
-Extensions can also contribute their own [chat participants](/api/extension-guides/ai/chat.md).
-
-## Vision (Preview)
-
-Chat supports vision capabilities, which means you can attach an image as context to your chat prompt and ask questions about it. For example, attach a screenshot of a block of code and ask to explain it, or attach a sketch of a UI and ask the agent to implement it.
-
-> [!TIP]
-> You can drag and drop an image from a web browser onto the Chat view to add it as context.
-
-## Add browser elements (Experimental)
-
-VS Code has a built-in [integrated browser](/docs/debugtest/integrated-browser.md) that you can use to preview and interact with web pages inside VS Code, for example to do quick testing and debugging of your web application.
-
-You can add elements from the browser window as context to your chat prompt. This is useful when you want to get help with specific parts of a web page, such as HTML elements, CSS styles, or JavaScript code.
-
-To add elements from the integrated browser to your chat prompt:
-
-1. Start your web application.
-1. Open the integrated browser by running the **Browser: Open Integrated Browser** command from the Command Palette.
-1. Enter the URL of the web page you want to interact with.
-1. Select the **Add Element to Chat** button. You can now hover over the elements of the web page and select them to add them as context to your chat prompt.
-
-    <video src="images/copilot-chat/integrated-browser-select-element.mp4" title="Video showing how to select and add elements from the integrated browser to the chat prompt." loop controls muted></video>
-
-You can configure which information is included in the context:
-
-* Attach CSS: `setting(chat.sendElementsToChat.attachCSS)` setting
-* Attach images: `setting(chat.sendElementsToChat.attachImages)` setting
-
-## Interact with browser pages
+* チャット ビューで「**コンテキストを追加**」を選択し、クイック ピックから「**ファイルとフォルダ**」または「**シンボル**」を選択します。
 
 > [!NOTE]
-> Browser tools for agents are currently experimental.
+> ファイルを添付すると、可能であれば、ファイルの完全な内容が含まれます。コンテキスト ウィンドウに収まらない場合は、実装を含まない関数と説明を含むファイルのアウトラインが含まれます。アウトラインも大きい場合は、ファイルはプロンプトの一部になりません。
 
-Agents can directly read and interact with pages in the [integrated browser](/docs/debugtest/integrated-browser.md) by using built-in browser tools. This enables agents to navigate to URLs, read page content and console errors, take screenshots, click elements, type text, and more, without requiring an external MCP server.
+### コードベース検索を実行する
 
-To enable browser tools, set the `setting(workbench.browser.enableChatTools)` setting to `true`.
+個別のファイルを手動で追加する代わりに、VS Code にコードベースから関連ファイルを自動で検索させることができます。どのファイルが質問に関連しているかわからない場合に便利です。
 
-You can also share a browser page you already have open with the agent. Select the **Share with Agent** button in the browser toolbar to give the agent access to your page, including your existing session and login state.
+プロンプトに`#codebase`を追加するか、「**コンテキストを追加**」>「**ツール**」>「**codebase**」を選択して、ワークスペースのコード検索を有効にします。
 
-For example, you can ask an agent to open your web app, check for layout issues, or verify that a feature works correctly. The agent opens the browser, interacts with the page, and reports back with its findings.
+次のプロンプト例は、コードベース検索の使用方法を示しています。
 
-Learn more about [browser tools for agents](/docs/debugtest/integrated-browser.md#browser-tools-for-agents).
+* `「#codebase でのエスト方法を説明してください」`
+* `「データベース接続文字列はどこで構成されていますか?#codebase」`
+* `「#codebase のアドレスを更新するための新しい API ルートを追加してください」`
 
-## Monitor context window usage
+[エージェント](/docs/copilot/agents/local-agents.md)を使用する場合、エージェントは質問に答えるために追加のコンテキストが必要だと判断したときに、自動的にコードベース検索を使用します。質問が異なる方法で解釈される可能性があり、エージェントがコードベース検索を使用することを確認したい場合は、`#codebase`を追加できます。
 
-The chat input box displays a context window control that shows how much of the model's context window is being used. This visual indicator helps you understand when chat summarization might occur or when you should start a new session.
+### Web からのコンテンツを参照する
 
-![Screenshot of VS Code Chat view, showing the context window usage control in the chat input box.](./images/copilot-chat/chat-context-window-control.png)
+チャット プロンプトで Web からのコンテンツを参照できます。たとえば、最新の API リファレンスまたはコード例を取得するためです。
 
-The context window control provides the following information:
+* `#fetch<URL>`
 
-* **Visual fill indicator**: a shaded bar shows the proportion of the context window currently in use
-* **Total usage and breakdown on hover**: hover over the control to see the exact token count as a fraction of the total available context (for example, 15K/128K) and a breakdown of usage by category
+    特定の Web ページからコンテンツを取得するには、`fetch`ツールを使用してください。このツールを使用するには、`#fetch`の後に参照する Web ページの URL を入力します。
 
-As you send more requests in a conversation, the control updates to reflect the increasing context usage. The total available context (denominator) changes based on the AI model you select, since different models have different context window sizes.
+    `fetch`ツールは、パフォーマンスを向上させるために Web ページのコンテンツを一定期間キャッシュします。ページのコンテンツが変更された場合は、VS Code を再起動することでキャッシュを更新できます。ページにアクセスできない場合、キャッシュは短時間（約5分）で期限切れになります。
+
+    VS Code は、プライバシーとセキュリティを保護するために、外部 URL にアクセスする前に確認をプロンプトします。[URL 自動承認の構成](/docs/copilot/agents/agent-tools.md#url-approval)について詳しく学習してください。
+
+    `fetch`ツールを使用したプロンプト例:
+
+    * `「VS Code 1.100 の主な点は何ですか #fetch https://code.visualstudio.com/updates/v1_100」`
+    * `「asp.net アプリを .net 9 に更新してください #fetch https://learn.microsoft.com/en-us/aspnet/core/migration/80-90」`
+
+* `#githubRepo<リポジトリ名>`
+
+    GitHub リポジトリ内でコード検索を実行するには、`githubRepo`ツールを使用してください。`#githubRepo`の後にリポジトリ名を入力します。
+
+    `githubRepo`ツールを使用したプロンプト例:
+
+    * `「next.js でのルーティングはどのように機能しますか #githubRepo vercel/next.js」`
+    * `「#githubRepo microsoft/typescript と一貫性があることを検証するコード レビューを実行してください」`
+
+### ツールを参照する
+
+エージェントを使用する場合、エージェントは特定のタスクを実行するためにツールを自律的に使用することを決定します。チャット プロンプトでツールを明示的に参照する場合は、#-メンションを使用できます。`#`の後にツール名とオプションパラメーターを入力してください。
+
+* `「#fetch https://code.visualstudio.com/updates を要約してください」`
+* `「ルーティングはどのように機能しますか?#githubRepo vercel/next.js」`
+* `「未処理の問題は何ですか #github-mcp」`(GitHub MCP サーバーの機能を使用してください)
+
+ツール セットまたは MCP サーバーをその名前で参照すると、そのセットまたはサーバーのすべてのツールが、現在のプロンプトのエージェントで利用可能になります。
+
+[チャットでのツールの追加と使用](/docs/copilot/agents/agent-tools.md)について詳しく学習してください。
+
+## @-メンション
+
+チャット参加者は、チャット内でドメイン固有の質問ができるようにする専門的なアシスタントです。チャット参加者を、チャット リクエストを渡して処理を任せるドメイン エキスパートとして想像してください。
+
+チャット参加者は、エージェント ワークフローの一部として呼び出され、特定のタスクを実行および提供するための[ツール](#reference-tools)とは異なります。
+
+チャット参加者は、`@`を入力してその後にパーティシパント名を続けることで、@-メンションを使用して呼び出すできます。VS Code には、`@vscode`または`@terminal`などの組み込みチャット参加者があります。それぞれのドメインに関する質問に最適化されています。
+
+次の例は、チャット プロンプトで@-メンションを使用する方法を示しています。
+
+* `「@vscode ワード ラップを有効にする方法」`
+* `「@terminal 現在のディレクトリで最大 5 つの最大ファイルは何ですか」`
+
+チャット入力フィールドで`@`を入力して、利用可能なチャット参加者のリストを確認してください。
+
+拡張機能は、独自の[チャット参加者](/api/extension-guides/ai/chat.md)を提供することもできます。
+
+## ビジョン(プレビュー)
+
+チャットはビジョン機能をサポートしています。つまり、画像をチャット プロンプトのコンテキストとして添付して、その画像について質問できます。たとえば、コードブロックのスクリーンショットを添付して説明するように依頼したり、UI のスケッチを添付して実装するようにエージェントに依頼できます。
 
 > [!TIP]
-> When the context window fills up, VS Code automatically [compacts the conversation history](#context-compaction) to free up space.
+> Web ブラウザーから画像をチャット ビューにドラッグ アンド ドロップして、コンテキストとして追加できます。
 
-## Context compaction
+## ブラウザー要素を追加する(実験的)
 
-As a conversation grows, the accumulated messages and context can fill up the model's context window. Context compaction summarizes the conversation history to free up space, so you can continue working in the same session without losing important details.
+VS Code には、Web ページをプレビューおよび VS Code 内でやり取りするために使用できる[統合ブラウザー](/docs/debugtest/integrated-browser.md)が組み込まれています。たとえば、Web アプリケーションの迅速なテストとデバッグを行うためです。
 
-### Automatic compaction
+ブラウザー ウィンドウから、チャット プロンプトにコンテキストとして要素を追加できます。これは、HTML 要素、CSS スタイル、JavaScript コードなど、Web ページの特定の部分に関するヘルプが必要なときに便利です。
 
-When the context window fills up, VS Code automatically compacts the conversation by summarizing earlier messages. This happens transparently in the background, so you can keep chatting without interruption.
+統合ブラウザーからチャット プロンプトに要素を追加するには:
 
-### Manual compaction
+1. Web アプリケーションを開始します。
+1. コマンド パレットから**Browser: Open Integrated Browser**コマンドを実行して、統合ブラウザーを開きます。
+1. やり取りする Web ページの URL を入力します。
+1. **チャットに要素を追加**ボタンを選択します。Web ページの要素にマウス ポインターを移動して、それらを選択し、チャット プロンプトにコンテキストとして追加できます。
 
-You can also manually trigger compaction at any time, for example to refocus the conversation or reduce noise from earlier exchanges. Manual compaction is available for local, background, and Claude agent sessions.
+    <video src="images/copilot-chat/integrated-browser-select-element.mp4" title="統合ブラウザーからチャット プロンプトに要素を選択して追加する方法を示すビデオ。" loop controls muted></video>
 
-To manually compact the conversation, use one of the following methods:
+コンテキストに含まれる情報を構成できます:
 
-* Type `/compact` in the chat input field. Optionally, add custom instructions after the command to guide how the summary is generated, for example `/compact focus on the database schema decisions`.
+* CSS を添付: `setting(chat.sendElementsToChat.attachCSS)`設定
+* 画像を添付: `setting(chat.sendElementsToChat.attachImages)`設定
 
-* Select the context window control in the chat input box, and then select **Compact Conversation**.
+## ブラウザー ページとやり取りする
 
-If you want to reset the context entirely, start a [new chat session](/docs/copilot/chat/chat-sessions.md).
+> [!NOTE]
+> エージェント用のブラウザー ツールは現在、実験的です。
 
-## Related resources
+エージェントは、組み込みブラウザー ツールを使用して、[統合ブラウザー](/docs/debugtest/integrated-browser.md)のページを直接読み取り、やり取りできます。これにより、エージェントは、外部 MCP サーバーを必要とせずに、URL に移動し、ページ コンテンツとコンソール エラーを読み取り、スクリーンショットを撮影し、要素をクリックし、テキストを入力するなど、多くのことができます。
 
-* [Chat overview](/docs/copilot/chat/copilot-chat.md)
-* [Prompt examples](/docs/copilot/chat/prompt-examples.md)
-* [Prompt engineering guide](/docs/copilot/guides/prompt-engineering-guide.md)
-* [Debug chat interactions](/docs/copilot/chat/chat-debug-view.md)
+ブラウザー ツールを有効にするには、`setting(workbench.browser.enableChatTools)`設定を`true`に設定します。
+
+エージェントとブラウザー ページを共有することもできます。ブラウザー ツールバーの**エージェントと共有**ボタンを選択して、既存のセッションとログイン状態を含む、ページへのアクセスをエージェントに付与します。
+
+たとえば、エージェントに Web アプリを開き、レイアウトの問題を確認し、機能が正しく機能していることを確認するように依頼できます。エージェントはブラウザーを開き、ページとやり取りして、その検出結果をレポートしてきます。
+
+[エージェント用のブラウザー ツール](/docs/debugtest/integrated-browser.md#browser-tools-for-agents)について詳しく学習してください。
+
+## コンテキスト ウィンドウの使用量を監視する
+
+チャット入力ボックスには、モデルのコンテキスト ウィンドウの使用量を示すコンテキスト ウィンドウ制御が表示されます。この視覚的インジケーターは、チャット要約がいつ発生する可能性があるか、または新しいセッションをいつ開始すべきかを理解するのに役立ちます。
+
+![VS Code チャット ビューのスクリーンショット。チャット入力ボックスのコンテキスト ウィンドウ使用量制御を表示しています。](./images/copilot-chat/chat-context-window-control.png)
+
+コンテキスト ウィンドウ制御は、次の情報を提供しています:
+
+* **視覚的塗りつぶしインジケーター**: 陰影付きバーは、現在使用されているコンテキスト ウィンドウの割合を示しています。
+* **合計使用量とホバー時の内訳**: 制御の上にマウス ポインターを移動して、正確なトークン数を利用可能なコンテキストの割合として(たとえば、15K/128K)と、カテゴリ別の使用法の内訳を確認してください。
+
+会話でさらに多くのリクエストを送ると、制御は増加するコンテキスト使用量を反映して更新されます。利用可能なコンテキストの合計(分母)は、選択した AI モデルに基づいて変わります。異なるモデルは異なるコンテキスト ウィンドウ サイズを持つためです。
+
+> [!TIP]
+> コンテキスト ウィンドウが満杯になると、VS Code は自動的に[会話履歴をコンパクト化](#context-compaction)スペースを解放します。
+
+## コンテキスト コンパクション
+
+会話が大きくなると、蓄積されたメッセージとコンテキストがモデルのコンテキスト ウィンドウを満たす可能性があります。コンテキスト コンパクションは、会話履歴をまとめて空きスペースを確保するため、重要な詳細を失うことなく、同じセッションで作業を続けることができます。
+
+### 自動コンパクション
+
+コンテキスト ウィンドウが満杯になると、VS Code は前のメッセージを要約することで会話を自動的にコンパクト化します。これはバックグラウンドで透過的に発生するため、中断なくチャットを続けることができます。
+
+### 手動コンパクション
+
+任意の時点で手動でコンパクションをトリガーすることもできます。たとえば、会話を再度フォーカスしたり、以前のやり取りのノイズを軽減したりするためです。手動コンパクションは、ローカル、バックグラウンド、Claude エージェント セッション対して利用可能です。
+
+会話を手動でコンパクト化するには、次のいずれかの方法を使用します。
+
+* チャット入力フィールドに`/compact`を入力してください。必要に応じて、要約がどのように生成されるかをガイドするコマンドの後にカスタム命令を追加してください。たとえば、`/compact データベース スキーマの決定に焦点を当ててください`。
+
+* チャット入力ボックスのコンテキスト ウィンドウ制御を選択し、「**会話をコンパクト化**」を選択します。
+
+コンテキスト全体をリセットする場合は、[新しいチャット セッション](/docs/copilot/chat/chat-sessions.md)を開始してください。
+
+## 関連リソース
+
+* [チャット概要](/docs/copilot/chat/copilot-chat.md)
+* [プロンプト例](/docs/copilot/chat/prompt-examples.md)
+* [プロンプト エンジニアリング ガイド](/docs/copilot/guides/prompt-engineering-guide.md)
+* [チャット インタラクションをデバッグする](/docs/copilot/chat/chat-debug-view.md)
+

@@ -1,7 +1,7 @@
 ---
 ContentId: 7c4b8b5e-2d3f-4e8a-9b2c-1a5d6f8e9c0b
 DateApproved: 3/9/2026
-MetaDescription: Learn about different types of AI agents in VS Code, including local chat, Copilot CLI for running in the background, and cloud agents.
+MetaDescription: VS Code の様々な種類の AI エージェントについて学習します。ローカルチャット、バックグラウンドで実行される Copilot CLI、クラウドエージェントなどが含まれます。
 MetaSocialImage: ../images/shared/github-copilot-social.png
 Keywords:
 - ai
@@ -18,194 +18,195 @@ Keywords:
 - third-party agents
 ---
 
-# Using agents in Visual Studio Code
+# Visual Studio Code でのエージェントの使用
 
-Agents in Visual Studio Code automate coding tasks by breaking them into steps, using [tools](/docs/copilot/concepts/tools.md) to read files, edit code, and run commands, and self-correcting when something goes wrong. For example, instead of suggesting a fix for a failing test, an agent can identify the root cause across files, update the code, rerun the tests, and commit the changes.
+Visual Studio Code のエージェントは、コーディングタスクを段階に分割し、[ツール](/docs/copilot/concepts/tools.md)を使ってファイルの読み取り、コードの編集、コマンドの実行を行い、問題が発生した場合は自動修正することで、コーディングタスクを自動化します。例えば、失敗したテストの修正案を提示する代わりに、エージェントはファイル全体の根本原因を特定し、コードを更新し、テストを再実行し、変更をコミットできます。
 
-VS Code supports agents that run locally, in the background, or in the cloud. This article helps you choose the right agent type, create and manage sessions, and hand off tasks between agents.
+VS Code は、ローカルで、バックグラウンドで、またはクラウドで実行されるエージェントをサポートしています。この記事は、適切なエージェントタイプを選択し、セッションを作成・管理し、エージェント間でタスクを引き継ぐのに役立ちます。
 
-<div class="docs-action" data-show-in-doc="true" data-show-in-sidebar="true" title="Core concepts">
-Learn about the agent loop, subagents, memory, and planning.
+<div class="docs-action" data-show-in-doc="true" data-show-in-sidebar="true" title="コアコンセプト">
+エージェントループ、サブエージェント、メモリ、計画について学習します。
 
-* [Agents concepts](/docs/copilot/concepts/agents.md)
+* [エージェントコンセプト](/docs/copilot/concepts/agents.md)
 
 </div>
 
-![Screenshot of an agent session in VS Code showing code changes and chat interaction.](../images/agents-overview/chat-sessions-view.png)
+![VS Code でのエージェントセッションのスクリーンショット。コードの変更とチャット操作が表示されています。](../images/agents-overview/chat-sessions-view.png)
 
-<div class="docs-action" data-show-in-doc="false" data-show-in-sidebar="true" title="Create a basic game">
-Use agents in VS Code to generate a tic-tac-toe game in your language of choice.
+<div class="docs-action" data-show-in-doc="false" data-show-in-sidebar="true" title="基本的なゲームを作成">
+VS Code のエージェントを使用して、選択した言語で○×ゲームを生成します。
 
-* [Open in VS Code](vscode://GitHub.Copilot-Chat/chat?agent=agent%26prompt=%23newWorkspace%20Create%20a%20basic%20tic-tac-toe%20game.%20Ask%20the%20user%20about%20their%20language%20of%20choice)
+* [VS Code で開く](vscode://GitHub.Copilot-Chat/chat?agent=agent%26prompt=%23newWorkspace%20Create%20a%20basic%20tic-tac-toe%20game.%20Ask%20the%20user%20about%20their%20language%20of%20choice)
 
 </div>
 
 > [!IMPORTANT]
-> Enable agents in your VS Code settings (`setting(chat.agent.enabled)`). Your organization might also disable agents - contact your admin to enable this functionality.
+> VS Code 設定でエージェントを有効にしてください（`setting(chat.agent.enabled)`）。組織がエージェントを無効にしている場合もあります。この機能を有効にするには、管理者に連絡してください。
 
-You can run multiple agent sessions in parallel, each focused on a different task. When you create a new agent session, the previous session remains active, and you can switch between tasks via the [agent sessions list](#agent-sessions-list).
+複数のエージェントセッションを並行して実行でき、各セッションは異なるタスクに集中します。新しいエージェントセッションを作成すると、前のセッションはアクティブなままで、[エージェントセッションリスト](#エージェントセッションリスト)を使ってタスク間を切り替えられます。
 
-## Types of agents
+## エージェントの種類
 
-VS Code supports the following categories of agents, each designed for different use cases and levels of interaction:
+VS Code は、異なるユースケースと対話レベルに対応する、以下のカテゴリのエージェントをサポートしています:
 
-* [**Local agents**](/docs/copilot/agents/local-agents.md) run interactively in VS Code with full access to your workspace, tools, and models.
-* [**Copilot CLI**](/docs/copilot/agents/copilot-cli.md) agents run autonomously in the background on your machine, optionally using Git worktrees for isolation.
-* [**Cloud agents**](/docs/copilot/agents/cloud-agents.md) run on remote infrastructure and integrate with GitHub pull requests for team collaboration.
-* [**Third-party agents**](/docs/copilot/agents/third-party-agents.md) connect external AI providers like Anthropic and OpenAI, with options for running locally or in the cloud.
+* [**ローカルエージェント**](/docs/copilot/agents/local-agents.md)は VS Code で対話的に実行され、ワークスペース、ツール、モデルへのフルアクセスを持ちます。
+* [**Copilot CLI**](/docs/copilot/agents/copilot-cli.md) エージェントはマシン上でバックグラウンドで自律的に実行され、オプションで分離のために Git worktree を使用します。
+* [**クラウドエージェント**](/docs/copilot/agents/cloud-agents.md)はリモートインフラで実行され、チーム協力のために GitHub プルリクエストと統合します。
+* [**サードパーティエージェント**](/docs/copilot/agents/third-party-agents.md)は Anthropic や OpenAI などの外部 AI プロバイダーに接続し、ローカルまたはクラウドで実行するオプションがあります。
 
-![Diagram showing agent types by environment and interaction.](../images/agents-overview/agent-types-diagram-v3.png)
+![環境と対話によるエージェント種類を示す図。](../images/agents-overview/agent-types-diagram-v3.png)
 
 <!-- Diagram source: agent-types.excalidraw (credits: AnnaS) -->
 
-### Which agent should I use?
+### どのエージェントを使うべきか?
 
-Use the following table to find the right agent type for your task:
+次のテーブルを使用して、お使いのタスクに適したエージェント種類を探してください:
 
-| I want to... | Use |
+| がしたいこと | 使うもの |
 |---|---|
-| Brainstorm, explore, or iterate on an idea interactively | [Local agent](/docs/copilot/agents/local-agents.md) |
-| Get answers about my codebase | [Local agent](/docs/copilot/agents/local-agents.md) (Ask) |
-| Create a structured implementation plan | [Local agent](/docs/copilot/agents/local-agents.md) (Plan) |
-| Fix an issue that needs editor context (test failures, linting errors, debug output) | [Local agent](/docs/copilot/agents/local-agents.md) |
-| Build and test web apps with the integrated browser _(Experimental)_ | [Local agent](/docs/copilot/agents/local-agents.md). See the [browser agent testing guide](/docs/copilot/guides/browser-agent-testing-guide.md). |
-| Use specific VS Code extension tools or MCP servers | [Local agent](/docs/copilot/agents/local-agents.md) |
-| Implement a well-defined task while I keep working | [Copilot CLI](/docs/copilot/agents/copilot-cli.md) or [Cloud agent](/docs/copilot/agents/cloud-agents.md) |
-| Explore multiple variants or proof of concepts | [Copilot CLI](/docs/copilot/agents/copilot-cli.md) or [Cloud agent](/docs/copilot/agents/cloud-agents.md) |
-| Create a PR for team review and collaboration | [Cloud agent](/docs/copilot/agents/cloud-agents.md) |
-| Assign a GitHub issue to an agent | [Cloud agent](/docs/copilot/agents/cloud-agents.md) |
-| Use a specific AI provider (Anthropic, OpenAI) | [Third-party agent](/docs/copilot/agents/third-party-agents.md) |
+| 対話的にアイデアについてブレストレイン、探索、または反復を行う | [ローカルエージェント](/docs/copilot/agents/local-agents.md) |
+| コードベースについての回答を得る | [ローカルエージェント](/docs/copilot/agents/local-agents.md)（Ask） |
+| 構造化された実装計画を作成する | [ローカルエージェント](/docs/copilot/agents/local-agents.md)（Plan） |
+| エディターコンテキストが必要な問題を修正する（テスト失敗、リンティングエラー、デバッグ出力） | [ローカルエージェント](/docs/copilot/agents/local-agents.md) |
+| 統合ブラウザを使用して Web アプリをビルドしてテストする（実験段階） | [ローカルエージェント](/docs/copilot/agents/local-agents.md)。[ブラウザエージェントテストガイド](/docs/copilot/guides/browser-agent-testing-guide.md)を参照してください。 |
+| 特定の VS Code エクステンションツールまたは MCP サーバーを使用する | [ローカルエージェント](/docs/copilot/agents/local-agents.md) |
+| 作業を続けながら、明確に定義されたタスクを実装する | [Copilot CLI](/docs/copilot/agents/copilot-cli.md)または[クラウドエージェント](/docs/copilot/agents/cloud-agents.md) |
+| 複数のバリエーション、またはプルーフオブコンセプトを探索する | [Copilot CLI](/docs/copilot/agents/copilot-cli.md)または[クラウドエージェント](/docs/copilot/agents/cloud-agents.md) |
+| チームレビューと協力のための PR を作成する | [クラウドエージェント](/docs/copilot/agents/cloud-agents.md) |
+| GitHub issue をエージェントに割り当てる | [クラウドエージェント](/docs/copilot/agents/cloud-agents.md) |
+| 特定の AI プロバイダー（Anthropic、OpenAI）を使用する | [サードパーティエージェント](/docs/copilot/agents/third-party-agents.md) |
 
-## Agent sessions list
+## エージェントセッションリスト
 
-The Chat view provides a unified view to manage all your agent sessions, regardless of where they run. By default, it shows your recent sessions, and gives information about their status, type, and file changes. Expand the list to see and filter all your agent sessions.
+チャットビューは、実行場所に関わらず、すべてのエージェントセッションを管理するための統一ビューを提供します。デフォルトでは最新のセッションが表示され、ステータス、種類、ファイル変更についての情報が提供されます。リストを展開して、すべてのエージェントセッションを表示・フィルタリングできます。
 
-The list of sessions is scoped to your workspace. If you don't have a workspace open, the list shows all sessions across your workspaces. The sessions are grouped by time periods, such as **Today** or **Last Week**.
+セッションのリストはワークスペースにスコープされます。ワークスペースを開いていない場合、リストはすべてのワークスペース全体のセッションを表示します。セッションは**今日**や**先週**などの期間でグループ化されます。
 
-The Chat view operates in two modes: compact and side-by-side. You can manually switch between compact and side-by-side mode by using the toggle control in the top-right corner of the Chat view.
+チャットビューは 2 つのモードで動作します: コンパクトとサイドバイサイド。チャットビューの右上隅にあるトグルコントロールを使って、コンパクトモードとサイドバイサイドモード間を手動で切り替えられます。
 
-* **Compact**:
+* **コンパクト**:
 
-    In compact view, the list of sessions is embedded in the Chat view. When you select a session from the list, the Chat view switches to that session. Use the back button to return to the sessions list.
+    コンパクトビューでは、セッションのリストはチャットビューに埋め込まれます。リストからセッションを選択すると、チャットビューがそのセッションに切り替わります。戻るボタンを使ってセッションリストに戻ります。
 
-    ![Screenshot of the Chat view in compact mode showing recent agent sessions.](../images/agents-overview/chat-view-compact2.png)
+    ![コンパクトモードでの最新のエージェントセッションを表示するチャットビューのスクリーンショット。](../images/agents-overview/chat-view-compact2.png)
 
-* **Side-by-side**
+* **サイドバイサイド**
 
-    In side-by-side view, the list of sessions is shown side-by-side with the Chat view. Select a session from the list to view its details in the Chat view.
+    サイドバイサイドビューでは、セッションのリストはチャットビューの横に表示されます。リストからセッションを選択して、その詳細をチャットビューに表示します。
 
-    ![Screenshot of the Chat view in expanded mode showing full agent session history.](../images/agents-overview/chat-view-expanded.png)
+    ![展開されたモードでの完全なエージェントセッション履歴を表示するチャットビューのスクリーンショット。](../images/agents-overview/chat-view-expanded.png)
 
     > [!TIP]
-    > When you make the Chat view wider, it automatically switches to side-by-side mode. Right-click on the sessions list and select **Sessions Orientation** to change this behavior (`setting(chat.viewSessions.orientation)`). You can also use the toggle button.
+    > チャットビューをもっと広くすると、自動的にサイドバイサイドモードに切り替わります。セッションリストを右クリックして**セッション方向**を選択してこの動作を変更できます（`setting(chat.viewSessions.orientation)`）。トグルボタンも使用できます。
 
-Right-click a session in the list to see additional actions, such as different options to open the session details, archive the session, or agent-type specific actions like checking out a pull request (for cloud agent sessions).
+リストのセッションを右クリックして、セッション詳細を開くためのさまざまなオプション、セッションをアーカイブするオプション、またはプルリクエストをチェックアウトする（クラウドエージェントセッションの場合）などのエージェント種別固有のアクションなど、追加のアクションを表示します。
 
-To hide the session list from the Chat view, right-click in an empty chat and unselect **Show Sessions** (`setting(chat.viewSessions.enabled)`).
-
-> [!NOTE]
-> Extension developers can learn how to integrate with the Agents view by using the proposed API [`chatSessionsProvider`](https://github.com/microsoft/vscode/blob/main/src/vscode-dts/vscode.proposed.chatSessionsProvider.d.ts). The API is currently in a proposed state and subject to change.
-
-### Agent status indicator (Experimental)
-
-The agent status indicator provides quick access to your agent sessions directly from the command center in the title bar. The indicator displays visual badges for unread messages and in-progress sessions, so you can stay informed about your AI agent activity without switching views.
-
-![Screenshot showing the Agent Status Indicator in the command center with unread and in-progress badges.](../images/agents-overview/agent-status-indicator-v2.png)
-
-The indicator shows:
-
-* **Unread sessions badge**: Shows the count of chat sessions with new messages. Select the badge to filter the sessions list to show only unread sessions.
-* **In-progress sessions badge**: Shows the count of sessions with running agents. Select the badge to filter the sessions list to show only in-progress sessions.
-* **Sparkle icon**: Provides quick access to chat and session management options.
-
-You can configure the indicator's behavior by using the `setting(chat.agentsControl.clickBehavior)` setting to toggle chat visibility, cycle through chat states (show, maximize, hide), or focus the chat input.
-
-When a filter is active, the sessions list automatically expands to show all matching sessions. Select the badge again to clear the filter and return to the default view.
+チャットビューからセッションリストを非表示にするには、空のチャットで右クリックして**セッション表示**をオフにしてください（`setting(chat.viewSessions.enabled)`）。
 
 > [!NOTE]
-> The agent status indicator is an experimental feature. Enable it by using `setting(chat.agentsControl.enabled)`. The unread and in-progress indicators require `setting(chat.viewSessions.enabled)` to be enabled.
+> エクステンション開発者は、提案 API [`chatSessionsProvider`](https://github.com/microsoft/vscode/blob/main/src/vscode-dts/vscode.proposed.chatSessionsProvider.d.ts) を使用して、エージェントビューと統合する方法を学習できます。API は現在提案状態であり、変更される場合があります。
 
-## Create an agent session
+### エージェントステータスインジケーター（実験段階）
 
-You can create multiple agent sessions in parallel, each focused on a different task. When you create a new agent session, the previous session stays active, and you can switch between tasks through the [agent sessions list](#agent-sessions-list).
+エージェントステータスインジケーターは、タイトルバーのコマンドセンターからエージェントセッションに直接素早くアクセスできます。インジケーターは未読メッセージと進行中セッションの視覚的なバッジを表示し、ビューを切り替えずに AI エージェントアクティビティについて常に情報を得られます。
 
-When you create a new agent session, it starts with an empty context window. Each agent session is independent, so context from one session doesn't carry over to another.
+![コマンドセンターの未読バッジと進行中のバッジを表示するエージェントステータスインジケーターのスクリーンショット。](../images/agents-overview/agent-status-indicator-v2.png)
 
-You can create a new agent session from the Chat view or by using the corresponding commands in the Command Palette.
+インジケーターは以下を表示します:
 
-1. Open the Chat view and select the **New Session** dropdown (`+`).
+* **未読セッションバッジ**: 新しいメッセージを持つチャットセッションの数を表示します。バッジを選択して、未読セッションのみを表示するようセッションリストをフィルタリングします。
+* **進行中セッションバッジ**: 実行中のエージェントを持つセッション数を表示します。バッジを選択して、進行中セッションのみを表示するようセッションリストをフィルタリングします。
+* **スパークルアイコン**: チャットとセッション管理オプションへの素早いアクセスを提供します。
 
-    ![Screenshot of creating a new agent session from the Chat view.](../images/agents-overview/create-new-agent-session.png)
+`setting(chat.agentsControl.clickBehavior)` 設定を使用してインジケーターの動作を設定できます。チャット表示の切り替え、チャット状態の循環（表示、最大化、非表示）、またはチャット入力へのフォーカスを行います。
 
-1. Choose the agent type from the dropdown. Optionally, select a language model from the model picker.
+フィルターがアクティブな場合、セッションリストは自動的に展開して、すべてのマッチ中のセッションを表示します。バッジを再度選択してフィルターをクリアし、デフォルトビューに戻ります。
 
-    ![Screenshot showing agent type dropdown in new chat session.](../images/agents-overview/agent-type-dropdown.png)
+> [!NOTE]
+> エージェントステータスインジケーターは実験的な機能です。`setting(chat.agentsControl.enabled)` を使用して有効にしてください。未読および進行中のインジケーターには `setting(chat.viewSessions.enabled)` が有効になっている必要があります。
 
-1. Enter a prompt to assign a task to the agent. The agent starts working on the task.
+## エージェントセッションを作成する
+
+複数のエージェントセッションを並行して実行でき、各セッションは異なるタスクに集中します。新しいエージェントセッションを作成すると、前のセッションは有効なままで、[エージェントセッションリスト](#エージェントセッションリスト)を使ってタスク間を切り替えられます。
+
+新しいエージェントセッションを作成すると、空のコンテキストウィンドウで開始します。各エージェントセッションは独立しているため、1 つのセッションからのコンテキストは別のセッションに引き継がれません。
+
+チャットビューから、またはコマンドパレットの対応するコマンドを使用して、新しいエージェントセッションを作成できます。
+
+1. チャットビューを開き、**新規セッション**ドロップダウン（`+`）を選択します。
+
+    ![チャットビューから新しいエージェントセッションを作成するスクリーンショット。](../images/agents-overview/create-new-agent-session.png)
+
+1. ドロップダウンからエージェント種類を選択します。オプションでモデルピッカーから言語モデルを選択できます。
+
+    ![新しいチャットセッションのエージェント種類ドロップダウンを示すスクリーンショット。](../images/agents-overview/agent-type-dropdown.png)
+
+1. エージェントにタスクを割り当てるためのプロンプトを入力します。エージェントはタスクの実行を開始します。
 
     ```prompt
-    Generate a diagram that gives a high-level overview of the architecture of this project.
+    このプロジェクトのアーキテクチャの高レベルの概要を提供する図を生成してください。
     ```
 
 > [!TIP]
-> You can send follow-up prompts while the agent is still working. Choose to [queue the message, steer the current request, or stop and send immediately](/docs/copilot/chat/chat-sessions.md#send-messages-while-a-request-is-running).
+> エージェントがまだ実行中でも、フォローアッププロンプトを送信できます。[メッセージをキュー、現在のリクエストをステア、または停止して即座に送信するオプション](/docs/copilot/chat/chat-sessions.md#send-messages-while-a-request-is-running)を選択します。
 
-<div class="docs-action" data-show-in-doc="false" data-show-in-sidebar="true" title="Get started with agents">
-Follow a hands-on tutorial to experience local, Copilot CLI, and cloud agents in VS Code.
+<div class="docs-action" data-show-in-doc="false" data-show-in-sidebar="true" title="エージェントの使い始め">
+VS Code でのローカル、Copilot CLI、クラウドエージェントを体験するためのハンズオンチュートリアルに従ってください。
 
-* [Start tutorial](/docs/copilot/agents/agents-tutorial.md)
+* [チュートリアルを開始](/docs/copilot/agents/agents-tutorial.md)
 
 </div>
 
-## Hand off a session to another agent
+## セッションを別のエージェントに引き継ぐ
 
-You can hand off an existing task from one agent to another agent to take advantage of their unique strengths. For example, create a plan with a local agent, hand off to Copilot CLI for proof of concepts, and then continue with a cloud agent to submit a pull request for team review.
+既存のタスクを 1 つのエージェントから別のエージェントに引き継いで、それらのユニークな強みを活かすことができます。例えば、ローカルエージェントで計画を作成し、Copilot CLI にプルーフオブコンセプトを引き継ぎ、その後クラウドエージェントでチームレビューのためのプルリクエストを送出します。
 
-To hand off a local agent session, select a different agent type from the session type dropdown in the chat input box. VS Code creates a new session, carrying over the full conversation history and context. The original session is archived after handoff.
+ローカルエージェントセッションを引き継ぐには、チャット入力ボックスのセッション種別ドロップダウンから別のエージェント種別を選択します。VS Code は新しいセッションを作成し、完全な会話履歴とコンテキストを引き継ぎます。元のセッションは引き継ぎ後にアーカイブされます。
 
-![Screenshot showing the session type dropdown for handing off to another agent.](../images/background-agents/continue-in-cli.png)
+![別のエージェントに引き継ぐためのセッション種別ドロップダウンを示すスクリーンショット。](../images/background-agents/continue-in-cli.png)
 
-In a Copilot CLI session, delegate to a cloud agent by entering the `/delegate` command in the chat input box. You can provide additional instructions after the `/delegate` command.
+Copilot CLI セッションで、チャット入力ボックスに `/delegate` コマンドを入力してクラウドエージェントに委任します。`/delegate` コマンドの後に追加の指示を提供できます。
 
-### Assign a coding task to an agent
+### コーディングタスクをエージェントに割り当てる
 
-If you install the [GitHub Pull Requests](https://marketplace.visualstudio.com/items?itemName=GitHub.vscode-pull-request-github) extension, you can assign an agent to implement `TODO` comments in your code.
+[GitHub Pull Requests](https://marketplace.visualstudio.com/items?itemName=GitHub.vscode-pull-request-github) エクステンションをインストールすると、エージェントにコード内の `TODO` コメントの実装を割り当てられます。
 
-![Screenshot of assigning a TODO comment to Copilot coding agent.](../images/agents-overview/assign-todo-to-agent.png)
+![TODO コメントを Copilot コーディングエージェントに割り当てるスクリーンショット。](../images/agents-overview/assign-todo-to-agent.png)
 
-On GitHub.com, or by using the GitHub Pull Requests extension, you can assign GitHub issues to Copilot coding agent by assigning the issue to `copilot` or by mentioning it in an issue comment or pull request to ask for a code review.
+GitHub.com 上で、または GitHub Pull Requests エクステンションを使って、GitHub issue をコード レビューを求めるために Copilot コーディングエージェントに、その issue に `copilot` を割り当てるか、issue コメントまたはプルリクエストで言及することで割り当てられます。
 
-## Review and apply file changes
+## ファイル変更を確認して適用する
 
-When an agent session completes and makes code changes to your project, the session list shows the file change statistics for that session. To review the changes made by the agent, select the session from the list to open the session details.
+エージェントセッションが完了してプロジェクトにコード変更を加えた場合、セッションリストはそのセッションのファイル変更統計を表示します。エージェントが加えた変更を確認するには、リストからセッションを選択してセッション詳細を開きます。
 
-![Screenshot of the file changes diff editor in an agent session.](../images/agents-overview/agent-file-changes-v2.png)
+![エージェントセッションのファイル変更 diff エディターのスクリーンショット。](../images/agents-overview/agent-file-changes-v2.png)
 
-Depending on the agent type, you have options to apply the changes made by the agent onto your local workspace, or to check out the branch from the agent session (for cloud agents).
+エージェント種別によっては、エージェントが加えた変更をローカルワークスペースに適用するオプション、またはエージェントセッションからブランチをチェックアウト（クラウドエージェントの場合）するオプションがあります。
 
-## Archive agent sessions
+## エージェントセッションをアーカイブする
 
-To keep the list of sessions organized, archive completed or inactive sessions. Archiving a session doesn't delete it but moves it out of the active sessions list. At any time, you can unarchive a session to restore it to the active sessions list.
+セッションのリストを整理した状態に保つために、完了または非アクティブなセッションをアーカイブしてください。セッションをアーカイブするとセッションは削除されませんが、アクティブセッションリストから移動します。いつでも、セッションをアーカイブ解除してアクティブセッションリストに復元できます。
 
-To archive a session, hover over the session in the session list and select **Archive**. After you archive a session, it disappears from the list. Inversely, you can also unarchive a session in the same way.
+セッションをアーカイブするには、セッションリストのセッションにカーソルを置いて**アーカイブ**を選択します。セッションをアーカイブすると、リストから消えます。反対に、同じ方法でセッションをアーカイブ解除することもできます。
 
-![Screenshot of archiving an agent session in the sessions view.](../images/agents-overview/agent-sessions-archive.png)
+![セッションビューでのエージェントセッションのアーカイブのスクリーンショット。](../images/agents-overview/agent-sessions-archive.png)
 
-To view your archived sessions, use the filter options in the sessions list and select the **Archived** filter.
+アーカイブされたセッションを表示するには、セッションリストのフィルターオプションを使用して**アーカイブ**フィルターを選択してください。
 
-## Delete agent sessions
+## エージェントセッションを削除する
 
-To permanently delete an agent session, right-click the session in the sessions list and select **Delete**. Deleting a session removes it permanently and can't be undone. For [Copilot CLI sessions](/docs/copilot/agents/copilot-cli.md), deleting the session also removes any associated worktrees created for that session.
+エージェントセッションを完全に削除するには、セッションリストのセッションを右クリックして**削除**を選択します。セッションを削除するとセッションは完全に削除され、これは元に戻せません。[Copilot CLI セッション](/docs/copilot/agents/copilot-cli.md)の場合、セッションを削除するとそのセッション用に作成された関連する worktree も削除されます。
 
 > [!CAUTION]
-> Deleting a session is irreversible. If you just want to hide a session, consider [archiving](#archive-agent-sessions) it instead.
+> セッションの削除は取り消せません。セッションを非表示にしたいだけの場合、[アーカイブ](#エージェントセッションをアーカイブする)することをご検討ください。
 
-## Related resources
+## 関連リソース
 
-* [Agents tutorial](/docs/copilot/agents/agents-tutorial.md): Hands-on tutorial for working with different agent types.
+* [エージェントチュートリアル](/docs/copilot/agents/agents-tutorial.md): 異なるエージェント種別を使用するためのハンズオンチュートリアル。
 
-* [Tools](/docs/copilot/agents/agent-tools.md): Extend agents with built-in, MCP, and extension tools.
+* [ツール](/docs/copilot/agents/agent-tools.md): 組み込み、MCP、エクステンションツールを使ってエージェントを拡張します。
 
-* [Hooks](/docs/copilot/customization/hooks.md): Execute custom commands at lifecycle events for automation and policy enforcement.
+* [フック](/docs/copilot/customization/hooks.md): 自動化と ポリシー実行のためのライフサイクルイベントでカスタムコマンドを実行します。
 
-* [Custom agents](/docs/copilot/customization/custom-agents.md): Create your own AI agents and extensions.
+* [カスタムエージェント](/docs/copilot/customization/custom-agents.md): 独自の AI エージェントおよびエクステンションを作成します。
+

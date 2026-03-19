@@ -1,7 +1,7 @@
 ---
 ContentId: a7d3e5f8-2c4b-4d9a-b8e1-3f6c9a2d7e41
 DateApproved: 3/9/2026
-MetaDescription: Learn how to use Agent Skills in VS Code to teach GitHub Copilot specialized capabilities that work across VS Code, GitHub Copilot CLI, and GitHub Copilot coding agent.
+MetaDescription: VS CodeのAgent Skillsを使用して、GitHub Copilotに特殊な機能を教える方法について説明します。VS Code、GitHub Copilot CLI、GitHub Copilot coding agentで動作します。
 MetaSocialImage: ../images/shared/github-copilot-social.png
 Keywords:
 - copilot
@@ -12,315 +12,316 @@ Keywords:
 - ai
 - claude
 ---
-# Use Agent Skills in VS Code
+# VS CodeでAgent Skillsを使用する
 
-Agent Skills are folders of instructions, scripts, and resources that GitHub Copilot can load when relevant to perform specialized tasks. Agent Skills is an [open standard](https://agentskills.io) that works across multiple AI agents, including GitHub Copilot in VS Code, GitHub Copilot CLI, and GitHub Copilot coding agent.
+Agent Skillsは、関連性がある場合にGitHub Copilotが読み込むことで特殊なタスクを実行できる、命令、スクリプト、リソースのフォルダです。Agent Skillsは[オープンスタンダード](https://agentskills.io)であり、VS CodeのGitHub Copilot、GitHub Copilot CLI、GitHub Copilot coding agentを含む複数のAIエージェント全体で動作します。
 
-Unlike [custom instructions](/docs/copilot/customization/custom-instructions.md) that primarily define coding guidelines, skills enable specialized capabilities and workflows that can include scripts, examples, and other resources. Skills you create are portable and work across any skills-compatible agent.
+主にコーディングガイドラインを定義する[カスタム命令](/docs/copilot/customization/custom-instructions.md)とは異なり、スキルは、スクリプト、例、その他のリソースを含むことができる特殊な機能とワークフローを有効にします。作成したスキルはポータブルで、スキル互換のエージェントで動作します。
 
-Key benefits of Agent Skills:
+Agent Skillsの主な利点：
 
-* **Specialize Copilot**: Tailor capabilities for domain-specific tasks without repeating context
-* **Reduce repetition**: Create once, use automatically across all conversations
-* **Compose capabilities**: Combine multiple skills to build complex workflows
-* **Efficient loading**: Only relevant content loads into context when needed
+* **Copilotの専門化**：コンテキストを繰り返さずにドメイン固有のタスク用に機能をカスタマイズ
+* **反復を減らす**：一度作成すれば、すべての会話で自動的に使用可能
+* **機能を組み合わせる**：複数のスキルを組み合わせて複雑なワークフローを構築
+* **効率的な読み込み**：必要に応じて関連するコンテンツのみがコンテキストに読み込まれる
 
 > [!TIP]
-> Use the [Chat Customizations editor](/docs/copilot/customization/overview.md#chat-customizations-editor) (Preview) to discover, create, and manage all your chat customizations in one place. Run **Chat: Open Chat Customizations** from the Command Palette.
+> [Chat Customizations editor](/docs/copilot/customization/overview.md#chat-customizations-editor)（プレビュー）を使用して、1か所ですべてのチャットカスタマイズの検出、作成、管理ができます。コマンドパレットから**Chat: Open Chat Customizations**を実行します。
 
-## Agent Skills vs custom instructions
+## Agent Skillsとカスタム命令の比較
 
-While both Agent Skills and custom instructions help customize Copilot's behavior, they serve different purposes:
+Agent SkillsとカスタムプロンプトはどちらもCopilotの動作をカスタマイズするのに役立ちますが、異なる目的に機能します：
 
-| Feature | Agent Skills | Custom Instructions |
+| 機能 | Agent Skills | カスタム命令 |
 | ------- | ------------ | ------------------- |
-| **Purpose** | Teach specialized capabilities and workflows | Define coding standards and guidelines |
-| **Portability** | Works across VS Code, Copilot CLI, and Copilot coding agent | VS Code and GitHub.com only |
-| **Content** | Instructions, scripts, examples, and resources | Instructions only |
-| **Scope** | Task-specific, loaded on-demand | Always applied (or via glob patterns) |
-| **Standard** | Open standard ([agentskills.io](https://agentskills.io)) | VS Code-specific |
+| **目的** | 特殊な機能とワークフローを教える | コーディング基準とガイドラインを定義 |
+| **ポータビリティ** | VS Code、Copilot CLI、Copilot coding agentで動作 | VS CodeとGitHub.comのみ |
+| **内容** | 命令、スクリプト、例、およびリソース | 命令のみ |
+| **スコープ** | タスク固有、オンデマンド読み込み | 常に適用（またはglobパターン経由） |
+| **標準** | オープンスタンダード（[agentskills.io](https://agentskills.io)） | VS Code固有 |
 
-Use Agent Skills when you want to:
+以下のような場合はAgent Skillsを使用します：
 
-* Create reusable capabilities that work across different AI tools
-* Include scripts, examples, or other resources alongside instructions
-* Share capabilities with the wider AI community
-* Define specialized workflows like testing, debugging, or deployment processes
+* 異なるAIツール全体で動作する再利用可能な機能を作成したい
+* 命令と一緒にスクリプト、例、またはその他のリソースを含めたい
+* より広いAIコミュニティと機能を共有したい
+* テスト、デバッグ、デプロイなどの特殊なワークフローを定義したい
 
-Use custom instructions when you want to:
+以下のような場合はカスタム命令を使用します：
 
-* Define project-specific coding standards
-* Set language or framework conventions
-* Specify code review or commit message guidelines
-* Apply rules based on file types using glob patterns
+* プロジェクト固有のコーディング基準を定義したい
+* 言語またはフレームワークの規則を設定したい
+* コードレビューまたはコミットメッセージガイドラインを指定したい
+* globパターンを使用してファイルタイプに基づいて規則を適用したい
 
-## Create a skill
+## スキルを作成する
 
 > [!TIP]
-> Type `/skills` in the chat input to quickly open the **Configure Skills** menu.
+> チャット入力に`/skills`と入力すると、**Configure Skills**メニューがすぐに開きます。
 
-Skills are stored in directories with a `SKILL.md` file that defines the skill's behavior. VS Code supports two types of skills:
+スキルはスキルの動作を定義する`SKILL.md`ファイルを含むディレクトリに保存されます。VS Codeは2種類のスキルをサポートしています：
 
-| Skill type | Location |
+| スキルタイプ | 場所 |
 | ---------- | -------- |
-| Project skills, stored in your repository | `.github/skills/`, `.claude/skills/`, `.agents/skills/` |
-| Personal skills, stored in your user profile | `~/.copilot/skills/`, `~/.claude/skills/`, `~/.agents/skills/` |
+| プロジェクトスキル（リポジトリに保存） | `.github/skills/`、`.claude/skills/`、`.agents/skills/` |
+| 個人スキル（ユーザープロファイルに保存） | `~/.copilot/skills/`、`~/.claude/skills/`、`~/.agents/skills/` |
 
 > [!TIP]
-> You can configure additional locations where VS Code searches for skills by using the `setting(chat.agentSkillsLocations)` setting. This is useful for sharing skills across projects or keeping them in a central location.
+> `setting(chat.agentSkillsLocations)`設定を使用して、VS Codeがスキルを検索する追加の場所を設定できます。これはスキルをプロジェクト全体で共有したり、一元管理場所に保持する場合に便利です。
 
-To create a skill:
+スキルを作成するには：
 
-1. Create a `.github/skills` directory in your workspace.
+1. ワークスペースに`.github/skills`ディレクトリを作成します。
 
-1. Create a subdirectory for your skill. Each skill should have its own directory (for example, `.github/skills/webapp-testing`).
+1. スキル用のサブディレクトリを作成します。各スキルは独自のディレクトリを持つ必要があります（例：`.github/skills/webapp-testing`）。
 
-1. Create a `SKILL.md` file in the skill directory with the following structure:
+1. スキルディレクトリに以下の構造の`SKILL.md`ファイルを作成します：
 
-    ```markdown
-    ---
-    name: skill-name
-    description: Description of what the skill does and when to use it
-    ---
+  ```markdown
+  ---
+  name: skill-name
+  description: スキルが実行する内容と使用タイミングの説明
+  ---
 
-    # Skill Instructions
+  # スキル命令
 
-    Your detailed instructions, guidelines, and examples go here...
-    ```
+  詳細な命令、ガイドライン、例をここに入力します...
+  ```
 
-1. Optionally, add scripts, examples, or other resources to your skill's directory.
+1. 必要に応じて、スクリプト、例、またはその他のリソースをスキルディレクトリに追加します。
 
-    For example, a skill for testing web applications might include:
+  たとえば、Webアプリケーションをテストするためのスキルには、以下が含まれる場合があります：
 
-    * `SKILL.md` - Instructions for running tests
-    * `test-template.js` - A template test file
-    * `examples/` - Example test scenarios
+  * `SKILL.md` - テストを実行するための命令
+  * `test-template.js` - テンプレートテストファイル
+  * `examples/` - テストシナリオの例
 
-### Generate a skill with AI
+### AIを使用してスキルを生成する
 
-You can use AI to generate a skill based on a description of the capability. Type `/create-skill` in chat and describe the skill you want (for example, "a skill for running and debugging integration tests"). The agent asks clarifying questions and generates a `SKILL.md` file with the directory structure, instructions, and frontmatter.
+機能の説明に基づいてAIでスキルを生成できます。チャットに`/create-skill`と入力して、必要なスキルについて説明します（例：「統合テストを実行およびデバッグするためのスキル」）。エージェントが確認質問をし、ディレクトリ構造、命令、フロントマターを含む`SKILL.md`ファイルを生成します。
 
-You can also extract a reusable skill from an ongoing conversation. For example, after a multi-turn session where you debugged a complex issue, ask "create a skill from how we just debugged that" to capture the multi-step procedure as a reusable skill.
+継続的な会話から再利用可能なスキルを動かすこともできます。たとえば、複雑な問題をデバッグした複数ターンのセッション後に「先ほどデバッグしたやり方からスキルを作成して」と指示すれば、複数ステップの手順を再利用可能なスキルとして取得できます。
 
-## SKILL.md file format
+## SKILL.mdファイル形式
 
-The `SKILL.md` file is a Markdown file with YAML frontmatter that defines the skill's metadata and behavior.
+`SKILL.md`ファイルはYAMLフロントマターを持つMarkdownファイルで、スキルのメタデータと動作を定義します。
 
-### Header (required)
+### ヘッダ（必須）
 
-The header is formatted as YAML frontmatter with the following fields:
+ヘッダはYAMLフロントマターとして以下のフィールドで形式化されます：
 
-| Field | Required | Description |
+| フィールド | 必須 | 説明 |
 |-------|----------|-------------|
-| `name` | Yes | A unique identifier for the skill. Must be lowercase, using hyphens for spaces (for example, `webapp-testing`). Must match the parent directory name. Maximum 64 characters. |
-| `description` | Yes | A description of what the skill does **and when to use it**. Be specific about both capabilities and use cases to help Copilot decide when to load the skill. Maximum 1024 characters. |
-| `argument-hint` | No | Hint text shown in the chat input field when the skill is invoked as a slash command. Helps users understand what additional information to provide (for example, `[test file] [options]`). |
-| `user-invocable` | No | Controls whether the skill appears as a slash command in the chat menu. Defaults to `true`. Set to `false` to hide the skill from the `/` menu while still allowing the agent to load it automatically. |
-| `disable-model-invocation` | No | Controls whether the agent can automatically load the skill based on relevance. Defaults to `false`. Set to `true` to require manual invocation through the `/` slash command only. |
+| `name` | はい | スキルの一意の識別子。小文字を使用し、スペースにハイフンを使用します（例：`webapp-testing`）。親ディレクトリ名と一致する必要があります。最大64文字。 |
+| `description` | はい | スキルが実行する内容**と使用タイミング**の説明。機能と使用例の両方について具体的に記述します。これはCopilotがスキルを読み込むかどうかを判断するのに役立ちます。最大1024文字。 |
+| `argument-hint` | いいえ | スキルをスラッシュコマンドとして呼び出す際にチャット入力フィールドに表示されるヒントテキスト。ユーザーが追加情報を提供する内容を理解するのをサポートします（例：`[test file] [options]`）。 |
+| `user-invocable` | いいえ | スキルがチャットメニューのスラッシュコマンドとして表示されるかどうかを制御します。デフォルトは`true`です。`false`に設定するとスキルを`/`メニューから非表示にしながら、エージェントが自動読み込みできるようにします。 |
+| `disable-model-invocation` | いいえ | エージェントが関連性に基づいてスキルを自動的に読み込めるかどうかを制御します。デフォルトは`false`です。`true`に設定するとスラッシュコマンドによる手動呼び出しのみが必要になります。 |
 
-### Body
+### 本文
 
-The skill body contains the instructions, guidelines, and examples that Copilot should follow when using this skill. Write clear, specific instructions that describe:
+スキルの本文には、このスキルを使用する際にCopilotが従うべき命令、ガイドライン、例が含まれます。以下を説明する明確で具体的な命令を作成してください：
 
-* What the skill helps accomplish
-* When to use the skill
-* Step-by-step procedures to follow
-* Examples of the expected input and output
-* References to any included scripts or resources
+* スキルが実現する内容
+* スキルを使用するタイミング
+* 実行する段階的な手順
+* 予想される入力と出力の例
+* スキルディレクトリに含まれるスクリプトまたはリソースへの参照
 
-You can reference files within the skill directory using relative paths. For example, to reference a script in your skill directory, use `[test script](./test-template.js)`.
+スキルディレクトリ内のファイルを相対パスを使用して参照できます。たとえば、スキルディレクトリ内のスクリプトを参照するには`[test script](./test-template.js)`を使用します。
 
-## Example skills
+## スキルの例
 
-The following examples demonstrate different types of skills you can create.
+以下の例は、作成できるさまざまなタイプのスキルを示しています。
 
 <details>
-<summary>Example: Web application testing skill</summary>
+<summary>例：Webアプリケーションテストスキル</summary>
 
 ````markdown
 ---
 name: webapp-testing
-description: Guide for testing web applications using Playwright. Use this when asked to create or run browser-based tests.
+description: Playwrightを使用したWebアプリケーションテストガイド。ブラウザベースのテストを作成または実行するよう求められたときに使用します。
 ---
 
-# Web Application Testing with Playwright
+# PlaywrightによるWebアプリケーションテスト
 
-This skill helps you create and run browser-based tests for web applications using Playwright.
+このスキルは、PlaywrightをしたWebアプリケーション用ブラウザベーステストの作成と実行をサポートします。
 
-## When to use this skill
+## このスキルを使用するタイミング
 
-Use this skill when you need to:
-- Create new Playwright tests for web applications
-- Debug failing browser tests
-- Set up test infrastructure for a new project
+このスキルは以下が必要な場合に使用します：
+- Webアプリケーション用の新しいPlaywrightテストの作成
+- 失敗しているブラウザテストのデバッグ
+- 新しいプロジェクトのテストインフラストラクチャのセットアップ
 
-## Creating tests
+## テストの作成
 
-1. Review the [test template](./test-template.js) for the standard test structure
-2. Identify the user flow to test
-3. Create a new test file in the `tests/` directory
-4. Use Playwright's locators to find elements (prefer role-based selectors)
-5. Add assertions to verify expected behavior
+1. [テンプレート](./test-template.js)の標準テスト構造を確認
+2. テストするユーザーフロー確認
+3. `tests/`ディレクトリで新しいテストファイルを作成
+4. Playwrightのロケータを使用して要素を見つけます（ロールベースのセレクタを使用）
+5. 予想される動作を検証するためのアサーションを追加
 
-## Running tests
+## テストの実行
 
-To run tests locally:
+ローカルでテストを実行するには：
 ```bash
 npx playwright test
 ```
 
-To debug tests:
+テストをデバッグするには：
 ```bash
 npx playwright test --debug
 ```
 
-## Best practices
+## ベストプラクティス
 
-- Use data-testid attributes for dynamic content
-- Keep tests independent and atomic
-- Use Page Object Model for complex pages
-- Take screenshots on failure
+- 動的コンテンツにdata-testid属性を使用
+- テストを独立してアトミックに保つ
+- 複雑なページにはPage Object Modelを使用
+- 失敗時にスクリーンショットを取得
 ````
 
 </details>
 
 <details>
-<summary>Example: GitHub Actions debugging skill</summary>
+<summary>例：GitHub Actionsデバッグスキル</summary>
 
 ````markdown
 ---
 name: github-actions-debugging
-description: Guide for debugging failing GitHub Actions workflows. Use this when asked to debug failing GitHub Actions workflows.
+description: 失敗しているGitHub Actionsワークフローのデバッグガイド。失敗しているGitHub Actionsワークフローのデバッグを求められたときに使用します。
 ---
 
-# GitHub Actions Debugging
+# GitHub Actionsのデバッグ
 
-This skill helps you debug failing GitHub Actions workflows in pull requests.
+このスキルは、プルリクエスト内で失敗しているGitHub Actionsワークフローのデバッグをサポートします。
 
-## Process
+## プロセス
 
-1. Use the `list_workflow_runs` tool to look up recent workflow runs for the pull request and their status
-2. Use the `summarize_job_log_failures` tool to get an AI summary of the logs for failed jobs
-3. If you need more information, use the `get_job_logs` or `get_workflow_run_logs` tool to get the full failure logs
-4. Try to reproduce the failure locally in your environment
-5. Fix the failing build and verify the fix before committing changes
+1. `list_workflow_runs`ツールを使用してプルリクエストの最近のワークフロー実行とそのステータスを確認
+2. `summarize_job_log_failures`ツールを使用して失敗しているジョブのログのAI概要を取得
+3. より詳しい情報が必要な場合、`get_job_logs`または`get_workflow_run_logs`ツールを使用して完全な失敗ログを取得
+4. 環境内で失敗を再現してみる
+5. 失敗するビルドを修正し、変更をコミットする前に修正を検証
 
-## Common issues
+## よくある問題
 
-- **Missing environment variables**: Check that all required secrets are configured
-- **Version mismatches**: Verify action versions and dependencies are compatible
-- **Permission issues**: Ensure the workflow has the necessary permissions
-- **Timeout issues**: Consider splitting long-running jobs or increasing timeout values
+- **環境変数がない**：必要なシークレットがすべて設定されていることを確認
+- **バージョン不一致**：アクションバージョンと依存関係の互換性を確認
+- **権限の問題**：ワークフローに必要な権限があることを確認
+- **タイムアウトの問題**：長時間実行ジョブの分割またはタイムアウト値の増加を検討
 ````
 
 </details>
 
-## Use skills as slash commands
+## スキルをスラッシュコマンドとして使用する
 
-Skills are available as slash commands in chat, alongside [prompt files](/docs/copilot/customization/prompt-files.md). Type `/` in the chat input field to see a list of available skills and prompts, and select a skill to invoke it.
+スキルは[プロンプトファイル](/docs/copilot/customization/prompt-files.md)と一緒にチャット内でスラッシュコマンドとして利用できます。チャット入力フィールドに`/`と入力すると、利用可能なスキルとプロンプトのリストが表示され、呼び出すスキルを選択できます。
 
-You can add extra context after the slash command. For example, `/webapp-testing for the login page` or `/github-actions-debugging PR #42`.
+スラッシュコマンドの後に追加のコンテキストを追加できます。たとえば、`/webapp-testing for the login page`または`/github-actions-debugging PR #42`です。
 
-By default, all skills appear in the `/` menu. Use the `user-invocable` and `disable-model-invocation` frontmatter properties to control how each skill is accessed:
+デフォルトでは、すべてのスキルが`/`メニューに表示されます。`user-invocable`および`disable-model-invocation`フロントマタープロパティを使用して、各スキルのアクセス方法を制御してください：
 
-| Configuration | Slash command | Auto-loaded by Copilot | Use case |
+| 設定 | スラッシュコマンド | Copilotによる自動読み込み | ユースケース |
 |---|---|---|---|
-| Default (both properties omitted) | Yes | Yes | General-purpose skills |
-| `user-invocable: false` | No | Yes | Background knowledge skills that the model loads when relevant |
-| `disable-model-invocation: true` | Yes | No | Skills you only want to run on demand |
-| Both set | No | No | Disabled skills |
+| デフォルト（両方のプロパティが省略） | はい | はい | 汎用スキル |
+| `user-invocable: false` | いいえ | はい | モデルが関連性に基づいて読み込む背景知識スキル |
+| `disable-model-invocation: true` | はい | いいえ | 必要に応じてのみ実行したいスキル |
+| 両方を設定 | いいえ | いいえ | 無効なスキル |
 
-## How Copilot uses skills
+## Copilotがスキルを使用する方法
 
-Skills load content progressively to keep your context efficient. Here is an example of how Copilot uses the `webapp-testing` skill:
+スキルはコンテキストを効率的に保つためにコンテンツを段階的に読み込みます。以下は、Copilotが`webapp-testing`スキルを使用する方法の例です：
 
-1. **Discovery**: Copilot reads the skill's `name` and `description` from the YAML frontmatter. When you ask "help me test the login page", Copilot matches this to the `webapp-testing` skill based on its description.
+1. **検出**：Copilotはスキルの`name`と`description`をYAMLフロントマターから読み込みます。「ログインページのテストをサポート」と求めたとき、Copilotはこれを説明に基づいて`webapp-testing`スキルと一致させます。
 
-2. **Instructions loading**: Copilot loads the `SKILL.md` body into its context, giving it access to the detailed testing procedures and guidelines. You can also trigger this step directly by typing `/webapp-testing` in chat.
+2. **命令の読み込み**：Copilotは`SKILL.md`本文をコンテキストに読み込み、テスト手順とガイドラインへのアクセス権を付与します。チャットに`/webapp-testing`と入力することで、このステップを直接トリガーすることもできます。
 
-3. **Resource access**: As Copilot works through the instructions, it accesses additional files in the skill directory, such as `test-template.js` or example scenarios, only when it references them.
+3. **リソースへのアクセス**：Copilotが命令を実行すると、`test-template.js`やシナリオ例などのスキルディレクトリ内の追加ファイルに、参照する際にのみアクセスします。
 
-This three-level loading system means you can install many skills without consuming context. Copilot loads only what is relevant for each task.
+この3段階の読み込みシステムは、コンテキストを消費することなく多くのスキルをインストールできることを示しています。Copilotは各タスクに関連するものだけを読み込みます。
 
-## Use shared skills
+## 共有スキルを使用する
 
-You can use skills created by others to enhance Copilot's capabilities. The [github/awesome-copilot](https://github.com/github/awesome-copilot) repository contains a growing community collection of skills, custom agents, instructions, and prompts. The [anthropics/skills](https://github.com/anthropics/skills) repository contains additional reference skills.
+他のユーザーが作成したスキルを使用して、Copilotの機能を強化できます。[github/awesome-copilot](https://github.com/github/awesome-copilot)リポジトリには、スキル、カスタムエージェント、命令、プロンプトの成長し続けるコミュニティコレクションが含まれています。[anthropics/skills](https://github.com/anthropics/skills)リポジトリには追加の参照スキルが含まれています。
 
-You can also discover and install skills that are bundled in [agent plugins](/docs/copilot/customization/agent-plugins.md). Skills from installed plugins appear alongside your locally defined skills in the **Configure Skills** menu.
+[エージェントプラグイン](/docs/copilot/customization/agent-plugins.md)にバンドルされているスキルを検出およびインストールすることもできます。インストールされたプラグインからのスキルは、** Configure Skills**メニュー内でローカルに定義されたスキルと一緒に表示されます。
 
-To use a shared skill:
+共有スキルを使用するには：
 
-1. Browse the available skills in the repository
-1. Copy the skill directory to your `.github/skills/` folder
-1. Review and customize the `SKILL.md` file for your needs
-1. Optionally, modify or add resources as needed
+1. リポジトリ内で利用可能なスキルを参照
+1. スキルディレクトリを`.github/skills/`フォルダにコピー
+1. 必要に応じて`SKILL.md`ファイルを確認してカスタマイズ
+1. 必要に応じてリソースを変更または追加
 
 > [!TIP]
-> Always review shared skills before using them to ensure they meet your requirements and security standards. VS Code's [terminal tool](/docs/copilot/agents/agent-tools.md#terminal-commands) provides controls for script execution, including [auto-approve options](/docs/copilot/agents/agent-tools.md#automatically-approve-terminal-commands) with configurable allow-lists and tight controls over which code runs. Learn more about [security considerations](/docs/copilot/security.md#automated-approval) for auto-approval features.
+> 使用前に共有スキルを常に確認して、要件とセキュリティ基準を満たすことを確認してください。VS Codeの[ターミナルツール](/docs/copilot/agents/agent-tools.md#terminal-commands)はスクリプト実行用の制御を提供し、[自動承認オプション](/docs/copilot/agents/agent-tools.md#automatically-approve-terminal-commands)と実行するコードの厳格な制御が含まれます。自動承認機能の[セキュリティに関する考慮事項](/docs/copilot/security.md#automated-approval)についての詳細を学んでください。
 
-## Contribute skills from extensions
+## 拡張機能からスキルを投稿する
 
-Extensions can contribute skills using the `chatSkills` contribution point in their `package.json`. The path must point to a directory that contains a `SKILL.md` file, following the [Agent Skills specification](https://agentskills.io/specification).
+拡張機能は、`package.json`の`chatSkills`貢献ポイントを使用してスキルを投稿できます。パスは`SKILL.md`ファイルを含むディレクトリを指し、[Agent Skills仕様](https://agentskills.io/specification)に従う必要があります。
 
-### Required folder structure
+### 必須フォルダ構造
 
-The skill directory must follow this structure:
+スキルディレクトリは以下の構造に従う必要があります：
 
 ```text
 extension-root/
 └── skills/
-    └── my-skill/           # Directory name must match the `name` field in SKILL.md
-        └── SKILL.md         # Required
+  └── my-skill/           # ディレクトリ名はSKILL.mdの`name`フィールドと一致する必要があります
+    └── SKILL.md         # 必須
 ```
 
-### Register the skill in package.json
+### package.jsonでスキルを登録する
 
-Add the `chatSkills` contribution point in your extension's `package.json`. The `path` property must point to the corresponding `SKILL.md` file:
+拡張機能の`package.json`に`chatSkills`貢献ポイントを追加します。`path`プロパティは対応する`SKILL.md`ファイルを指す必要があります：
 
 ```json
 {
   "contributes": {
-    "chatSkills": [
-      {
-        "path": "./skills/my-skill/SKILL.md"
-      }
-    ]
+  "chatSkills": [
+    {
+    "path": "./skills/my-skill/SKILL.md"
+    }
+  ]
   }
 }
 ```
 
 > [!IMPORTANT]
-> The `name` field in the `SKILL.md` frontmatter must match the parent directory name. For example, if the directory is `skills/my-skill/`, the `name` field must be `my-skill`. If the name does not match, the skill is not loaded.
+> `SKILL.md`フロントマターの`name`フィールドは親ディレクトリ名と合致する必要があります。たとえば、ディレクトリが`skills/my-skill/`の場合、`name`フィールドは`my-skill`である必要があります。名前が一致しない場合、スキルは読み込まれません。
 
-The `SKILL.md` file follows the same format as [project and personal skills](#create-a-skill). For example:
+`SKILL.md`ファイルは[プロジェクトと個人スキル](#create-a-skill)と同じ形式に従います。たとえば：
 
 ```markdown
 ---
 name: my-skill
-description: Description of what the skill does and when to use it.
+description: スキルが実行する内容と使用タイミングの説明。
 ---
 
 # My Skill
 
-Detailed instructions for the skill...
+スキルの詳細な命令...
 ```
 
-## Agent Skills standard
+## Agent Standard
 
-Agent Skills is an open standard that enables portability across different AI agents. Skills you create in VS Code work with multiple agents, including:
+Agent Skillsはオープンスタンダードで、異なるAIエージェント間のポータビリティを有効にします。VS Codeで作成したスキルは、以下を含む複数のエージェントで動作します：
 
-* **GitHub Copilot in VS Code**: Available in chat and agent mode
-* **GitHub Copilot CLI**: Accessible when working in the terminal
-* **GitHub Copilot coding agent**: Used during automated coding tasks
+* **VS CodeのGitHub Copilot**：チャットとエージェントモードで利用可能
+* **GitHub Copilot CLI**：ターミナルで作業する際にアクセス可能
+* **GitHub Copilot coding agent**：自動コーディングタスク中に使用
 
-Learn more about the Agent Skills standard at [agentskills.io](https://agentskills.io).
+Agent Skills標準については[agentskills.io](https://agentskills.io)で詳しく学んでください。
 
-## Related resources
+## 関連リソース
 
-* [Customize AI responses overview](/docs/copilot/customization/overview.md)
-* [Create custom instructions](/docs/copilot/customization/custom-instructions.md)
-* [Create reusable prompt files](/docs/copilot/customization/prompt-files.md)
-* [Create custom agents](/docs/copilot/customization/custom-agents.md)
-* [Agent Skills specification](https://agentskills.io)
-* [Reference skills repository](https://github.com/anthropics/skills)
-* [Discover and manage agent plugins](/docs/copilot/customization/agent-plugins.md)
+* [AI応答カスタマイズの概要](/docs/copilot/customization/overview.md)
+* [カスタム命令を作成](/docs/copilot/customization/custom-instructions.md)
+* [再利用可能なプロンプトファイルを作成](/docs/copilot/customization/prompt-files.md)
+* [カスタムエージェントを作成](/docs/copilot/customization/custom-agents.md)
+* [Agent Skills仕様](https://agentskills.io)
+* [参照スキルリポジトリ](https://github.com/anthropics/skills)
+* [エージェントプラグインの検出と管理](/docs/copilot/customization/agent-plugins.md)
+

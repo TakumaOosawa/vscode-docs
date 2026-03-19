@@ -1,7 +1,7 @@
 ---
 ContentId: e5f6a7b8-9c0d-1e2f-3a4b-5c6d7e8f9a0b
 DateApproved: 3/9/2026
-MetaDescription: Learn about agents in VS Code, including the agent loop, agent types, subagents, memory, and planning.
+MetaDescription: VS Code のエージェントについて学習します。エージェントループ、エージェントの種類、サブエージェント、メモリ、計画を含みます。
 MetaSocialImage: ../images/shared/github-copilot-social.png
 Keywords:
 - copilot
@@ -17,99 +17,100 @@ Keywords:
 - cloud agents
 ---
 
-# Agents
+# エージェント
 
-An agent is an AI system that autonomously plans and executes coding tasks. You give the agent a high-level goal, and it breaks the goal down into steps, executes those steps with [tools](/docs/copilot/concepts/tools.md), and self-corrects when it hits errors. This article explains the core architecture of agents: the agent loop, agent types, subagents, memory, and planning.
+エージェントは、コーディングタスクを自律的に計画し実行する AI システムです。高レベルの目標をエージェントに指定すると、その目標をステップに分解し、[ツール](/docs/copilot/concepts/tools.md)を使用してそれらのステップを実行し、エラーが発生した場合は自己修正します。この記事では、エージェントのコアアーキテクチャについて説明します。エージェントループ、エージェントの種類、サブエージェント、メモリ、計画です。
 
-## Agent loop
+## エージェントループ
 
-When you give an agent a task, it follows an agentic loop. This pattern is common across modern AI assistants. Within VS Code, an agent is the system that plans and takes actions, and the [language model](/docs/copilot/concepts/language-models.md) generates responses that inform those actions.
+タスクをエージェントに指定すると、エージェントはエージェントループに従います。このパターンは、最新の AI アシスタント全体で一般的です。VS Code 内では、エージェントは計画を立てて行動するシステムであり、[言語モデル](/docs/copilot/concepts/language-models.md)はそれらの行動を情報として提供するレスポンスを生成します。
 
-At each step, the agent evaluates its progress and picks the next action. It might open a file to understand an API, make an edit, then run a command to verify the change worked. The output of each action becomes input for the next decision.
+各ステップで、エージェントは進捗を評価し、次のアクションを選択します。API を理解するためにファイルを開いたり、編集を加えたり、変更が機能したことを確認するためにコマンドを実行したりする可能性があります。各アクションのアウトプットは、次の決定のインプットになります。
 
-![Diagram showing the agentic loop: User prompt -> Agent reasoning -> Tool calls (read files, edit code, run tests) -> Agent updates based on tool results -> Final output for user review](../images/concepts/agent-loop.png)
+![エージェントループを示す図: ユーザープロンプト->エージェント推論->ツール呼び出し（ファイル読み込み、コード編集、テスト実行）->ツール結果に基づくエージェント更新->ユーザーレビュー用最終アウトプット](../images/concepts/agent-loop.png)
 
-The agent loop typically involves three high-level stages:
+エージェントループは、通常 3 つの高レベルステージを含みます。
 
-1. **Understand.** The agent reads files, searches the codebase, and looks up documentation to understand what needs to change.
-1. **Act.** The agent modifies code, runs terminal commands, installs dependencies, or calls external services through [tools](/docs/copilot/concepts/tools.md).
-1. **Validate.** The agent runs tests, checks for compiler errors, and reviews its own changes. If something is wrong, it continues iterating.
+1. **理解する。** エージェントはファイルを読み込み、コードベースを検索し、ドキュメントを調べて、何を変更する必要があるかを理解します。
+1. **実行する。** エージェントはコードを修正し、ターミナルコマンドを実行し、依存関係をインストールするか、[ツール](/docs/copilot/concepts/tools.md)を通じて外部サービスを呼び出します。
+1. **検証する。** エージェントはテストを実行し、コンパイラエラーをチェックし、その変更を確認します。何か問題があれば、反復を続けます。
 
-The agent uses the language model to reason about the best course of action. However, without the ability to interact with the environment, the model is limited to providing generic responses. With tools, the agent issues tool calls at each step to gather information and take actions like reading files, making code changes, running terminal commands, and reaching out to external services.
+エージェントは言語モデルを使用して、最適なアクションコースについて推論します。ただし、環境と相互作用する能力がなければ、モデルは汎用的なレスポンスの提供に限定されます。ツールを使用すると、エージェントは各ステップでツール呼び出しを発行して、ファイルの読み込み、コード変更、ターミナルコマンドの実行、外部サービスへのアクセスなどの情報の収集とアクションを実行できます。
 
-The agent chains these actions together as needed until it accomplishes the task. Answering a question about your codebase might involve only a few file reads. Implementing a new feature typically loops through editing, running tests, diagnosing failures, and editing again until the tests pass.
+エージェントは、タスクを完了するまで必要に応じてこれらのアクションをチェーンします。コードベースについての質問に答えることは、わずか数回のファイル読み込みで済むかもしれません。新機能の実装は通常、テストが通るまで編集、テスト実行、障害の診断、再編集のループを繰り返します。
 
-Behind the scenes, [VS Code assembles the current context](/docs/copilot/concepts/context.md#how-vs-code-assembles-context) into a prompt and sends it to the language model. The model responds with text, a code edit, or a tool request. When a tool runs, its output is added to the context for the next iteration, and this cycle repeats until the task is complete.
+バックグラウンドでは、[VS Code は現在のコンテキストを組み立て](/docs/copilot/concepts/context.md#how-vs-code-assembles-context)てプロンプトとして言語モデルに送信します。モデルはテキスト、コード編集、またはツールリクエストで応答します。ツールが実行されると、その出力は次の反復用のコンテキストに追加され、このサイクルはタスクが完了するまで繰り返されます。
 
-You stay in control throughout the process. Send a new message to redirect the agent, add context, or suggest a different approach. For more on reviewing changes and managing agent behavior, see [Trust and safety](/docs/copilot/concepts/trust-and-safety.md).
+このプロセス全体をあなたは管理しています。新しいメッセージを送信してエージェントをリダイレクトしたり、コンテキストを追加したり、別のアプローチを提案することができます。変更のレビューとエージェント動作の管理の詳細については、[信頼とセキュリティ](/docs/copilot/concepts/trust-and-safety.md)を参照してください。
 
-### Customize the agent loop
+### エージェントループをカスタマイズする
 
-The agent loop is not one-size-fits-all and might differ for each project. There are different options to personalize the agent's behavior:
+エージェントループは万能ではなく、プロジェクトごとに異なる場合があります。エージェントの動作をカスタマイズするためのさまざまなオプションがあります。
 
-* A [**custom agent**](/docs/copilot/customization/custom-agents.md) lets you define different personas, each with their own instructions, available tools, language model, and optionally hand off to another agent.
-* With [**agent skills**](/docs/copilot/customization/agent-skills.md), you can teach the agent new capabilities for a specific domain or task.
-* [**Hooks**](/docs/copilot/customization/hooks.md) run custom commands at specific lifecycle points in the agent loop.
+* [**カスタムエージェント**](/docs/copilot/customization/custom-agents.md)を使用すると、異なるペルソナを定義でき、各ペルソナは独自の指示、利用可能なツール、言語モデル、およびオプションで別のエージェントにハンドオフできます。
+* [**エージェントスキル**](/docs/copilot/customization/agent-skills.md)により、特定のドメインまたはタスク用にエージェントに新しい機能を教えることができます。
+* [**フック**](/docs/copilot/customization/hooks.md)はエージェントループ内の特定のライフサイクルポイントでカスタムコマンドを実行します。
 
-Learn more about [customization concepts](/docs/copilot/concepts/customization.md).
+[カスタマイズの概念](/docs/copilot/concepts/customization.md)の詳細をご覧ください。
 
-## Agent types
+## エージェントの種類
 
-Agents run in different environments depending on when you need results and how much oversight you want. The two key dimensions are *where* the agent runs (your machine or the cloud) and *how* you interact with it (interactively or autonomously in the background).
+エージェントは、結果が必要な時期とするべき監督がどれくらいかによって、異なる環境で実行されます。2 つの重要な側面は、エージェントが実行される*場所*（あなたのマシンまたはクラウド）と、それと*どのように*相互作用するか（対話的または自動でバックグラウンドで）です。
 
-![Diagram showing the different agent types: Local agents (interactive in VS Code), Background agents (autonomous on your machine), Cloud agents (run on GitHub's infrastructure), and Third-party agents (connect external AI providers).](../images/agents-overview/agent-types-diagram-v3.png)
+![エージェントの種類を示す図: ローカルエージェント（VS Code で対話的）、バックグラウンドエージェント（あなたのマシンで自律的）、クラウドエージェント（GitHub のインフラストラクチャで実行）、サードパーティエージェント（外部 AI プロバイダーを接続）。](../images/agents-overview/agent-types-diagram-v3.png)
 
-Learn more about [using agents in VS Code](/docs/copilot/agents/overview.md), including a decision table to help you choose the right agent type for your task.
+VS Code のエージェント利用についての詳細は[VS Code でエージェントを使用する](/docs/copilot/agents/overview.md)を参照してください。タスクに適切なエージェントタイプを選択するための決定テーブルが含まれています。
 
-## Subagents
+## サブエージェント
 
-When working on complex tasks, the main agent can delegate subtasks to subagents. A subagent is an independent AI agent that performs focused work, such as researching a topic or analyzing code, and reports the results back to the main agent.
+複雑なタスクに取り組む際、メインエージェントはサブタスクをサブエージェントにデリゲートできます。サブエージェントは、トピックの研究やコード分析など、焦点を絞った作業を実行し、結果をメインエージェントに報告する独立した AI エージェントです。
 
-The primary benefit of subagents is context optimization. Without subagents, every file read, search result, and intermediate step during research accumulates in the main agent's [context window](/docs/copilot/concepts/language-models.md#context-window), potentially crowding out important information. Subagents perform their work in a separate context window and return only a summary, keeping the main conversation focused on the task at hand.
+サブエージェントの主な利点はコンテキスト最適化です。サブエージェントがなければ、研究中のすべてのファイル読み込み、検索結果、中間ステップはメインエージェントの[コンテキストウインドウ](/docs/copilot/concepts/language-models.md#context-window)に蓄積し、重要な情報を圧迫する可能性があります。サブエージェントは、別のコンテキストウインドウで作業を実行し、サマリーのみを返すため、メインの会話をタスクに焦点を当てた状態に保ちます。
 
-Key characteristics of subagents:
+サブエージェントの主な特徴:
 
-* **Context isolation**: each subagent runs in its own context window. It doesn't inherit the main agent's conversation history or instructions. It receives only the task prompt.
-* **Synchronous execution**: the main agent waits for subagent results before continuing, because subagent findings typically inform the next step.
-* **Parallel execution**: VS Code can spawn multiple subagents in parallel for tasks like analyzing security, performance, and accessibility simultaneously.
-* **Focused results**: only the final result is returned to the main agent, keeping the main context focused and reducing token usage.
+* **コンテキスト分離**: 各サブエージェントは独自のコンテキストウインドウで実行されます。メインエージェントの会話履歴や指示を継承しません。タスクプロンプトのみを受け取ります。
+* **同期実行**: メインエージェントはサブエージェント結果を待ってから続行します。サブエージェントの発見は通常、次のステップを情報として提供するためです。
+* **並列実行**: VS Code は、セキュリティ、パフォーマンス、アクセシビリティの分析など、並列で複数のサブエージェントをスポーンできます。
+* **焦点を絞った結果**: 最終結果のみがメインエージェントに返され、メインコンテキストは焦点を当てた状態に保たれ、トークン使用量が削減されます。
 
-For example, the built-in [Plan agent](#planning) uses subagents to perform research and analysis before creating an implementation plan. Each subagent works autonomously and returns only its findings.
+例えば、組み込みの[計画エージェント](#planning)は、実装計画を作成する前にサブエージェントを使用して研究と分析を実行します。各サブエージェントは自律的に機能し、その発見のみを返します。
 
-Learn more about [using subagents](/docs/copilot/agents/subagents.md).
+[サブエージェントの使用](/docs/copilot/agents/subagents.md)についての詳細をご覧ください。
 
-## Memory
+## メモリ
 
-Agents use memory to retain context across conversations. Rather than starting from scratch each session, agents recall your preferences, apply lessons from previous tasks, and build up knowledge about your codebase over time.
+エージェントはメモリを使用して、会話全体でコンテキストを保持します。各セッションでゼロから始めるのではなく、エージェントはあなたの好みを思い出し、前のタスクから学んだ教訓を適用し、時間とともにあなたのコードベースに関する知識を蓄積します。
 
-VS Code supports two complementary memory systems:
+VS Code は、2 つの相互補完的なメモリシステムをサポートしています。
 
-* **Memory tool**: a built-in tool that stores notes locally on your machine, organized in three scopes:
-    * **User memory** (`/memories/`): persists across all workspaces and conversations. The first 200 lines are automatically loaded into every session.
-    * **Repository memory** (`/memories/repo/`): scoped to the current workspace, persists across conversations.
-    * **Session memory** (`/memories/session/`): scoped to the current conversation, cleared when it ends.
-* **Copilot Memory**: a GitHub-hosted memory system that captures repository-specific insights across Copilot surfaces (coding agent, code review, CLI). Shared across GitHub Copilot beyond VS Code.
+* **メモリツール**: ローカルマシン上に整理して保存する組み込みツール（3 つのスコープ）:
+    * **ユーザーメモリ** (`/memories/`): すべてのワークスペースと会話全体で保持されます。最初の 200 行は自動的に各セッションに読み込まれます。
+    * **リポジトリメモリ** (`/memories/repo/`): 現在のワークスペースにスコープされ、会話全体で保持されます。
+    * **セッションメモリ** (`/memories/session/`): 現在の会話にスコープされ、終了時にクリアされます。
+* **Copilot Memory**: GitHub がホストするメモリシステム。リポジトリ固有のインサイトを Copilot サーフェス全体（コーディングエージェント、コードレビュー、CLI）でキャプチャします。VS Code を超えて GitHub Copilot 全体で共有されます。
 
-Learn more about [memory in VS Code agents](/docs/copilot/agents/memory.md).
+[VS Code エージェント内のメモリ](/docs/copilot/agents/memory.md)についての詳細をご覧ください。
 
-## Planning
+## 計画
 
-For complex tasks, jumping straight into code generation can lead to incomplete implementations or wrong architectural decisions. The built-in Plan agent collaborates with you to research the task and create a detailed implementation plan before any code changes are made. This ensures requirements are understood, edge cases are identified, and you agree on the approach before the agent starts writing code.
+複雑なタスクの場合、コード生成に直接進むと、不完全な実装や間違ったアーキテクチャの決定につながる可能性があります。組み込みの計画エージェントはあなたと協力してタスクを研究し、コード変更を加える前に詳細な実装計画を作成します。これにより、要件が理解され、エッジケースが特定され、エージェントがコードの作成を開始する前にアプローチに同意します。
 
-The plan agent uses a 4-phase iterative workflow:
+計画エージェントは 4 段階の反復ワークフローを使用します。
 
-1. **Discovery**: research the task using read-only tools and codebase analysis.
-1. **Alignment**: ask clarifying questions to resolve ambiguities.
-1. **Design**: draft a structured implementation plan.
-1. **Refinement**: iterate on the plan based on your feedback.
+1. **発見**: 読み取り専用ツールとコードベース分析を使用してタスクを研究します。
+1. **調整**: あいまいさを解決するために明確化に関する質問を尋ねます。
+1. **設計**: 構造化された実装計画を策定します。
+1. **改善**: あなたのフィードバックに基づいて計画を反復します。
 
-The Plan agent does not make code changes until the plan is reviewed and approved. Once approved, you can hand off the plan to the default agent or save it for further refinement.
+計画エージェントは、計画がレビューおよび承認されるまでコード変更を加えません。承認されたら、計画をデフォルトエージェントに引き渡すか、さらに改善するために保存できます。
 
-Learn more about [planning with agents](/docs/copilot/agents/planning.md).
+[エージェントとの計画](/docs/copilot/agents/planning.md)についての詳細をご覧ください。
 
-## Related resources
+## 関連リソース
 
-* [Using agents in VS Code](/docs/copilot/agents/overview.md)
-* [Tools](/docs/copilot/concepts/tools.md)
-* [Context](/docs/copilot/concepts/context.md)
-* [Trust and safety](/docs/copilot/concepts/trust-and-safety.md)
+* [VS Code でエージェントを使用する](/docs/copilot/agents/overview.md)
+* [ツール](/docs/copilot/concepts/tools.md)
+* [コンテキスト](/docs/copilot/concepts/context.md)
+* [信頼とセキュリティ](/docs/copilot/concepts/trust-and-safety.md)
+

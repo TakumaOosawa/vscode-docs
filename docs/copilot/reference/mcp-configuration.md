@@ -1,7 +1,7 @@
 ---
 ContentId: a3e1f7c2-8d4b-4f9a-b6e5-2c8d3f1a9b7e
 DateApproved: 3/9/2026
-MetaDescription: Reference for MCP server configuration format, commands, and settings in Visual Studio Code.
+MetaDescription: MCP サーバー構成形式、コマンド、および Visual Studio Code の設定に関するリファレンス。
 MetaSocialImage: ../images/shared/github-copilot-social.png
 Keywords:
 - mcp
@@ -14,45 +14,45 @@ Keywords:
 - reference
 - ai
 ---
-# MCP configuration reference
+# MCP構成リファレンス
 
-This article provides a reference for the MCP server configuration file format, related commands, and settings in VS Code. For information about adding and managing MCP servers, see [Add and manage MCP servers](/docs/copilot/customization/mcp-servers.md).
+この記事では、MCP サーバー構成ファイル形式、関連コマンド、および VS Code の設定に関するリファレンスを提供します。MCP サーバーの追加と管理の詳細については、「[MCP サーバーの追加と管理](/docs/copilot/customization/mcp-servers.md)」を参照してください。
 
-## Configuration file
+## 構成ファイル
 
-MCP server configuration is stored in the `mcp.json` JSON file. This file can be in your workspace (`.vscode/mcp.json`) or in your [user profile](/docs/configure/profiles.md). VS Code provides IntelliSense for the configuration file.
+MCP サーバー構成は、`mcp.json` JSON ファイルに保存されます。このファイルはワークスペース（`.vscode/mcp.json`）または[ユーザープロファイル](/docs/configure/profiles.md)に配置できます。VS Code は構成ファイルの IntelliSense を提供します。
 
-### Configuration structure
+### 構成の構造
 
-The configuration file has two main sections:
+構成ファイルには、主に 2 つのセクションがあります:
 
-* **`"servers": {}`**: an object that maps server names to their configurations. Each key is the server name, and the value is the server configuration object. Depending on the server type, different fields are required.
+* **`"servers": {}`**: サーバー名をその構成にマップするオブジェクト。各キーはサーバー名で、値はサーバー構成オブジェクトです。サーバータイプに応じて、異なるフィールドが必須です。
 
-* **`"inputs": []`**: an optional array of input variable definitions for sensitive information like API keys.
+* **`"inputs": []`**: API キーなどの機密情報の入力変数定義の任意配列。
 
-You can use [predefined variables](/docs/reference/variables-reference.md) in the server configuration, for example to refer to the workspace folder (`${workspaceFolder}`).
+サーバー構成で[定義済み変数](/docs/reference/variables-reference.md)を使用できます。たとえば、ワークスペースフォルダを参照する場合は（`${workspaceFolder}`）。
 
-### Standard I/O (stdio) servers
+### 標準入出力（stdio）サーバー
 
-Use this configuration for servers that communicate through standard input and output streams. This is the most common type for locally-run MCP servers.
+標準入出力ストリームを通じて通信するサーバーに対して、この構成を使用します。これはローカル実行の MCP サーバーで最も一般的なタイプです。
 
-| Field | Required | Description | Examples |
+| フィールド | 必須 | 説明 | 例 |
 |-------|----------|-------------|----------|
-| `type` | Yes | Server connection type | `"stdio"` |
-| `command` | Yes | Command to start the server executable. Must be available on your system path or contain its full path. | `"npx"`, `"node"`, `"python"`, `"docker"` |
-| `args` | No | Array of arguments passed to the command | `["server.py", "--port", "3000"]` |
-| `env` | No | Environment variables for the server | `{"API_KEY": "${input:api-key}"}` |
-| `envFile` | No | Path to an environment file to load more variables | `"${workspaceFolder}/.env"` |
-| `sandboxEnabled` | No | Run the server in a sandboxed environment. Only supported on macOS and Linux. | `true` |
-| `sandbox` | No | File system and network access rules for the sandboxed server. Only applies when `sandboxEnabled` is `true`. See [Sandbox configuration](#sandbox-configuration). | `{"filesystem": {...}, "network": {...}}` |
+| `type` | はい | サーバー接続タイプ | `"stdio"` |
+| `command` | はい | サーバー実行可能ファイルを起動するコマンド。システムパスで利用可能であるか、完全パスを含む必要があります。 | `"npx"`、`"node"`、`"python"`、`"docker"` |
+| `args` | いいえ | コマンドに渡される引数の配列 | `["server.py", "--port", "3000"]` |
+| `env` | いいえ | サーバーの環境変数 | `{"API_KEY": "${input:api-key}"}` |
+| `envFile` | いいえ | より多くの変数を読み込むための環境ファイルのパス | `"${workspaceFolder}/.env"` |
+| `sandboxEnabled` | いいえ | サーバーをサンドボックス環境で実行します。macOS と Linux でのみサポートされています。 | `true` |
+| `sandbox` | いいえ | サンドボックス サーバーのファイルシステムとネットワークアクセスルール。`sandboxEnabled` が `true` の場合にのみ適用されます。「[サンドボックス構成](#sandbox-configuration)」を参照してください。 | `{"filesystem": {...}, "network": {...}}` |
 
 > [!NOTE]
-> When using Docker with stdio servers, don't use the detach option (`-d`). The server must run in the foreground to communicate with VS Code.
+> stdio サーバーで Docker を使用する場合、デタッチオプション（`-d`）を使用しないでください。サーバーは VS Code と通信するためにフォアグラウンドで実行する必要があります。
 
 <details>
-<summary>Example local server configuration</summary>
+<summary>ローカルサーバー構成例</summary>
 
-This example shows the minimal configuration for a basic, local MCP server using `npx`:
+この例は、`npx` を使用した基本的なローカル MCP サーバーの最小限の構成を示しています:
 
 ```json
 {
@@ -70,31 +70,31 @@ This example shows the minimal configuration for a basic, local MCP server using
 
 </details>
 
-### Sandbox configuration
+### サンドボックス構成
 
-You can enable sandboxing for locally-running stdio MCP servers to restrict their access to the file system and network. Sandboxed servers can only access the file system paths and network domains that you explicitly permit. Sandboxing is available on macOS and Linux only.
+ローカル実行の stdio MCP サーバーのサンドボックスを有効にして、ファイルシステムとネットワークへのアクセスを制限できます。サンドボックス化されたサーバーは、明示的に許可したファイルシステムパスとネットワークドメインのみにアクセスできます。サンドボックスは macOS と Linux でのみ利用可能です。
 
-To enable sandboxing for a server, set `"sandboxEnabled": true` in its configuration. Then, use the `sandbox` object to define the file system and network access rules. When a sandboxed server needs access that the current rules don't permit, check the server output for error messages and update the `sandbox` configuration accordingly.
+サーバーのサンドボックスを有効にするには、その構成で `"sandboxEnabled": true` を設定します。次に、`sandbox` オブジェクトを使用してファイルシステムとネットワークアクセスルールを定義します。サンドボックス化されたサーバーが現在のルールが許可していないアクセスが必要な場合は、サーバー出力でエラーメッセージを確認し、`sandbox` 構成を更新してください。
 
 > [!NOTE]
-> When sandboxing is enabled, tool confirmations are auto-approved because the server runs in a controlled environment.
+> サンドボックスが有効な場合、ツール確認は自動承認されます。サーバーが制御された環境で実行されるためです。
 
-The `sandbox` object supports the following properties:
+`sandbox` オブジェクトは、次のプロパティをサポートしています:
 
-| Property | Type | Description |
+| プロパティ | 型 | 説明 |
 |----------|------|-------------|
-| `filesystem.allowWrite` | string[] | File paths that the server is allowed to write to. |
-| `filesystem.denyRead` | string[] | File paths that the server is not allowed to read. |
-| `filesystem.denyWrite` | string[] | File paths that the server is not allowed to write to. |
-| `network.allowedDomains` | string[] | Domains that the server is allowed to access. Wildcards are supported, for example `*.example.com`. |
-| `network.deniedDomains` | string[] | Domains that the server is not allowed to access. |
+| `filesystem.allowWrite` | string[] | サーバーが書き込みを許可されているファイルパス。 |
+| `filesystem.denyRead` | string[] | サーバーが読み取りを許可されていないファイルパス。 |
+| `filesystem.denyWrite` | string[] | サーバーが書き込みを許可されていないファイルパス。 |
+| `network.allowedDomains` | string[] | サーバーがアクセスを許可されているドメイン。ワイルドカード（例：`*.example.com`）がサポートされています。 |
+| `network.deniedDomains` | string[] | サーバーがアクセスを許可されていないドメイン。 |
 
-You can use [predefined variables](/docs/reference/variables-reference.md), such as `${workspaceFolder}`, in file system path values.
+ファイルシステムパス値で[定義済み変数](/docs/reference/variables-reference.md)（`${workspaceFolder}` など）を使用できます。
 
 <details>
-<summary>Example sandbox configuration</summary>
+<summary>サンドボックス構成例</summary>
 
-This example enables sandboxing and grants write access to the workspace, denies read access to the `.ssh` directory, and allows network access to specific domains:
+この例はサンドボックスを有効にし、ワークスペースへの書き込みアクセスを許可し、`.ssh` ディレクトリへの読み取りアクセスを拒否し、特定のドメインへのネットワークアクセスを許可しています:
 
 ```json
 {
@@ -120,22 +120,22 @@ This example enables sandboxing and grants write access to the workspace, denies
 
 </details>
 
-### HTTP and Server-Sent Events (SSE) servers
+### HTTP とサーバー送信イベント（SSE）サーバー
 
-Use this configuration for servers that communicate over HTTP. VS Code first tries the HTTP Stream transport and falls back to SSE if HTTP is not supported.
+HTTP を通じて通信するサーバーに対して、この構成を使用します。VS Code は最初に HTTP ストリーム トランスポートを試し、HTTP がサポートされていない場合は SSE にフォールバックします。
 
-| Field | Required | Description | Examples |
+| フィールド | 必須 | 説明 | 例 |
 |-------|----------|-------------|----------|
-| `type` | Yes | Server connection type | `"http"`, `"sse"` |
-| `url` | Yes | URL of the server | `"http://localhost:3000"`, `"https://api.example.com/mcp"` |
-| `headers` | No | HTTP headers for authentication or configuration | `{"Authorization": "Bearer ${input:api-token}"}` |
+| `type` | はい | サーバー接続タイプ | `"http"`、`"sse"` |
+| `url` | はい | サーバーの URL | `"http://localhost:3000"`、`"https://api.example.com/mcp"` |
+| `headers` | いいえ | 認証または構成用の HTTP ヘッダー | `{"Authorization": "Bearer ${input:api-token}"}` |
 
-In addition to servers available over the network, VS Code can connect to MCP servers listening for HTTP traffic on Unix sockets or Windows named pipes by specifying the socket or pipe path in the form `unix:///path/to/server.sock` or `pipe:///pipe/named-pipe` on Windows. You can specify subpaths by using a URL fragment, such as `unix:///tmp/server.sock#/mcp/subpath`.
+ネットワークで利用可能なサーバーに加えて、VS Code は `unix:///path/to/server.sock` または Windows では `pipe:///pipe/named-pipe` の形式でソケットまたはパイプパスを指定することによって、Unix ソケットまたは Windows 名前付きパイプで HTTP トラフィックをリッスンしている MCP サーバーに接続できます。`unix:///tmp/server.sock#/mcp/subpath` などの URL フラグメントを使用してサブパスを指定できます。
 
 <details>
-<summary>Example remote server configuration</summary>
+<summary>リモート サーバー構成例</summary>
 
-This example shows the minimal configuration for a remote MCP server without authentication:
+この例は、認証なしのリモート MCP サーバーの最小限の構成を示しています:
 
 ```json
 {
@@ -150,25 +150,25 @@ This example shows the minimal configuration for a remote MCP server without aut
 
 </details>
 
-### Input variables for sensitive data
+### 機密データの入力変数
 
-Input variables let you define placeholders for configuration values, avoiding the need to hardcode sensitive information like API keys or passwords directly in the server configuration.
+入力変数を使用すると、構成値のプレースホルダーを定義でき、API キーやパスワードなどの機密情報をサーバー構成に直接ハードコードする必要がなくなります。
 
-When you reference an input variable using `${input:variable-id}`, VS Code prompts you for the value when the server starts for the first time. The value is then securely stored for subsequent use. Learn more about [input variables](/docs/reference/variables-reference.md#input-variables) in VS Code.
+`${input:variable-id}` を使用して入力変数を参照する場合、VS Code はサーバーが初めて起動するときに値を要求します。その後、値は後続の使用のために安全に保存されます。VS Code の[入力変数](/docs/reference/variables-reference.md#input-variables)について詳しく説明しています。
 
-**Input variable properties:**
+**入力変数プロパティ:**
 
-| Field | Required | Description | Example |
+| フィールド | 必須 | 説明 | 例 |
 |-------|----------|-------------|---------|
-| `type` | Yes | Type of input prompt | `"promptString"` |
-| `id` | Yes | Unique identifier to reference in server config | `"api-key"`, `"database-url"` |
-| `description` | Yes | User-friendly prompt text | `"GitHub Personal Access Token"` |
-| `password` | No | Hide typed input (default: false) | `true` for API keys and passwords |
+| `type` | はい | 入力プロンプトのタイプ | `"promptString"` |
+| `id` | はい | サーバー構成で参照する一意の識別子 | `"api-key"`、`"database-url"` |
+| `description` | はい | ユーザーフレンドリーなプロンプト テキスト | `"GitHub Personal Access Token"` |
+| `password` | いいえ | 入力を非表示にします（デフォルト: false） | API キーとパスワードの場合は`true` |
 
 <details>
-<summary>Example server configuration with input variables</summary>
+<summary>入力変数を使用したサーバー構成例</summary>
 
-This example configures a local server that requires an API key:
+この例は、API キーが必要なローカル サーバーを構成しています:
 
 ```json
 {
@@ -198,56 +198,57 @@ This example configures a local server that requires an API key:
 
 </details>
 
-### Development mode
+### 開発モード
 
-You can enable _development mode_ for MCP servers by adding a `dev` key to the server configuration. This is an object with two properties:
+サーバー構成に `dev` キーを追加することで、MCP サーバーの_開発モード_を有効にできます。これは 2 つのプロパティを持つオブジェクトです:
 
-* `watch`: A file glob pattern to watch for file changes that restarts the MCP server.
-* `debug`: Enables you to set up a debugger with the MCP server. Currently, VS Code supports debugging Node.js and Python MCP servers.
+* `watch`: ファイル変更を監視して MCP サーバーを再起動するファイル glob パターン。
+* `debug`: MCP サーバーでデバッガーをセットアップできます。現在、VS Code は Node.js と Python MCP サーバーのデバッグをサポートしています。
 
-Learn more about [MCP development mode](/api/extension-guides/ai/mcp.md#mcp-development-mode-in-vs-code) in the MCP Dev Guide.
+MCP Dev Guide の[MCP 開発モード](/api/extension-guides/ai/mcp.md#mcp-development-mode-in-vs-code)について詳しく説明しています。
 
-### Server naming conventions
+### サーバーの命名規則
 
-When defining MCP servers, follow these naming conventions for the server name:
+MCP サーバーを定義する際は、サーバー名に対して以下の命名規則に従ってください:
 
-* Use camelCase for the server name, such as "uiTesting" or "githubIntegration"
-* Avoid using whitespace or special characters
-* Use a unique name for each server to avoid conflicts
-* Use a descriptive name that reflects the server's functionality or brand, such as "github" or "database"
+* サーバー名に camelCase を使用します。例：「uiTesting」または「githubIntegration」
+* 空白または特殊文字の使用を避けてください
+* 競合を避けるために、各サーバーに一意の名前を使用してください
+* 「github」や「database」など、サーバーの機能またはブランドを反映した説明的な名前を使用してください
 
-## Commands
+## コマンド
 
-The following table lists the MCP-related commands available in the Command Palette (`kb(workbench.action.showCommands)`).
+次の表に、コマンド パレット（`kb(workbench.action.showCommands)`）で利用可能な MCP 関連のコマンドをリストアップしています。
 
-| Command | Description |
+| コマンド | 説明 |
 |---------|-------------|
-| **MCP: Add Server** | Add a new MCP server to your workspace or user profile. |
-| **MCP: Browse MCP Servers** | Open the MCP server gallery in the Extensions view. |
-| **MCP: Browse Resources** | Browse resources provided by MCP servers. |
-| **MCP: Install Server from Manifest** | Install an MCP server from an MCP manifest file. |
-| **MCP: List Servers** | List all configured MCP servers and perform actions like start, stop, restart, or show output. |
-| **MCP: Open Remote User Configuration** | Open the `mcp.json` file for the remote environment. |
-| **MCP: Open User Configuration** | Open the `mcp.json` file in your user profile. |
-| **MCP: Open Workspace Folder MCP Configuration** | Open the `.vscode/mcp.json` file in your workspace. |
-| **MCP: Reset Cached Tools** | Clear the cached list of tools for MCP servers. Use this when a server's tools have changed. |
-| **MCP: Reset Trust** | Reset trust decisions for MCP servers, requiring re-confirmation on next start. |
-| **MCP: Show Installed Servers** | Show a list of all installed MCP servers. |
+| **MCP: Add Server** | ワークスペースまたはユーザープロファイルに新しい MCP サーバーを追加します。 |
+| **MCP: Browse MCP Servers** | Extensions ビューで MCP サーバー ギャラリーを開きます。 |
+| **MCP: Browse Resources** | MCP サーバーに提供されるリソースを参照します。 |
+| **MCP: Install Server from Manifest** | MCP マニフェスト ファイルから MCP サーバーをインストールします。 |
+| **MCP: List Servers** | すべての構成済み MCP サーバーをリストアップし、開始、停止、再起動、出力表示などのアクションを実行します。 |
+| **MCP: Open Remote User Configuration** | リモート環境の `mcp.json` ファイルを開きます。 |
+| **MCP: Open User Configuration** | ユーザープロファイルの `mcp.json` ファイルを開きます。 |
+| **MCP: Open Workspace Folder MCP Configuration** | ワークスペースの `.vscode/mcp.json` ファイルを開きます。 |
+| **MCP: Reset Cached Tools** | MCP サーバーのキャッシュされたツールリストをクリアします。サーバーのツールが変更された場合に使用します。 |
+| **MCP: Reset Trust** | MCP サーバーの信頼の決定をリセットし、次の起動時に再確認が必要になります。 |
+| **MCP: Show Installed Servers** | インストール済みの MCP サーバーすべてのリストを表示します。 |
 
-## Settings
+## 設定
 
-For a full list of VS Code AI settings, see the [AI Settings Reference](/docs/copilot/reference/copilot-settings.md). The following settings are specific to MCP servers.
+VS Code AI 設定の完全なリストは、「[AI 設定リファレンス](/docs/copilot/reference/copilot-settings.md)」を参照してください。以下は MCP サーバーに固有の設定です。
 
-| Setting | Description |
+| 設定 | 説明 |
 |---------|-------------|
-| `setting(chat.mcp.access)` | Manage which MCP servers can be used in VS Code. |
-| `setting(chat.mcp.discovery.enabled)` | Configure automatic discovery of MCP server configuration from other applications. |
-| `setting(chat.mcp.autostart)` (Experimental) | Automatically start MCP servers when configuration changes are detected. |
-| `setting(chat.mcp.serverSampling)` | Configure which models are exposed to MCP servers for sampling (making requests in the background). |
-| `setting(chat.mcp.apps.enabled)` (Experimental) | Enable or disable MCP Apps, which are rich user interfaces provided by MCP servers. |
+| `setting(chat.mcp.access)` | VS Code で使用できる MCP サーバーを管理します。 |
+| `setting(chat.mcp.discovery.enabled)` | 他のアプリケーションから MCP サーバー構成を自動検出するように構成します。 |
+| `setting(chat.mcp.autostart)`（実験的） | 構成の変更が検出されたときに、MCP サーバーを自動的に起動します。 |
+| `setting(chat.mcp.serverSampling)` | MCP サーバーに公開されているモデルを構成します（バックグラウンドでリクエストを作成）。 |
+| `setting(chat.mcp.apps.enabled)`（実験的） | MCP サーバーによって提供される豊富なユーザー インターフェイス（MCP Apps）を有効にするか無効にするかを設定します。 |
 
-## Related resources
+## 関連リソース
 
-* [Add and manage MCP servers](/docs/copilot/customization/mcp-servers.md)
-* [Model Context Protocol Documentation](https://modelcontextprotocol.io/)
+* [MCP サーバーの追加と管理](/docs/copilot/customization/mcp-servers.md)
+* [Model Context Protocol ドキュメント](https://modelcontextprotocol.io/)
 * [MCP Dev Guide](/docs/copilot/guides/mcp-developer-guide.md)
+

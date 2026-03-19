@@ -1,7 +1,7 @@
 ---
 ContentId: f9b2c4e3-8a7d-4e1f-b5c3-2d9a6f8e4b71
 DateApproved: 3/9/2026
-MetaDescription: Learn how to discover, install, and manage agent plugins in VS Code to extend GitHub Copilot with pre-packaged commands, skills, agents, hooks, and MCP servers.
+MetaDescription: VS Code のエージェントプラグインを検出、インストール、管理して、事前パッケージ化されたコマンド、スキル、エージェント、フック、MCP サーバーで GitHub Copilot を拡張する方法について説明します。
 MetaSocialImage: ../images/shared/github-copilot-social.png
 Keywords:
 - copilot
@@ -14,107 +14,108 @@ Keywords:
 - hooks
 - mcp
 ---
-# Agent plugins in VS Code (Preview)
+# VS Code のエージェントプラグイン (プレビュー)
 
-Agent plugins are prepackaged bundles of chat customizations that you can discover and install from plugin marketplaces in Visual Studio Code. A single plugin can provide any combination of slash commands, [agent skills](/docs/copilot/customization/agent-skills.md), [custom agents](/docs/copilot/customization/custom-agents.md), [hooks](/docs/copilot/customization/hooks.md), and [MCP servers](/docs/copilot/customization/mcp-servers.md).
+エージェントプラグインは、Visual Studio Code のプラグインマーケットプレイスから検出してインストールできるチャットカスタマイズのあらかじめパッケージ化されたバンドルです。単一のプラグインは、スラッシュコマンド、[エージェントスキル](/docs/copilot/customization/agent-skills.md)、[カスタムエージェント](/docs/copilot/customization/custom-agents.md)、[フック](/docs/copilot/customization/hooks.md)、[MCP サーバー](/docs/copilot/customization/mcp-servers.md)の任意の組み合わせを提供できます。
 
-Plugins work alongside your locally defined customizations. When you install a plugin, its commands, skills, agents, hooks, and MCP servers appear in chat.
+プラグインはローカルで定義されたカスタマイズと並行して機能します。プラグインをインストールすると、そのコマンド、スキル、エージェント、フック、MCP サーバーがチャットに表示されます。
 
 > [!NOTE]
-> Agent plugins are currently in preview. Enable or disable support for agent plugins with the `setting(chat.plugins.enabled)` setting.
+> エージェントプラグインは現在プレビュー中です。`setting(chat.plugins.enabled)`設定でエージェントプラグインのサポートを有効または無効にします。
 
-## What plugins provide
+## プラグインが提供するもの
 
-An agent plugin can bundle one or more of the following customization types:
+エージェントプラグインは、次のカスタマイズタイプの1つ以上をバンドルできます。
 
-* **Slash commands**: additional commands you can invoke with `/` in chat
-* **Skills**: [agent skills](/docs/copilot/customization/agent-skills.md) with instructions, scripts, and resources that load on-demand
-* **Agents**: [custom agents](/docs/copilot/customization/custom-agents.md) with specialized personas and tool configurations
-* **Hooks**: [hooks](/docs/copilot/customization/hooks.md) that execute shell commands at agent lifecycle points
-* **MCP servers**: [MCP servers](/docs/copilot/customization/mcp-servers.md) for external tool integrations
+* **スラッシュコマンド**: チャット内で`/`を使用して呼び出せる追加コマンド
+* **スキル**: 指定、スクリプト、オンデマンド読み込みリソース付きの[エージェントスキル](/docs/copilot/customization/agent-skills.md)
+* **エージェント**: 専門的なペルソナとツール構成を備えた[カスタムエージェント](/docs/copilot/customization/custom-agents.md)
+* **フック**: エージェントライフサイクルポイントでシェルコマンドを実行する[フック](/docs/copilot/customization/hooks.md)
+* **MCP サーバー**: 外部ツール統合用の[MCP サーバー](/docs/copilot/customization/mcp-servers.md)
 
-For example, a testing plugin might include a `test-runner` skill with scripts, a `test-reviewer` agent with read-only tools, and an MCP server for a test reporting dashboard. The plugin directory structure looks like this:
+例えば、テストプラグインは、スクリプト付きの`test-runner`スキル、読み取り専用ツール付きの`test-reviewer`エージェント、テストレポートダッシュボード用の MCP サーバーを含む場合があります。プラグインディレクトリ構造は次のようになります。
 
 ```text
 my-testing-plugin/
-  plugin.json              # Plugin metadata and configuration
-  skills/
-    test-runner/
-      SKILL.md             # Testing skill instructions
-      run-tests.sh         # Supporting script
-  agents/
-    test-reviewer.agent.md # Code review agent
-  hooks/
-    post-test.json         # Hook to run after tests
+    plugin.json              # プラグインメタデータと構成
+    skills/
+        test-runner/
+            SKILL.md             # テストスキルの指定
+            run-tests.sh         # サポートスクリプト
+    agents/
+        test-reviewer.agent.md # コードレビューエージェント
+    hooks/
+        post-test.json         # テスト後に実行するフック
 ```
 
-Once installed, plugin-provided customizations appear alongside your locally defined ones. For example, skills from a plugin show up in the **Configure Skills** menu, and MCP servers from a plugin appear in the MCP server list.
+インストール後、プラグイン提供のカスタマイズはローカルで定義されたカスタマイズと一緒に表示されます。例えば、プラグインのスキルは**スキルを構成**メニューに表示され、プラグインの MCP サーバーは MCP サーバーリストに表示されます。
 
 > [!CAUTION]
-> Plugins can include hooks and MCP servers that run code on your machine. Review the plugin contents and publisher before installing, especially for plugins from community marketplaces.
+> プラグインのマシン上でコードを実行するフックと MCP サーバーを含めることができます。インストール前に、特にコミュニティマーケットプレイスのプラグインについて、プラグインのコンテンツと公開元を確認してください。
 
-## Discover and install plugins
+## プラグインを検出してインストール
 
-VS Code provides a dedicated view in the Extensions sidebar to browse and manage agent plugins.
+VS Code は、エージェントプラグインを参照および管理するための専用ビューを [拡張機能] サイドバーに提供します。
 
-### Browse available plugins
+### 利用可能なプラグインを参照
 
-1. Open the Extensions view (`kb(workbench.view.extensions)`) and enter `@agentPlugins` in the search field.
+1. [拡張機能] ビュー (`kb(workbench.view.extensions)`)を開き、検索フィールドに`@agentPlugins`と入力します。
 
-    Alternatively, select the **More Actions** (three dots) icon in the Extensions sidebar and choose **Views** > **Agent Plugins**.
+        または、[拡張機能] サイドバーの**その他のアクション**(3つのドット)アイコンを選択し、**ビュー** > **エージェントプラグイン**を選択します。
 
-1. Browse the list of available plugins from your configured marketplaces.
+1. 構成されたマーケットプレイスから利用可能なプラグインのリストを参照します。
 
-    ![Screenshot of browsing agent plugins in the Extensions sidebar.](../images/agent-plugins/extensions-view.png)
+        ![拡張機能サイドバーでエージェントプラグインを参照してするスクリーンショット。](../images/agent-plugins/extensions-view.png)
 
-1. Select **Install** to install a plugin in your user profile.
+1. **インストール**を選択してユーザープロファイルにプラグインをインストールします。
 
-### View installed plugins
+### インストール済みプラグインを表示
 
-The **Agent Plugins - Installed** view in the Extensions sidebar shows the plugins you have installed. From this view, you can enable, disable, or uninstall plugins.
+[拡張機能] サイドバーの**エージェントプラグイン - インストール済み**ビューには、インストール済みのプラグインが表示されます。このビューから、プラグインを有効、無効、またはアンインストールできます。
 
-![Screenshot of the Agent Plugins - Installed view in the Extensions sidebar.](../images/agent-plugins/installed-plugins.png)
+![拡張機能サイドバーの [エージェントプラグイン - インストール済み] ビューのスクリーンショット。](../images/agent-plugins/installed-plugins.png)
 
-You can also manage installed plugins from the Chat view by selecting the **gear icon** > **Plugins**.
+[チャット] ビューから、**ギアアイコン** > **プラグイン**を選択して、インストール済みプラグインを管理することもできます。
 
-## Configure plugin marketplaces
+## プラグインマーケットプレイスを構成
 
-By default, VS Code discovers plugins from the [copilot-plugins](https://github.com/github/copilot-plugins) and [awesome-copilot](https://github.com/github/awesome-copilot/). You can add additional marketplaces with the `setting(chat.plugins.marketplaces)` setting.
+デフォルトでは、VS Code は[copilot-plugins](https://github.com/github/copilot-plugins)および[awesome-copilot](https://github.com/github/awesome-copilot/)からプラグインを検出します。`setting(chat.plugins.marketplaces)`設定で追加のマーケットプレイスを追加できます。
 
-Marketplaces are Git repositories that contain plugin definitions. You can reference them in several formats:
+マーケットプレイスは、プラグイン定義を含む Git リポジトリです。いくつかの形式で参照できます。
 
-* **Shorthand**: `owner/repo` for public GitHub repositories. For example, `anthropics/claude-code`.
-* **HTTPS git remote**: a full URL ending in `.git`. For example, `https://github.com/anthropics/claude-code.git`.
-* **SCP-style git remote**: SSH-style references. For example, `git@github.com:anthropics/claude-code.git`.
-* **file URI**: a `file:///` path to a marketplace repository already cloned on disk.
+* **短縮形**: 公開 GitHub リポジトリの`owner/repo`。例:`anthropics/claude-code`。
+* **HTTPS git リモート**: `.git`で終わる完全な URL。例:`https://github.com/anthropics/claude-code.git`。
+* **SCP スタイルの git リモート**: SSH スタイルの参照。例:`git@github.com:anthropics/claude-code.git`。
+* **ファイル URI**: ディスク上に既にクローンされているマーケットプレイスリポジトリへの`file:///`パス。
 
-Private repositories are also supported. If a public lookup fails, VS Code falls back to cloning the repository directly.
+プライベートリポジトリもサポートされています。公開検索に失敗した場合、VS Code はリポジトリを直接クローンします。
 
 ```json
 // settings.json
 "chat.plugins.marketplaces": [
-    "anthropics/claude-code"
+        "anthropics/claude-code"
 ]
 ```
 
-## Use local plugins
+## ローカルプラグインを使用
 
-If you manually clone or download a plugin, you can register it with the `setting(chat.plugins.paths)` setting. This setting maps local plugin directory paths to an enabled or disabled state.
+プラグインを手動でクローンまたはダウンロードした場合は、`setting(chat.plugins.paths)`設定を使用して登録できます。この設定は、ローカルプラグインディレクトリパスを有効または無効状態にマップします。
 
 ```json
 // settings.json
 "chat.plugins.paths": {
-    "/path/to/my-plugin": true,
-    "/path/to/another-plugin": false
+        "/path/to/my-plugin": true,
+        "/path/to/another-plugin": false
 }
 ```
 
-Set the value to `true` to enable the plugin, or `false` to keep it registered but disabled.
+プラグインを有効にする場合は値を`true`に設定するか、登録したままにして無効にする場合は`false`に設定します。
 
-## Related resources
+## 関連リソース
 
-* [Finding and installing plugins for GitHub Copilot CLI](https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/plugins-finding-installing)
-* [Use Agent Skills](/docs/copilot/customization/agent-skills.md)
-* [Add and manage MCP servers](/docs/copilot/customization/mcp-servers.md)
-* [Use hooks for lifecycle automation](/docs/copilot/customization/hooks.md)
-* [Create custom agents](/docs/copilot/customization/custom-agents.md)
+* [GitHub Copilot CLI のプラグインを見つけてインストール](https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/plugins-finding-installing)
+* [エージェントスキルを使用](/docs/copilot/customization/agent-skills.md)
+* [MCP サーバーを追加および管理](/docs/copilot/customization/mcp-servers.md)
+* [ライフサイクル自動化にフックを使用](/docs/copilot/customization/hooks.md)
+* [カスタムエージェントを作成](/docs/copilot/customization/custom-agents.md)
+

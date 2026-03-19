@@ -1,7 +1,7 @@
 ---
 ContentId: a9c5f4d2-8e91-4b3a-9d2c-7f1e3b8a6c4d
 DateApproved: 3/9/2026
-MetaDescription: Learn how to set up a test-driven development (TDD) workflow in VS Code with Copilot and custom agents and instructions.
+MetaDescription: VS CodeでCopilotとカスタムエージェント、カスタム命令を使用して、テスト駆動開発(TDD)ワークフローを設定する方法について説明します。
 MetaSocialImage: ../images/shared/github-copilot-social.png
 Keywords:
 - ai
@@ -14,252 +14,253 @@ Keywords:
 - testing
 - TDD
 ---
-# Set up a test-driven development flow in VS Code
+# VS Codeでテスト駆動開発フローを設定する
 
-Test-driven development (TDD) is a software development approach where you write tests before implementing functionality. This creates a tight feedback loop that improves code quality, catches bugs early, and ensures that the code meets your requirements. Visual Studio Code's AI capabilities can enhance your TDD workflow by guiding you through the different phases of writing tests, implementing code, running tests, and optimizing the code.
+テスト駆動開発(TDD)は、機能を実装する前にテストを作成するソフトウェア開発アプローチです。これにより密接なフィードバックループが生まれ、コード品質が向上し、バグが早期に検出され、コードが要件を満たすようになります。Visual Studio CodeのAI機能を活用することで、テストの作成、コードの実装、テストの実行、コードの最適化という異なるフェーズを通じて、TDDワークフローを強化できます。
 
-This guide shows you how to set up an AI-assisted test-driven development workflow in VS Code by using custom agents, handoffs, and custom instructions.
+このガイドでは、カスタムエージェント、ハンドオフ、カスタム命令を使用して、VS CodeでAIアシスト型のテスト駆動開発ワークフローを設定する方法を説明します。
 
 <details>
-<summary>TDD overview</summary>
+<summary>TDD概要</summary>
 
-The core tenet of test-driven development is to write tests before implementation. The tests define the desired outcomes for the functionality you want to build. By writing tests first, you clarify requirements and identify edge cases to ensure that your code behaves as expected.
+テスト駆動開発の核は、実装前にテストを作成することです。テストは構築したい機能の望ましい結果を定義します。テストを最初に作成することで、要件が明確になり、コードが期待どおりに動作することを確認するためのエッジケースを特定できます。
 
-TDD follows a three-phase cycle known as [red-green-refactor](https://martinfowler.com/bliki/TestDrivenDevelopment.html) and repeats for each small increment of functionality.
+TDDは[赤-緑-リファクタリング](https://martinfowler.com/bliki/TestDrivenDevelopment.html)として知られている3段階のサイクルに従い、機能の小さな増分ごとに繰り返されます。
 
-The three phases are:
+3つのフェーズは以下のとおりです。
 
-* **Red phase**: Write a failing test for the functionality you want to develop.
+* **赤フェーズ**:開発したい機能に対して失敗するテストを作成します。
 
-* **Green phase**: Write the minimal application code needed to make the test pass. Focus on making it work, not making it perfect.
+* **緑フェーズ**:テストを成功させるために必要な最小限のアプリケーションコードを作成します。完璧にするのではなく、動作することに焦点を当てます。
 
-* **Refactor phase**: Improve the code quality while keeping all tests passing. Clean up duplication, improve naming, and enhance structure.
+* **リファクタリングフェーズ**:すべてのテストを成功させながらコード品質を向上させます。重複を削除し、命名を改善し、構造を強化します。
 
 </details>
 
-## Implementation overview
+## 実装概要
 
-You can implement an AI-assisted TDD workflow in VS Code by using custom agents. Each phase of the TDD process (red, green, refactor) has a specific goal and requires different AI behavior. You create a custom agent for each phase that defines the specific role and guidelines for that phase.
+VS CodeでAIアシスト型のTDDワークフローを実装するには、カスタムエージェントを使用します。TDDプロセスの各フェーズ(赤、緑、リファクタリング)には特定の目標があり、異なるAI動作が必要です。各フェーズのための特定のロールとガイドラインを定義するカスタムエージェントを作成します。
 
-With custom agent handoffs, you can transition from one phase to the next once the AI completes its task. The custom agents are connected in a cycle that mirrors the TDD workflow:
+カスタムエージェントハンドオフを使用することで、AIがタスクを完了した後、あるフェーズから次のフェーズに移行できます。カスタムエージェントはTDDワークフローを反映するサイクルで接続されます。
 
-* **Red phase** → hands off to **Green phase** after writing failing tests
-* **Green phase** → runs tests to verify implementation, then hands off to **Refactor phase**
-* **Refactor phase** → runs tests to ensure they still pass, then hands off back to **Red phase** to start the next cycle
+* **赤フェーズ** → 失敗するテストを作成後、**緑フェーズ**にハンドオフ
+* **緑フェーズ** → 実装を検証するためテストを実行し、**リファクタリングフェーズ**にハンドオフ
+* **リファクタリングフェーズ** → テストが引き続き成功することを確認し、次のサイクルを開始する**赤フェーズ**にハンドオフ
 
-If you have established test conventions, you can use [custom instructions](/docs/copilot/customization/custom-instructions.md) to set up a testing context that guides the AI in generating tests that align with your project's standards.
+確立されたテスト規約がある場合は、[カスタム命令](/docs/copilot/customization/custom-instructions.md)を使用して、プロジェクトの標準に沿ったテストをAIが生成するよう導くテストコンテキストを設定できます。
 
-The following diagram shows how custom agents work together to implement the TDD workflow, with handoffs enabling smooth transitions between phases.
+次の図は、カスタムエージェントがハンドオフにより段階間のスムーズな移行を可能にしながら、TDDワークフローを実装するために連携する方法を示しています。
 
-![Diagram that shows the TDD implementation diagram for VS Code with testing instructions, and custom agents for the red, green, and refactor phases.](../images/test-driven-development-guide/tdd-implementation-diagram.png)
+![VS CodeのTDD実装図。テスト命令と赤、緑、リファクタリングフェーズのカスタムエージェントを示す図。](../images/test-driven-development-guide/tdd-implementation-diagram.png)
 
 > [!TIP]
-> You can further enhance the TDD workflow by adding a planning phase before starting the cycle. You can use the built-in plan agent or create a custom planning agent that helps clarify requirements and identify edge cases to cover with tests.
+> サイクルを開始する前に計画フェーズを追加することで、TDDワークフローをさらに強化できます。組み込みの計画エージェントを使用するか、カスタム計画エージェントを作成して、要件を明確にし、テストでカバーすべきエッジケースを特定できます。
 
-## Step 1: Set up testing guidelines
+## ステップ1:テストガイドラインを設定する
 
-If you have established test conventions and practices, create a custom instructions file (`testing.instructions.md`) to help the AI generate tests that align with your project's standards.
+確立されたテスト規約とプラクティスがある場合は、カスタム命令ファイル(`testing.instructions.md`)を作成して、AIがプロジェクトの標準に沿ったテストを生成するよう支援します。
 
-**Why this helps**: Without explicit test conventions, AI might generate tests that don't match your project's style, use inconsistent patterns, or miss important test scenarios.
+**これが役立つ理由**:明示的なテスト規約がないと、AIはプロジェクトのスタイルに合わないテスト、矛盾したパターンを使用したテスト、または重要なテストシナリオを見落としたテストを生成する可能性があります。
 
-To set up testing guidelines:
+テストガイドラインを設定するには:
 
-1. Run the **Chat: Create Instructions File** command in the Command Palette to create a new instructions file in your workspace.
+1. コマンドパレットで**Chat: Create Instructions File**コマンドを実行して、ワークスペースに新しい命令ファイルを作成します。
 
-    * Select `.github/instructions` to create the instructions file in your workspace.
-    * Enter "testing" as the name for the instructions file.
+    * `.github/instructions`を選択して、命令ファイルをワークスペースに作成します。
+    * 命令ファイルの名前として「testing」と入力します。
 
     > [!NOTE]
-    > By using a `*.instructions.md` file instead of the `copilot.instructions.md` file, you can selectively apply these testing guidelines only to test files in your project instead of including them in all AI interactions.
+    > `copilot.instructions.md`ファイルではなく`*.instructions.md`ファイルを使用することで、すべてのAI操作に含める代わりに、プロジェクト内のテストファイルのみに対して、これらのテストガイドラインを選択的に適用できます。
 
-1. Update the instructions `applyTo` metadata to automatically apply them to test files. Also set the `description` metadata to indicate that these instructions provide testing context.
+1. `applyTo`メタデータを更新して、テストファイルに自動的に適用するようにします。また、`description`メタデータを設定して、これらの命令がテストコンテキストを提供することを示します。
 
-    The following example updates the `applyTo` field to target all files in the `tests/` directory:
+    次の例は、`applyTo`フィールドを更新して、`tests/`ディレクトリ内のすべてのファイルを対象とします。
 
     ```markdown
     ---
-    description: 'Use these guidelines when generating or updating tests.'
+    description: 'テストを生成または更新するときに、これらのガイドラインを使用します。'
     applyTo: tests/**
     ---
     ```
 
-1. Add your project's testing guidelines to the body of the instructions file.
+1. プロジェクトのテストガイドラインを命令ファイルの本文に追加します。
 
-    The following example provides a starting point for test conventions:
+    次の例は、テスト規約の出発点となるものです。
 
     ```markdown
     ---
-    description: 'Use these guidelines when generating or updating tests.'
+    description: 'テストを生成または更新するときに、これらのガイドラインを使用します。'
     applyTo: tests/**
     ---
-    # [Project Name] Testing Guidelines
+    # [プロジェクト名]テストガイドライン
 
-    ## Test conventions
-    * Write clear, focused tests that verify one behavior at a time
-    * Use descriptive test names that explain what is being tested and the expected outcome
-    * Follow Arrange-Act-Assert (AAA) pattern: set up test data, execute the code under test, verify results
-    * Keep tests independent - each test should run in isolation without depending on other tests
-    * Start with the simplest test case, then add edge cases and error conditions
-    * Tests should fail for the right reason - verify they catch the bugs they're meant to catch
-    * Mock external dependencies to keep tests fast and reliable
+    ## テスト規約
+    * 一度に1つの動作を検証する明確で焦点を絞ったテストを作成する
+    * テストされている内容と予想される結果を説明する説明的なテスト名を使用する
+    * Arrange-Act-Assert(AAA)パターンに従う:テストデータを設定し、テスト対象のコードを実行し、結果を検証する
+    * テストを独立させる - 各テストは他のテストに依存しないで独立して実行される必要がある
+    * 最もシンプルなテストケースから始め、その後、エッジケースとエラー条件を追加する
+    * テストは正しい理由で失敗する - それらが意図された目的でバグをキャッチすることを検証する
+    * 外部依存関係をモックして、テストを高速で信頼性の高いものにする
     ```
 
     > [!TIP]
-    > You can create an optional test structure template that defines sections and patterns for different test types (for example, `test-template.md`). Reference this template in your instructions file so the AI uses it when generating tests.
+    > テストタイプに対するセクションとパターンを定義するオプションのテスト構造テンプレート(たとえば、`test-template.md`)を作成できます。命令ファイルでこのテンプレートを参照して、AIがテストを生成するときにテンプレートを使用するようにします。
 
-## Step 2: Create red phase custom agent
+## ステップ2:赤フェーズのカスタムエージェントを作成する
 
-Create a "TDD-red" custom agent that focuses on the red phase of TDD. This custom agent is only responsible for writing failing tests based on the provided requirements and should not implement any application code. When completed, this agent hands off to the green phase custom agent.
+TDDの赤フェーズに焦点を当てた「TDD-red」カスタムエージェントを作成します。このカスタムエージェントは、提供された要件に基づいて失敗するテストを作成することだけに責任があり、アプリケーションコードを実装してはいけません。完了後、このエージェントは緑フェーズのカスタムエージェントにハンドオフします。
 
-**Why this helps**: Without a focused mode, the AI might mix implementation suggestions with test creation, and miss the core TDD principle of writing tests first.
+**これが役立つ理由**:焦点を絞ったモードがないと、AIは実装の提案をテスト作成と混合し、テストを最初に作成するというTDDの中核原則を見落とす可能性があります。
 
-To create the `.github/agents/TDD-red.agent.md` red phase [custom agent](/docs/copilot/customization/custom-agents.md):
+`.github/agents/TDD-red.agent.md`赤フェーズ[カスタムエージェント](/docs/copilot/customization/custom-agents.md)を作成するには:
 
-1. Run the **Chat: New Custom Agent** command in the Command Palette.
+1. コマンドパレットで**Chat: New Custom Agent**コマンドを実行します。
 
-    * Select `.github/agents` to create the custom agent definition in your workspace.
-    * Enter "TDD-red" as the name for the custom agent.
+    * `.github/agents`を選択して、カスタムエージェント定義をワークスペースに作成します。
+    * カスタムエージェントの名前として「TDD-red」と入力します。
 
-1. Update the custom agent definition to describe the guidelines and rules for the red phase, and to specify a handoff to the green phase custom agent.
+1. カスタムエージェント定義を更新して、赤フェーズのガイドラインとルールを説明し、緑フェーズのカスタムエージェントへのハンドオフを指定します。
 
-    The following `TDD-red.agent.md` file provides a starting point for the red phase.
+    次の`TDD-red.agent.md`ファイルは、赤フェーズの出発点を提供します。
 
     ```markdown
     ---
     name: TDD Red
-    description: TDD phase for writing FAILING tests
+    description: 失敗するテストを作成するためのTDDフェーズ
     infer: true
     tools: ['read', 'edit', 'search']
     handoffs:
       - label: TDD Green
         agent: TDD Green
-        prompt: Implement minimal implementation
+        prompt: 最小限の実装を実装する
     ---
-    You are a test-writer: when given a function name, spec, or requirements, output a complete test file (or test function) that asserts the expected behavior, which must fail when run against the current codebase. Use the project’s style/conventions. Do not write implementation, only tests.
+    あなたはテスト作成者です。関数名、仕様、または要件が与えられたら、現在のコードベースに対して実行すると失敗する必要がある、期待される動作をアサートする完全なテストファイル(またはテスト関数)を出力します。プロジェクトのスタイル/規約を使用します。実装ではなく、テストのみを作成します。
     ```
 
-## Step 3: Create green phase custom agent
+## ステップ3:緑フェーズのカスタムエージェントを作成する
 
-Create a "TDD-green" custom agent that focuses on the green phase of TDD. This custom agent is only responsible for writing the minimal implementation code to make the tests pass, without modifying the test code. After implementing, this agent runs the tests to verify they pass, then hands off to the refactor phase custom agent.
+TDDの緑フェーズに焦点を当てた「TDD-green」カスタムエージェントを作成します。このカスタムエージェントは、テストコードを変更することなく、テストを成功させるために必要な最小限の実装コードを作成することだけに責任があります。実装後、このエージェントはテストを実行してテストが成功することを検証し、リファクタリングフェーズのカスタムエージェントにハンドオフします。
 
-To create the `.github/agents/TDD-green.agent.md` green phase [custom agent](/docs/copilot/customization/custom-agents.md):
+`.github/agents/TDD-green.agent.md`緑フェーズ[カスタムエージェント](/docs/copilot/customization/custom-agents.md)を作成するには:
 
-1. Run the **Chat: New Custom Agent** command in the Command Palette.
+1. コマンドパレットで**Chat: New Custom Agent**コマンドを実行します。
 
-    * Select `.github/agents` to create the custom agent definition in your workspace.
-    * Enter "TDD-green" as the name for the custom agent.
+    * `.github/agents`を選択して、カスタムエージェント定義をワークスペースに作成します。
+    * カスタムエージェントの名前として「TDD-green」と入力します。
 
-1. Update the custom agent definition to describe the guidelines and rules for the green phase, and to specify a handoff to the refactor phase custom agent.
+1. カスタムエージェント定義を更新して、緑フェーズのガイドラインとルールを説明し、リファクタリングフェーズのカスタムエージェントへのハンドオフを指定します。
 
-    The following `TDD-green.agent.md` file provides a starting point:
+    次の`TDD-green.agent.md`ファイルは出発点を提供します。
 
     ```markdown
     ---
     name: TDD Green
-    description: TDD phase for writing MINIMAL implementation to pass tests
+    description: テストを成功させるために最小限の実装を作成するためのTDDフェーズ
     infer: true
     tools: ['search', 'edit', 'execute']
     handoffs:
       - label: TDD Refactor
         agent: TDD Refactor
-        prompt: Refactor the implementation
+        prompt: 実装をリファクタリングする
     ---
 
-    You are a code-implementer. Given a failing test case and context (existing codebase or module), write the minimal code change needed so that the test passes - no extra features. Do not write tests, only implementation.
+    あなたはコード実装者です。失敗するテストケースとコンテキスト(既存のコードベースまたはモジュール)が与えられたら、テストが成功するために必要な最小限のコード変更を記述します。追加の機能は不要です。テストは作成しせず、実装のみを行います。
 
-    After implementing changes, run the tests to verify they pass.
+    実装変更後、テストを実行してテストが成功することを確認します。
     ```
 
-## Step 4: Create refactor phase custom agent
+## ステップ4:リファクタリングフェーズのカスタムエージェントを作成する
 
-Create a "TDD-refactor" custom agent that focuses on the refactor phase of TDD to improve code quality while keeping all tests passing. This agent is responsible for cleaning up code, removing duplication, improving naming, and enhancing structure without changing functionality. After refactoring, this agent runs the tests to ensure they still pass, then hands off back to the red phase to start the next TDD cycle.
+TDDのリファクタリングフェーズに焦点を当てた「TDD-refactor」カスタムエージェントを作成して、すべてのテストを成功させながらコード品質を向上させます。このエージェントは、機能を変更することなく、コードをクリーンアップし、重複を削除し、命名を改善し、構造を強化する責任があります。リファクタリング後、このエージェントはテストが引き続き成功することを確認し、次のTDDサイクルを開始するため赤フェーズにハンドオフします。
 
-To create the `.github/agents/TDD-refactor.agent.md` refactor phase [custom chat agent](/docs/copilot/customization/custom-agents.md):
+`.github/agents/TDD-refactor.agent.md`リファクタリングフェーズ[カスタムチャットエージェント](/docs/copilot/customization/custom-agents.md)を作成するには:
 
-1. Run the **Chat: New Custom Agent** command in the Command Palette.
+1. コマンドパレットで**Chat: New Custom Agent**コマンドを実行します。
 
-    * Select `.github/agents` to create the custom agent definition in your workspace.
-    * Enter "TDD-refactor" as the name for the custom agent.
+    * `.github/agents`を選択して、カスタムエージェント定義をワークスペースに作成します。
+    * カスタムエージェントの名前として「TDD-refactor」と入力します。
 
-1. Update the custom agent definition to describe the guidelines and rules for the refactor phase.
+1. カスタムエージェント定義を更新して、リファクタリングフェーズのガイドラインとルールを説明します。
 
-    The following `TDD-refactor.agent.md` file provides a starting point:
+    次の`TDD-refactor.agent.md`ファイルは出発点を提供します。
 
     ```markdown
     ---
     name: TDD Refactor
-    description: Refactor code while maintaining passing tests
+    description: すべてのテストを成功させながらコードをリファクタリングする
     tools: ['search', 'edit', 'read', 'execute']
     infer: true
     handoffs:
       - label: TDD Red
         agent: TDD Red
-        prompt: Start next TDD cycle with new test
+        prompt: 新しいテストで次のTDDサイクルを開始する
     ---
-    You are refactor-assistant. Given code that passes all tests, examine it and suggest or apply refactoring to improve readability/structure/DRYness, without changing behavior. No new functionality, no breaking changes.
+    あなたはリファクタリングアシスタントです。すべてのテストが成功するコードが与えられたら、それを調べ、動作を変えずに可読性/構造/DRYness(Don't Repeat Yourself)を向上させるためのリファクタリングを提案または適用します。新しい機能なし、破壊的な変更なし。
 
-    After refactoring, run the tests to ensure all tests still pass and behavior is preserved.
+    リファクタリング後、テストを実行してすべてのテストが引き続き成功し、動作が保持されることを確認します。
     ```
 
-## Use the TDD workflow to implement features
+## TDDワークフローを使用して機能を実装する
 
-Now that the TDD custom agents are set up, you can use them to implement features in your project using the TDD workflow.
+TDDカスタムエージェントが設定されたため、それらを使用してプロジェクトの機能をTDDワークフローで実装できます。
 
-1. Open the Chat view and select the **TDD Red** agent from the agent dropdown menu.
+1. チャットビューを開き、エージェントドロップダウンメニューから**TDD Red**エージェントを選択します。
 
-1. Provide a prompt that describes the feature or behavior you want to test.
+1. テストしたい機能または動作を説明するプロンプトを入力します。
 
-    For example:
+    例として:
 
     ```text
-    Write tests for user registration with email validation and password requirements.
+    メール検証とパスワード要件を備えたユーザー登録のテストを作成します。
     ```
 
-1. Review the generated tests and use the handoff actions to transition through the TDD cycle:
+1. 生成されたテストを確認し、ハンドオフアクションを使用してTDDサイクルを通じて移行します。
 
-    * After tests are written, select **TDD Green** to implement the minimal code to make tests pass
-    * The green agent runs tests automatically after implementing
-    * After tests pass, select **TDD Refactor** to improve code quality
-    * The refactor agent runs tests automatically after refactoring to ensure they still pass
-    * Select **TDD Red** to start the next cycle with additional functionality
+    * テストを作成後、**TDD Green**を選択してテストを成功させるための最小限のコードを実装します。
+    * 緑エージェントは実装後に自動的にテストを実行します。
+    * テストが成功後、**TDD Refactor**を選択してコード品質を向上させます。
+    * リファクタリングエージェントはコード品質を向上させた後に自動的にテストを実行してテストが引き続き成功することを確認します。
+    * **TDD Red**を選択して次のサイクルを開始し、追加の機能を実装します。
 
-## Troubleshooting and best practices
+## トラブルシューティングとベストプラクティス
 
-### Common TDD pitfalls with AI
+### AIを使用したTDDの一般的な落とし穴
 
-**Running TDD without handoffs**: Using a single agent to complete the entire TDD cycle removes the human from the loop. Handoffs provide control points where you can assess each step, verify the AI's work, and steer the agent in the right direction before moving to the next phase.
+**ハンドオフなしでTDDを実行する**:単一のエージェントを使用してTDD全体を完了すると、人間がループから外されます。ハンドオフは、各ステップを評価し、AIの作業を検証し、次のフェーズに移動する前にエージェントを正しい方向に導くコントロールポイントを提供します。
 
-**Missing test coverage for features**: TDD agents focus on making existing tests pass and won't implement features that don't have corresponding tests. Ensure every requirement in your specification has test coverage before expecting the implementation to include it.
+**機能のテストカバレッジの不足**:TDDエージェントは既存のテストを成功させることに焦点を当てており、対応するテストがない機能を実装しません。仕様内のすべての要件に対してテストカバレッジを確保してから、実装にそれらを含めることを期待してください。
 
-**Skipping the red phase**: AI might suggest implementing code before writing tests.
+**赤フェーズをスキップする**:AIはテストを作成する前にコードを実装することを提案する可能性があります。
 
-**Over-implementation**: AI might generate more code than needed to pass the current test. Review implementations critically and remove unnecessary complexity.
+**過剰実装**:AIは現在のテストを成功させるために必要以上のコードを生成する可能性があります。実装を批判的に確認し、不要な複雑さを削除します。
 
-**Testing implementation details**: Tests should verify behavior, not implementation. If refactoring requires changing tests, they might be too tightly coupled to implementation details.
+**実装の詳細をテストする**:テストは実装ではなく、動作を検証する必要があります。リファクタリングにテストの変更が必要な場合、テストが実装の詳細に密結合されすぎている可能性があります。
 
-**Incomplete test coverage**: AI might miss edge cases or error conditions. Review generated tests critically and ask for additional tests covering boundary conditions, error scenarios, and edge cases.
+**不完全なテストカバレッジ**:AIはエッジケースやエラー条件を見落とす可能性があります。生成されたテストを批判的に確認し、境界条件、エラーシナリオ、エッジケースをカバーする追加のテストを要求します。
 
-### Best practices for TDD with AI
+### TDDを使用するベストプラクティス
 
-**Choose the right model for the task**: Different language models have different strengths. Consider using reasoning models for complex test generation and edge case identification. Use the model picker in the Chat view to switch models during your TDD workflow or define the `model` in your custom agent properties.
+**タスクに適したモデルを選択する**:異なる言語モデルは異なる強みを持ちます。複雑なテスト生成やエッジケース特定には推論モデルの使用を検討します。チャットビューのモデルピッカーを使用して、TDDワークフロー中にモデルを切り替えるか、カスタムエージェントプロパティで`model`を定義します。
 
-**Validate test quality**: After AI generates a test, review it to ensure it fails for the right reason. Run the test before implementing to verify it catches the missing functionality.
+**テスト品質を検証する**:AIがテストを生成した後、テストが正しい理由で失敗することを確認するためにそれを確認します。実装前にテストを実行して、見落とされている機能をキャッチすることを検証します。
 
-**Maintain incremental progress**: Take small steps through the TDD cycle. Write one test, implement minimal code, refactor, then repeat. Small iterations prevent large mistakes and keep the codebase working.
+**段階的な進捗を維持する**:TDDサイクルを通じて小さなステップを取ります。1つのテストを作成し、最小限のコードを実装し、リファクタリングしてから繰り返します。小さな反復は大きな間違いを防ぎ、コードベースが動作するようにします。
 
-**Run tests frequently**: Execute tests immediately after changes. Don't accumulate multiple changes before testing. Frequent test runs provide rapid feedback and catch issues early.
+**頻繁にテストを実行する**:変更直後にテストを実行します。複数の変更を蓄積してからテストしないでください。頻繁なテスト実行によって急速なフィードバックが得られ、問題が早期にキャッチされます。
 
-**Use test coverage as a guide**: High coverage doesn't guarantee quality, but low coverage indicates untested behavior. Ask AI to suggest tests for uncovered code paths.
+**テストカバレッジをガイドとして使用する**:高いカバレッジが品質を保証しませんが、低いカバレッジはテストされない動作を示します。カバーされていないコードパスに対してAIにテストを提案するよう要求します。
 
-**Maintain test independence**: Tests should run in any order without affecting each other. If tests depend on execution order or shared state, refactor to make them independent.
+**テストの独立性を維持する**:テストは実行順序に関係なく実行でき、互いに影響を与えないようにする必要があります。テストが実行順序や共有状態に依存する場合は、それらを独立させるようにリファクタリングしてください。
 
-**Update test context as needed**: As your project evolves, update the testing guidelines in your instructions file to reflect new conventions, frameworks, or practices.
+**必要に応じてテストコンテキストを更新する**:プロジェクトが進化するにつれて、命令ファイルのテストガイドラインを更新して、新しい規約、フレームワーク、またはプラクティスを反映します。
 
-## Related resources
+## 関連リソース
 
-Learn more about testing and AI customization in VS Code:
+VS CodeでのテストとAIカスタマイズの詳細を確認します。
 
-* [Testing with AI](/docs/copilot/guides/test-with-copilot.md)
-* [Custom agents](/docs/copilot/customization/custom-agents.md)
-* [Custom instructions](/docs/copilot/customization/custom-instructions.md)
-* [Running tests with VS Code](/docs/debugtest/testing.md)
+* [AIを使用したテスト](/docs/copilot/guides/test-with-copilot.md)
+* [カスタムエージェント](/docs/copilot/customization/custom-agents.md)
+* [カスタム命令](/docs/copilot/customization/custom-instructions.md)
+* [VS Codeでテストを実行する](/docs/debugtest/testing.md)
+

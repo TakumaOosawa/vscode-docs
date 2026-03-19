@@ -1,93 +1,93 @@
 ---
 ContentId: 37fd3bd2-4209-49f6-bec5-c544d6b1b289
 DateApproved: 3/9/2026
-MetaDescription: Access your GitHub Copilot subscription and set up GitHub Copilot in Visual Studio.
+MetaDescription: GitHub Copilotサブスクリプションにアクセスし、Visual StudioでGitHub Copilotをセットアップします。
 MetaSocialImage: images/shared/github-copilot-social.png
 ---
-# Set up GitHub Copilot in VS Code
+# VS CodeでGitHub Copilotをセットアップする
 
-This guide walks you through setting up GitHub Copilot in Visual Studio Code. To use Copilot in VS Code, you need to have access to GitHub Copilot with your GitHub account.
+このガイドでは、Visual Studio CodeでGitHub Copilotをセットアップする手順を説明します。VS CodeでCopilotを使用するには、GitHubアカウントでGitHub Copilotにアクセスできる必要があります。
 
-<video src="./images/setup/vscode-copilot-setup.mp4" poster="./images/setup/setup-copilot-sign-in.png" title="Setting up GitHub Copilot in Visual Studio Code" loop controls muted></video>
+<video src="./images/setup/vscode-copilot-setup.mp4" poster="./images/setup/setup-copilot-sign-in.png" title="Visual Studio CodeでGitHub Copilotをセットアップする" loop controls muted></video>
 
-<div class="docs-action" data-show-in-doc="false" data-show-in-sidebar="true" title="Get started with AI">
-Follow a hands-on tutorial to build your first app with AI in VS Code.
+<div class="docs-action" data-show-in-doc="false" data-show-in-sidebar="true" title="AIを使い始める">
+VS CodeでAIを使用して最初のアプリを作成するためのハンズオンチュートリアルに従ってください。
 
-* [Start tutorial](/docs/copilot/getting-started.md)
+* [チュートリアルを開始](/docs/copilot/getting-started.md)
 
 </div>
 
-Follow these steps to get started with Copilot in VS Code:
+VS CodeでCopilotを使用するには、以下の手順に従ってください。
 
-1. Hover over the Copilot icon in the Status Bar and select **Use AI Features**.
+1. ステータスバーのCopilotアイコンにマウスポインターを置き、「AIフィーチャーを使用」を選択します。
 
-1. Choose a sign-in method and follow the prompts.
+1. サインイン方法を選択し、プロンプトに従います。
 
-    * If you already have a Copilot subscription for your account, VS Code will use that subscription.
+    * アカウントにCopilotサブスクリプションがある場合、VS CodeはそのサブスクリプションDを使用します。
 
-    * If you don't have a Copilot subscription yet, you'll be signed up for the [Copilot Free plan](https://docs.github.com/en/copilot/managing-copilot/managing-copilot-as-an-individual-subscriber/managing-copilot-free/about-github-copilot-free) and get a monthly limit of inline suggestions and chat interactions. Learn more about the different [GitHub Copilot plans](https://docs.github.com/en/copilot/get-started/plans).
+    * まだCopilotサブスクリプションを持っていない場合は、[Copilot Free プラン](https://docs.github.com/en/copilot/managing-copilot/managing-copilot-as-an-individual-subscriber/managing-copilot-free/about-github-copilot-free)にサインアップでき、インラインサジェスチョンとチャットインタラクションの月次制限を取得します。別の[GitHub Copilotプラン](https://docs.github.com/en/copilot/get-started/plans)について詳しく説明します。
 
-1. Start using Copilot in VS Code!
+1. VS CodeでCopilotの使用を開始してください！
 
-    Learn the basics with the [Copilot Quickstart](/docs/copilot/getting-started.md).
+    [Copilot クイックスタート](/docs/copilot/getting-started.md)で基本を学んでください。
 
-1. Type `/init` in a chat session to set up your project for AI.
+1. チャットセッションで`/init`と入力して、プロジェクトをAI用にセットアップします。
 
-    The `/init` command analyzes your codebase and creates [custom instructions](/docs/copilot/customization/custom-instructions.md) to help the AI generate code that matches your coding practices.
+    `/init`コマンドはコードベースを分析し、[カスタム指示](/docs/copilot/customization/custom-instructions.md)を作成して、AIがコーディング慣行に一致するコードを生成するのに役立ちます。
 
 > [!IMPORTANT]
-> Telemetry in your free version of GitHub Copilot is currently enabled. By default, code suggestions that match public code, including code references in the VS Code and [github.com](http://github.com/copilot) experience, are allowed. You can opt out of telemetry data collection by disabling telemetry in VS Code by setting `setting(telemetry.telemetryLevel)` to `off`, or you can adjust both telemetry and code suggestion settings in [Copilot Settings](https://github.com/settings/copilot).
+> GitHub Copilotの無料版でのテレメトリは現在有効になっています。デフォルトでは、VS Codeおよび[github.com](http://github.com/copilot)エクスペリエンスのコード参照を含むパブリックコードと一致するコードサジェスチョンが許可されます。VS Codeでテレメトリを無効にして`setting(telemetry.telemetryLevel)`を`off`に設定するか、[Copilot 設定](https://github.com/settings/copilot)でテレメトリとコードサジェスチョン設定の両方を調整することで、テレメトリデータの収集をオプトアウトできます。
 
-## Use Copilot with a GHE account
+## GHEアカウントでCopilotを使用する
 
-If your Copilot subscription is associated with a GitHub Enterprise (GHE) account, you can sign in to Copilot in VS Code with your GHE credentials.
+Copilotサブスクリプションが GitHub Enterprise (GHE) アカウントに関連付けられている場合、GHE認証情報を使用してVS CodeのCopilotにサインインできます。
 
-1. If you haven't already, hover over the Copilot icon in the Status Bar and select **Use AI Features**.
+1. まだの場合は、ステータスバーのCopilotアイコンにマウスポインターを置き、「AIフィーチャーを使用」を選択します。
 
-1. In the sign in dialog, choose **Continue with GHE.com** and provide your GHE instance URL and credentials.
+1. サインインダイアログで「GHE.comで続行」を選択し、GHEインスタンスURLと認証情報を入力します。
 
-If you need to switch between a GitHub.com account and a GHE account, see [Use a different GitHub account per workspace or profile](#use-a-different-github-account-per-workspace-or-profile) for instructions.
+GitHub.comアカウントとGHEアカウントを切り替える必要がある場合は、[ワークスペースまたはプロファイルごとに異なるGitHubアカウントを使用する](#ワークスペースまたはプロファイルごとに異なるgithubアカウントを使用する)を参照して、手順をご確認ください。
 
-## Use a different GitHub account with Copilot
+## Copilotで別のGitHubアカウントを使用する
 
-If your Copilot subscription is associated with another GitHub account, follow these steps to sign out of your GitHub account in VS Code, and sign in with another account.
+Copilotサブスクリプションが別のGitHubアカウントに関連付けられている場合は、以下の手順に従ってVS Codeのサインアウト、別のアカウントでサインインしてください。
 
-1. Select the **Accounts** menu in the Activity Bar, and then select **Sign out** for the account you're currently signed in with.
+1. アクティビティバーの「アカウント」メニューを選択し、現在サインインしているアカウントの「サインアウト」を選択します。
 
-    ![Accounts menu in VS Code, showing the option to sign out of the current GitHub account.](images/setup/vscode-accounts-menu-signout.png)
+    ![現在のGitHubアカウントからサインアウトするオプションを表示するVS Codeのアカウントメニュー。](images/setup/vscode-accounts-menu-signout.png)
 
-1. Sign in to your GitHub account using any of the following methods:
+1. 以下のいずれかの方法でGitHubアカウントにサインインします。
 
-    * Select **Sign in to use Copilot** from the Copilot menu in the Status Bar.
+    * ステータスバーのCopilotメニューから「Copilotを使用するためにサインイン」を選択します。
 
-        ![Sign in to use Copilot from the Copilot status menu.](images/setup/copilot-signedout-sign-in.png)
+        ![Copilotステータスメニューからサインインする。](images/setup/copilot-signedout-sign-in.png)
 
-    * Select the **Accounts** menu in the Activity Bar, and then select **Sign in with GitHub to use GitHub Copilot**.
+    * アクティビティバーの「アカウント」メニューを選択し、「GitHubでサインインしてGitHub Copilotを使用」を選択します。
 
-        ![Accounts menu in VS Code, showing the option to sign in with GitHub to use GitHub Copilot.](images/setup/vscode-accounts-menu.png)
+        ![GitHub Copilotを使用するためにGitHubでサインインするオプションを表示するVS CodeのアカウントメニューD。](images/setup/vscode-accounts-menu.png)
 
-    * Run the **GitHub Copilot: Sign in** command in the Command Palette (`kb(workbench.action.showCommands)`).
+    * コマンドパレット (`kb(workbench.action.showCommands)`) で「GitHub Copilot: Sign in」コマンドを実行します。
 
-## Use a different GitHub account per workspace or profile
+## ワークスペースまたはプロファイルごとに異なるGitHubアカウントを使用する
 
-You can use different GitHub accounts for Copilot per VS Code workspace or profile. This is useful if you use Copilot with different accounts for work and personal projects, or if you want to use different accounts for different extensions that use GitHub authentication.
+VS CodeのワークスペースごとまたはプロファイルごとにCopilotに対して異なるGitHubアカウントを使用できます。これは、仕事用と個人用のプロジェクトで異なるアカウントでCopilotを使用する場合や、GitHub認証を使用する異なる拡張機能に対して異なるアカウントを使用する場合に便利です。
 
-Follow these steps to configure which GitHub account to use for Copilot. This configuration is saved per workspace and per profile.
+Copilotに使用するGitHubアカウントを構成するには、以下の手順に従ってください。この構成は、ワークスペースごと、プロファイルごとに保存されます。
 
-* For GitHub.com accounts:
+* GitHub.comアカウントの場合:
 
-    1. In the Accounts menu in the Activity Bar, select **Manage Extension Account Preferences**
-    1. Select **GitHub Copilot Chat** from the list of extensions
-    1. Choose the GitHub account you want to use for Copilot in the current workspace and profile
+    1. アクティビティバーのアカウントメニューで「拡張機能アカウント設定を管理」を選択します。
+    1. 拡張機能のリストから「GitHub Copilot Chat」を選択します。
+    1. 現在のワークスペースとプロファイルでCopilotに使用するGitHubアカウントを選択します。
 
-* For GHE.com accounts:
+* GHE.comアカウントの場合:
 
     > [!TIP]
-    > If you only want to use a GHE account for Copilot, follow the steps in [Use Copilot with a GHE account](#use-copilot-with-a-ghe-account) to sign in with your GHE account.
+    > CopilotにGHEアカウントのみを使用する場合は、[GHEアカウントでCopilotを使用する](#gheアカウントでcopilotを使用する)の手順に従ってGHEアカウントでサインインしてください。
 
-    1. Run **Preferences: Open User Settings (JSON)** or **Preferences: Open Workspace Settings (JSON)** from the Command Palette (`kb(workbench.action.showCommands)`)
+    1. コマンドパレット (`kb(workbench.action.showCommands)`) から「Preferences: Open User Settings (JSON)」または「Preferences: Open Workspace Settings (JSON)」を実行します。
 
-    1. Add the following setting to specify GitHub Enterprise as the authentication provider for Copilot:
+    1. Copilotの認証プロバイダーとしてGitHub Enterpriseを指定するため、以下の設定を追加します。
 
         ```json
         "github.copilot.advanced": {
@@ -95,21 +95,22 @@ Follow these steps to configure which GitHub account to use for Copilot. This co
         }
         ```
 
-    1. Re-sign in to your GitHub Enterprise account if you're not already signed in
+    1. まだサインインしていない場合は、GitHubEnterpriseアカウントに再度サインインします。
 
-## Remove AI features from VS Code
+## VS CodeからAIフィーチャーを削除する
 
-You can disable the built-in AI features in VS Code with the `setting(chat.disableAIFeatures)` setting, similar to how you configure other features in VS Code. This disables and hides features like chat or inline suggestions in VS Code and disables the Copilot extensions. You can configure the setting at the workspace or user level.
+VS Codeの他のフィーチャーを構成する方法と同様に、`setting(chat.disableAIFeatures)`設定を使用してVS Codeの組み込みAIフィーチャーを無効にできます。これにより、チャットやインラインサジェスチョンなどのVS CodeのフィーチャーD無効化/非表示になり、Copilot拡張機能が無効になります。ワークスペースレベルまたはユーザーレベルで設定を構成できます。
 
-Alternatively, use the **Learn How to Hide AI Features** action from the Chat menu in the title bar to access the setting.
+または、タイトルバーのチャットメニューから「AIフィーチャーを非表示にする方法を説明」アクションを使用して、設定にアクセスできます。
 
 > [!NOTE]
-> If you have previously disabled the built-in AI features, your choice is respected upon updating to a new version of VS Code.
+> 以前に組み込みAIフィーチャーを無効にした場合、新しいバージョンのVS Codeに更新しても、その選択は尊重されます。
 
-## Disable AI features for a workspace
+## ワークスペースのAIフィーチャーを無効にする
 
-To disable AI features for a specific workspace, configure the `setting(chat.disableAIFeatures)` setting in workspace settings. This setting is available in the Settings editor (`kb(workbench.action.openSettings)`), or you can edit the `settings.json` file in the workspace.
+特定のワークスペースのAIフィーチャーを無効にするには、ワークスペース設定で`setting(chat.disableAIFeatures)`設定を構成します。この設定は設定エディター (`kb(workbench.action.openSettings)`) で利用できるか、ワークスペースの`settings.json`ファイルを編集できます。
 
-## Next steps
+## 次のステップ
 
-* Continue with the [Quickstart for using AI](/docs/copilot/getting-started.md) to discover the key features for AI-powered development in VS Code.
+* [AIを使用するためのクイックスタート](/docs/copilot/getting-started.md)を続行して、VS CodeでのAI駆動開発の主要フィーチャーを発見してください。
+

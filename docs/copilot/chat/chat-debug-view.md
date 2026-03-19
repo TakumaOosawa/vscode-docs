@@ -1,154 +1,155 @@
 ---
 ContentId: 2f4a8e9d-3c5b-4f6e-a7d8-1c2b3e4f5a6b
 DateApproved: 3/9/2026
-MetaDescription: Use Agent Logs and the Chat Debug view to inspect AI requests, tool invocations, and agent interactions in Visual Studio Code.
+MetaDescription: エージェント ログと Chat Debug ビューを使用して、Visual Studio Code の AI リクエスト、ツール呼び出し、エージェント操作を検査します。
 MetaSocialImage: ../images/shared/github-copilot-social.png
 ---
-# Debug chat interactions
+# チャット操作のデバッグ
 
-Visual Studio Code provides tools to help you understand what happens when you send a prompt to the AI. Use these tools to inspect how agents discover prompt files, invoke tools, make language model requests, and generate responses.
+Visual Studio Code には、プロンプトを AI に送信するときの動作を理解するのに役立つツールが用意されています。これらのツールを使用して、エージェントがプロンプト ファイルを見つけ、ツールを呼び出し、言語モデル リクエストを実行し、レスポンスを生成する方法を検査します。
 
-VS Code offers two complementary debugging tools:
+VS Code には2つの補完的なデバッグ ツールがあります:
 
-* **Agent Debug panel** (Preview) shows a chronological event log of everything that happens during a chat session, including tool calls, LLM requests, prompt file discovery, and errors.
-* **Chat Debug view** shows the raw details of each LLM request and response, including the full system prompt, user prompt, context, and tool invocation payloads.
+* **Agent Debug パネル** (プレビュー) は、ツール呼び出し、LLM リクエスト、プロンプト ファイル発見、エラーなど、チャット セッション中に発生するすべてのイベントの時系列ログを表示します。
+* **Chat Debug ビュー** は、完全なシステム プロンプト、ユーザー プロンプト、コンテキスト、ツール呼び出しペイロードを含む、各 LLM リクエストとレスポンスの詳細を表示します。
 
-## Agent Debug panel
-
-> [!NOTE]
-> The Agent Debug panel is currently in preview.
-
-The Agent Debug panel is the primary tool for understanding what happens when you send a prompt. It shows a chronological event log of agent interactions during a chat session, making it especially useful when debugging [custom agents](/docs/copilot/agents/local-agents.md) and orchestrated sub-agent workflows.
-
-To open the Agent Debug panel:
-
-* Select the gear icon in the Chat view and select **Show Agent Logs**.
-
-* Run **Developer: Open Agent Debug Panel** from the Command Palette.
-
-You can switch between three views in the Agent Debug panel:
-
-* **Logs**: a chronological list of events during the session, with filtering options to focus on specific event types.
-
-* **Agent Flow Chart**: a flow chart that visualizes the interactions between agents and sub-agents during the session.
-
-* **Summary**: aggregate statistics about the session, such as total tool calls, token usage, error count, and overall duration.
+## Agent Debug パネル
 
 > [!NOTE]
-> The Agent Debug panel is currently only available for local chat sessions. Log data is not persisted, so you can only view logs for chat sessions from your current VS Code session.
+> Agent Debug パネルは現在プレビュー中です。
 
-### Logs view
+Agent Debug パネルは、プロンプトを送信するときの処理を理解するための主要なツールです。チャット セッション中のエージェント操作の時系列イベント ログを表示しており、[カスタム エージェント](/docs/copilot/agents/local-agents.md) とオーケストレーションされた サブエージェント ワークフローのデバッグに特に役立ちます。
 
-The Logs view shows a chronological list of events that occurred during the chat session. Each event includes a timestamp, event type, and summary information. You can expand each event to see more details, such as the full system prompt for an LLM request or the input and output for a tool call.
+Agent Debug パネルを開くには:
 
-![Screenshot of the list of events in Agent Logs.](../images/chat-debug-view/agent-logs.png)
+* Chat ビューの歯車アイコンを選択し、**Show Agent Logs** を選択します。
 
-You can switch between a flat list and a tree view that groups events by subagent. Use the filter options to focus on specific events or event types.
+* コマンド パレットから **Developer: Open Agent Debug Panel** を実行します。
 
-The Logs view is the default view when you open the Agent Debug panel. You can also switch to the Logs view from the [Summary view](#summary-view) by selecting **View Logs**.
+Agent Debug パネルでは3つのビューを切り替えることができます:
 
-### Summary view
+* **Logs**: セッション中のイベントの時系列リスト。特定のイベント タイプに焦点を当てるためのフィルター オプションです。
 
-The Summary view provides aggregate statistics about the chat session, such as total tool calls, token usage, error count, and overall duration.
+* **Agent Flow Chart**: セッション中のエージェント間およびサブエージェント間の操作を視覚化したフロー チャート。
 
-![Screenshot of the summary view in Agent Logs, showing aggregate statistics for the chat session.](../images/chat-debug-view/agent-logs-summary-v2.png)
+* **Summary**: セッションの総ツール呼び出し数、トークン使用量、エラー数、全体的な期間などの集計統計。
 
-To open the Summary view:
+> [!NOTE]
+> Agent Debug パネルは現在ローカル チャット セッションでのみ利用可能です。ログ データは永続化されないため、現在の VS Code セッションからのチャット セッションのログのみを表示できます。
 
-1. Open the Agent Debug panel by selecting the gear icon in the Chat view and selecting **Show Agent Logs**.
+### Logs ビュー
 
-1. Select the session description in the breadcrumb at the top of the panel.
+Logs ビューは、チャット セッション中に発生したイベントの時系列リストを表示します。各イベントにはタイムスタンプ、イベント タイプ、概要情報が含まれています。各イベントを展開すると、LLM リクエストのための完全なシステム プロンプトやツール呼び出しの入出力など、詳細情報を確認できます。
 
-### Agent Flow Chart view
+![Agent Logs のイベント リストのスクリーンショット。](../images/chat-debug-view/agent-logs.png)
 
-The Agent Flow Chart view visualizes the sequence of events and interactions between agents, making it easier to understand complex orchestrations.
+フラット リストとサブエージェント別のイベントをグループ化するツリー ビューを切り替えることができます。フィルター オプションを使用して、特定のイベントまたはイベント タイプに焦点を当てます。
 
-![Screenshot of the flow chart in Agent Logs, showing the interactions between agents and sub-agents.](../images/chat-debug-view/agent-flow-chart-v2.png)
+Logs ビューは、Agent Debug パネルを開くときのデフォルト ビューです。[Summary ビュー](#summary-view) から **View Logs** を選択して、Logs ビューに切り替えることもできます。
 
-You can pan and zoom the flow chart and select any node in the flow chart to see details about that event.
+### Summary ビュー
 
-To open the flowchart view, select **Agent Flow Chart** from the [Summary view](#summary-view).
+Summary ビューは、総ツール呼び出し数、トークン使用量、エラー数、全体的な期間など、チャット セッションの集計統計を提供します。
 
-1. Open the Agent Debug panel by selecting the gear icon in the Chat view and selecting **Show Agent Logs**.
+![Agent Logs の サマリー ビューのスクリーンショット。チャット セッションの集計統計を表示しています。](../images/chat-debug-view/agent-logs-summary-v2.png)
 
-1. Select the session description in the breadcrumb at the top of the panel.
+Summary ビューを開くには:
 
-1. Select **Agent Flow Chart** from the Summary view.
+1. Chat ビューの歯車アイコンを選択し、**Show Agent Logs** を選択して Agent Debug パネルを開きます。
 
-### Attach debug events to chat
+1. パネルの上部にあるブレッドクラムのセッション説明を選択します。
 
-You can attach a snapshot of the agent debug events to a chat conversation and ask the AI questions about the current session. This is useful for understanding token usage, which customizations loaded, what tool calls happened, and how long requests took.
+### Agent Flow Chart ビュー
 
-To attach debug events to chat:
+Agent Flow Chart ビューは、イベントの順序とエージェント間の操作を視覚化し、複雑なオーケストレーションを理解しやすくします。
 
-1. Open the [Agent Logs view](#logs-view) for your chat session
+![Agent Logs のフロー チャートのスクリーンショット。エージェント間およびサブエージェント間の操作を表示しています。](../images/chat-debug-view/agent-flow-chart-v2.png)
 
-1. Select the sparkle icon in the top right of the Agent Debug panel. This opens the Chat view with the debug events snapshot attached as context.
+フロー チャートをパン操作およびズーム操作できます。フロー チャのート内の任意のノードを選択して、そのイベントの詳細を確認します。
 
-## Chat Debug view
+フロー チャート ビューを開くには、[Summary ビュー](#summary-view) から **Agent Flow Chart** を選択します。
 
-The Chat Debug view shows the raw details of each AI request and response. Use it when you need to inspect the exact system prompt, user prompt, context, or tool response payloads sent to and received from the language model.
+1. Chat ビューの歯車アイコンを選択し、**Show Agent Logs** を選択して Agent Debug パネルを開きます。
 
-### Open the Chat Debug view
+1. パネルの上部にあるブレッドクラムのセッション説明を選択します。
 
-To open the Chat Debug view:
+1. Summary ビューから **Agent Flow Chart** を選択します。
 
-* Select the overflow menu in the Chat view and select **Show Chat Debug View**.
-* Run the **Developer: Show Chat Debug View** command from the Command Palette.
+### チャットへのデバッグ イベントの添付
 
-![Screenshot of the Chat Debug view, showing the details of a chat request and response.](../images/chat-debug-view/chat-debug-view.png)
+エージェント デバッグ イベントのスナップショットをチャット会話に添付して、AI に現在のセッションについて質問することができます。これはトークン使用量、読み込まれたカスタマイズ、発生したツール呼び出し、リクエストの所要時間を理解するのに役立ちます。
 
-### Read the debug output
+チャットにデバッグ イベントを添付するには:
 
-Each interaction in the Chat Debug view contains expandable sections:
+1. チャット セッションの [Agent Logs ビュー](#logs-view) を開きます
 
-| Section | What it shows | What to look for |
+1. Agent Debug パネルの右上にあるスパークル アイコンを選択します。これにより Chat ビューが開き、デバッグ イベント スナップショットがコンテキストとして添付されます。
+
+## Chat Debug ビュー
+
+Chat Debug ビューは、各 AI リクエストとレスポンスの詳細を表示します。正確なシステム プロンプト、ユーザー プロンプト、コンテキスト、またはツール レスポンス ペイロードを言語モデルとの間で送受信する場合に使用します。
+
+### Chat Debug ビューを開く
+
+Chat Debug ビューを開くには:
+
+* Chat ビューのオーバーフロー メニューを選択し、**Show Chat Debug View** を選択します。
+* コマンド パレットから **Developer: Show Chat Debug View** コマンドを実行します。
+
+![Chat Debug ビューのスクリーンショット。チャット リクエストとレスポンスの詳細を表示します。](../images/chat-debug-view/chat-debug-view.png)
+
+### デバッグ出力を読む
+
+Chat Debug ビューの各操作には展開可能なセクションが含まれています:
+
+| セクション | 表示内容 | 確認すべき点 |
 |---|---|---|
-| **System prompt** | The instructions that define the AI's behavior, capabilities, and constraints. | Verify that custom instructions or agent descriptions appear correctly. |
-| **User prompt** | The exact text of your prompt as sent to the model. | Confirm your prompt was sent as expected, including any `#`-mentions resolved to actual content. |
-| **Context** | Files, symbols, and other context items attached to the request. | Check that the expected files and context appear. If a file is missing, it might not have been indexed or the context window might be full. |
-| **Response** | The full text of the model's response, including reasoning. | Review the raw response to understand how the model interpreted your request. |
-| **Tool responses** | Inputs and outputs of tools invoked during the request. | Verify that tools received correct inputs and returned expected outputs. Useful for debugging MCP servers. |
+| **System prompt** | AI の動作、機能、制約を定義する命令。 | カスタム命令やエージェント説明が正しく表示されていることを確認します。 |
+| **User prompt** | モデルに送信されたプロンプトの正確なテキスト。 | プロンプトが期待通りに送信されたこと (解決された `#` メンションを含む) を確認します。 |
+| **Context** | リクエストに添付されたファイル、シンボル、その他のコンテキスト アイテム。 | 予期されたファイルとコンテキストが表示されることを確認します。ファイルが見つからない場合は、インデックスが作成されていないか、コンテキスト ウィンドウがいっぱいの可能性があります。 |
+| **Response** | 推論を含むモデル レスポンスの完全なテキスト。 | パイ応答を確認して、モデルがリクエストをどのように解釈したかを理解します。 |
+| **Tool responses** | リクエスト中に呼び出されたツールの入出力。 | ツールが正しい入力を受け取り、期待される出力を返したことを確認します。MCP サーバーのデバッグに役立ちます。 |
 
-You can expand each section to see the full details. This is particularly useful when [using agents](/docs/copilot/agents/local-agents.md) where multiple tools might be invoked as part of a single request.
+各セクションを展開して、完全な詳細を確認できます。これは [エージェントを使用する](/docs/copilot/agents/local-agents.md) 場合に特に役立ちます。この場合、複数のツールが1つのリクエストの一部として呼び出される場合があります。
 
-## Common troubleshooting scenarios
+## よくあるトラブルシューティング シナリオ
 
-### The AI ignores your workspace files
+### AI がワークスペース ファイルを無視する
 
-If the AI responds with generic information instead of referencing your codebase:
+AI が コードベースを参照する代わりに汎用的な情報で応答する場合:
 
-1. Open Agent Logs and check for **Discovery** events to verify that workspace files were indexed.
-1. Open the Chat Debug view and check the **Context** section to verify that workspace files appear in the context. If they don't, check that [workspace indexing](/docs/copilot/reference/workspace-context.md) is active.
-1. Try adding explicit `#`-mentions (such as `#file` or `#codebase`) to ensure the right files are included. Learn more about [managing context](/docs/copilot/chat/copilot-chat-context.md).
+1. Agent Logs を開き、**Discovery** イベントをチェックして、ワークスペース ファイルがインデックスされたことを確認します。
+1. Chat Debug ビューを開き、**Context** セクションをチェックして、ワークスペース ファイルがコンテキストに表示されていることを確認します。表示されていない場合は、[ワークスペース インデックス作成](/docs/copilot/reference/workspace-context.md) がアクティブであることを確認します。
+1. 正しいファイルが含まれていることを確認するために、明示的な `#` メンション (`#file` または `#codebase` など) を追加してみてください。[コンテキストの管理](/docs/copilot/chat/copilot-chat-context.md) の詳細を確認してください。
 
-### An MCP tool is not being invoked
+### MCP ツールが呼び出されない
 
-If the AI doesn't call an expected tool:
+AI が予期されたツールを呼び出さない場合:
 
-1. Open Agent Logs and check the **Tool calls** filter to see if the tool was invoked or skipped.
-1. Open the Chat Debug view and check the **System prompt** section to verify the tool is listed in the available tools.
-1. If the tool is missing, verify that the MCP server is running and configured correctly.
-1. Try explicitly mentioning the tool with `#tool-name` in your prompt.
+1. Agent Logs を開き、**Tool calls** フィルターをチェックして、ツールが呼び出されたかスキップされたかを確認します。
+1. Chat Debug ビューを開き、**System prompt** セクションをチェックして、ツールが利用可能なツールのリストに記載されていることを確認します。
+1. ツールが見つからない場合は、MCP サーバーが実行中で、正しく構成されていることを確認します。
+1. プロンプトで `#tool-name` を使用してツールを明示的に言及してみてください。
 
-### The AI response is incomplete or cut off
+### AI レスポンスが不完全または切断されている
 
-If the response appears truncated:
+レスポンスが切詰められている場合:
 
-1. Check Agent Logs for **LLM requests** events to review token usage.
-1. A full context window might cause the model to truncate its response. Start a [new chat session](/docs/copilot/chat/chat-sessions.md) to reset the context.
+1. **LLM requests** イベントについて Agent Logs をチェックしてトークン使用量を確認します。
+1. コンテキスト ウィンドウがいっぱいの場合、モデルがレスポンスを切詰める可能性があります。[新しいチャット セッション](/docs/copilot/chat/chat-sessions.md) を開始してコンテキストをリセットします。
 
-### A prompt file is not being applied
+### プロンプト ファイルが適用されない
 
-If a custom instruction or prompt file doesn't seem to take effect:
+カスタム命令またはプロンプト ファイルが有効ではないようです:
 
-1. Open Agent Logs and check the **Discovery** events to see if the file was loaded, skipped, or failed validation.
-1. Verify the file location and `applyTo` pattern match the current context.
-1. Check the [chat customization diagnostics](/docs/copilot/troubleshooting.md#chat-customization-diagnostics) for error details.
+1. Agent Logs を開き、**Discovery** イベントをチェックしてファイルが読み込まれたか、スキップされたか、検証に失敗したかを確認します。
+1. ファイルの場所と `applyTo` パターンが現在のコンテキストと一致することを確認します。
+1. エラーの詳細については、[チャット カスタマイズ診断](/docs/copilot/troubleshooting.md#chat-customization-diagnostics) を確認してください。
 
-## Related resources
+## 関連リソース
 
-* [Chat overview](/docs/copilot/chat/copilot-chat.md)
-* [Manage context for AI](/docs/copilot/chat/copilot-chat-context.md)
-* [Troubleshoot AI in VS Code](/docs/copilot/troubleshooting.md)
-* [Security considerations for using AI in VS Code](/docs/copilot/security.md)
+* [チャットの概要](/docs/copilot/chat/copilot-chat.md)
+* [AI のコンテキストを管理する](/docs/copilot/chat/copilot-chat-context.md)
+* [VS Code の AI のトラブルシューティング](/docs/copilot/troubleshooting.md)
+* [VS Code での AI 使用に関するセキュリティに関する考慮事項](/docs/copilot/security.md)
+

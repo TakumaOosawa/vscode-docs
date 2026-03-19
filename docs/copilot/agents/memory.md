@@ -1,134 +1,135 @@
 ---
 ContentId: 3a7e9c4f-5d1b-4e8f-a2c6-8b0d3f5e7a9c
 DateApproved: 3/9/2026
-MetaDescription: Learn how agents in VS Code use the memory tool and Copilot Memory to retain context, learn preferences, and improve over time across conversations.
+MetaDescription: VS CodeのエージェントがメモリツールとCopilot Memoryを使用してコンテキストを保持し、設定を学習し、会話全体で時間をかけて改善する方法について説明します。
 MetaSocialImage: ../images/shared/github-copilot-social.png
 ---
 
-# Memory in VS Code agents
+# VS Codeエージェントのメモリ
 
-Agents in Visual Studio Code use memory to retain context across conversations. Rather than starting from scratch each session, agents recall your preferences, apply lessons from previous tasks, and build up knowledge about your codebase over time.
+Visual Studio Codeのエージェントは、メモリを使用して会話全体でコンテキストを保持します。各セッションでゼロから始めるのではなく、エージェントは設定を思い出し、前のタスクから得た教訓を適用し、時間をかけてコードベースについて知識を蓄積します。
 
-For background on how memory fits into the agent architecture, see [Agents concepts](/docs/copilot/concepts/agents.md#memory).
+メモリがエージェントアーキテクチャにどのように適合するかについては、[エージェントの概念](/docs/copilot/concepts/agents.md#memory)を参照してください。
 
-This article explains how to use the memory tool in VS Code, how to manage memory files, and how Copilot Memory extends memory across your development workflow.
+このページでは、VS Codeのメモリツールの使用方法、メモリファイルの管理方法、およびCopilot Memoryが開発ワークフロー全体でメモリを拡張する方法について説明します。
 
-## Memory tool
+## メモリツール
 
 > [!NOTE]
-> The memory tool is currently in preview. You can enable or disable it with the `setting(github.copilot.chat.tools.memory.enabled)` setting.
+> メモリツールは現在プレビュー段階です。`setting(github.copilot.chat.tools.memory.enabled)`設定で有効または無効にできます。
 
-The memory tool is a built-in agent tool that allows agents to save and recall notes as they work. You can also explicitly ask the agent to remember something. All data is stored locally on your machine. The memory tool is enabled by default.
+メモリツールは、エージェントが作業中にメモを保存して思い出すことができる組み込みエージェントツールです。エージェントに何かを覚えるよう明示的に要求することもできます。すべてのデータはマシンにローカルに保存されます。メモリツールはデフォルトで有効になっています。
 
-### Memory scopes
+### メモリスコープ
 
-Each scope serves a different purpose, depending on how long the information should persist and where it applies.
+各スコープは、情報がどのくらい長く保持されるべきか、どこに適用されるかによって異なる目的を果たします。
 
-| Scope | Path | Persists across sessions | Persists across workspaces | Use for |
+| スコープ | パス | セッション間で保持 | ワークスペース間で保持 | 用途 |
 |---|---|---|---|---|
-| **User** | `/memories/` | Yes | Yes | Preferences, patterns, frequently used commands |
-| **Repository** | `/memories/repo/` | Yes | No (workspace-scoped) | Codebase conventions, project structure, build commands |
-| **Session** | `/memories/session/` | No (cleared when chat ends) | No | Task-specific context, in-progress plans |
+| **ユーザー** | `/memories/` | はい | はい | 設定、パターン、よく使用するコマンド |
+| **リポジトリ** | `/memories/repo/` | はい | いいえ(ワークスペーススコープ) | コードベース規約、プロジェクト構造、ビルドコマンド |
+| **セッション** | `/memories/session/` | いいえ(チャット終了時にクリア) | いいえ | タスク固有のコンテキスト、進行中の計画 |
 
-#### User memory
+#### ユーザーメモリ
 
-User memory persists across all workspaces and conversations. The first 200 lines are automatically loaded into the agent's context at the start of every session. Use user memory for general preferences and insights that apply regardless of which project you're working in.
+ユーザーメモリは、すべてのワークスペースと会話全体で保持されます。最初の200行は、セッション開始時にエージェントのコンテキストに自動的にロードされます。ユーザーメモリは、どのプロジェクトを使用しているかに関わらず適用される一般的な設定と見識に使用します。
 
-For example, ask the agent to remember a coding preference:
-
-```prompt
-Remember that I prefer tabs over spaces and always use single quotes in JavaScript
-```
-
-In a later conversation, even in a different workspace, the agent recalls this preference and applies it to generated code.
-
-#### Repository memory
-
-Repository memory is scoped to the current workspace and persists across conversations in that workspace. Use repository memory for facts about a specific codebase, such as architecture decisions, naming conventions, or build commands.
-
-For example:
+たとえば、エージェントにコーディング設定を覚えるよう要求します：
 
 ```prompt
-Remember that this project uses the repository pattern for data access and all API endpoints require authentication
+タブを空白より好み、JavaScriptではシングルクォートを常に使用することを覚えておいてください
 ```
 
-#### Session memory
+後でも、別のワークスペースでさえも、エージェントはこの設定を思い出し、生成されたコードに適用します。
 
-Session memory is scoped to the current conversation and cleared when the conversation ends. Use session memory for temporary working notes or task-specific context that the agent tracks while working through a multi-step task.
+#### リポジトリメモリ
 
-The Plan agent uses session memory to persist its implementation plans in a `plan.md` file. This plan is available during the session and can be viewed with the **Chat: Show Memory Files** command, but is not available in subsequent sessions. Learn more about [planning with agents](/docs/copilot/agents/planning.md).
+リポジトリメモリは現在のワークスペースにスコープされ、そのワークスペース内の会話全体で保持されます。リポジトリメモリは、アーキテクチャの決定、命名規約、ビルドコマンドなど、特定のコードベースに関する事実に使用します。
 
-### Store and retrieve memories
-
-To store a memory, ask the agent to remember something in natural language. The agent determines the appropriate scope and creates or updates the corresponding memory file.
+たとえば：
 
 ```prompt
-Remember that our team uses conventional commits for all commit messages
+このプロジェクトではデータアクセス用にリポジトリパターンを使用しており、すべてのAPIエンドポイントは認証を必要とすることを覚えておいてください
 ```
 
-To retrieve a memory, ask about it in a new conversation. The agent checks its memory files and recalls the relevant information.
+#### セッションメモリ
+
+セッションメモリは現在の会話にスコープされ、会話終了時にクリアされます。セッションメモリは、一時的な作業ノートまたはエージェントが複数ステップのタスクを通じて追跡するタスク固有のコンテキストに使用します。
+
+Planエージェントは、セッションメモリを使用して実装計画を`plan.md`ファイルに保持します。このプランはセッション中に利用可能で、**Chat: Show Memory Files**コマンドで表示できますが、その後のセッションでは利用できません。[エージェントでの計画](/docs/copilot/agents/planning.md)についても参照してください。
+
+### メモリの保存と取得
+
+メモリを保存するには、自然言語でエージェントに何かを覚えるよう要求します。エージェントは適切なスコープを判断し、対応するメモリファイルを作成または更新します。
 
 ```prompt
-What are our commit message conventions?
+すべてのコミットメッセージにconventional commitsを使用することをチームで行うことを覚えておいてください
 ```
 
-Memory file references in the agent's chat responses are clickable, so you can view the contents of the memory file directly.
+メモリを取得するには、新しい会話で質問します。エージェントはメモリファイルをチェックして、関連情報を思い出します。
 
-### Manage memory files
+```prompt
+コミットメッセージの規約は何ですか
+```
 
-VS Code provides commands to view and manage your memory files:
+エージェントのチャット応答内のメモリファイル参照はクリック可能なので、メモリファイルの内容を直接表示できます。
 
-* **Chat: Show Memory Files**: opens a list of all memory files across scopes. Select a file to view its contents.
-* **Chat: Clear All Memory Files**: removes all memory files across all scopes.
+### メモリファイルの管理
+
+VS Codeは、メモリファイルを表示および管理するためのコマンドを提供します：
+
+* **Chat: Show Memory Files**: すべてのスコープ全体のすべてのメモリファイルのリストを開きます。ファイルを選択してその内容を表示します。
+* **Chat: Clear All Memory Files**: すべてのスコープ全体のすべてのメモリファイルを削除します。
 
 > [!NOTE]
-> Deleting individual memory files is not yet supported. Use **Chat: Clear All Memory Files** to remove all memories, or ask the agent to update a specific memory file to remove outdated information.
+> 個別のメモリファイルの削除はまだサポートされていません。**Chat: Clear All Memory Files**を使用してすべてのメモリを削除するか、特定のメモリファイルを更新するようエージェントに要求して古い情報を削除します。
 
 ## Copilot Memory
 
 > [!NOTE]
-> Copilot Memory is in preview and is separate from the local memory tool described above.
+> Copilot Memoryはプレビュー段階であり、上記で説明したローカルメモリツールとは別です。
 
-[Copilot Memory](https://docs.github.com/copilot/how-tos/use-copilot-agents/copilot-memory) is a GitHub-hosted memory system that lets Copilot learn and retain repository-specific insights as it works. Unlike the local memory tool, Copilot Memory is shared across multiple GitHub Copilot surfaces, including Copilot coding agent, Copilot code review, and Copilot CLI.
+[Copilot Memory](https://docs.github.com/copilot/how-tos/use-copilot-agents/copilot-memory)は、Copilotが作業中にリポジトリ固有の見識を学習して保持できるようにするGitHub ホステッドメモリシステムです。ローカルメモリツールとは異なり、Copilot MemoryはCopilotコーディングエージェント、Copilotコードレビュー、Copilot CLIを含む複数のGitHub Copilotサーフェス全体で共有されます。
 
-### How Copilot Memory works
+### Copilot Memoryの動作方法
 
-As Copilot agents work in your repositories, they automatically capture tightly scoped insights called "memories". These memories are:
+Copilotエージェントがリポジトリで作業すると、「メモリ」と呼ばれる厳密にスコープされた見識を自動的にキャプチャします。これらのメモリは：
 
-* **Repository-scoped**: memories are tied to a specific repository and can only be created by contributors with write access.
-* **Cross-agent**: what one Copilot agent learns is available to other agents. For example, a pattern discovered by Copilot code review can later guide Copilot coding agent.
-* **Verified before use**: agents validate memories against the current codebase before applying them, preventing stale or incorrect information from affecting results.
-* **Automatically expired**: memories are deleted after 28 days to avoid outdated information.
+* **リポジトリスコープ**: メモリは特定のリポジトリに関連付けられ、書き込みアクセス権を持つ投稿者によってのみ作成できます。
+* **クロスエージェント**: 1つのCopilotエージェントが学習することは他のエージェントで利用できます。たとえば、Copilotコードレビューで発見されたパターンが後でCopilotコーディングエージェントをガイドできます。
+* **使用前に検証**: エージェントはメモリを現在のコードベースに対して検証してから適用し、古い情報または不正確な情報が結果に影響するのを防ぎます。
+* **自動的に期限切れ**: メモリは古い情報を回避するために28日後に削除されます。
 
-### Enable Copilot Memory
+### Copilot Memoryを有効にする
 
-Copilot Memory is turned off by default and must be enabled in your GitHub settings:
+Copilot Memoryはデフォルトでオフになっており、GitHub設定で有効にする必要があります：
 
-* **Individual users** (Copilot Pro or Pro+): enable Copilot Memory in your [personal Copilot settings](https://github.com/settings/copilot) on GitHub.
-* **Organizations and enterprises**: enable through policy settings in your organization or enterprise settings.
+* **個別ユーザー**(Copilot Pro または Pro+): GitHubの[個人Copilot設定](https://github.com/settings/copilot)でCopilot Memoryを有効にします。
+* **組織とエンタープライズ**: 組織またはエンタープライズ設定のポリシー設定を通じて有効にします。
 
-In addition, you need to enable Copilot Memory integration in VS Code with the `setting(github.copilot.chat.copilotMemory.enabled)` setting.
+さらに、`setting(github.copilot.chat.copilotMemory.enabled)`設定でVS CodeのCopilot Memory統合を有効にする必要があります。
 
-Repository owners can review and delete stored memories in **Repository Settings** > **Copilot** > **Memory**.
+リポジトリオーナーは、**Repository Settings** > **Copilot** > **Memory**で保存されたメモリをレビューおよび削除できます。
 
-For detailed setup instructions, see [Enabling and curating Copilot Memory](https://docs.github.com/copilot/how-tos/use-copilot-agents/copilot-memory) in the GitHub documentation.
+詳細なセットアップ手順については、GitHub ドキュメントの[Copilot Memoryの有効化とキュレーション](https://docs.github.com/copilot/how-tos/use-copilot-agents/copilot-memory)を参照してください。
 
-### Memory tool vs. Copilot Memory
+### メモリツール vs. Copilot Memory
 
-| | Memory tool | Copilot Memory |
+| | メモリツール | Copilot Memory |
 |---|---|---|
-| **Storage** | Local (on your machine) | GitHub-hosted (remote) |
-| **Scopes** | User, repository, session | Repository only |
-| **Shared across Copilot surfaces** | No (VS Code only) | Yes (coding agent, code review, CLI) |
-| **Created by** | You or the agent during chat | Copilot agents automatically |
-| **Enabled by default** | Yes | No (opt-in) |
-| **Expiration** | Manual management | Automatic (28 days) |
+| **ストレージ** | ローカル(マシン上) | GitHub ホステッド(リモート) |
+| **スコープ** | ユーザー、リポジトリ、セッション | リポジトリのみ |
+| **Copilotサーフェス全体で共有** | いいえ(VS Codeのみ) | はい(コーディングエージェント、コードレビュー、CLI) |
+| **作成者** | チャット中のユーザーまたはエージェント | Copilotエージェントが自動作成 |
+| **デフォルトで有効** | はい | いいえ(オプトイン) |
+| **有効期限** | 手動管理 | 自動(28日) |
 
-The two systems are complementary. Use the local memory tool for personal preferences and session-specific context in VS Code. Use Copilot Memory for repository knowledge that benefits all Copilot agents across your development workflow.
+2つのシステムは補完的です。VS Codeの個人的な設定とセッション固有のコンテキストについては、ローカルメモリツールを使用します。開発ワークフロー全体のすべてのCopilotエージェントにとって有益なリポジトリ知識については、Copilot Memoryを使用します。
 
-## Related resources
+## 関連リソース
 
-* [Planning with agents](/docs/copilot/agents/planning.md)
-* [Agent tools](/docs/copilot/agents/agent-tools.md)
-* [Enabling and curating Copilot Memory](https://docs.github.com/copilot/how-tos/use-copilot-agents/copilot-memory) (GitHub documentation)
-* [Building an agentic memory system for GitHub Copilot](https://github.blog/ai-and-ml/github-copilot/building-an-agentic-memory-system-for-github-copilot/) (GitHub blog)
+* [エージェントでの計画](/docs/copilot/agents/planning.md)
+* [エージェントツール](/docs/copilot/agents/agent-tools.md)
+* [Copilot Memoryの有効化とキュレーション](https://docs.github.com/copilot/how-tos/use-copilot-agents/copilot-memory)(GitHub ドキュメント)
+* [GitHub Copilotのためのエージェントメモリシステムの構築](https://github.blog/ai-and-ml/github-copilot/building-an-agentic-memory-system-for-github-copilot/)(GitHub ブログ)
+

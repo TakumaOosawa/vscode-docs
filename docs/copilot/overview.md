@@ -1,7 +1,7 @@
 ---
 ContentId: 0aefcb70-7884-487f-953e-46c3e07f7cbe
 DateApproved: 3/9/2026
-MetaDescription: Use AI agents in VS Code to autonomously plan, implement, and test code across your project.
+MetaDescription: VS CodeのAIエージェントを使用して、プロジェクト全体でコードを自律的に計画、実装、テストします。
 MetaSocialImage: images/shared/github-copilot-social.png
 Keywords:
 - GitHub Copilot
@@ -27,154 +27,155 @@ Keywords:
 - overview
 - getting started
 ---
-# GitHub Copilot in VS Code
+# VS CodeのGitHub Copilot
 
-GitHub Copilot provides AI-powered agents and coding tools in Visual Studio Code. Use autonomous agents that plan, implement, and verify changes across your entire project with deep semantic understanding of your codebase. Run multiple agent sessions in parallel: locally, in the background, or in the cloud. Choose from Copilot, third-party agents like Claude and Codex, or your own custom agents. Manage them all from a central view. Inline suggestions, inline chat, and smart actions assist you throughout the rest of the coding workflow.
+GitHub Copilotは、Visual Studio Codeで、AI搭載のエージェントとコーディングツールを提供します。コードベースの深い意味理解により、プロジェクト全体でコードの変更を計画、実装、検証する自律的なエージェントを使用します。複数のエージェントセッションをローカルで、バックグラウンドで、またはクラウドで並行実行できます。Copilot、ClaudeやCodexなどのサードパーティエージェント、またはカスタムエージェントから選択します。すべてを一元ビューから管理できます。インライン候補、インラインチャット、スマートアクションが、コーディングワークフロー全体の各段階でサポートします。
 
-<div class="docs-action" data-show-in-doc="false" data-show-in-sidebar="true" title="Get started with AI">
-Follow a hands-on tutorial to build your first app with AI in VS Code.
+<div class="docs-action" data-show-in-doc="false" data-show-in-sidebar="true" title="AIを使い始める">
+VS CodeでAIを使用して最初のアプリを構築するための実践的なチュートリアルに従います。
 
-* [Start tutorial](/docs/copilot/getting-started.md)
+* [チュートリアルを始める](/docs/copilot/getting-started.md)
 
 </div>
 
-## Agents and agent sessions
+## エージェントとエージェントセッション
 
-Agents handle complete coding tasks end-to-end. Give an agent a high-level task and it breaks the work into steps, edits files, runs terminal commands, invokes tools, and self-corrects when it hits errors or failing tests. Each task runs inside an **agent session**, a persistent conversation you can track, pause, resume, or hand off to another agent.
+エージェントは、エンドツーエンドで完全なコーディングタスクを処理します。エージェントに高度なタスクを与えると、作業をステップに分割し、ファイルを編集し、ターミナルコマンドを実行し、ツールを呼び出し、エラーやテスト失敗が発生した場合は自己修正します。各タスクは**エージェントセッション**内で実行されます。これは追跡、一時停止、再開、または別のエージェントに引き継ぐことができる永続的な会話です。
 
-<video src="images/overview/agents-intro.mp4" title="Video showing an agent session building a complete feature in VS Code." loop controls muted></video>
+<video src="images/overview/agents-intro.mp4" title="VS Codeで完全な機能を構築するエージェントセッションを示すビデオ。" loop controls muted></video>
 
 > [!IMPORTANT]
-> Your organization might have disabled agents in VS Code. Contact your admin to enable this functionality.
+> 組織がVS CodeでエージェントをDisabledにしている可能性があります。この機能を有効にするには、管理者に問い合わせてください。
 
-### Manage sessions from a central view
+### 一元ビューからセッションを管理する
 
-Run multiple agent sessions in parallel, each focused on a different task. The **Sessions** view in the **Chat** panel gives you a single place to monitor all active sessions, whether they run locally, in the background, or in the cloud. See the status of each session, switch between them, review file changes, and pick up where you left off.
+複数のエージェントセッションを並行実行し、各セッションは異なるタスクに重点を置きます。**Chat**パネルの**Sessions**ビューでは、ローカルで実行されるもの、バックグラウンドで実行されるもの、またはクラウドで実行されるものなど、すべてのアクティブセッションを監視できるシングルプレイスが提供されます。各セッションの状態を確認し、セッション間を切り替え、ファイルの変更を確認し、中断したところから再開できます。
 
-<video src="images/overview/agent-sessions-demo.mp4" title="Video showing the agent sessions list, demonstrating filtering, showing, and archiving sessions." loop controls muted></video>
+<video src="images/overview/agent-sessions-demo.mp4" title="エージェントセッションリストを示すビデオ(フィルタリング、表示、アーカイブ可能)。" loop controls muted></video>
 
-Learn more about [managing agent sessions](/docs/copilot/chat/chat-sessions.md).
+[エージェントセッションの管理](/docs/copilot/chat/chat-sessions.md)についてさらに詳しく知ってください。
 
-### Run agents anywhere
+### エージェントは任意の場所で実行できます
 
-Agents can run locally in VS Code for interactive work, in the background on your machine for autonomous tasks, or in the cloud for team collaboration via pull requests. You can also use third-party agents from providers like Anthropic and OpenAI. At any point, hand off a task from one agent type to another and the full conversation history carries over.
+エージェントは、対話的な作業用にVS Codeでローカルで実行でき、自律的なタスク用にマシンのバックグラウンドで実行でき、またはプルリクエストを介したチームコラボレーションのためにクラウドで実行できます。AnthropicやOpenAIなどの提供者からのサードパーティエージェントも使用できます。任意の時点で、1つのエージェントタイプから別のエージェントタイプにタスクを引き継ぐことができ、完全な会話履歴が引き継がれます。
 
-![Screenshot showing the sessions type picker in the Chat view with options for local, background, cloud, and third-party agents.](images/agents-overview/sessions-type-picker.png)
+![Chatビューのセッションタイプピッカーを示すスクリーンショット(ローカル、バックグラウンド、クラウド、サードパーティエージェントのオプション付き)。](images/agents-overview/sessions-type-picker.png)
 
-Learn more about [agent types and delegation](/docs/copilot/agents/overview.md) or follow the [agents tutorial](/docs/copilot/agents/agents-tutorial.md).
+[エージェントタイプと委譲](/docs/copilot/agents/overview.md)についてさらに詳しく知ってください。または[エージェントチュートリアル](/docs/copilot/agents/agents-tutorial.md)に従ってください。
 
-### Plan before you build
+### 構築前に計画する
 
-Use the built-in **Plan** agent to break a task into a structured implementation plan before writing any code. The Plan agent analyzes your codebase, asks clarifying questions, and produces a step-by-step plan. When the plan looks right, hand it off to an implementation agent to execute it, locally, in the background, or in the cloud.
+ビルトイン**Plan**エージェントを使用して、コードを書く前に、タスクを構造化された実装計画に分割します。Planエージェントはコードベースを分析し、明確にする質問をし、ステップバイステップの計画を作成します。計画が正しく見える場合、実装エージェントに引き継いで、ローカルで、バックグラウンドで、またはクラウドで実行します。
 
-<video src="images/overview/plan-intro.mp4" title="Video showing the plan agent creating a structured implementation plan for adding authentication to the app." loop controls muted></video>
+<video src="images/overview/plan-intro.mp4" title="Planエージェントがアプリに認証を追加するための構造化実装計画を作成している様子を示すビデオ。" loop controls muted></video>
 
-Learn more about [planning with agents](/docs/copilot/agents/planning.md).
+[エージェントを使用した計画](/docs/copilot/agents/planning.md)についてさらに詳しく知ってください。
 
-<div class="docs-action" data-show-in-doc="false" data-show-in-sidebar="true" title="Plan a feature with agents">
-Use the Plan agent to create a structured implementation plan for a new feature.
+<div class="docs-action" data-show-in-doc="false" data-show-in-sidebar="true" title="エージェントで機能を計画する">
+Planエージェントを使用して、新機能の構造化実装計画を作成します。
 
-* [Open in VS Code](vscode://GitHub.Copilot-Chat/chat?agent=agent%26prompt=%2Fplan%20a%20terminal%20UI%20app%20to%20track%20my%20todo%20list.)
+* [VS Codeで開く](vscode://GitHub.Copilot-Chat/chat?agent=agent%26prompt=%2Fplan%20a%20terminal%20UI%20app%20to%20track%20my%20todo%20list.)
 
 </div>
 
-## What can you do
+## できること
 
-* **Build a feature end-to-end.** Describe a feature in natural language and the agent scaffolds the project, implements the logic across multiple files, and runs tests to verify the result.
+* **機能をエンドツーエンドで構築します。** 自然言語で機能を説明すると、エージェントはプロジェクトをスキャフォールドし、複数のファイルのロジックを実装し、テストを実行して結果を検証します。
 
-* **Debug and fix failing tests.** Point an agent at a failing test and it reads the error, traces the root cause across your codebase, applies a fix, and re-runs the test to confirm. Learn more about [debugging with AI](/docs/copilot/guides/debug-with-copilot.md).
+* **テスト失敗をデバッグして修正します。** エージェントに失敗したテストを指摘すると、エラーを読み取り、コードベース全体の根本原因をトレースし、修正を適用し、修正を確認するためにテストを再度実行します。[AIでのデバッグ](/docs/copilot/guides/debug-with-copilot.md)についてさらに詳しく知ってください。
 
-* **Refactor or migrate a codebase.** Ask an agent to plan a migration, for example, from one framework to another, and it applies coordinated changes across files while verifying with builds.
+* **コードベースをリファクタリングまたはマイグレーションします。** エージェントにマイグレーション(例えば、あるフレームワークから別のフレームワークへ)を計画するよう依頼すると、ビルドで検証しながらファイル全体にわたる調整された変更を適用します。
 
-* **Test and interact with web apps.** _(Experimental)_ Ask an agent to open your web app in the [integrated browser](/docs/debugtest/integrated-browser.md), verify a feature works, check for layout issues, or take screenshots. Follow the [browser agent testing guide](/docs/copilot/guides/browser-agent-testing-guide.md).
+* **Webアプリをテストして操作します。** _(実験的)_ エージェントに[統合ブラウザ](/docs/debugtest/integrated-browser.md)でWebアプリを開き、機能が機能することを確認し、レイアウトの問題をチェック、またはスクリーンショットを撮ることを依頼します。[ブラウザエージェントテストガイド](/docs/copilot/guides/browser-agent-testing-guide.md)に従ってください。
 
-* **Collaborate via pull requests.** Delegate a task to a cloud agent that creates a branch, implements the changes, and opens a pull request for your team to review. Learn more about [cloud agents](/docs/copilot/agents/cloud-agents.md).
+* **プルリクエスト経由でコラボレーションします。** クラウドエージェントにタスクを委譲してブランチを作成し、変更を実装し、チームがレビューするためのプルリクエストを開きます。[クラウドエージェント](/docs/copilot/agents/cloud-agents.md)についてさらに詳しく知ってください。
 
-## Getting started
+## 始める
 
-### Step 1: Set up Copilot
+### ステップ1: Copilotをセットアップする
 
-1. Hover over the Copilot icon in the Status Bar and select **Set up Copilot**.
+1. ステータスバーのCopilotアイコンにマウスを置き、**Copilotをセットアップ**を選択します。
 
-    ![Screenshot showing the Copilot icon in the Status Bar with the Set up Copilot option.](images/setup/setup-copilot-status-bar.png)
+    ![ステータスバーのCopilotアイコンとCopilotをセットアップオプションを示すスクリーンショット。](images/setup/setup-copilot-status-bar.png)
 
-1. Choose a sign-in method and follow the prompts. If you don't have a Copilot subscription yet, you are signed up for the [Copilot Free plan](https://docs.github.com/en/copilot/managing-copilot/managing-copilot-as-an-individual-subscriber/managing-copilot-free/about-github-copilot-free).
+1. サインイン方法を選択してプロンプトに従います。Copilotサブスクリプションがまだない場合は、[Copilot Freeプラン](https://docs.github.com/en/copilot/managing-copilot/managing-copilot-as-an-individual-subscriber/managing-copilot-free/about-github-copilot-free)にサインアップされます。
 
-### Step 2: Start your first agent session
+### ステップ2: 最初のエージェントセッションを開始する
 
-1. Open the **Chat** view (`kb(workbench.action.chat.open)`).
+1. **Chat**ビューを開きます(`kb(workbench.action.chat.open)`)。
 
-1. Enter a prompt that describes what you want to build, for example:
+1. 構築したい内容を説明するプロンプトを入力します。例:
 
     ```prompt-agent
-    Create a basic Node.js web app for sharing recipes. Make it look modern and responsive.
+    レシピを共有するための基本的なNode.js Webアプリを作成します。モダンでレスポンシブな外観にしてください。
     ```
 
-1. Review the generated code. The agent creates files, installs dependencies, and runs commands as needed.
+1. 生成されたコードを確認します。エージェントは、必要に応じてファイルを作成し、依存関係をインストールし、コマンドを実行します。
 
-1. Enter `/init` to configure your project for AI. This creates [custom instructions](/docs/copilot/customization/custom-instructions.md) that help the agent understand your codebase and generate better code.
+1. `/init`を入力して、プロジェクトをAIに対応させるよう設定します。これによって、エージェントがコードベースを理解し、より適切なコードを生成するのに役立つ[カスタム指示](/docs/copilot/customization/custom-instructions.md)が作成されます。
 
-For a full hands-on tutorial covering inline suggestions, agents, inline chat, and customization, see [Get started with GitHub Copilot in VS Code](/docs/copilot/getting-started.md).
+インライン候補、エージェント、インラインチャット、カスタマイズを含む完全な実践的なチュートリアルについては、[VS CodeのGitHub Copilotを始める](/docs/copilot/getting-started.md)を参照してください。
 
-## More ways to code with AI
+## AIでコーディングするその他の方法
 
-### Inline suggestions
+### インライン候補
 
-Copilot provides code suggestions as you type, from single-line completions to full function implementations. Next edit suggestions predict the next logical change based on your current edits.
+Copilotは、入力時にコード候補を提供し、単一行の補完から完全な関数実装まで対応します。次編集候補は、現在の編集に基づいて、次の論理的変更を予測します。
 
-<video src="images/inline-suggestions/nes-video.mp4" title="Video showing inline code suggestions appearing as ghost text in the editor." loop controls muted poster="./images/inline-suggestions/point3d.png"></video>
+<video src="images/inline-suggestions/nes-video.mp4" title="エディター内でゴーストテキストとして表示されるインラインコード候補を示すビデオ。" loop controls muted poster="./images/inline-suggestions/point3d.png"></video>
 
-Learn more about [inline suggestions in VS Code](/docs/copilot/ai-powered-suggestions.md).
+[VS Codeのインライン候補](/docs/copilot/ai-powered-suggestions.md)についてさらに詳しく知ってください。
 
-### Inline chat
+### インラインチャット
 
-Press `kb(inlinechat.start)` to open a chat prompt directly in the editor. Describe a change, and Copilot suggests edits in place, so you stay in the flow of coding. Use it for targeted refactors, explanations, or quick fixes without switching context.
+`kb(inlinechat.start)`を押して、エディター内で直接チャットプロンプトを開きます。変更を説明すると、Copilotはその場で編集を提案するため、コーテキストを切り替えることなくコーディングの流れにとどまります。コンテキストを切り替えることなく、的を絞ったリファクタリング、説明、または迅速な修正に使用します。
 
-Learn more about [inline chat in VS Code](/docs/copilot/chat/inline-chat.md).
+[VS Codeのインラインチャット](/docs/copilot/chat/inline-chat.md)についてさらに詳しく知ってください。
 
-### Smart actions
+### スマートアクション
 
-VS Code includes predefined AI-powered actions for common tasks: generating commit messages, renaming symbols, fixing errors, and running semantic search across your project.
+VS Codeには、一般的なタスク用の事前定義されたAI搭載アクションが含まれています。コミットメッセージの生成、シンボルの名前変更、エラーの修正、プロジェクト全体でのセマンティック検索を実行します。
 
-![Screenshot showing the smart actions menu in VS Code with options to fix a test failure.](images/overview/copilot-chat-fix-test-failure.png)
+![VS Codeのスマートアクションメニューを示すスクリーンショット(テスト失敗を修正するオプション付き)。](images/overview/copilot-chat-fix-test-failure.png)
 
-Learn more about [smart actions in VS Code](/docs/copilot/copilot-smart-actions.md).
+[VS Codeのスマートアクション](/docs/copilot/copilot-smart-actions.md)についてさらに詳しく知ってください。
 
-## Customize AI for your workflow
+## ワークフロー用AIをカスタマイズする
 
-Agents work best when they understand your project's conventions, have the right tools, and use a model suited to the task. VS Code gives you several ways to [tailor the AI](/docs/copilot/customization/overview.md) so it produces code that fits your codebase from the start, instead of requiring manual corrections after the fact.
+エージェントは、プロジェクトの規約を理解し、適切なツールを備え、タスクに適したモデルを使用する場合に最適に機能します。VS Codeは、AIがコードベースに最初からぴったり合うコードを生成するように調整する方法をいくつか提供しているため、生成後に手動で修正する必要がなくなります。
 
-* **[Custom instructions](/docs/copilot/customization/custom-instructions.md)**: Define project-wide coding conventions so the AI generates code that matches your style.
-* **[Agent skills](/docs/copilot/customization/agent-skills.md)**: Teach Copilot specialized capabilities that work across VS Code, GitHub Copilot CLI, and GitHub Copilot coding agent.
-* **[Custom agents](/docs/copilot/customization/custom-agents.md)**: Create agents that assume a specific role, such as a code reviewer or documentation writer, with their own tools and instructions.
-* **[MCP servers](/docs/copilot/customization/mcp-servers.md)**: Extend agents with tools from MCP servers or Marketplace extensions.
-* **[Hooks](/docs/copilot/customization/hooks.md)**: Execute custom commands at specific events for automation and policy enforcement.
+* **[カスタム指示](/docs/copilot/customization/custom-instructions.md)**: プロジェクト全体のコーディング規約を定義して、AIがスタイルに合致するコードを生成するようにします。
+* **[エージェントスキル](/docs/copilot/customization/agent-skills.md)**: VS Code、GitHub Copilot CLI、GitHub Copilot Coding Agentで機能する特化した機能をCopilotに教えます。
+* **[カスタムエージェント](/docs/copilot/customization/custom-agents.md)**: コードレビューアーやドキュメント作成者など、特定の役割を前提とし、独自のツールと指示を持つエージェントを作成します。
+* **[MCPサーバー](/docs/copilot/customization/mcp-servers.md)**: MCPサーバーまたはMarketplaceスのツールでエージェントを拡張します。
+* **[フック](/docs/copilot/customization/hooks.md)**: 自動化とポリシー実施のための特定のイベントでカスタムコマンドを実行します。
 
-<div class="docs-action" data-show-in-doc="false" data-show-in-sidebar="true" title="Customize AI">
-Explore all the ways to tailor the AI experience to your workflow.
+<div class="docs-action" data-show-in-doc="false" data-show-in-sidebar="true" title="AIをカスタマイズ">
+ワークフロー用AIエクスペリエンスをカスタマイズするすべての方法を参照します。
 
-* [Open Customization Overview](/docs/copilot/customization/overview.md)
+* [カスタマイズ概要を開く](/docs/copilot/customization/overview.md)
 
 </div>
 
-## Support
+## サポート
 
-Support for GitHub Copilot Chat is provided by GitHub and can be reached at <https://support.github.com>.
+GitHub Copilot ChatのサポートはGitHubによって提供され、<https://support.github.com>で達することができます。
 
-To learn more about Copilot's security, privacy, compliance, and transparency, see the [GitHub Copilot Trust Center FAQ](https://copilot.github.trust.page/faq).
+Copilotのセキュリティ、プライバシー、コンプライアンス、透透性について詳しく知るには、[GitHub Copilot Trust Center FAQ](https://copilot.github.trust.page/faq)を参照してください。
 
-## Pricing
+## 価格
 
-You can start using GitHub Copilot for free with monthly limits on inline suggestions and chat interactions. For more extensive usage, you can choose from various paid plans.
+月間制限付きでGitHub Copilotを無料で使用を開始できます。インライン候補とチャットインタラクション。より広範な使用については、さまざまな有料プランから選択できます。
 
-[View detailed GitHub Copilot pricing](https://docs.github.com/en/copilot/get-started/plans)
+[GitHub Copilot価格の詳細を確認](https://docs.github.com/en/copilot/get-started/plans)
 
-## Next steps
+## 次のステップ
 
-* [How GitHub Copilot works](/docs/copilot/concepts/overview.md)
-* [Get started with agents](/docs/copilot/agents/agents-tutorial.md)
-* [Hands-on quickstart with GitHub Copilot](/docs/copilot/getting-started.md)
-* [Learn about agent types](/docs/copilot/agents/overview.md)
-* [Customize the AI for your workflow](/docs/copilot/customization/overview.md)
-* [Best practices for using AI in VS Code](/docs/copilot/copilot-tips-and-tricks.md)
-* [Set up Copilot in VS Code](/docs/copilot/setup.md)
+* [GitHub Copilotはどのように機能するか](/docs/copilot/concepts/overview.md)
+* [エージェントを始める](/docs/copilot/agents/agents-tutorial.md)
+* [GitHub Copilotを使用した実践的なクイックスタート](/docs/copilot/getting-started.md)
+* [エージェントタイプを知る](/docs/copilot/agents/overview.md)
+* [ワークフロー用AIをカスタマイズ](/docs/copilot/customization/overview.md)
+* [VS CodeでAIを使用するためのベストプラクティス](/docs/copilot/copilot-tips-and-tricks.md)
+* [VS CodeでCopilotをセットアップ](/docs/copilot/setup.md)
+

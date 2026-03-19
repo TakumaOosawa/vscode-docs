@@ -1,196 +1,197 @@
 ---
 ContentId: 9d8f3a2b-5c6e-4f7a-8b9c-1d2e3f4a5b6c
 DateApproved: 3/9/2026
-MetaDescription: Discover effective prompt examples for chat in VS Code across different scenarios including code generation, debugging, testing, and working with notebooks.
+MetaDescription: VS Codeのチャットで、コード生成、デバッグ、テスト、ノートブック操作など、さまざまなシナリオで使用できる効果的なプロンプト例を見つけてください。
 MetaSocialImage: ../images/shared/github-copilot-social.png
 ---
-# Prompt examples
+# プロンプト例
 
-This article provides example prompts for chat in Visual Studio Code across different scenarios and agents. Use these examples as inspiration to craft effective prompts for your own development tasks.
+この記事では、Visual Studio Codeのチャットにおける、さまざまなシナリオとエージェント向けの例示プロンプトを提供しています。これらの例を参考に、自分の開発タスクに適した効果的なプロンプトを作成してください。
 
-If you are new to using chat in VS Code, learn more about [getting started with chat](/docs/copilot/chat/copilot-chat.md) or review [best practices for prompt crafting](/docs/copilot/guides/prompt-engineering-guide.md).
+VS Codeのチャットを初めて使う場合は、[チャット入門](/docs/copilot/chat/copilot-chat.md)について詳しく確認するか、[プロンプト作成のベストプラクティス](/docs/copilot/guides/prompt-engineering-guide.md)を参照してください。
 
-<div class="docs-action" data-show-in-doc="false" data-show-in-sidebar="true" title="Get started with agents">
-Follow a hands-on tutorial to experience local, background, and cloud agents in VS Code.
+<div class="docs-action" data-show-in-doc="false" data-show-in-sidebar="true" title="エージェント入門">
+VS Codeでローカル、バックグラウンド、クラウドエージェントを体験できるハンズオンチュートリアルをご利用ください。
 
-* [Start tutorial](/docs/copilot/agents/agents-tutorial.md)
+* [チュートリアルを開始](/docs/copilot/agents/agents-tutorial.md)
 
 </div>
 
-## General coding and technology questions
+## 一般的なコーディングと技術に関する質問
 
-Use the **Ask** agent to get quick answers about coding concepts, technology topics, and general programming questions.
-
-```prompt-ask
-What is a linked list?
-```
+**Ask**エージェントを使用して、コーディングの概念、技術トピック、一般的なプログラミング質問に関する迅速な回答を得られます。
 
 ```prompt-ask
-Provide 3 ways to implement a search feature in React.
+リンクリストとは何ですか？
 ```
 
 ```prompt-ask
-Explain the difference between async/await and promises.
-```
-
-## Understanding and exploring your codebase
-
-Use the **Ask** agent with `#codebase` to understand how your project works, locate specific functionality, or explore code relationships.
-
-```prompt-ask
-Explain how authentication works in #codebase
+Reactで検索機能を実装する3つの方法を紹介してください。
 ```
 
 ```prompt-ask
-Where is the database connection string configured? #codebase
+async/awaitとPromiseの違いを説明してください。
+```
+
+## コードベースの理解と探索
+
+`#codebase`を使用した**Ask**エージェントを使用して、プロジェクトの動作を理解したり、特定の機能を見つけたり、コード間の関係を探索したりできます。
+
+```prompt-ask
+#codebaseでの認証の仕組みを説明してください
 ```
 
 ```prompt-ask
-How do I build this #codebase?
+データベース接続文字列はどこで設定されていますか？#codebase
 ```
 
 ```prompt-ask
-Which testing framework is used for #calculator.test.js?
+この#codebaseはどのようにビルドしますか？
 ```
 
-## Code generation and editing
-
-Use **Agent** for multi-file creation and **inline chat** (`kb(inlinechat.start)`) for targeted, in-place edits.
-
-```prompt
-Add a login button and style it based on #styles.css
+```prompt-ask
+#calculator.test.jsではどのテストフレームワークが使用されていますか？
 ```
 
-```prompt
-Create a meal-planning web app using React and Node.js
-```
+## コード生成と編集
+
+複数ファイルの作成には**Agent**を使用し、対象を絞った所定の場所での編集には**インラインチャット**(`kb(inlinechat.start)`)を使用してください。
 
 ```prompt
-Refactor this code to use async/await
-```
-
-## Testing and quality assurance
-
-Use **Agent** to generate tests or fix failing tests.
-
-```prompt
-Add unit tests for the user service.
+#styles.cssに基づいて、ログインボタンを追加してスタイルを設定してください
 ```
 
 ```prompt
-Fix the failing tests #testFailure
-```
-
-## Debugging and fixing issues
-
-Use **Agent** for fixing issues across files, or **Ask** to understand the root cause first.
-
-```prompt
-Fix the issues in #problems
+ReactとNode.jsを使用した食事計画Webアプリを作成してください
 ```
 
 ```prompt
-Why is this function returning undefined?
+このコードをasync/awaitを使用するようにリファクタリングしてください
 ```
 
-## Working with source control
+## テストと品質保証
 
-Use chat to work with your pending changes and generate release documentation.
-
-```prompt
-Summarize the #changes
-```
+**Agent**を使用してテストを生成したり、失敗したテストを修正したりできます。
 
 ```prompt
-Generate release notes based on the #changes
-```
-
-## Working with external resources
-
-Use `#fetch` and `#githubRepo` to reference content from the web or GitHub repositories.
-
-```prompt
-How do I use the 'useState' hook in react 18? #fetch https://18.react.dev/reference/react/useState#usage
+ユーザーサービスのユニットテストを追加してください。
 ```
 
 ```prompt
-Build an API endpoint to fetch address info, use the template from #githubRepo contoso/api-templates
+失敗しているテストを修正してください #testFailure
+```
+
+## デバッグと問題の修正
+
+複数のファイルにまたがる問題の修正には**Agent**を使用するか、根本原因を理解するには**Ask**を使用してください。
+
+```prompt
+#problemsの問題を修正してください
 ```
 
 ```prompt
-What are the top #extensions for this workspace?
+この関数がundefinedを返しているのはなぜですか？
 ```
 
-## Terminal and command-line tasks
+## ソース管理の操作
 
-Use [terminal inline chat](/docs/copilot/chat/inline-chat.md#use-terminal-inline-chat) to get help with shell commands and terminal operations.
-
-```prompt
-How do I install npm packages?
-```
+チャットを使用してペンディング中の変更を操作し、リリースドキュメンテーションを生成できます。
 
 ```prompt
-List the top 5 largest files in the src directory
+#changesを要約してください
 ```
 
 ```prompt
-undo the last git commit
+#changesに基づいてリリース ノートを生成してください
 ```
 
-## Working with Jupyter notebooks
+## 外部リソースの操作
 
-Use **Agent** to create, edit, and work with Jupyter notebooks.
-
-```prompt
-/newNotebook use pandas and seaborn to read and visualize the titanic dataset. Show key information from the dataset.
-```
+`#fetch`と`#githubRepo`を使用して、ウェブやGitHubリポジトリのコンテンツを参照できます。
 
 ```prompt
-Create a notebook to read data from #housing.csv and plot the distribution of prices
+React18で'useState'フック使用方法は？#fetch https://18.react.dev/reference/react/useState#usage
 ```
 
 ```prompt
-Make sure the data is cleaned before visualizing and processing it
+#githubRepoのcontoso/api-templatesのテンプレートを使用して、アドレス情報を取得するAPIエンドポイントを構築してください
 ```
 
 ```prompt
-Show the correlation between different features in the dataset
+このワークスペースの上位#extensionsは何ですか？
 ```
 
-## Multi-turn conversation examples
+## ターミナルとコマンドラインのタスク
 
-Chat supports follow-up prompts within the same session. Use multi-turn conversations to iterate on results and refine the AI's output.
-
-**First prompt:**
+[ターミナルインラインチャット](/docs/copilot/chat/inline-chat.md#use-terminal-inline-chat)を使用して、シェルコマンドとターミナル操作に関するサポートを受けられます。
 
 ```prompt
-Create a REST API with Express.js that has endpoints for users and products
-```
-
-**Follow-up prompts:**
-
-```prompt
-Add input validation and error handling to both endpoints
+npmパッケージをインストールするにはどうすればよいですか？
 ```
 
 ```prompt
-Now add unit tests for the validation logic
+srcディレクトリ内の最大5つの大きなファイルをリストアップしてください
 ```
 
-By building on earlier responses, the AI maintains context from the previous steps and generates more coherent code.
+```prompt
+直前のgitコミットを取り消してください
+```
 
-## Tips for crafting effective prompts
+## Jupyterノートブックの操作
 
-* **Be specific**: Include details about what you want to accomplish, the technologies to use, and the expected output format.
-* **Add context**: Use #-mentions to reference files, symbols, or context variables like `#codebase`, `#changes`, or `#problems`.
-* **Iterate**: Start with a simple prompt and refine it based on the response. Ask follow-up questions to improve the results.
-* **Break down complex tasks**: Instead of asking for everything at once, break large tasks into smaller, manageable steps.
+**Agent**を使用して、Jupyterノートブックを作成、編集、操作を行えます。
 
-Learn more about [best practices for crafting prompts](/docs/copilot/guides/prompt-engineering-guide.md) and [adding context to your prompts](/docs/copilot/chat/copilot-chat-context.md).
+```prompt
+/newNotebook pandasとseabornを使用してtitanicデータセットを読み込んで可視化します。データセットから主要な情報を表示してください。
+```
 
-## Related resources
+```prompt
+#housing.csvからデータを読み込み、価格の分布をプロットするノートブックを作成してください
+```
 
-* [Chat overview](/docs/copilot/chat/copilot-chat.md)
-* [Add context to your chat prompt](/docs/copilot/chat/copilot-chat-context.md)
-* [Inline chat](/docs/copilot/chat/inline-chat.md)
-* [Copilot Chat Cookbook](https://docs.github.com/en/copilot/example-prompts-for-github-copilot-chat) in the GitHub documentation
+```prompt
+可視化と処理を行う前に、データが整理されていることを確認してください
+```
+
+```prompt
+データセット内の異なる機能間の相関関係を表示してください
+```
+
+## 複数ターンの会話例
+
+チャットは同じセッション内では、フォローアップ プロンプトをサポートします。複数ターンの会話を使用して、結果を反復処理し、AIの出力を洗練させることができます。
+
+**最初のプロンプト:**
+
+```prompt
+Express.jsでユーザーとプロダクト用のエンドポイントを持つREST APIを作成してください
+```
+
+**フォローアップ プロンプト:**
+
+```prompt
+両方のエンドポイントに入力検証とエラー処理を追加してください
+```
+
+```prompt
+次に検証ロジックのユニットテストを追加してください
+```
+
+以前の応答に基づいて、AIは前のステップのコンテキストを維持し、より首尾一貫したコードを生成します。
+
+## 効果的なプロンプトを作成するためのヒント
+
+* **具体的に**: 達成したいこと、使用する技術、期待される出力形式の詳細を含めてください。
+* **コンテキストを追加**: #-mentions を使用してファイル、シンボル、または`#codebase`、`#changes`、`#problems`などのコンテキスト変数を参照してください。
+* **反復処理**: シンプルなプロンプトから始めて、応答に基づいてそれを洗練させてください。フォローアップの質問をして結果を改善してください。
+* **複雑なタスクを細分化**: すべてを一度に依頼するのではなく、大規模なタスクをより小さく管理しやすいステップに分割してください。
+
+詳しくは、[プロンプト作成のベストプラクティス](/docs/copilot/guides/prompt-engineering-guide.md)と[プロンプトにコンテキストを追加する](/docs/copilot/chat/copilot-chat-context.md)をご覧ください。
+
+## 関連リソース
+
+* [チャット概要](/docs/copilot/chat/copilot-chat.md)
+* [チャット プロンプトにコンテキストを追加](/docs/copilot/chat/copilot-chat-context.md)
+* [インラインチャット](/docs/copilot/chat/inline-chat.md)
+* [Copilot Chat Cookbook](https://docs.github.com/en/copilot/example-prompts-for-github-copilot-chat) (GitHub ドキュメント内)
+

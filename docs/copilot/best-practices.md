@@ -1,185 +1,186 @@
 ---
 ContentId: 58ea6755-9bfa-42c2-a4c8-ff0510f9c031
 DateApproved: 3/9/2026
-MetaDescription: Best practices for getting the most out of GitHub Copilot in VS Code, from writing prompts to configuring your project for AI.
+MetaDescription: GitHub Copilotを最大限に活用するためのベストプラクティス。プロンプトの作成からプロジェクト設定まで。
 MetaSocialImage: images/shared/github-copilot-social.png
 ---
-# Best practices for using AI in VS Code
+# VS CodeでAIを使用するベストプラクティス
 
-This article covers proven practices for getting the most out of using AI in Visual Studio Code. Each section provides actionable guidance with links to deeper documentation.
+この記事では、Visual Studio CodeでAIを使用する際の実証済みのプラクティスについて説明します。各セクションでは、実行可能なガイダンスと詳細なドキュメントへのリンクを提供しています。
 
-<div class="docs-action" data-show-in-doc="false" data-show-in-sidebar="true" title="How AI works in VS Code">
-Learn about the agent loop, context window, tools, and other core concepts.
+<div class="docs-action" data-show-in-doc="false" data-show-in-sidebar="true" title="VS CodeでのAIの動作メカニズム">
+エージェントループ、コンテキストウィンドウ、ツール、その他のコアコンセプトについて学習します。
 
-* [Read about core concepts](/docs/copilot/concepts/overview.md)
+* [コアコンセプトについて読む](/docs/copilot/concepts/overview.md)
 
 </div>
 
-## Optimize your project for AI
+## AIのためにプロジェクトを最適化する
 
-By configuring your project and codebase with AI in mind, you can improve the accuracy of AI responses and ensure the AI follows your team's coding standards and practices.
+AIを念頭に置いてプロジェクトとコードベースを設定することで、AI応答の精度を向上させ、AIがチームのコーディング標準とプラクティスに従うようにできます。
 
-VS Code supports several mechanisms to configure AI behavior for your project. Enter `/init` in chat to generate a starter configuration.
+VS Codeは、プロジェクトのAI動作を設定するためのいくつかのメカニズムをサポートしています。チャットで`/init`を入力して、スターター設定を生成します。
 
-| Mechanism | Best for | Get started |
+| メカニズム | 最適な用途 | はじめ方 |
 |-----------|----------|-------------|
-| [Custom instructions](/docs/copilot/customization/custom-instructions.md) | Project-wide coding standards and architectural context | Enter `/init` to generate a base file |
-| [Prompt files](/docs/copilot/customization/prompt-files.md) | Reusable prompts for recurring tasks (reviews, scaffolding) | Enter `/prompts` to manage |
-| [Custom agents](/docs/copilot/customization/custom-agents.md) | Specialized workflows or personas (TDD, security audit) | Enter `/agents` to manage |
-| [Agent skills](/docs/copilot/customization/agent-skills.md) | Domain-specific capabilities (testing, deployment) | Enter `/skills` to manage |
-| [Tools and MCP servers](/docs/copilot/agents/agent-tools.md) | Connecting to external systems (databases, APIs, CLIs) | Configure in `mcp.json` |
+| [カスタム指示](/docs/copilot/customization/custom-instructions.md) | プロジェクト全体のコーディング標準とアーキテクチャコンテキスト | `/init`を入力してベースファイルを生成 |
+| [プロンプトファイル](/docs/copilot/customization/prompt-files.md) | 繰り返しタスク用の再利用可能なプロンプト（レビュー、スキャフォルディング） | `/prompts`を入力して管理 |
+| [カスタムエージェント](/docs/copilot/customization/custom-agents.md) | 専門的なワークフローまたはペルソナ（TDD、セキュリティ監査） | `/agents`を入力して管理 |
+| [エージェントスキル](/docs/copilot/customization/agent-skills.md) | ドメイン固有の機能（テスト、デプロイ） | `/skills`を入力して管理 |
+| [ツールとMCPサーバー](/docs/copilot/agents/agent-tools.md) | 外部システムへの接続（データベース、API、CLI） | `mcp.json`で設定 |
 
-Tips for effective project configuration:
+効果的なプロジェクト設定のティップス：
 
-* **Keep instruction files concise.** They load on every chat interaction. Focus on information the AI can't infer from code, such as non-default conventions, architectural decisions, or environment setup.
-* **Scope instructions with `applyTo` patterns.** Enter `/instructions` to create language-specific or folder-specific instruction files instead of putting everything in one file.
-* **Limit enabled tools.** Fewer active tools means faster, more relevant responses. Enable tools only when the task needs them.
+* **指示ファイルは簡潔に保つ。** チャットのやり取りのたびに読み込まれます。AIがコードから推定できない情報（デフォルト以外の規則、アーキテクチャ上の決定、環境セットアップなど）に焦点を当てる。
+* **`applyTo`パターンで指示のスコープを設定する。** `/instructions`を入力して言語固有またはフォルダ固有の指示ファイルを作成し、すべてを1つのファイルに入れないようにする。
+* **有効なツールを制限する。** アクティブなツールが少ないほど、応答が速く、より関連性が高くなります。タスクで必要な場合のみツールを有効にする。
 
-For full setup details, see the [customization overview](/docs/copilot/customization/overview.md).
+完全なセットアップ詳細については、[カスタマイズの概要](/docs/copilot/customization/overview.md)を参照してください。
 
-## Pick the right tool for the task
+## タスクに適したツールを選ぶ
 
-AI in VS Code offers several interaction modes. Choosing the right one for the task at hand saves time and produces better results.
+VS CodeのAIはいくつかのインタラクションモードを提供しています。手持ちのタスクに適切なモードを選択することで、時間を節約し、より良い結果が得られます。
 
-| Tool | Best for | Example |
+| ツール | 最適な用途 | 例 |
 |------|----------|---------|
-| [Inline suggestions](/docs/copilot/ai-powered-suggestions.md) | Staying in the flow while writing code | Code completions, variable names, boilerplate |
-| [Ask (chat)](/docs/copilot/chat/copilot-chat.md) | Questions, brainstorming, exploring ideas | "How does authentication work in this project?" |
-| [Inline chat](/docs/copilot/chat/inline-chat.md) | Targeted, in-place edits without switching context | Refactoring a function, adding error handling |
-| [Agents](/docs/copilot/agents/overview.md) | Multi-file changes that require autonomous planning and tool use | Implementing a feature end-to-end |
-| [Plan](/docs/copilot/agents/planning.md) | Structured planning before implementation | Designing an architecture or migration strategy |
-| [Smart actions](/docs/copilot/copilot-smart-actions.md) | Built-in, specialized one-step tasks | Generating commit messages, fixing errors, renaming symbols |
+| [インライン候補](/docs/copilot/ai-powered-suggestions.md) | コード作成中の流れを保つ | コード補完、変数名、ボイラープレート |
+| [Ask（チャット）](/docs/copilot/chat/copilot-chat.md) | 質問、ブレーンストーミング、アイデア探索 | 「このプロジェクトの認証はどのように機能するか？」 |
+| [インラインチャット](/docs/copilot/chat/inline-chat.md) | コンテキストを切り替えずに対象の編集をその場で実施 | 関数のリファクタリング、エラーハンドリング追加 |
+| [エージェント](/docs/copilot/agents/overview.md) | 自律的な計画とツール使用が必要な複数ファイルの変更 | 機能の エンドツーエンド実装 |
+| [Plan](/docs/copilot/agents/planning.md) | 実装前の構造化された計画 | アーキテクチャまたはマイグレーション戦略の設計 |
+| [スマートアクション](/docs/copilot/copilot-smart-actions.md) | 組み込みの特殊なワンステップタスク | コミットメッセージの生成、エラー修正、シンボル名変更 |
 
-## Write effective prompts
+## 効果的なプロンプトを作成する
 
-The quality of AI responses depends on the clarity and specificity of your prompt. These techniques help you get better results.
+AI応答の品質は、プロンプトの明確性と具体性に依存します。これらのテクニックはより良い結果を得るのに役立ちます。
 
-* **Be specific about inputs, outputs, and constraints.** State the programming language, frameworks, and libraries you want to use. Describe expected behavior or include example input and output.
-
-    ```prompt
-    Write a TypeScript function that validates email addresses.
-    Return true for valid addresses, false otherwise. Don't use regex.
-    Example: validateEmail("user@example.com") returns true
-    Example: validateEmail("invalid") returns false
-    ```
-
-* **Break down complex tasks.** Instead of asking for an entire feature at once, decompose it into smaller, well-scoped steps. This approach produces more reliable results and makes it easier to catch problems early.
-
-* **Include expected output for verification.** Provide test cases, expected results, or acceptance criteria so the AI can verify its own work. This step is one of the highest-leverage things you can do.
+* **入力、出力、制約について具体的に述べる。** 使用したいプログラミング言語、フレームワーク、ライブラリを指定してください。予想される動作を記述するか、入出力例を含める。
 
     ```prompt
-    Implement a rate limiter using the token bucket algorithm.
-    Write unit tests that verify: 10 requests/second allowed,
-    11th request rejected, bucket refills after 1 second.
-    Run the tests after implementing.
+    メールアドレスを検証するTypeScript関数を作成します。
+    有効なアドレスの場合はtrueを返し、そうでない場合はfalseを返します。正規表現は使用しないでください。
+    例：validateEmail("user@example.com")はtrueを返す
+    例：validateEmail("invalid")はfalseを返す
     ```
 
-* **Avoid vague prompts.** A prompt like "make this better" gives the AI no direction. Instead, specify what "better" means: "reduce the time complexity" or "add input validation for null values."
+* **複雑なタスクを分解する。** 機能全体を一度に尋ねるのではなく、より小さく、十分にスコープされたステップに分解する。このアプローチはより信頼性の高い結果をもたらし、問題を早期に発見しやすくします。
 
-* **Iterate with follow-up prompts.** Refine responses by adding constraints or corrections in follow-up messages rather than rewriting the entire prompt.
+* **検証用に予想される出力を含める。** テストケース、期待される結果、または受け入れ基準を提供し、AIが独自の作業を検証できるようにする。このステップは、実施できる最も高いレバレッジのことの1つです。
 
-* **Course-correct early.** If the AI is heading in the wrong direction, [steer it](/docs/copilot/chat/chat-sessions.md#send-messages-while-a-request-is-running) with a follow-up message to redirect the current request, queue a follow-up request, or stop and send a new prompt.
+    ```prompt
+    トークンバケットアルゴリズムを使用してレート制限機を実装します。
+    以下を確認するユニットテストを記述します。毎秒10件のリクエストが許可されている、
+    11番目のリクエストが拒否される、1秒後にバケットが補充される。
+    実装後にテストを実行します。
+    ```
 
-* **Tell the AI to ask clarifying questions.** If a task is ambiguous, instruct the AI to ask you questions before proceeding. This leads to more accurate results than guessing at requirements.
+* **曖昧なプロンプトを避ける。** 「これを改善してください」のようなプロンプトではAIに指示がありません。代わりに「より良い」とは何かを明確にします。「時間計算量を削減する」または「null値の入力検証を追加する」。
 
-* **Parallel tasks.** If you have multiple independent tasks, ask the AI to run them in parallel to save time. For example, "Perform isolated research about X and Y in parallel and summarize the findings."
+* **フォローアップのプロンプトで反復する。** プロンプト全体を書き直すのではなく、フォローアップメッセージで制約または修正を追加して応答を洗練させます。
 
-For more information, see [prompt engineering](/docs/copilot/guides/prompt-engineering-guide.md) and find practical [prompt examples](https://docs.github.com/en/copilot/copilot-chat-cookbook) in the GitHub Copilot documentation.
+* **早期に軌道を修正する。** AIが間違った方向に向かっている場合、[フォローアップメッセージで進行中のリクエストをリダイレクト](/docs/copilot/chat/chat-sessions.md#send-messages-while-a-request-is-running)して修正するか、フォローアップリクエストをキューに入れるか、停止して新しいプロンプトを送信します。
 
-## Provide the right context
+* **AIに明確な質問を尋ねるように指示する。** タスクが曖昧な場合、AIに進行前に質問するよう指示してください。これは要件を推測するよりも正確な結果につながります。
 
-The AI responds more accurately when it has relevant context. Use these techniques to point the AI at the right information:
+* **並列タスク。** 複数の独立したタスクがある場合、AIに並列に実行するよう依頼して時間を節約します。例えば、「XとYについて分離した調査を並列に実施し、結果を要約してください」。
 
-* The AI automatically performs code search to gather relevant context. When your prompt is ambiguous, you can guide the AI by referencing specific files, folders, or symbols in your prompt with `#<file>`, `#<folder>`, or `#<symbol>`.
+詳細については、[プロンプトエンジニアリング](/docs/copilot/guides/prompt-engineering-guide.md)を参照し、GitHub Copilotドキュメントで実用的な[プロンプト例](https://docs.github.com/en/copilot/copilot-chat-cookbook)を参照してください。
 
-* To pull information from web pages or GitHub repositories, use `#fetch` or `#githubRepo` to provide the AI with up-to-date information beyond your codebase.
+## 適切なコンテキストを提供する
 
-* Reference VS Code environment context such as source control changes, terminal output, or test failures to help the AI understand the current state of your project and provide more relevant responses.
+AIは関連するコンテキストがあるときより正確に応答します。次のテクニックを使用してAIを適切な情報にポイントしてください：
 
-* Add images or screenshots to let the AI analyze visual content.
+* AIは自動的にコード検索を実行して関連コンテキストを収集します。プロンプトが曖昧な場合、`#<ファイル>`、`#<フォルダ>`、または`#<シンボル>`でプロンプト内の特定のファイル、フォルダ、またはシンボルを参照することでAIをガイドできます。
 
-* Use the [integrated browser](/docs/debugtest/integrated-browser.md) to preview your app and select page elements to use as context.
+* Webページまたはgithubリポジトリから情報を取得するには、`#fetch`または`#githubRepo`を使用して、AIにコードベースを超えた最新情報を提供します。
 
-For more information, see [adding context to chat prompts](/docs/copilot/chat/copilot-chat-context.md) and [configuring tools](/docs/copilot/agents/agent-tools.md).
+* VS Code環境コンテキスト（ソース管理の変更、ターミナル出力、テスト失敗など）を参照して、AIがプロジェクトの現在の状態を理解し、より関連性のある応答を提供するのに役立てます。
 
-## Choose the right model
+* 画像またはスクリーンショットを追加して、AIが視覚的なコンテンツを分析できるようにします。
 
-Each AI model has different strengths. Some are better at reasoning, others excel at code generation or faster responses. Choosing the right model for your task improves results.
+* [統合ブラウザ](/docs/debugtest/integrated-browser.md)を使用してアプリをプレビューし、ページ要素を選択してコンテキストとして使用します。
 
-* **Match model to task complexity.** Use fast models for simple completions and boilerplate. Switch to reasoning-optimized models for planning, debugging, or architectural decisions.
+詳細については、[チャットプロンプトにコンテキストを追加](/docs/copilot/chat/copilot-chat-context.md)と[ツールの設定](/docs/copilot/agents/agent-tools.md)を参照してください。
 
-* **Use latest models.** Newer models often have improved capabilities. VS Code continuously adds support for new models and model versions. Check the [available models](/docs/copilot/customization/language-models.md) and use the latest models.
+## 適切なモデルを選択する
 
-* **Pin models in prompt files and agents.** Specify preferred models in your prompt file or custom agent definitions to ensure the right model is used consistently for specific tasks.
+各AIモデルは異なる強みを持ちます。推論に優れたものもあれば、コード生成または高速応答に優れたものもあります。タスクに適切なモデルを選択することで結果が向上します。
 
-* **Experiment and compare.** If you're not satisfied with a response, try a different model. Different models can produce significantly different results for the same prompt.
+* **モデルをタスクの複雑性に合わせる。** シンプルな補完とボイラープレート用に高速モデルを使用します。計画、デバッグ、またはアーキテクチャ上の決定には、推論最適化モデルに切り替えます。
 
-* **Use BYOK for additional control.** Bring your own API key for more model choices and hosting options.
+* **最新のモデルを使用する。** 新しいモデルはしばしば改善された機能を備えています。VS Codeは継続的に新しいモデルとモデルバージョンのサポートを追加しています。[利用可能なモデル](/docs/copilot/customization/language-models.md)を確認し、最新のモデルを使用します。
 
-For more information, see [selecting AI models](/docs/copilot/customization/language-models.md) and [available models for Copilot Chat](https://docs.github.com/en/copilot/using-github-copilot/ai-models/changing-the-ai-model-for-copilot-chat).
+* **プロンプトファイルとエージェントでモデルをピン留めする。** プロンプトファイルまたはカスタムエージェント定義で、特定のタスク用に正しいモデルが一貫して使用されるように、推奨されるモデルを指定します。
 
-## Plan first, then implement
+* **実験と比較。** 応答に満足できない場合は、別のモデルを試してください。異なるモデルは同じプロンプトに対して著しく異なる結果をもたらすことができます。
 
-For complex changes that span multiple files, separate planning from implementation. This approach prevents the AI from solving the wrong problem.
+* **追加の制御にはBYOKを使用します。** 自分のAPIキーを持参して、モデル選択とホスティングオプションをさらに増やします。
 
-1. **Explore.** Use ask mode or a subagent to read the relevant code and understand how it works before making changes.
-1. **Plan.** Use the [Plan agent](/docs/copilot/agents/planning.md) to create a structured implementation plan. Review and refine the plan before executing.
-1. **Implement.** Switch to agent mode and implement from the plan. Include tests or expected outputs so the agent can verify its own work. Hand off to a [background agent](/docs/copilot/agents/copilot-cli.md) or [cloud agent](/docs/copilot/agents/cloud-agents.md) for longer tasks.
-1. **Review.** Use [checkpoints](/docs/copilot/chat/chat-checkpoints.md) to review progress, rewind if the agent goes off track, or [request a Copilot code review](https://docs.github.com/en/copilot/concepts/agents/code-review) on the resulting pull request.
+詳細については、[AIモデルの選択](/docs/copilot/customization/language-models.md)と[Copilot Chat用の利用可能なモデル](https://docs.github.com/en/copilot/using-github-copilot/ai-models/changing-the-ai-model-for-copilot-chat)を参照してください。
 
-For more information, see the [context engineering workflow](/docs/copilot/guides/context-engineering-guide.md).
+## 最初に計画してから実装する
 
-## Review and verify AI output
+複数のファイルにまたがる複雑な変更の場合、計画と実装を分離します。このアプローチはAIが間違った問題を解決するのを防ぎます。
 
-AI-generated code can contain bugs, security issues, or subtle logic errors. Always treat AI output as a starting point that needs review.
+1. **探索。** 質問モードまたはサブエージェントを使用して、変更を行う前に関連するコードを読み、その動作を理解します。
+1. **計画。** [Planエージェント](/docs/copilot/agents/planning.md)を使用して、構造化された実装計画を作成します。実行前にプランをレビューして改善します。
+1. **実装。** エージェントモードに切り替えて、プランから実装します。エージェントが独自の作業を検証できるようにテストまたは期待される出力を含めます。長いタスク用に[バックグラウンドエージェント](/docs/copilot/agents/copilot-cli.md)または[クラウドエージェント](/docs/copilot/agents/cloud-agents.md)に引き渡します。
+1. **レビュー。** [チェックポイント](/docs/copilot/chat/chat-checkpoints.md)を使用して進行状況をレビューし、エージェントが軌道を外れた場合は巻き戻すか、[結果のプルリクエストのCopilotコードレビューをリクエスト](https://docs.github.com/en/copilot/concepts/agents/code-review)します。
 
-* **Review before accepting.** Read through generated code before accepting changes. Pay attention to edge cases, error handling, and assumptions the AI might have made.
+詳細については、[コンテキストエンジニアリングワークフロー](/docs/copilot/guides/context-engineering-guide.md)を参照してください。
 
-* **Run tests after AI changes.** Include test cases in your prompt so the AI can verify its own work. If the AI doesn't run tests automatically, run them yourself before moving on.
+## AI出力をレビューして検証する
 
-* **Use checkpoints to rewind.** If the agent goes off track, use [checkpoints](/docs/copilot/chat/chat-checkpoints.md) to roll back to a known good state instead of trying to fix cascading errors.
+AIで生成されるコードにはバグ、セキュリティの問題、または微妙なロジックエラーが含まれる場合があります。常にAI出力をレビューが必要な始まりのポイントとして扱います。
 
-* **Check for security issues.** Review AI-generated code for common vulnerabilities such as injection flaws, hardcoded secrets, or missing input validation. Avoid pasting credentials or sensitive data into prompts.
+* **受け入れる前にレビューする。** 変更を受け入れる前に生成されたコードを読み通してください。エッジケース、エラーハンドリング、AIが想定したかもしれない仮定に注意を払いましょう。
 
-For more information, see [GitHub Copilot security](/docs/copilot/security.md) and the [GitHub Copilot Trust Center](https://copilot.github.trust.page/faq).
+* **AI変更後にテストを実行する。** AIが独自の作業を検証できるようにプロンプトにテストケースを含めます。AIが自動的にテストを実行しない場合は、先に進む前に自分でテストを実行してください。
 
-## Manage context and sessions
+* **チェックポイントを使用してやり直す。** エージェントが軌道を外れた場合は、[チェックポイント](/docs/copilot/chat/chat-checkpoints.md)を使用して既知の良い状態に戻り、カスケードエラーを修正しようとしないでください。
 
-AI responses might degrade as the conversation fills with irrelevant context. Manage your sessions proactively.
+* **セキュリティの問題をチェックする。** AIで生成されたコードをインジェクションフロー、ハードコードされたシークレット、または入力検証不足などの一般的な脆弱性についてレビューしてください。プロンプトに認証情報または機密データを貼り付けることは避けてください。
 
-* **Start new sessions for unrelated tasks.** Don't keep piling unrelated questions into one conversation. Context pollution reduces response quality.
+詳細については、[GitHub Copilotセキュリティ](/docs/copilot/security.md)と[GitHub Copilot信頼センター](https://copilot.github.trust.page/faq)を参照してください。
 
-* **Remove irrelevant history.** Delete past questions and responses that are no longer relevant, or start a fresh session.
+## コンテキストとセッションを管理する
 
-* **Use subagents for investigation.** Hint the AI to perform research and exploration in isolation by using [subagents](/docs/copilot/agents/subagents.md) so the findings don't clutter your main context.
+会話が無関係なコンテキストで満たされると、AI応答が低下する場合があります。セッションを積極的に管理します。
 
-* **Choose the right session type.** Use local sessions for quick tasks on your current code that need your immediate attention, background tasks for tasks that can run locally and isolated from your main context, or cloud sessions that can benefit from team-collaboration.
+* **関連のないタスク用に新しいセッションを開始する。** 関連のない質問を1つの会話に積み重ねないでください。コンテキスト汚染は応答品質を低下させます。
 
-* **Scale with parallel sessions.** Run multiple sessions in parallel for independent tasks to save time and keep contexts separate. You can have multiple sessions running at once, across local, background, and cloud environments, and switch between them via the [Agent Sessions view](/docs/copilot/agents/overview.md#agent-sessions-list) in VS Code.
+* **無関係な履歴を削除する。** もう関連ではない過去の質問と応答を削除するか、新しいセッションを開始してください。
 
-For more information, see [session management](/docs/copilot/chat/chat-sessions.md) and [workspace indexing](/docs/copilot/reference/workspace-context.md).
+* **調査用にサブエージェントを使用する。** [サブエージェント](/docs/copilot/agents/subagents.md)を使用して調査と探査を分離で実行するようAIにヒントを与え、結果がメインコンテキストを散らかさないようにします。
 
-## Work with large codebases
+* **適切なセッションタイプを選択する。** ローカルセッションを現在のコード上の即座の注意が必要な高速タスク用に使用し、バックグラウンドタスクをローカルで実行でき、メインコンテキストから分離されたタスク用に使用し、クラウドセッションをチーム協力から恩恵を受ける場合に使用します。
 
-Copilot is designed to work effectively with large, complex, and multi-root workspaces. Use these practices to get the best results at scale.
+* **並列セッションでスケール。** 独立したタスク用に複数のセッションを並列で実行して、時間を節約し、コンテキストを分けります。ローカル、バックグラウンド、クラウド環境全体で複数のセッションを同時に実行し、VS Codeの[エージェントセッションビュー](/docs/copilot/agents/overview.md#agent-sessions-list)でそれらの間を切り替えることができます。
 
-* **Use workspace indexing.** VS Code automatically indexes your project using semantic search, language intelligence, and GitHub's code search for deep cross-file reasoning. This works for both small projects and large enterprise codebases. For large repositories, use [remote indexing](/docs/copilot/reference/workspace-context.md#remote-index) for fast, comprehensive results across your repository and related repositories on GitHub.
+詳細については、[セッション管理](/docs/copilot/chat/chat-sessions.md)と[ワークスペースインデックスを参照してください](/docs/copilot/reference/workspace-context.md)。
 
-* **Scope work with multi-root workspaces.** For monorepos or projects with multiple services, use [multi-root workspaces](/docs/editing/workspaces/multi-root-workspaces.md) to give the AI clear boundaries and focused context.
+## 大規模なコードベースで作業する
 
-* **Provide project-level instructions.** Use [custom instructions](/docs/copilot/customization/custom-instructions.md) to describe your project's architecture, module boundaries, and conventions that the AI can't infer from code alone. This gives the AI the context it needs for architecture-level changes.
+Copilotは、大規模で複雑なマルチルートワークスペースで効果的に機能するように設計されています。大規模で最高の結果を得るには、これらのプラクティスを使用してください。
 
-* **Run parallel sessions for independent changes.** Break large tasks into independent subtasks and run them in [parallel agent sessions](/docs/copilot/agents/overview.md#agent-sessions-list), each focused on a different area of the codebase.
+* **ワークスペースインデックスを使用する。** VS Codeは意味的検索、言語インテリジェンス、深い複数ファイル推論のためのGitHubのコード検索を使用してプロジェクトに自動的にインデックスを付けます。この機能は小規模なプロジェクトと大規模なエンタープライズコードベースの両方で機能します。大規模なリポジトリの場合、リポジトリと関連するGitHubのリポジトリ全体のわたる高速で包括的な結果を得るために[リモートインデックス](/docs/copilot/reference/workspace-context.md#remote-index)を使用してください。
 
-* **Use the Plan agent for cross-cutting changes.** For changes that span many files or modules, start with the [Plan agent](/docs/copilot/agents/planning.md) to create a structured implementation plan before executing.
+* **マルチルートワークスペースでスコープ作業。** モノレポやマルチサービスプロジェクトの場合、[マルチルートワークスペース](/docs/editing/workspaces/multi-root-workspaces.md)を使用してAIに明確な境界と焦点を絞ったコンテキストを与えます。
 
-For more information, see [workspace context](/docs/copilot/reference/workspace-context.md) and [agents](/docs/copilot/agents/overview.md).
+* **プロジェクトレベルの指示を提供する。** [カスタム指示](/docs/copilot/customization/custom-instructions.md)を使用してAIが単独ではコードから推測できないプロジェクトのアーキテクチャ、モジュール境界、規則を説明します。これはアーキテクチャレベルの変更用にAIに必要なコンテキストを提供します。
 
-## Related resources
+* **独立した変更用に並列セッションを実行する。** 大規模なタスクを独立したサブタスクに分割し、各セッションがコードベースの別の領域に焦点を当てるように[並列エージェントセッション](/docs/copilot/agents/overview.md#agent-sessions-list)で実行してください。
 
-* [Prompt engineering guide](/docs/copilot/guides/prompt-engineering-guide.md)
-* [Context engineering guide](/docs/copilot/guides/context-engineering-guide.md)
-* [Customization overview](/docs/copilot/customization/overview.md)
-* [Cheat sheet](/docs/copilot/reference/copilot-vscode-features.md)
-* [GitHub Copilot security](/docs/copilot/security.md)
-* [Best Practices for using GitHub Copilot](https://docs.github.com/en/copilot/using-github-copilot/best-practices-for-using-github-copilot) in the GitHub Copilot documentation
+* **横断的な変更にはPlanエージェントを使用する。** 多くのファイルまたはモジュールにまたがる変更の場合は、[Planエージェント](/docs/copilot/agents/planning.md)から始めて、実行前に構造化された実装計画を作成してください。
+
+詳細については、[ワークスペースコンテキスト](/docs/copilot/reference/workspace-context.md)と[エージェント](/docs/copilot/agents/overview.md)を参照してください。
+
+## 関連リソース
+
+* [プロンプトエンジニアリングガイド](/docs/copilot/guides/prompt-engineering-guide.md)
+* [コンテキストエンジニアリングガイド](/docs/copilot/guides/context-engineering-guide.md)
+* [カスタマイズの概要](/docs/copilot/customization/overview.md)
+* [チートシート](/docs/copilot/reference/copilot-vscode-features.md)
+* [GitHub Copilotセキュリティ](/docs/copilot/security.md)
+* [GitHub Copilot使用のベストプラクティス](https://docs.github.com/en/copilot/using-github-copilot/best-practices-for-using-github-copilot)（GitHub Copilotドキュメント内）
+

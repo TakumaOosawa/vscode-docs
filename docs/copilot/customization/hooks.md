@@ -1,7 +1,7 @@
 ---
 ContentId: 9c4d5e6f-7a8b-9c0d-1e2f-3a4b5c6d7e8f
 DateApproved: 3/9/2026
-MetaDescription: Learn how to use hooks in VS Code to execute custom shell commands at key lifecycle points during agent sessions for automation, validation, and policy enforcement.
+MetaDescription: VS Code でエージェント セッション中の主要なライフサイクル ポイントで、カスタムシェルコマンドを実行するフックの使い方を学びます。自動化、検証、ポリシー実施に利用できます。
 MetaSocialImage: ../images/shared/github-copilot-social.png
 Keywords:
 - copilot
@@ -14,42 +14,42 @@ Keywords:
 - postToolUse
 ---
 
-# Agent hooks in Visual Studio Code (Preview)
+# Visual Studio Code のエージェント フック (プレビュー)
 
-Hooks enable you to execute custom shell commands at key lifecycle points during agent sessions. Use hooks to automate workflows, enforce security policies, validate operations, and integrate with external tools.
+フックを使用すると、エージェント セッション中の重要なライフサイクル ポイントでカスタムシェルコマンドを実行できます。フックを使って、ワークフローを自動化したり、セキュリティ ポリシーを強制したり、操作を検証したり、外部ツールと統合したりできます。
 
-For background on how hooks fit into the AI customization framework, see [Customization concepts](/docs/copilot/concepts/customization.md#hooks).
+フックがAIカスタマイズフレームワークにどのように適合するかについては、[カスタマイズの概念](/docs/copilot/concepts/customization.md#hooks)を参照してください。
 
-This article explains how to configure and use hooks in VS Code.
+この記事では、VS Code でフックを構成して使用する方法について説明します。
 
 > [!NOTE]
-> Agent hooks are currently in Preview. The configuration format and behavior might change in future releases.
+> エージェント フックは現在プレビュー中です。構成形式と動作は今後のリリースで変更される可能性があります。
 
 > [!IMPORTANT]
-> Your organization might have disabled the use of hooks in VS Code. Contact your admin for more information. See [enterprise policies](/docs/enterprise/policies.md) for details.
+> 組織が VS Code でのフックの使用を無効化している可能性があります。詳細については管理者に問い合わせてください。詳細は[エンタープライズ ポリシー](/docs/enterprise/policies.md)を参照してください。
 
 > [!TIP]
-> Use the [Chat Customizations editor](/docs/copilot/customization/overview.md#chat-customizations-editor) (Preview) to discover, create, and manage all your chat customizations in one place. Run **Chat: Open Chat Customizations** from the Command Palette.
+> [チャット カスタマイズ エディター](/docs/copilot/customization/overview.md#chat-customizations-editor)(プレビュー)を使用して、すべてのチャット カスタマイズを1か所で検出、作成、管理できます。コマンド パレットから**Chat: Open Chat Customizations**を実行します。
 
-Hooks are designed to work across agent types, including local agents, background agents, and cloud agents. Each hook receives structured JSON input and can return JSON output to influence agent behavior.
+フックは、ローカル エージェント、バックグラウンド エージェント、クラウド エージェントを含むエージェント タイプ全体で機能するように設計されています。各フックは構造化JSON入力を受け取り、JSON出力を返してエージェント動作に影響を与えることができます。
 
-## Why use hooks?
+## フックを使用する理由
 
-Hooks provide deterministic, code-driven automation. Unlike instructions or custom prompts that guide agent behavior, hooks execute your code at specific lifecycle points with guaranteed outcomes:
+フックは確定的でコード駆動の自動化を提供します。エージェント動作を導く指示またはカスタム プロンプトと異なり、フックは特定のライフサイクル ポイントで確実な結果をもたらすコードを実行します。
 
-* **Enforce security policies**: Block dangerous commands like `rm -rf` or `DROP TABLE` before they execute, regardless of how the agent was prompted.
+* **セキュリティ ポリシーを強制する**: `rm -rf`や`DROP TABLE`などの危険なコマンドを、エージェントがどのようにプロンプトされたかに関わらず実行前にブロックできます。
 
-* **Automate code quality**: Run formatters, linters, or tests automatically after file modifications.
+* **コード品質を自動化する**: ファイル変更後に自動的にフォーマッター、リンター、またはテストを実行します。
 
-* **Create audit trails**: Log every tool invocation, command execution, or file change for compliance and debugging.
+* **監査証跡を作成する**: コンプライアンスとデバッグのためにすべてのツール呼び出し、コマンド実行、またはファイル変更をログに記録します。
 
-* **Inject context**: Add project-specific information, API keys, or environment details to help the agent make better decisions.
+* **コンテキストを注入する**: プロジェクト固有情報、APIキー、または環境詳細を追加して、エージェントがより良い判断を下すのを支援します。
 
-* **Control approvals**: Automatically approve safe operations while requiring confirmation for sensitive ones.
+* **承認を制御する**: 安全な操作は自動的に承認し、機密操作は確認を必須にします。
 
-## Quick start: your first hook
+## クイック スタート: 最初のフック
 
-The following example creates a hook that runs Prettier after every file edit. Create a `.github/hooks/format.json` file in your workspace:
+次の例は、ファイル編集後に毎回Prettier を実行するフックを作成しています。ワークスペースに`.github/hooks/format.json`ファイルを作成します。
 
 ```json
 {
@@ -64,45 +64,45 @@ The following example creates a hook that runs Prettier after every file edit. C
 }
 ```
 
-After you save this file, VS Code automatically loads the hook. The next time the agent edits a file, Prettier runs on the changed file. Check the  **GitHub Copilot Chat Hooks** output channel to verify the hook executed.
+このファイルを保存すると、VS Code は自動的にフックを読み込みます。次回エージェントがファイルを編集するとき、Prettier は変更されたファイルで実行されます。**GitHub Copilot Chat Hooks**出力チャネルでフックが実行されたことを確認してください。
 
-For more complex hooks that use custom scripts, see [Usage scenarios](#usage-scenarios).
+カスタムスクリプトを使用するより複雑なフックについては、[使用シナリオ](#使用シナリオ)を参照してください。
 
-## Hook lifecycle events
+## フック ライフサイクル イベント
 
-VS Code supports eight hook events that fire at specific points during an agent session:
+VS Code は、エージェント セッション中の特定のポイントで発生する8つのフック イベントをサポートしています。
 
-| Hook Event | When It Fires | Common Use Cases |
+| フック イベント | 発生するタイミング | 一般的な使用例 |
 |------------|---------------|------------------|
-| `SessionStart` | User submits the first prompt of a new session | Initialize resources, log session start, validate project state |
-| `UserPromptSubmit` | User submits a prompt | Audit user requests, inject system context |
-| `PreToolUse` | Before agent invokes any tool | Block dangerous operations, require approval, modify tool input |
-| `PostToolUse` | After tool completes successfully | Run formatters, log results, trigger follow-up actions |
-| `PreCompact` | Before conversation context is compacted | Export important context, save state before truncation |
-| `SubagentStart` | Subagent is spawned | Track nested agent usage, initialize subagent resources |
-| `SubagentStop` | Subagent completes | Aggregate results, cleanup subagent resources |
-| `Stop` | Agent session ends | Generate reports, cleanup resources, send notifications |
+| `SessionStart` | ユーザーが新しいセッションの最初のプロンプトを送信する | リソースの初期化、セッション開始のログ記録、プロジェクト状態の検証 |
+| `UserPromptSubmit` | ユーザーがプロンプトを送信する | ユーザー要求の監査、システム コンテキストの注入 |
+| `PreToolUse` | エージェントがツールを呼び出す前 | 危険な操作のブロック、承認の要求、ツール入力の変更 |
+| `PostToolUse` | ツールが正常に完了した後 | フォーマッターの実行、結果のログ記録、フォローアップアクションのトリガー |
+| `PreCompact` | 会話コンテキストが圧縮される前 | 重要なコンテキストのエクスポート、切り詰め前の状態保存 |
+| `SubagentStart` | サブエージェントが生成される | ネストされたエージェント使用の追跡、サブエージェント リソースの初期化 |
+| `SubagentStop` | サブエージェントが完了する | 結果の集約、サブエージェント リソースのクリーンアップ |
+| `Stop` | エージェント セッションが終了する | レポートの生成、リソースのクリーンアップ、通知の送信 |
 
-## Configure hooks
+## フックを構成する
 
-Hooks are configured in JSON files stored in your workspace or user directory.
+フックは、ワークスペースまたはユーザー ディレクトリに保存されているJSON ファイルで構成されます。
 
-### Hook file locations
+### フック ファイルの場所
 
-VS Code searches for hook configuration files in these locations:
+VS Code は以下の場所でフック構成ファイルを検索します。
 
-| Scope | Default file location |
+| スコープ | デフォルト ファイルの場所 |
 |-------|-----------------------|
-| Workspace | `.github/hooks/*.json` |
-| Workspace (Claude format) | `.claude/settings.json`, `.claude/settings.local.json` |
-| User | `~/.claude/settings.json` |
-| Custom agent | `hooks` field in `.agent.md` frontmatter (see [Agent-scoped hooks](#agent-scoped-hooks)) |
+| ワークスペース | `.github/hooks/*.json` |
+| ワークスペース (Claude 形式) | `.claude/settings.json`, `.claude/settings.local.json` |
+| ユーザー | `~/.claude/settings.json` |
+| カスタム エージェント | `.agent.md` フロントマターの`hooks`フィールド ([エージェント スコープ フック](#エージェント-スコープ-フック)を参照) |
 
-Workspace hooks take precedence over user hooks for the same event type.
+ワークスペース フックは、同じイベント タイプのユーザー フックより優先されます。
 
-Use the `setting(chat.hookFilesLocations)` setting to customize which hook files are loaded. You can specify paths to folders (VS Code loads all `*.json` files in the folder) or direct paths to individual `.json` files. Only relative paths and tilde (`~`) paths are supported.
+`setting(chat.hookFilesLocations)`設定を使用して、どのフック ファイルが読み込まれるかをカスタマイズします。フォルダへのパス (VS Code はフォルダ内のすべての`*.json`ファイルを読み込みます) または個別の`.json`ファイルへのパスを指定できます。相対パスとチルダ (`~`) パスのみがサポートされています。
 
-The default value includes these locations:
+デフォルト値には次の場所が含まれます。
 
 ```json
 "chat.hookFilesLocations": {
@@ -113,7 +113,7 @@ The default value includes these locations:
 }
 ```
 
-To add custom locations, add entries to this setting:
+カスタム ロケーションを追加するには、この設定にエントリを追加します。
 
 ```json
 "chat.hookFilesLocations": {
@@ -122,7 +122,7 @@ To add custom locations, add entries to this setting:
 }
 ```
 
-Set a path to `false` to disable loading hooks from that location, including the default locations. For example, to stop loading hooks from Claude Code configuration files:
+パスを`false`に設定すると、デフォルト ロケーションを含む、その場所からのフック読み込みを無効化できます。たとえば、Claude Code 構成ファイルからフック読み込みを停止するには。
 
 ```json
 "chat.hookFilesLocations": {
@@ -132,16 +132,16 @@ Set a path to `false` to disable loading hooks from that location, including the
 }
 ```
 
-### Agent-scoped hooks
+### エージェント スコープ フック
 
 > [!NOTE]
-> Agent-scoped hooks are currently in preview.
+> エージェント スコープ フックは現在プレビュー中です。
 
-You can define hooks directly in a [custom agent's](/docs/copilot/customization/custom-agents.md) YAML frontmatter. Agent-scoped hooks only run when that custom agent is active, either selected by the user or invoked as a subagent. Agent-scoped hooks run in addition to any workspace or user-level hooks configured for the same event.
+[カスタム エージェント](/docs/copilot/customization/custom-agents.md)のYAMLフロントマターでフックを直接定義できます。エージェント スコープ フックは、そのカスタム エージェントがアクティブな場合 (ユーザーによって選択されるか、サブエージェントとして呼び出される) にのみ実行されます。エージェント スコープ フックは、同じイベント用に構成されているワークスペース レベルまたはユーザー レベルのフックに加えて実行されます。
 
-To enable agent-scoped hooks, set `setting(chat.useCustomAgentHooks)` to `true`.
+エージェント スコープ フックを有効にするには、`setting(chat.useCustomAgentHooks)`を`true`に設定します。
 
-Add a `hooks` field to the agent frontmatter with the same structure as hook configuration files: event names mapped to arrays of hook command objects.
+エージェント フロントマターに`hooks`フィールドを追加して、フック構成ファイルと同じ構造を使用します。イベント名をフック コマンド オブジェクトの配列にマップします。
 
 ```markdown
 ---
@@ -156,9 +156,9 @@ hooks:
 You are a code editing agent. After making changes, files are automatically formatted.
 ```
 
-### Hook configuration format
+### フック構成形式
 
-Create a JSON file with a `hooks` object containing arrays of hook commands for each event type. VS Code uses the same hook format as Claude Code and Copilot CLI for compatibility:
+イベント ごとに`hooks`オブジェクトとフック コマンドの配列を含むJSONファイルを作成します。VS Code は、互換性を保つため Claude Code および Copilot CLI と同じフック形式を使用します。
 
 ```json
 {
@@ -180,27 +180,27 @@ Create a JSON file with a `hooks` object containing arrays of hook commands for 
 }
 ```
 
-### Hook command properties
+### フック コマンド プロパティ
 
-Each hook entry must have `type: "command"` and at least one command property:
+各フック エントリには`type: "command"`と、少なくとも1つのコマンド プロパティが必要です。
 
-| Property | Type | Description |
+| プロパティ | 型 | 説明 |
 |----------|------|-------------|
-| `type` | string | Must be `"command"` |
-| `command` | string | Default command to run (cross-platform) |
-| `windows` | string | Windows-specific command override |
-| `linux` | string | Linux-specific command override |
-| `osx` | string | macOS-specific command override |
-| `cwd` | string | Working directory (relative to repository root) |
-| `env` | object | Additional environment variables |
-| `timeout` | number | Timeout in seconds (default: 30) |
+| `type` | 文字列 | `"command"`である必要があります |
+| `command` | 文字列 | デフォルト コマンド (クロスプラットフォーム) |
+| `windows` | 文字列 | Windows 固有のコマンド上書き |
+| `linux` | 文字列 | Linux 固有のコマンド上書き |
+| `osx` | 文字列 | macOS 固有のコマンド上書き |
+| `cwd` | 文字列 | 作業ディレクトリ (リポジトリ ルートから相対) |
+| `env` | オブジェクト | 追加の環境変数 |
+| `timeout` | 数値 | タイムアウト (秒単位) (デフォルト: 30) |
 
 > [!NOTE]
-> OS-specific commands are selected based on the extension host platform. In remote development scenarios (SSH, Containers, WSL), this might differ from your local operating system.
+> OS 固有のコマンドは拡張機能ホスト プラットフォームに基づいて選択されます。リモート開発シナリオ (SSH、コンテナー、WSL) では、これがローカルオペレーティング システムと異なる場合があります。
 
-### OS-specific commands
+### OS 固有のコマンド
 
-Specify different commands for each operating system:
+各オペレーティング システムに異なるコマンドを指定します。
 
 ```json
 {
@@ -218,15 +218,15 @@ Specify different commands for each operating system:
 }
 ```
 
-The execution service selects the appropriate command based on your OS. If no OS-specific command is defined, it falls back to the `command` property.
+実行サービスは、OS に基づいて適切なコマンドを選択します。OS 固有のコマンドが定義されていない場合は、`command`プロパティにフォールバックします。
 
-## Hook input and output
+## フック入出力
 
-Hooks communicate with VS Code through stdin (input) and stdout (output) using JSON.
+フックは stdin (入力) と stdout (出力) を使用したJSONを介して VS Code と通信します。
 
-### Common input fields
+### 一般的な入力フィールド
 
-Every hook receives a JSON object via stdin with these common fields:
+すべてのフックは stdin 経由でこれらの共通フィールドを持つJSONオブジェクトを受け取ります。
 
 ```json
 {
@@ -238,9 +238,9 @@ Every hook receives a JSON object via stdin with these common fields:
 }
 ```
 
-### Common output format
+### 一般的な出力形式
 
-Hooks can return JSON via stdout to influence agent behavior. All hooks support these output fields:
+フックは stdout 経由でJSONを返してエージェント動作に影響を与えることができます。すべてのフックはこれらの出力フィールドをサポートしています。
 
 ```json
 {
@@ -250,40 +250,40 @@ Hooks can return JSON via stdout to influence agent behavior. All hooks support 
 }
 ```
 
-| Field | Type | Description |
+| フィールド | 型 | 説明 |
 |-------|------|-------------|
-| `continue` | boolean | Set to `false` to stop processing (default: `true`) |
-| `stopReason` | string | Reason for stopping, when `continue` is `false` (shown to the user) |
-| `systemMessage` | string | Warning message displayed to the user |
+| `continue` | ブール値 | 処理を停止するには`false`に設定します (デフォルト: `true`) |
+| `stopReason` | 文字列 | `continue`が`false`のときの停止理由 (ユーザーに表示されます) |
+| `systemMessage` | 文字列 | ユーザーに表示される警告メッセージ |
 
-### Exit codes
+### 終了コード
 
-The hook's exit code determines how VS Code handles the result:
+フックの終了コードは、VS Code が結果をどのように処理するかを決定します。
 
-| Exit Code | Behavior |
+| 終了コード | 動作 |
 |-----------|----------|
-| `0` | Success: parse stdout as JSON |
-| `2` | Blocking error: stop processing and show error to model |
-| Other | Non-blocking warning: show warning to user, continue processing |
+| `0` | 成功: stdout をJSON として解析 |
+| `2` | ブロック エラー: 処理を停止してエラーをモデルに表示 |
+| その他 | ブロック以外の警告: ユーザーに警告を表示して処理を続行 |
 
-### Choosing how to return data
+### データを返す方法の選択
 
-Hooks have several ways to control agent behavior: exit codes, top-level output fields (`continue`, `stopReason`), and hook-specific output fields (`hookSpecificOutput`). Use them in combination as follows:
+フックにはエージェント動作を制御するいくつかの方法があります。終了コード、トップレベル出力フィールド (`continue`、`stopReason`)、およびフック固有の出力フィールド (`hookSpecificOutput`) です。以下のようにそれらを組み合わせて使用します。
 
-* **Exit code 2** is the simplest way to block an operation. The hook's stderr is shown to the model as context. No JSON output is needed.
-* **`continue: false`** in the JSON output stops the entire agent session. Use `stopReason` to tell the user why. This is more drastic than blocking a single tool call.
-* **`hookSpecificOutput`** provides fine-grained control specific to each hook event. For example, `PreToolUse` hooks use `permissionDecision` to allow, deny, or prompt for a single tool call without stopping the session.
-* **`systemMessage`** displays a warning to the user in the chat, regardless of other decisions.
+* **終了コード2**は操作をブロックする最も簡単な方法です。フックの stderr がコンテキストとしてモデルに表示されます。JSON出力は不要です。
+* JSON出力の**`continue: false`**はエージェント セッション全体を停止します。`stopReason`を使用してユーザーに理由を伝えます。これは単一のツール呼び出しをブロックするより大きな影響があります。
+* **`hookSpecificOutput`**は、各フック イベントに固有のきめ細かい制御を提供します。たとえば、`PreToolUse`フックは`permissionDecision`を使用して、セッションを停止することなく単一のツール呼び出しを許可、拒否、またはプロンプトします。
+* **`systemMessage`**は、他の決定に関わらず、チャットでユーザーに警告を表示します。
 
-When multiple control mechanisms are used together, the most restrictive wins. For example, if a hook returns `continue: false` and `permissionDecision: "allow"`, the session still stops.
+複数の制御メカニズムが一緒に使用される場合、最も制限的なものが優先されます。たとえば、フックが`continue: false`と`permissionDecision: "allow"`を返す場合、セッションは依然として停止します。
 
 ## PreToolUse
 
-The `PreToolUse` hook fires before the agent invokes a tool.
+`PreToolUse` フックはエージェントがツールを呼び出す前に発生します。
 
-### PreToolUse input
+### PreToolUse 入力
 
-In addition to the common fields, `PreToolUse` hooks receive:
+共通フィールドに加えて、`PreToolUse`フックはこれらを受け取ります。
 
 ```json
 {
@@ -293,9 +293,9 @@ In addition to the common fields, `PreToolUse` hooks receive:
 }
 ```
 
-### PreToolUse output
+### PreToolUse 出力
 
-The `PreToolUse` hook can control tool execution through a `hookSpecificOutput` object:
+`PreToolUse`フックは`hookSpecificOutput`オブジェクトを介してツール実行を制御できます。
 
 ```json
 {
@@ -309,28 +309,28 @@ The `PreToolUse` hook can control tool execution through a `hookSpecificOutput` 
 }
 ```
 
-| Field | Values | Description |
+| フィールド | 値 | 説明 |
 |-------|--------|-------------|
-| `permissionDecision` | `"allow"`, `"deny"`, `"ask"` | Controls tool approval |
-| `permissionDecisionReason` | string | Reason shown to user |
-| `updatedInput` | object | Modified tool input (optional) |
-| `additionalContext` | string | Extra context for the model |
+| `permissionDecision` | `"allow"`, `"deny"`, `"ask"` | ツール承認を制御 |
+| `permissionDecisionReason` | 文字列 | ユーザーに表示する理由 |
+| `updatedInput` | オブジェクト | 変更されたツール入力 (オプション) |
+| `additionalContext` | 文字列 | モデルの追加コンテキスト |
 
-**Permission decision priority**: When multiple hooks run for the same tool invocation, the most restrictive decision wins:
+**許可決定の優先度**: 同じツール呼び出しに対して複数のフックが実行される場合、最も制限的な決定が優先されます。
 
-1. `deny` (most restrictive): blocks tool execution
-2. `ask`: requires user confirmation
-3. `allow` (least restrictive): auto-approves execution
+1. `deny` (最も制限的): ツール実行をブロック
+2. `ask`: ユーザー確認が必要
+3. `allow` (最も制限的でない): 自動承認実行
 
-**`updatedInput` format**: To determine the format of `updatedInput`, open the [agent logs](/docs/copilot/chat/chat-debug-view.md#agent-debug-panel) and find the logged tool schema. If `updatedInput` doesn't match the expected schema, it will be ignored.
+**`updatedInput`形式**: `updatedInput`の形式を確認するには、[エージェント ログ](/docs/copilot/chat/chat-debug-view.md#agent-debug-panel)を開いて、ログされたツール スキーマを探してください。`updatedInput`が期待されるスキーマと一致しない場合、は無視されます。
 
 ## PostToolUse
 
-The `PostToolUse` hook fires after a tool completes successfully.
+`PostToolUse`フックはツールが正常に完了した後に発生します。
 
-### PostToolUse input
+### PostToolUse 入力
 
-In addition to the common fields, `PostToolUse` hooks receive:
+共通フィールドに加えて、`PostToolUse`フックはこれらを受け取ります。
 
 ```json
 {
@@ -341,9 +341,9 @@ In addition to the common fields, `PostToolUse` hooks receive:
 }
 ```
 
-### PostToolUse output
+### PostToolUse 出力
 
-The `PostToolUse` hook can provide additional context to the model, or block further processing:
+`PostToolUse`フックはモデルに追加コンテキストを提供できます。または処理をブロックできます。
 
 ```json
 {
@@ -356,29 +356,29 @@ The `PostToolUse` hook can provide additional context to the model, or block fur
 }
 ```
 
-| Field | Values | Description |
+| フィールド | 値 | 説明 |
 |-------|--------|-------------|
-| `decision` | `"block"` | Block further processing (optional) |
-| `reason` | string | Reason for blocking (shown to the model) |
-| `hookSpecificOutput.additionalContext` | string | Extra context injected into the conversation |
+| `decision` | `"block"` | さらなる処理をブロック (オプション) |
+| `reason` | 文字列 | ブロックの理由 (モデルに表示されます) |
+| `hookSpecificOutput.additionalContext` | 文字列 | 会話に注入されるコンテキスト |
 
 ## UserPromptSubmit
 
-The `UserPromptSubmit` hook fires when the user submits a prompt.
+`UserPromptSubmit`フックはユーザーがプロンプトを送信するときに発生します。
 
-### UserPromptSubmit input
+### UserPromptSubmit 入力
 
-In addition to the common fields, `UserPromptSubmit` hooks receive a `prompt` field with the text the user submitted.
+共通フィールドに加えて、`UserPromptSubmit`フックはユーザーが送信したテキストを含む`prompt`フィールドを受け取ります。
 
-The `UserPromptSubmit` hook uses the common output format only.
+`UserPromptSubmit`フックは一般的な出力形式のみを使用します。
 
 ## SessionStart
 
-The `SessionStart` hook fires when a new agent session begins.
+`SessionStart`フックは新しいエージェント セッションが開始されるときに発生します。
 
-### SessionStart input
+### SessionStart 入力
 
-In addition to the common fields, `SessionStart` hooks receive:
+共通フィールドに加えて、`SessionStart`フックはこれらを受け取ります。
 
 ```json
 {
@@ -386,13 +386,13 @@ In addition to the common fields, `SessionStart` hooks receive:
 }
 ```
 
-| Field | Type | Description |
+| フィールド | 型 | 説明 |
 |-------|------|-------------|
-| `source` | string | How the session was started. Currently always `"new"`. |
+| `source` | 文字列 | セッションの開始方法。現在常に`"new"`。 |
 
-### SessionStart output
+### SessionStart 出力
 
-The `SessionStart` hook can inject additional context into the agent's conversation:
+`SessionStart`フックはエージェントの会話に追加コンテキストを注入できます。
 
 ```json
 {
@@ -403,17 +403,17 @@ The `SessionStart` hook can inject additional context into the agent's conversat
 }
 ```
 
-| Field | Type | Description |
+| フィールド | 型 | 説明 |
 |-------|------|-------------|
-| `additionalContext` | string | Context added to the agent's conversation |
+| `additionalContext` | 文字列 | エージェントの会話に追加されるコンテキスト |
 
 ## Stop
 
-The `Stop` hook fires when the agent session ends. When scoped to a custom agent, the `Stop` hook is also treated as `SubagentStop`.
+`Stop`フックはエージェント セッションが終了するときに発生します。カスタム エージェントにスコープされた場合、`Stop`フックも`SubagentStop`として扱われます。
 
-### Stop input
+### Stop 入力
 
-In addition to the common fields, `Stop` hooks receive:
+共通フィールドに加えて、`Stop`フックはこれらを受け取ります。
 
 ```json
 {
@@ -421,13 +421,13 @@ In addition to the common fields, `Stop` hooks receive:
 }
 ```
 
-| Field | Type | Description |
+| フィールド | 型 | 説明 |
 |-------|------|-------------|
-| `stop_hook_active` | boolean | `true` when the agent is already continuing as a result of a previous stop hook. Check this value to prevent the agent from running indefinitely. |
+| `stop_hook_active` | ブール値 | 前のstopフックの結果としてエージェントがすでに続行中のとき`true`。エージェントが無期限に実行されるのを防ぐため、この値をチェックしてください。 |
 
-### Stop output
+### Stop 出力
 
-The `Stop` hook can prevent the agent from stopping:
+`Stop`フックはエージェントの停止を防ぐことができます。
 
 ```json
 {
@@ -439,21 +439,21 @@ The `Stop` hook can prevent the agent from stopping:
 }
 ```
 
-| Field | Values | Description |
+| フィールド | 値 | 説明 |
 |-------|--------|-------------|
-| `decision` | `"block"` | Prevent the agent from stopping |
-| `reason` | string | Required when decision is `"block"`. Tells the agent why it should continue. |
+| `decision` | `"block"` | エージェントの停止を防止 |
+| `reason` | 文字列 | `decision`が`"block"`のときは必須。エージェントが続行し続けるべき理由を伝えます。 |
 
 > [!IMPORTANT]
-> When a `Stop` hook blocks the agent from stopping, the agent continues running and the additional turns consume [premium requests](https://docs.github.com/en/copilot/managing-copilot/monitoring-usage-and-entitlements/about-premium-requests). Always check the `stop_hook_active` field to prevent the agent from running indefinitely.
+> `Stop`フックがエージェントの停止をブロックすると、エージェントは実行を続け、追加のターンは[プレミアム リクエスト](https://docs.github.com/en/copilot/managing-copilot/monitoring-usage-and-entitlements/about-premium-requests)を消費します。`stop_hook_active`フィールドをチェックしてエージェントが無期限に実行されるのを防いでください。
 
 ## SubagentStart
 
-The `SubagentStart` hook fires when a subagent is spawned.
+`SubagentStart`フックはサブエージェントが生成されるときに発生します。
 
-### SubagentStart input
+### SubagentStart 入力
 
-In addition to the common fields, `SubagentStart` hooks receive:
+共通フィールドに加えて、`SubagentStart`フックはこれらを受け取ります。
 
 ```json
 {
@@ -462,14 +462,14 @@ In addition to the common fields, `SubagentStart` hooks receive:
 }
 ```
 
-| Field | Type | Description |
+| フィールド | 型 | 説明 |
 |-------|------|-------------|
-| `agent_id` | string | Unique identifier for the subagent |
-| `agent_type` | string | The agent name (for example, `"Plan"` for built-in agents or custom agent names) |
+| `agent_id` | 文字列 | サブエージェントの一意識別子 |
+| `agent_type` | 文字列 | エージェント名 (たとえば、ビルトイン エージェントの`"Plan"`またはカスタム エージェント名) |
 
-### SubagentStart output
+### SubagentStart 出力
 
-The `SubagentStart` hook can inject additional context into the subagent's conversation:
+`SubagentStart`フックはサブエージェントの会話に追加コンテキストを注入できます。
 
 ```json
 {
@@ -480,17 +480,17 @@ The `SubagentStart` hook can inject additional context into the subagent's conve
 }
 ```
 
-| Field | Type | Description |
+| フィールド | 型 | 説明 |
 |-------|------|-------------|
-| `additionalContext` | string | Context added to the subagent's conversation |
+| `additionalContext` | 文字列 | サブエージェントの会話に追加されるコンテキスト |
 
 ## SubagentStop
 
-The `SubagentStop` hook fires when a subagent completes.
+`SubagentStop`フックはサブエージェントが完了するときに発生します。
 
-### SubagentStop input
+### SubagentStop 入力
 
-In addition to the common fields, `SubagentStop` hooks receive:
+共通フィールドに加えて、`SubagentStop`フックはこれらを受け取ります。
 
 ```json
 {
@@ -500,15 +500,15 @@ In addition to the common fields, `SubagentStop` hooks receive:
 }
 ```
 
-| Field | Type | Description |
+| フィールド | 型 | 説明 |
 |-------|------|-------------|
-| `agent_id` | string | Unique identifier for the subagent |
-| `agent_type` | string | The agent name (for example, `"Plan"` for built-in agents or custom agent names) |
-| `stop_hook_active` | boolean | `true` when the subagent is already continuing as a result of a previous stop hook. Check this value to prevent the subagent from running indefinitely. |
+| `agent_id` | 文字列 | サブエージェントの一意識別子 |
+| `agent_type` | 文字列 | エージェント名 (たとえば、ビルトイン エージェントの`"Plan"`またはカスタム エージェント名) |
+| `stop_hook_active` | ブール値 | 前のstopフックの結果としてサブエージェントがすでに続行中のとき`true`。サブエージェントが無期限に実行されるのを防ぐため、この値をチェックしてください。 |
 
-### SubagentStop output
+### SubagentStop 出力
 
-The `SubagentStop` hook can prevent the subagent from stopping:
+`SubagentStop`フックはサブエージェントの停止を防ぐことができます。
 
 ```json
 {
@@ -517,18 +517,18 @@ The `SubagentStop` hook can prevent the subagent from stopping:
 }
 ```
 
-| Field | Values | Description |
+| フィールド | 値 | 説明 |
 |-------|--------|-------------|
-| `decision` | `"block"` | Prevent the subagent from stopping |
-| `reason` | string | Required when decision is `"block"`. Tells the subagent why it should continue. |
+| `decision` | `"block"` | サブエージェントの停止を防止 |
+| `reason` | 文字列 | `decision`が`"block"`のときは必須。サブエージェントが続行し続けるべき理由を伝えます。 |
 
 ## PreCompact
 
-The `PreCompact` hook fires before conversation context is compacted.
+`PreCompact`フックは会話コンテキストが圧縮される前に発生します。
 
-### PreCompact input
+### PreCompact 入力
 
-In addition to the common fields, `PreCompact` hooks receive:
+共通フィールドに加えて、`PreCompact`フックはこれらを受け取ります。
 
 ```json
 {
@@ -536,42 +536,42 @@ In addition to the common fields, `PreCompact` hooks receive:
 }
 ```
 
-| Field | Type | Description |
+| フィールド | 型 | 説明 |
 |-------|------|-------------|
-| `trigger` | string | How the compaction was triggered. `"auto"` when the conversation is too long for the prompt budget. |
+| `trigger` | 文字列 | 圧縮がトリガーされた方法。会話がプロンプト バジェットに対して長すぎるとき`"auto"`。 |
 
-The `PreCompact` hook uses the common output format only.
+`PreCompact`フックは一般的な出力形式のみを使用します。
 
-## Configure hooks with the UI
+## UIでフックを構成する
 
-You can configure hooks through an interactive UI in several ways:
+以下のいくつかの方法でUIを介してフックを構成できます。
 
-* Type `/hooks` in the chat input and press `kbstyle(Enter)`.
-* Open the Command Palette (`kb(workbench.action.showCommands)`) and run **Chat: Configure Hooks**.
-* Select the **Settings** icon (<i class="codicon codicon-gear"></i>) at the top of the Chat view, then select **Hooks**.
+* チャット入力で`/hooks`を入力して`kbstyle(Enter)`を押します。
+* コマンド パレット (`kb(workbench.action.showCommands)`) を開いて**Chat: Configure Hooks**を実行します。
+* チャット ビューの上部の**設定**アイコン (<i class="codicon codicon-gear"></i>) を選択してから、**Hooks**を選択します。
 
-In the configure hooks menu:
+フック構成メニューで。
 
-1. Select a hook event type from the list.
+1. リストからフック イベント タイプを選択します。
 
-1. Choose an existing hook to edit or select **Add new hook** to create one.
+2. 編集する既存のフックを選択するか、**フックを新規追加**を選択して新しいフックを作成します。
 
-1. Select or create a hook configuration file.
+3. フック構成ファイルを選択または作成します。
 
-The command opens the hook file in the editor with your cursor positioned at the command field, ready for editing.
+コマンドはフック ファイルをエディターで開き、コマンド フィールドに対してカーソルを配置して、編集する準備がしています。
 
-### Generate a hook with AI
+### AIでフックを生成する
 
-You can use AI to generate a hook configuration. Type `/create-hook` in chat and describe the automation you want (for example, "run ESLint after every file edit"). The agent asks clarifying questions and generates a hook configuration file with the appropriate event type, command, and settings.
+AIを使用してフック構成を生成できます。チャットで`/create-hook`と入力して、必要な自動化について説明します (たとえば、「すべてのファイル編集後にESLintを実行」)。エージェントは確認質問をして、適切なイベント タイプ、コマンド、設定を含むフック構成ファイルを生成します。
 
-## Usage scenarios
+## 使用シナリオ
 
-The following examples demonstrate common hook patterns.
+次の例は、一般的なフック パターンを示しています。
 
 <details>
-<summary>Block dangerous terminal commands</summary>
+<summary>危険なターミナル コマンドをブロック</summary>
 
-Create a `PreToolUse` hook that prevents destructive commands:
+破壊的なコマンドを防ぐ`PreToolUse`フックを作成します。
 
 **.github/hooks/security.json**:
 ```json
@@ -610,9 +610,9 @@ echo '{"continue":true}'
 </details>
 
 <details>
-<summary>Auto-format code after edits</summary>
+<summary>編集後に自動的にコードをフォーマット</summary>
 
-Run Prettier automatically after any file modification:
+ファイル変更後に自動的にPrettierを実行します。
 
 **.github/hooks/formatting.json**:
 ```json
@@ -652,9 +652,9 @@ echo '{"continue":true}'
 </details>
 
 <details>
-<summary>Log tool usage for auditing</summary>
+<summary>監査用にツール使用をログ</summary>
 
-Create an audit trail of all tool invocations:
+すべてのツール呼び出しの監査証跡を作成します。
 
 **.github/hooks/audit.json**:
 ```json
@@ -688,9 +688,9 @@ echo '{"continue":true}'
 </details>
 
 <details>
-<summary>Require approval for specific tools</summary>
+<summary>特定のツールの承認が必要</summary>
 
-Force manual confirmation for tools that modify infrastructure:
+インフラストラクチャを変更するツールに手動確認を強制します。
 
 **.github/hooks/approval.json**:
 ```json
@@ -712,7 +712,7 @@ Force manual confirmation for tools that modify infrastructure:
 INPUT=$(cat)
 TOOL_NAME=$(echo "$INPUT" | jq -r '.tool_name')
 
-# Tools that should always require approval
+# 常に承認が必要なツール
 SENSITIVE_TOOLS="runTerminalCommand|deleteFile|pushToGitHub"
 
 if echo "$TOOL_NAME" | grep -qE "^($SENSITIVE_TOOLS)$"; then
@@ -725,9 +725,9 @@ fi
 </details>
 
 <details>
-<summary>Inject project context at session start</summary>
+<summary>セッション開始時にプロジェクト コンテキストを注入</summary>
 
-Provide project-specific information when a session begins:
+セッションが開始されるときにプロジェクト固有の情報を提供します。
 
 **.github/hooks/context.json**:
 ```json
@@ -761,70 +761,71 @@ EOF
 
 </details>
 
-## Safety
+## セキュリティ
 
-If the agent has access to edit scripts run by hooks, then it has the ability to modify those scripts during its own run, and execute the code it writes. We recommend using the `chat.tools.edits.autoApprove` to disallow the agent from editing hook scripts without manual approval.
+エージェントがフックで実行されるスクリプトを編集できる場合、実行中にスクリプトを変更し、記述したコードを実行する能力があります。`chat.tools.edits.autoApprove`を使用して、エージェントが手動承認なしでフック スクリプトを編集するのを許可しないことをお勧めします。
 
-## Troubleshooting
+## トラブルシューティング
 
-### View hook diagnostics
+### フック診断を表示する
 
-To see which hooks are loaded and check for configuration errors:
+どのフックが読み込まれているか、構成エラーがあるか確認するには。
 
-1. Select **View Logs** to view all logs.
+1. **ログを表示**を選択してすべてのログを表示します。
 
-1. Look for "Load Hooks" to see loaded hooks and which locations they were loaded from.
+2. 「Load Hooks」を探して読み込まれたフックとそれらがどの場所から読み込まれたかを確認します。
 
-### View hook output
+### フック出力を表示する
 
-To review hook output and errors:
+フック出力とエラーを確認するには。
 
-1. Open the **Output** panel.
+1. **出力**パネルを開きます。
 
-1. Select **GitHub Copilot Chat Hooks** from the channel list.
+2. チャネル リストから**GitHub Copilot Chat Hooks**を選択します。
 
-### Common issues
+### 一般的な問題
 
-**Hook not executing**: Verify the hook file is in `.github/hooks/` and has a `.json` extension. Check that the `type` property is set to `"command"`.
+**フックが実行されない**: フック ファイルが`.github/hooks/`にあり`.json`拡張子を持つことを確認してください。`type`プロパティが`"command"`に設定されていることを確認します。
 
-**Permission denied errors**: Ensure your hook scripts have execute permissions (`chmod +x script.sh`).
+**アクセス許可が拒否されたエラー**: フック スクリプトに実行権限があることを確認してください (`chmod +x script.sh`)。
 
-**Timeout errors**: Increase the `timeout` value or optimize your hook script. The default is 30 seconds.
+**タイムアウト エラー**: `timeout`値を増やすか、フック スクリプトを最適化してください。デフォルトは30秒です。
 
-**JSON parse errors**: Verify your hook script outputs valid JSON to stdout. Use `jq` or a JSON library to construct output.
+**JSON解析エラー**: フック スクリプトが stdout に有効なJSONを出力することを確認してください。`jq`またはJSONライブラリを使用して出力を構築します。
 
-## Frequently asked questions
+## よくある質問
 
-### How does VS Code handle Claude Code hook configurations?
+### VS Code はClaude Code フック構成をどのように処理しますか?
 
-VS Code reads hook configurations from `.claude/settings.json`, `.claude/settings.local.json`, and `~/.claude/settings.json` by default. VS Code parses Claude Code's hook configuration format, including matcher syntax. Currently, VS Code ignores matcher values, so hooks run on all tool invocations regardless of the matcher.
+VS Code は既定で`.claude/settings.json`、`.claude/settings.local.json`、および`~/.claude/settings.json`からフック構成を読み取ります。VS Code はマッチャー構文を含むClaude Code のフック構成形式を解析します。現在、VS Code はマッチャー値を無視するため、フックはマッチャーに関わらずすべてのツール呼び出しで実行されます。
 
-If you are adapting a Claude Code hook for VS Code, be aware of the following differences:
+Claude Code フックを VS Code 向けに調整している場合、次の違いに注意してください。
 
-* **Tool input property names**: Claude Code uses snake_case for tool input properties (for example, `tool_input.file_path`), while VS Code tools use camelCase (for example, `tool_input.filePath`). Update your hook scripts to read the correct property names.
-* **Tool names**: Claude Code and VS Code use different tool names. For example, Claude Code uses `Write` and `Edit` for file operations, while VS Code uses tool names like `create_file` and `replace_string_in_file`. Check the tool name in the `tool_name` input field and update your hook logic accordingly.
-* **Matchers are ignored**: Hook matchers like `"Edit|Write"` are parsed but not applied. All hooks run on every matching event, regardless of the tool name in the matcher.
+* **ツール入力プロパティ名**: Claude Code はツール入力プロパティに snake_case を使用する (たとえば、`tool_input.file_path`)、一方 VS Code ツールは camelCase を使用する (たとえば、`tool_input.filePath`)。正しいプロパティ名を読み取るようにフック スクリプトを更新します。
+* **ツール名**: Claude Code と VS Code は異なるツール名を使用します。たとえば、Claude Code はファイル操作に`Write`と`Edit`を使用しますが、VS Code は`create_file`および`replace_string_in_file`などのツール名を使用します。`tool_name`入力フィールドでツール名を確認し、フック ロジックをそれに応じて更新します。
+* **マッチャーは無視されます**: `"Edit|Write"`などのフック マッチャーは解析されますが、適用されません。すべてのフックはマッチャー内のツール名に関わらず、すべてのマッチング イベントで実行されます。
 
-### How does VS Code handle Copilot CLI hook configurations?
+### VS Code はCopilot CLI フック構成をどのように処理しますか?
 
-VS Code parses Copilot CLI hook configurations and converts the lowerCamelCase hook event names (like `preToolUse`) to the PascalCase format used by VS Code (`PreToolUse`). The `bash` and `powershell` command properties are mapped to OS-specific commands: `powershell` maps to `windows`, and `bash` maps to `osx` and `linux`.
+VS Code はCopilot CLI フック構成を解析し、lowerCamelCase フック イベント名 (`preToolUse`など) を VS Code で使用されるPascalCase 形式 (`PreToolUse`) に変換します。`bash`および`powershell`コマンドプロパティはOS 固有のコマンドにマップされます。`powershell`は`windows`にマップされ、`bash`は`osx`および`linux`にマップされます。
 
-## Security considerations
+## セキュリティに関する考慮事項
 
 > [!CAUTION]
-> Hooks execute shell commands with the same permissions as VS Code. Review hook configurations carefully, especially when using hooks from untrusted sources.
+> フックは VS Code と同じ権限でシェルコマンドを実行します。特に信頼できないソースからのフックを使用する場合は、フック構成を慎重に確認してください。
 
-* **Review hook scripts**: Inspect all hook scripts before enabling them, especially in shared repositories.
+* **フック スクリプトを確認する**: すべてのフック スクリプトを有効にする前に検査してください。特に共有リポジトリ内のフックは。
 
-* **Limit hook permissions**: Use the principle of least privilege. Hooks should only have access to what they need.
+* **フック権限を制限する**: 最小権限の原則を使用してください。フックは必要な機能にのみアクセスすべきです。
 
-* **Validate input**: Hook scripts receive input from the agent. Validate and sanitize all input to prevent injection attacks.
+* **入力を検証する**: フック スクリプトはエージェントから入力を受け取ります。すべての入力を検証およびサニタイズしてインジェクション攻撃を防止します。
 
-* **Secure credentials**: Never hardcode secrets in hook scripts. Use environment variables or secure credential storage.
+* **認証情報を保護する**: フック スクリプトに秘密情報をハードコードしないでください。環境変数またはセキュアな認証情報ストレージを使用します。
 
-## Related resources
+## 関連リソース
 
-* [Use tools with agents](/docs/copilot/agents/agent-tools.md) - Learn about tool approval and execution
-* [Custom agents](/docs/copilot/customization/custom-agents.md) - Create specialized agent configurations
-* [Subagents](/docs/copilot/agents/subagents.md) - Delegate tasks to context-isolated subagents
-* [Security considerations](/docs/copilot/security.md) - Best practices for AI security in VS Code
+* [エージェント でツールを使用する](/docs/copilot/agents/agent-tools.md) - ツール承認と実行に関する情報
+* [カスタム エージェント](/docs/copilot/customization/custom-agents.md) - 特殊なエージェント構成を作成
+* [サブエージェント](/docs/copilot/agents/subagents.md) - コンテキスト分離されたサブエージェントにタスクを委譲
+* [セキュリティに関する考慮事項](/docs/copilot/security.md) - VS Code でのAI セキュリティに関するベスト プラクティス
+

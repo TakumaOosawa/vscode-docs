@@ -1,93 +1,94 @@
 ---
 ContentId: e6b33fcb-8240-49dd-b6ca-5412d6fa669a
 DateApproved: 3/9/2026
-MetaDescription: Use Inline Chat in Visual Studio Code to make edits directly in the editor or get command suggestions in the terminal.
+MetaDescription: Visual Studio Codeのインラインチャットを使用して、エディタで直接編集したり、ターミナルでコマンド提案を取得したりします。
 MetaSocialImage: ../images/shared/github-copilot-social.png
 ---
-# Inline chat
+# インラインチャット
 
-With inline chat in Visual Studio Code, you can ask for generating code or making edits directly in the editor or get help with shell commands within the integrated terminal. Inline chat allows you to stay in the flow of your work without having to switch to a separate Chat view.
+Visual Studio Codeのインラインチャットを使用すると、エディタで直接コード生成や編集をリクエストしたり、統合ターミナル内でシェルコマンドのヘルプを取得したりできます。インラインチャットを使用すれば、別のチャットビューに切り替えることなく、作業フローの中で作業を続けられます。
 
-Use inline chat when you want to make quick, targeted edits within the visible code context. For multi-step tasks, multi-file changes, or broader codebase exploration, use the [Chat view](/docs/copilot/chat/copilot-chat.md) instead.
+インラインチャットは、表示されているコード範囲内で迅速かつターゲットを絞った編集を行う場合に使用します。複数ステップのタスク、複数ファイルの変更、またはより広範なコードベースの探索については、代わりに[チャットビュー](/docs/copilot/chat/copilot-chat.md)を使用してください。
 
-## Use editor inline chat
+## エディタインラインチャットの使用
 
-When you use editor inline chat, your prompt is scoped to the code in the active editor. Inline chat might use the content from other files in your workspace as context for your prompt.
+エディタインラインチャットを使用する場合、プロンプトはアクティブなエディタのコードを対象としています。インラインチャットは、プロンプトのコンテキストとしてワークスペース内の他のファイルからコンテンツを使用する場合があります。
 
-To use editor inline chat:
+エディタインラインチャットを使用するには:
 
-1. Open a file in the editor.
+1. エディタでファイルを開きます。
 
-1. Open editor inline chat by using the `kb(inlinechat.start)` keyboard shortcut or by selecting **Open Inline Chat** from the Chat menu in the title bar.
+1. `kb(inlinechat.start)`キーボードショートカットを使用するか、タイトルバーの[チャット]メニューから[インラインチャットを開く]を選択して、エディタインラインチャットを開きます。
 
-1. Type your prompt in the chat input field and press `kbstyle(Enter)`.
+1. チャット入力フィールドにプロンプトを入力して、`kbstyle(Enter)`を押します。
 
     > [!TIP]
-    > Select a block of code in the editor to scope the prompt to that code.
+    > エディタのコードブロックを選択して、プロンプトをそのコードに限定します。
 
-1. VS Code shows a diff with the code suggestion inline in the editor. Accept or reject the changes.
+1. VS Codeは、エディタ内にコード提案とともに差分を表示します。変更を承認または拒否します。
 
-    ![Screenshot showing editor inline chat suggesting a non-recursive factorial implementation.](images/copilot-chat/inline-chat-no-recursion.png)
+    ![エディタインラインチャットが非再帰的階乗実装を提案しているスクリーンショット。](images/copilot-chat/inline-chat-no-recursion.png)
 
-1. Optionally, ask a follow-up question to get other suggestions or refine the results.
+1. 必要に応じて、フォローアップ質問をして、他の提案を取得するか、結果を改善します。
 
 > [!TIP]
-> Attach context to your inline chat prompt to include relevant files, code symbols, or other context. Learn more about [adding context to your chat prompt](/docs/copilot/chat/copilot-chat-context.md).
+> インラインチャットプロンプトにコンテキストを追加して、関連ファイル、コードシンボル、またはその他のコンテキストを含めます。[チャットプロンプトにコンテキストを追加する方法](/docs/copilot/chat/copilot-chat-context.md)の詳細をご覧ください。
 
-### Show a visual hint on text selection (Experimental)
+### テキスト選択時のビジュアルヒントを表示(実験的)
 
-When you select text in the editor, VS Code can display a visual hint to help you start inline chat for the selected code. Use the `setting(inlineChat.affordance)` setting to control how this hint appears:
+エディタでテキストを選択すると、VS Codeは、選択したコードのインラインチャットを開始するのに役立つビジュアルヒントを表示できます。`setting(inlineChat.affordance)`設定を使用して、このヒントの表示方法を制御します:
 
-* `off`: no hint is shown when you select text
-* `gutter`: the hint appears in the line number area next to your selection
-* `editor`: the hint appears at the cursor position within your selection, integrated with the lightbulb for code actions
+* `off`: テキストを選択しても、ヒントは表示されません
+* `gutter`: ヒントは選択範囲の横の行番号領域に表示されます
+* `editor`: ヒントは選択範囲内のカーソル位置に表示され、コードアクションの電球と統合されます
 
-![Screenshot showing the inline chat hint in the gutter when text is selected in the editor.](images/copilot-chat/inline-chat-hint-gutter.png)
+![テキストがエディタで選択されているときに、ガターにインラインチャットヒントが表示されているスクリーンショット。](images/copilot-chat/inline-chat-hint-gutter.png)
 
-The hint displays an inline chat input box and actions for adding the selection to chat, explaining the code, and starting a code review of the selection.
+ヒントにはインラインチャット入力ボックスと、選択をチャットに追加、コードを説明、選択のコードレビューを開始するためのアクションが表示されます。
 
 > [!NOTE]
-> This feature is experimental and works with the `setting(inlineChat.renderMode)` setting set to `hover`.
+> この機能は実験的であり、`setting(inlineChat.renderMode)`設定が`hover`に設定されている場合に機能します。
 
-## Use terminal inline chat
+## ターミナルインラインチャットの使用
 
-You can bring up terminal inline chat in the [integrated terminal](/docs/terminal/basics.md) to get help with shell commands or ask terminal-related questions.
+[統合ターミナル](/docs/terminal/basics.md)でターミナルインラインチャットを表示して、シェルコマンドのヘルプを取得したり、ターミナル関連の質問をしたりできます。
 
-To use terminal inline chat:
+ターミナルインラインチャットを使用するには:
 
-1. Open the terminal in VS Code by selecting the **View** > **Terminal** menu item or using the `kb(workbench.action.terminal.toggleTerminal)` keyboard shortcut.
+1. **表示** > **ターミナル**メニュー項目を選択するか、`kb(workbench.action.terminal.toggleTerminal)`キーボードショートカットを使用して、VS Codeでターミナルを開きます。
 
-1. Start terminal inline chat by using the `kb(workbench.action.terminal.chat.start)` keyboard shortcut or running the **Terminal Inline Chat** command in the Command Palette.
+1. `kb(workbench.action.terminal.chat.start)`キーボードショートカットを使用するか、コマンドパレットで**Terminal Inline Chat**コマンドを実行して、ターミナルインラインチャットを開始します。
 
-1. Type your prompt in the chat input field and press `kbstyle(Enter)`.
+1. チャット入力フィールドにプロンプトを入力して、`kbstyle(Enter)`を押します。
 
-    ![Screenshot showing that you can ask complex questions like "list the top 5 largest files in the src dir"](images/copilot-chat/terminal-chat-2.png)
+    ![「srcディレクトリで最も大きいファイル上位5つをリストアップ」のような複雑な質問ができることを示すスクリーンショット。](images/copilot-chat/terminal-chat-2.png)
 
-1. Review the response and select the **Run** (`kb(workbench.action.terminal.chat.runCommand)`) to run the command in the terminal
+1. レスポンスを確認して、**実行**(`kb(workbench.action.terminal.chat.runCommand)`)を選択してターミナルでコマンドを実行します。
 
-    Alternatively, select **Insert** (`kb(workbench.action.terminal.chat.insertCommand)`) to insert the command into the terminal and modify it before running.
+    または、**挿入**(`kb(workbench.action.terminal.chat.insertCommand)`)を選択してコマンドをターミナルに挿入し、実行前に変更します。
 
-## Change the model for inline chat
+## インラインチャットのモデルを変更
 
-You can change the language model that is used for editor inline chat. By default, inline chat uses the same model as the Chat view, but you can configure a specific default model for inline chat.
+エディタインラインチャットに使用される言語モデルを変更できます。デフォルトでは、インラインチャットはチャットビューと同じモデルを使用しますが、インラインチャット用に特定のデフォルトモデルを設定できます。
 
-To configure the default model for inline chat, use the `setting(inlineChat.defaultModel)` setting. The setting lists all available models from the model picker.
+インラインチャットのデフォルトモデルを設定するには、`setting(inlineChat.defaultModel)`設定を使用します。この設定には、モデルピッカーから利用可能なすべてのモデルが一覧表示されます。
 
-If you change the model during an inline chat session, the selection persists for the remainder of the session. After you reload VS Code, the model resets to the value specified in the `setting(inlineChat.defaultModel)` setting.
+インラインチャットセッション中にモデルを変更すると、その選択はセッションの残りの間保持されます。VS Codeをリロードすると、モデルは`setting(inlineChat.defaultModel)`設定で指定された値にリセットされます。
 
-Learn more about [choosing the right model for your task](/docs/copilot/customization/language-models.md#choose-the-right-model-for-your-task).
+[タスクに適したモデルを選択する方法](/docs/copilot/customization/language-models.md#choose-the-right-model-for-your-task)の詳細をご覧ください。
 
-## Use Quick Chat
+## クイックチャットの使用
 
-Quick Chat provides a lightweight chat panel that opens at the top of the editor. Use it for quick questions and short interactions without opening the full Chat view or leaving your current workflow.
+クイックチャットは、エディタの上部で開く軽量なチャットパネルを提供します。フルチャットビューを開いたり、現在のワークフローを離れたりすることなく、簡単な質問と短い操作に使用します。
 
-To open Quick Chat, press `kb(workbench.action.quickchat.toggle)` or select **Quick Chat** from the **Chat** menu in the title bar.
+クイックチャットを開くには、`kb(workbench.action.quickchat.toggle)`を押すか、タイトルバーの[チャット]メニューから[クイックチャット]を選択します。
 
-Type your prompt and press `kbstyle(Enter)` to get a response. Quick Chat supports the same `#`-mentions and `@`-mentions as the Chat view for adding context. Select the **Open in Chat View** button to continue the conversation in the full Chat view.
+プロンプトを入力して`kbstyle(Enter)`を押すとレスポンスが得られます。クイックチャットは、チャットビューと同じ`#`-メンションと`@`-メンションをサポートしており、コンテキストを追加できます。[チャットビューで開く]ボタンを選択して、フルチャットビューで会話を続けます。
 
-## Related resources
+## 関連リソース
 
-* [Chat overview](/docs/copilot/chat/copilot-chat.md)
-* [Add context to your chat prompt](/docs/copilot/chat/copilot-chat-context.md)
-* [Review AI-generated code edits](/docs/copilot/chat/review-code-edits.md)
-* [AI language models in VS Code](/docs/copilot/customization/language-models.md)
+* [チャットの概要](/docs/copilot/chat/copilot-chat.md)
+* [チャットプロンプトにコンテキストを追加](/docs/copilot/chat/copilot-chat-context.md)
+* [AI生成コード編集のレビュー](/docs/copilot/chat/review-code-edits.md)
+* [VS CodeのAI言語モデル](/docs/copilot/customization/language-models.md)
+
